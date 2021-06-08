@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
+             BackgroundColor="#eeeeee"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="ConasiCRM.Portable.Login">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="40,50"
+                 Spacing="10" VerticalOptions="Center">
+                <Image Source="insightland_logo" Margin="0,15,0,15" />
+                <controls:BorderEntry BackgroundColor="#ffffff" Text="" x:Name="txtUsername" Placeholder="Tên đăng nhập" />
+                <controls:BorderEntry BackgroundColor="#ffffff" Text="" IsPassword="True" x:Name="txtPassword" Placeholder="Mật khẩu" />
+                <Button Text="Đăng nhập" BackgroundColor="#999999" CornerRadius="0" TextColor="White" FontSize="Medium" Clicked="Button_Clicked" x:Name="btnLogin" />
+                <ActivityIndicator x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

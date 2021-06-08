@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
+              xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls" 
+             xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls" 
+             BackgroundColor="White"
+             x:Class="ConasiCRM.Portable.Controls.MyNewEntryPartyList">
+    <ContentView.Content>
+        <AbsoluteLayout >
+            <Entry Focused="EntryUnfocused_Focused" x:Name="entryLine" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"/>
+            <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                    <ScrollView Orientation="Horizontal">
+                        <StackLayout x:Name="stackLayout_Content" Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </ScrollView>
+                    <ImageButton Source="down_arrow.png" Clicked="Handle_Tapped" WidthRequest="24" HeightRequest="24" HorizontalOptions="EndAndExpand" BackgroundColor="White" VerticalOptions="Center"/>
+                </StackLayout>
+            </StackLayout>
+        </AbsoluteLayout>
+    </ContentView.Content>
+</ContentView>

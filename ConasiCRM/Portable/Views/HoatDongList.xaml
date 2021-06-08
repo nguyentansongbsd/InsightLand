@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             x:Class="ConasiCRM.Portable.Views.HoatDongList">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="MeetingMenu" Order="Default" Clicked="MeetingMenu_Clicked"  Icon="icon_meeting.png" Priority="0" />
+        <ToolbarItem Name="PhoneMenu" Order="Default" Clicked="PhoneMenu_Clicked" Icon="icon_phone.png" Priority="0" />
+        <ToolbarItem Name="TaskMenu" Order="Default" Clicked="NewTaskMenu_Clicked" Icon="icon_task.png" Priority="0" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid Padding="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout Padding="0" Grid.Row="0" >
+                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="{Binding Keyword}" Placeholder="Keyword..." />
+            </StackLayout>
+            <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding Data}" LoadOnDemandMode="{Binding LoadOnDemandMode}" >
+                <telerikDataGrid:RadDataGrid.Columns>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="subject" HeaderText="Chủ Đề"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="regarding_name" HeaderText="Liên Quan Đến"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="activitytypecode_format" HeaderText="Loại Hoạt Động"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="statecode_format" HeaderText="Trạng Thái"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="owners_fullname" HeaderText="Người Tạo"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="prioritycode_format" HeaderText="Ưu Tiên" />
+                    <telerikDataGrid:DataGridTextColumn PropertyName="scheduledstart_format" HeaderText="Ngày Bắt Đầu">
+                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
+                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                    </telerikDataGrid:DataGridTextColumn>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="scheduledend_format" HeaderText="Ngày Kết Thúc">
+                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
+                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                    </telerikDataGrid:DataGridTextColumn>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày Tạo" >
+                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
+                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                    </telerikDataGrid:DataGridTextColumn>
+                </telerikDataGrid:RadDataGrid.Columns>
+            </bsdGrid:BsdRadDataGrid>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" VerticalOptions="Center" HorizontalOptions="Center"/>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

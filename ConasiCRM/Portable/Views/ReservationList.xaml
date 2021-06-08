@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            Title="Đặt cọc"
+             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
+             xmlns:reservationConverter="clr-namespace:ConasiCRM.Portable.Converters.Reservation"
+             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             x:Class="ConasiCRM.Portable.Views.ReservationList">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:DateFormatConverter x:Key="DateFormatConverter" />
+            <converter:DecimalFormatConverter x:Key="DecimalFormatConverter" />
+            <converter:DecimalToVndConverter x:Key="DecimalToVndConverter" />
+            <converter:QueueStatusConverter x:Key="QueueStatusConverter" />
+            <reservationConverter:StatusLabelConverter x:Key="StatusLabelConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid Padding="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Frame CornerRadius="0" Padding="0" HasShadow="False" BorderColor="{StaticResource SearchBarBorderColor}" Grid.Row="0">
+                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="{Binding Keyword}" Placeholder="Keyword..." />
+            </Frame>
+            <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding Data}" LoadOnDemandMode="{Binding LoadOnDemandMode}">
+                <telerikDataGrid:RadDataGrid.Columns>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_projectid_name" HeaderText="Dự án"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_unitno_name" HeaderText="Căn hộ"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="quotenumber" HeaderText="Mã báo giá"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="purchaser" HeaderText="Khách hàng"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="totalamount_format" HeaderText="Tổng tiền"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="phaseslaunch_name" HeaderText="Đợt phát hành"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="paymentscheme_name" HeaderText="Lịch thanh toán"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="statuscode_format" HeaderText="Tình trạng" />
+                </telerikDataGrid:RadDataGrid.Columns>
+            </bsdGrid:BsdRadDataGrid>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

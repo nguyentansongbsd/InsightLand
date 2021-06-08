@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BackgroundColor="#eeeeee"
+             xmlns:local="clr-namespace:ConasiCRM.Portable.Models"
+             xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikTreeView="clr-namespace:Telerik.XamarinForms.DataControls.TreeView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikTreeViewCommands="clr-namespace:Telerik.XamarinForms.DataControls.TreeView.Commands;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
+             xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
+             Padding="0"
+             Title="Bán hàng"
+             x:Class="ConasiCRM.Portable.Views.DirectSaleDetail">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="expandAll" Order="Secondary" Clicked="ExpandAll_Clicked" Text="Expand All" Priority="0" />
+        <ToolbarItem Name="collapseAll" Order="Secondary" Clicked="CollapseAll_Clicked" Text="Collapse All" Priority="1" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:BoolToBoolConverter x:Key="BoolToBool" />
+            <DataTemplate x:Key="FloorTemplate">
+                <Grid RowSpacing="0" Grid.Column="0" ColumnSpacing="0" BackgroundColor="#D5D5D5" Margin="1" HorizontalOptions="FillAndExpand" Padding="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image HeightRequest="20" WidthRequest="20" Source="arrow_right.png" IsVisible="{Binding Path=IsExpanded,Converter={StaticResource BoolToBool}}" Grid.Column="0" Grid.Row="0" />
+                    <Image HeightRequest="20" WidthRequest="20" Source="arrow_down.png" IsVisible="{Binding Path=IsExpanded}" Grid.Column="0" Grid.Row="0" />
+
+                    <Label Text="{Binding Item.Title}" Grid.Row="0"  Grid.Column="1" Margin="3" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Black" />
+                    <Label Text="{Binding Item.CountUnit.Preparing}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#F1C40F" Grid.Column="2" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                    <Label Text="{Binding Item.CountUnit.Available}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#2ECC71" Grid.Column="3" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                    <Label Text="{Binding Item.CountUnit.Queueing}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#03A9F4" Grid.Column="4" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding Item.CountUnit.Reserve}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#16A085" Grid.Column="5" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding Item.CountUnit.Collected}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#8E44AD" Grid.Column="6" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding Item.CountUnit.Deposited}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#E67E22" Grid.Column="7" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding Item.CountUnit.ThoaThuanDatCoc}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#ce8686" Grid.Column="8" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding Item.CountUnit.StInstallment}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#7F8C8D" Grid.Column="9" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding Item.CountUnit.Sold}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#C0392B" Grid.Column="10" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="UnitTemplate">
+                <!--<Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <telerikDataControls:RadListView ItemsSource="{Binding Item.Items}" Grid.Row="0">
+                        <telerikDataControls:RadListView.ItemTemplate>
+                            <DataTemplate>
+                                <telerikListView:ListViewTemplateCell>
+                                    <telerikListView:ListViewTemplateCell.View>
+                                        <Grid BackgroundColor="{Binding item_background}" Padding="5">
+                                            <Label Text="{Binding name}" Margin="5,10" TextColor="Black" FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Center"/>
+                                            -->
+                <!--<Label Text="{Binding bsd_totalprice_format}" Margin="5" TextColor="Black" FontSize="Default" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>-->
+                <!--
+                                            <Label Text="{Binding bsd_netsaleablearea_format}" Margin="5" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                        </Grid>
+                                    </telerikListView:ListViewTemplateCell.View>
+                                </telerikListView:ListViewTemplateCell>
+                            </DataTemplate>
+                        </telerikDataControls:RadListView.ItemTemplate>
+                        <telerikDataControls:RadListView.LayoutDefinition>
+                            <telerikListView:ListViewGridLayout HorizontalItemSpacing="5" ItemLength="120"
+                                            SpanCount="3"
+                                            VerticalItemSpacing="5" />
+                        </telerikDataControls:RadListView.LayoutDefinition>
+                    </telerikDataControls:RadListView>
+                </Grid>-->
+                <StackLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OpenUnitPopUp_Tapped" CommandParameter="{Binding Item}" />
+                    </StackLayout.GestureRecognizers>
+                    <Grid BackgroundColor="{Binding Item.item_background}" Margin="2" Padding="10,0,10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="{Binding Item.name}" Margin="5,10" Grid.Column="0" TextColor="Black" FontAttributes="Bold" FontSize="Default" VerticalTextAlignment="Start" HorizontalTextAlignment="Center"/>
+                        <Label Text="{Binding Item.price_format}" Margin="5" Grid.Column="1" TextColor="Black" FontAttributes="Bold" FontSize="Default" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                        <Label Text="{Binding Item.bsd_netsaleablearea_format}" Margin="5" Grid.Column="2" TextColor="Black" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    </Grid>
+                </StackLayout>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <AbsoluteLayout x:Name="mainAbsoluteLayout">
+            <Grid AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <telerikDataControls:RadTreeView x:Name="treeView" ItemsSource="{Binding Blocks}">
+                    <telerikDataControls:TreeViewDescriptor ItemsSourcePath="Floors" TargetType="{x:Type local:Block}">
+                        <telerikDataControls:TreeViewDescriptor.ItemTemplate>
+                            <DataTemplate>
+                                <Grid RowSpacing="0" Grid.Column="0" ColumnSpacing="0" BackgroundColor="#0054A6" Margin="1" HorizontalOptions="FillAndExpand" Padding="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="70" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image HeightRequest="20" WidthRequest="20" Source="arrow_right.png" IsVisible="{Binding Path=IsExpanded,Converter={StaticResource BoolToBool}}" Grid.Column="0" Grid.Row="0" />
+                                    <Image HeightRequest="20" WidthRequest="20" Source="arrow_down.png" IsVisible="{Binding Path=IsExpanded}" Grid.Column="0" Grid.Row="0" />
+                                    <Label Text="{Binding Item.Title}" FontAttributes="Bold" Grid.Row="0" Grid.Column="1" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="White" />
+                                    <Label Text="{Binding Item.CountUnit.Preparing}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#F1C40F" Grid.Column="2" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="White" />
+                                    <Label Text="{Binding Item.CountUnit.Available}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#2ECC71" Grid.Column="3" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="White" />
+                                    <Label Text="{Binding Item.CountUnit.Queueing}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#03A9F4" Grid.Column="4" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="White"/>
+                                    <Label Text="{Binding Item.CountUnit.Reserve}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#16A085" Grid.Column="5" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="White"/>
+                                    <Label Text="{Binding Item.CountUnit.Collected}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#8E44AD" Grid.Column="6" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="White"/>
+                                    <Label Text="{Binding Item.CountUnit.Deposited}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#E67E22" Grid.Column="7" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="White"/>
+                                    <Label Text="{Binding Item.CountUnit.ThoaThuanDatCoc}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#ce8686" Grid.Column="8" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="White"/>
+                                    <Label Text="{Binding Item.CountUnit.StInstallment}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#7f8c8d" Grid.Column="9" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="White"/>
+                                    <Label Text="{Binding Item.CountUnit.Sold}" FontAttributes="Bold" Grid.Row="0" BackgroundColor="#C0392B" Grid.Column="10" Margin="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="White"/>
+                                </Grid>
+                            </DataTemplate>
+                        </telerikDataControls:TreeViewDescriptor.ItemTemplate>
+                    </telerikDataControls:TreeViewDescriptor>
+                    <telerikDataControls:TreeViewDescriptor ItemsSourcePath="Units" TargetType="{x:Type local:Floor}" ItemTemplate="{StaticResource FloorTemplate}"/>
+                    <telerikDataControls:TreeViewDescriptor TargetType="{x:Type local:Unit}" ItemTemplate="{StaticResource UnitTemplate}" />
+                </telerikDataControls:RadTreeView>
+            </Grid>
+            <controls:ModalContentView Padding="10" x:Name="modalQueueList" IsVisible="False">
+                <Grid>
+                    <Grid  AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" >
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="CloseQueseList_Modal" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="0" BackgroundColor="White" Padding="0,0,0,5">
+                        <StackLayout Orientation="Horizontal" Padding="10,0,10,0">
+                            <Label VerticalOptions="Center" HorizontalOptions="StartAndExpand" FontSize="17" FontAttributes="Bold" TextColor="Black" Text="Danh sách đặt chỗ" />
+                            <!--<Button VerticalOptions="Center" HeightRequest="35" HorizontalOptions="End" Clicked="ViewQueue_Clicked" Text="Xem" />-->
+                            <!--<Button VerticalOptions="Center" HeightRequest="35" HorizontalOptions="End" Text="Đặt cọc" Clicked="BtnDatCoc_Clicked" />-->
+                        </StackLayout>
+                        <bsdGrid:BsdRadDataGrid x:Name="QueueListGrid">
+                            <telerikDataGrid:RadDataGrid.Columns>
+                                <telerikDataGrid:DataGridTextColumn PropertyName="bsd_queuenumber" HeaderText="Mã phiếu"/>
+                                <telerikDataGrid:DataGridTextColumn PropertyName="customername" HeaderText="Khách hàng"/>
+                                <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Thời gian đặt chỗ"/>
+                                <telerikDataGrid:DataGridTextColumn PropertyName="bsd_queuingexpired_format" HeaderText="Thời gian hết hạn"/>
+                                <telerikDataGrid:DataGridTextColumn PropertyName="salesman" HeaderText="Salesman"/>
+                                <telerikDataGrid:DataGridTextColumn PropertyName="salesagentcompany" HeaderText="Agent"/>
+                            </telerikDataGrid:RadDataGrid.Columns>
+                        </bsdGrid:BsdRadDataGrid>
+                    </StackLayout>
+                </Grid>
+            </controls:ModalContentView>
+            <controls:ModalContentView IsVisible="{Binding IsBusy}">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+            </controls:ModalContentView>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

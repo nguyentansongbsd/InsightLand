@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             BackgroundColor="White"
+             Title="Khách hàng doanh nghiệp"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             x:Class="ConasiCRM.Portable.Views.AccountList">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
+        <ToolbarItem Name="NewMenu" Order="Primary" Clicked="NewMenu_Clicked" Icon="plus.png" Text="New Account" Priority="1"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid Padding="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Frame CornerRadius="0" Padding="0" HasShadow="False" BorderColor="{StaticResource SearchBarBorderColor}" Grid.Row="0">
+                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="{Binding Keyword}" Placeholder="Nhập từ khóa tìm kiếm..." />
+            </Frame>
+            <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding Data}" LoadOnDemandMode="{Binding LoadOnDemandMode}" >
+                <telerikDataGrid:RadDataGrid.Columns>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="name" HeaderText="Tên công ty" />
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_companycode" HeaderText="Mã công ty"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="primarycontact_name" HeaderText="NĐDPL"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="telephone1" HeaderText="Số điện thoại" />
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_registrationcode" HeaderText="Số GPKD"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_vatregistrationnumber" HeaderText="Mã số thuế"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_address" HeaderText="Địa chỉ"/>
+                </telerikDataGrid:RadDataGrid.Columns>
+            </bsdGrid:BsdRadDataGrid>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

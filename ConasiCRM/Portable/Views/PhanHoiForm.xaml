@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             Title="{Binding Title}"
+             BackgroundColor="White"
+             xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
+             xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
+             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             x:Class="ConasiCRM.Portable.Views.PhanHoiForm">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <controls:NotNullToBoolean x:Key="NullToBool" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <StackLayout Spacing=".5" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <ScrollView>
+                    <StackLayout Padding="5">
+                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Phản Hồi"/>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <StackLayout BackgroundColor="#cecece" Padding=".8">
+                                    <Grid BackgroundColor="#ffffff" Padding="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="48"/>
+                                            <RowDefinition Height="48"/>
+                                            <RowDefinition Height="48"/>
+                                            <RowDefinition Height="48"/>
+                                            <RowDefinition Height="48"/>
+                                            <RowDefinition Height="48"/>
+                                            <RowDefinition Height="48"/>
+                                            <!--<RowDefinition Height="48"/>-->
+                                            <!--<RowDefinition Height="48"/>-->
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="6*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="0">
+                                            <Label VerticalOptions="Center" Text="Tiêu đề" Font="15" />
+                                            <Label HorizontalTextAlignment="End" VerticalOptions="Center" Text="*" TextColor="#fb0000" Font="15" />
+                                        </StackLayout>
+                                        <Entry Text="{Binding singlePhanHoi.title}" FontSize="15" TextColor="Black" Grid.Column="1" Grid.Row="0"/>
+                                        
+                                        <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="1">
+                                            <Label VerticalOptions="Center" Text="Nội dung" Font="15" />
+                                        </StackLayout>
+                                        <Entry Text="{Binding singlePhanHoi.description}" FontSize="15"  Grid.Column="1" Grid.Row="1"/>
+                                        
+                                        <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="2">
+                                            <Label VerticalOptions="Center" Text="Chủ đề" Font="15" />
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                                        <StackLayout Padding="5" HorizontalOptions="FillAndExpand">
+                                            <ScrollView Orientation="Horizontal">
+                                                <StackLayout>
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="show_popup_subject" NumberOfTapsRequired="1"/>
+                                                    </StackLayout.GestureRecognizers>
+                                                    <StackLayout BackgroundColor="#ffffff">
+                                                        <Label x:Name="bsd_subject_text" IsVisible="False" Text="{Binding singlePhanHoi.subjecttitle}" FontSize="15" TextColor="#000000"/>
+                                                        <Label x:Name="bsd_subject_default" Text="Chọn chủ đề" FontSize="15" IsVisible="True" TextColor="#d0d0d0"/>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </ScrollView>
+                                            <StackLayout HeightRequest=".9" BackgroundColor="#000000"></StackLayout>
+                                        </StackLayout>
+                                        <ImageButton x:Name="btn_subject" IsVisible="false" Clicked="Clearvalue_subject" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
+                                    </StackLayout>
+                                     
+                                    <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="3">
+                                        <Label VerticalOptions="Center" Text="Nguồn" Font="15" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="3">
+                                        <Picker x:Name="origin_value" Title="Chọn Nguồn"
+                                        ItemsSource="{Binding list_picker_caseorigincode}"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="FillAndExpand"
+                                        SelectedItem="{Binding singleOrigin}"
+                                        ItemDisplayBinding="{Binding Label}"
+                                        SelectedIndexChanged="Selectvalue_origin"
+                                        FontSize="15">
+                                        </Picker>
+                                            <ImageButton x:Name="btn_origin" IsVisible="false" Clicked="Clearvalue_origin" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
+                                      </StackLayout>
+                                        
+                                     <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="4">
+                                        <Label VerticalOptions="Center" Text="Khách hàng" Font="15" />
+                                        <Label HorizontalTextAlignment="End" VerticalOptions="Center" Text="*" TextColor="#fb0000" Font="15" />
+                                     </StackLayout>
+                                    <StackLayout Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
+                                    <StackLayout Padding="5" HorizontalOptions="FillAndExpand">
+                                        <ScrollView Orientation="Horizontal">
+                                            <StackLayout>
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="show_popup_multiselect" NumberOfTapsRequired="1"/>
+                                                </StackLayout.GestureRecognizers>
+                                                <StackLayout BackgroundColor="#ffffff">
+                                                    <Label x:Name="bsd_customer_text" IsVisible="False" Text="{Binding singlePhanHoi.customerid}" FontSize="15" TextColor="#000000"/>
+                                                    <Label x:Name="bsd_customer_default" Text="Chọn khách hàng" FontSize="15" IsVisible="True" TextColor="#d0d0d0"/>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </ScrollView>
+                                        <StackLayout HeightRequest=".9" BackgroundColor="#000000"></StackLayout>
+                                    </StackLayout>
+                                        <ImageButton x:Name="btn_customer" IsVisible="false" Clicked="Clearvalue_customer" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
+                                    </StackLayout>
+                                        
+                                    <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="5">
+                                        <Label VerticalOptions="Center" Text="Căn hộ" Font="15" />
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
+                                    <StackLayout Padding="5" HorizontalOptions="FillAndExpand">
+                                        <ScrollView Orientation="Horizontal">
+                                            <StackLayout>
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="show_popup_Unit" NumberOfTapsRequired="1"/>
+                                                </StackLayout.GestureRecognizers>
+                                                <StackLayout BackgroundColor="#ffffff">
+                                                    <Label x:Name="bsd_unit_text" IsVisible="False" Text="{Binding singlePhanHoi.productname}" FontSize="15" TextColor="#000000"/>
+                                                    <Label x:Name="bsd_unit_default" Text="Chọn căn hộ" FontSize="15" IsVisible="True" TextColor="#d0d0d0"/>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </ScrollView>
+                                        <StackLayout HeightRequest=".9" BackgroundColor="#000000"></StackLayout>
+                                    </StackLayout>
+                                            <ImageButton x:Name="btn_unit" IsVisible="false" Clicked="Clearvalue_unit" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
+                                    </StackLayout>
+                                    
+                                    <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="6">
+                                        <Label VerticalOptions="Center" Text="Liên lạc" Font="15" />
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="1" Grid.Row="6" Orientation="Horizontal">
+                                        <StackLayout Padding="5" HorizontalOptions="FillAndExpand">
+                                            <ScrollView Orientation="Horizontal">
+                                                <StackLayout>
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="show_popup_Contact" NumberOfTapsRequired="1"/>
+                                                    </StackLayout.GestureRecognizers>
+                                                    <StackLayout BackgroundColor="#ffffff">
+                                                        <Label x:Name="bsd_contact_text" IsVisible="False" Text="{Binding singlePhanHoi.contactname}" FontSize="15" TextColor="#000000"/>
+                                                        <Label x:Name="bsd_contact_default" Text="Chọn liên lạc" FontSize="15" IsVisible="True" TextColor="#d0d0d0"/>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </ScrollView>
+                                            <StackLayout HeightRequest=".9" BackgroundColor="#000000"></StackLayout>
+                                        </StackLayout>
+                                        <ImageButton x:Name="btn_contact" IsVisible="false" Clicked="Clearvalue_contact" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
+                                    </StackLayout>
+                                    
+                                    <StackLayout x:Name="bsd_status_label" IsVisible="true" Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="7">    
+                                        <Label VerticalOptions="Center" Text="Trạng thái" Font="15" />
+                                    </StackLayout>
+                                    <Label x:Name="bsd_status_text" IsVisible="true" Text="{Binding singlePhanHoi.statuscodevalue}" FontSize="15"  Grid.Column="1" Grid.Row="7"/>
+                                       
+                                        
+                                    <!--<StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="7">    
+                                        <Label VerticalOptions="Center" Text="Hướng xử lý" Font="15" />
+                                    </StackLayout>
+                                    <Entry Text="{Binding singlePhanHoi.new_solution}" FontSize="15"  Grid.Column="1" Grid.Row="7"/>-->
+                                       
+                                    <!--<StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="8">
+                                        <Label VerticalOptions="Center" Text="Quyền" Font="15" />
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="1" Grid.Row="8" Orientation="Horizontal">
+                                        <StackLayout Padding="5" HorizontalOptions="FillAndExpand">
+                                            <ScrollView Orientation="Horizontal">
+                                                <StackLayout>
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="show_popup_Entilement" NumberOfTapsRequired="1"/>
+                                                    </StackLayout.GestureRecognizers>
+                                                    <StackLayout BackgroundColor="#ffffff">
+                                                        <Label x:Name="bsd_entilement_text" IsVisible="False" FontSize="15" TextColor="#000000"/>
+                                                        <Label x:Name="bsd_entilement_default" Text="Chọn quyền" FontSize="15" IsVisible="True" TextColor="#d0d0d0"/>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </ScrollView>
+                                            <StackLayout HeightRequest=".9" BackgroundColor="#000000"></StackLayout>
+                                        </StackLayout>
+                                        <ImageButton x:Name="btn_entilement" IsVisible="false" Clicked="Clearvalue_entilement" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
+                                    </StackLayout>-->
+                                          
+                                    </Grid>
+                                </StackLayout>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+                </StackLayout>
+              </ScrollView>
+              <Grid BackgroundColor="#ffffff" VerticalOptions="EndAndExpand" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="buttonUpdate" Text="Cập nhật phản hồi" Grid.Column="0" Grid.Row="0"
+                    IsVisible="true"
+                    Clicked="BtnUpdate"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="FillAndExpand"/>
+                <Button x:Name="buttonCreate" Text="Thêm phản hồi" Grid.Column="0" Grid.Row="0"
+                    IsVisible="false"
+                    Clicked="BtnUpdate"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="FillAndExpand"/>
+                <Button Text="Trạng thái"
+                    Clicked="Show_popup_status"
+                    VerticalOptions="CenterAndExpand" Grid.Column="1" Grid.Row="0"
+                    HorizontalOptions="FillAndExpand"/>
+              </Grid>
+           </StackLayout>
+           
+           <!--Popup ListView Subject-->
+            <ContentView x:Name="popup_list_viewSubject"
+                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsVisible="False"
+                        BackgroundColor="#C0808080"
+                        Padding="40">
+                <StackLayout BackgroundColor="#ffffff" Padding="10">
+                    <Label Text="Chủ Đề" Font="Bold,18" HorizontalTextAlignment="Center"/>
+
+                    <StackLayout HeightRequest=".9" BackgroundColor="#000000"/>
+
+                    <StackLayout>
+                        <SearchBar Placeholder="Tìm kiếm" TextChanged="SearchBar_TextChanged" HeightRequest="50"/>
+                    </StackLayout>
+
+                    <StackLayout x:Name="stack_popupsubject" VerticalOptions="FillAndExpand">
+                        <ListView x:Name="source_listviewpopupSubject" ItemsSource="{Binding list_lookup_Subject}" CachingStrategy="RecycleElement" ItemTapped="OnSelectItem_Subject" ItemAppearing="ItemAppearingSubject">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Label x:Name="textcell_listviewpopupSubject" Text="{Binding Name}"/>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                    <StackLayout x:Name="NewSatckLayouts"></StackLayout>
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" Orientation="Horizontal" Spacing="2">
+                        <Button Text="Đóng" Clicked="Button_Clicked" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>
+            <!--End Popup-->     
+                
+           <!--Popup ListView Customer-->
+            <!--<ContentView x:Name="popup_list_view"
+                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsVisible="False"
+                        BackgroundColor="#C0808080"
+                        Padding="40">
+                <StackLayout BackgroundColor="#ffffff" Padding="10">
+                    <Label Text="Khách Hàng" Font="Bold,18" HorizontalTextAlignment="Center"/>
+
+                    <StackLayout HeightRequest=".9" BackgroundColor="#000000"/>
+
+                    <StackLayout>
+                        <SearchBar Placeholder="Tìm kiếm" TextChanged="SearchBar_TextChanged" HeightRequest="50"/>
+                    </StackLayout>
+
+                    <StackLayout x:Name="stack_popupcustomer" VerticalOptions="FillAndExpand">
+                        <ListView x:Name="source_listviewpopup" CachingStrategy="RecycleElement" ItemTapped="OnSelectItem_Customer">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Label x:Name="textcell_listviewpopup2" Text="{Binding Name}"/>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                    <StackLayout x:Name="NewSatckLayout"></StackLayout>
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" Orientation="Horizontal" Spacing="2">
+                        <Button Text="Đóng" Clicked="Button_Clicked" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>-->
+            <!--End Popup-->
+                
+            <!--Popup ListView Unit-->
+            <ContentView x:Name="popup_list_viewUnit"
+                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsVisible="False"
+                        BackgroundColor="#C0808080"
+                        Padding="40">
+                <StackLayout BackgroundColor="#ffffff" Padding="10">
+                    <Label Text="Căn Hộ" Font="Bold,18" HorizontalTextAlignment="Center"/>
+
+                    <StackLayout HeightRequest=".9" BackgroundColor="#000000"/>
+
+                    <StackLayout>
+                        <SearchBar Placeholder="Tìm kiếm" TextChanged="SearchBar_TextChanged" HeightRequest="50"/>
+                    </StackLayout>
+
+                    <StackLayout x:Name="stack_popupUnit" VerticalOptions="FillAndExpand">
+                        <ListView x:Name="source_listviewpopupUnit" ItemsSource="{Binding list_unit_lookup}" CachingStrategy="RecycleElement" ItemTapped="OnSelectItem_Unit" ItemAppearing="ItemAppearingUnit">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Label x:Name="textcell_listviewpopupUnit" Text="{Binding Name}"/>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                    <StackLayout x:Name="NewSatckLayout2"></StackLayout>
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" Orientation="Horizontal" Spacing="2">
+                        <Button Text="Đóng" Clicked="Button_Clicked" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>
+            <!--End Popup-->
+                
+            <!--Popup ListView Contact-->
+            <ContentView x:Name="popup_list_viewContact"
+                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsVisible="False"
+                        BackgroundColor="#C0808080"
+                        Padding="40">
+                <StackLayout BackgroundColor="#ffffff" Padding="10">
+                    <Label Text="Liên Lạc" Font="Bold,18" HorizontalTextAlignment="Center"/>
+
+                    <StackLayout HeightRequest=".9" BackgroundColor="#000000"/>
+
+                    <StackLayout>
+                        <SearchBar Placeholder="Tìm kiếm" TextChanged="SearchBar_TextChanged" HeightRequest="50"/>
+                    </StackLayout>
+
+                    <StackLayout x:Name="stack_popupContact" VerticalOptions="FillAndExpand">
+                        <ListView x:Name="source_listviewpopupContact" ItemsSource="{Binding list_lookup_lienhe}" CachingStrategy="RecycleElement" ItemTapped="OnSelectItem_Contact" ItemAppearing="ItemAppearingLienhe">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Label x:Name="textcell_listviewpopupContact" Text="{Binding Name}"/>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                    <StackLayout x:Name="NewSatckLayout3"></StackLayout>
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" Orientation="Horizontal" Spacing="2">
+                        <Button Text="Đóng" Clicked="Button_Clicked" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>
+            <!--End Popup-->
+            
+            <!--Popup ListView Entilement-->
+            <ContentView x:Name="popup_list_viewEntilemnent"
+                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsVisible="False"
+                        BackgroundColor="#C0808080"
+                        Padding="40">
+                <StackLayout BackgroundColor="#ffffff" Padding="10">
+                    <Label Text="Quyền" Font="Bold,18" HorizontalTextAlignment="Center"/>
+
+                    <StackLayout HeightRequest=".9" BackgroundColor="#000000"/>
+
+                    <StackLayout>
+                        <SearchBar Placeholder="Tìm kiếm" TextChanged="SearchBar_TextChanged" HeightRequest="50"/>
+                    </StackLayout>
+
+                    <StackLayout x:Name="stack_popupEntilemnet" VerticalOptions="FillAndExpand">
+                        <ListView x:Name="source_listviewpopupEntilement" CachingStrategy="RecycleElement" ItemTapped="OnSelectItem_Entilement">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Label x:Name="textcell_listviewpopupEntilement" Text="{Binding Name}"/>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                    <StackLayout x:Name="NewSatckLayout4"></StackLayout>
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" Orientation="Horizontal" Spacing="2">
+                        <Button Text="Đóng" Clicked="Button_Clicked" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>
+            <!--End Popup-->
+            
+            <!--Popup ListView-->
+            <ContentView x:Name="popup_list_view"
+                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsVisible="False"
+                        BackgroundColor="#C0808080"
+                        Padding="40">
+                <StackLayout Spacing="0">
+                    <StackLayout Orientation="Horizontal" x:Name="header_popup_listview" HorizontalOptions="FillAndExpand" HeightRequest="80" Spacing="1"/>
+
+                    <StackLayout BackgroundColor="#ffffff" Padding="10">
+
+                        <StackLayout>
+                            <SearchBar x:Name="SearchBarListView" Placeholder="Tìm kiếm" HeightRequest="50"/>
+                        </StackLayout>
+
+                        <StackLayout VerticalOptions="FillAndExpand" x:Name="source_listviewpopup"/>
+
+                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" Orientation="Horizontal" Spacing="2">
+                            <Button Text="Đóng" Clicked="hide_listview_popup" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>
+            <!--End Popup-->
+            
+            <!--Popup ListView Status-->
+            <ContentView x:Name="popup_list_viewStatus"
+                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsVisible="False"
+                        BackgroundColor="#C0808080"
+                        Padding="40">
+                <StackLayout BackgroundColor="#ffffff" Padding="10">
+                    <Label Text="Trạng Thái" Font="Bold,18" HorizontalTextAlignment="Center"/>
+
+                    <StackLayout HeightRequest=".9" BackgroundColor="#000000"/>
+
+                    <StackLayout x:Name="stack_popupStatus" VerticalOptions="FillAndExpand">
+                        <ListView x:Name="source_listviewpopupStatus" ItemsSource="{Binding list_lookup_status}" CachingStrategy="RecycleElement" ItemTapped="OnSelectItem_Status">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Label x:Name="textcell_listviewpopupStatus" Text="{Binding Name}"/>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                    <StackLayout x:Name="NewSatckLayout5"></StackLayout>
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" Orientation="Horizontal" Spacing="2">
+                        <Button Text="Xác nhận" Clicked="Accept_Status" HorizontalOptions="FillAndExpand"/>
+                        <Button Text="Đóng" Clicked="Button_Clicked" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>
+            <!--End Popup-->
+            
+            
+        <controls:ModalContentView IsVisible="{Binding IsBusy}">
+            <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+        </controls:ModalContentView>            
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>
+

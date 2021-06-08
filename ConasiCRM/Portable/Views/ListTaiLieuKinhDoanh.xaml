@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             Title="Tài Liệu Kinh Doanh"
+             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             x:Class="ConasiCRM.Portable.Views.ListTaiLieuKinhDoanh">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid Padding="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout Padding="0" Grid.Row="0">
+                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="{Binding Keyword}" Placeholder="Keyword..." />
+            </StackLayout>
+            <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding Data}" LoadOnDemandMode="{Binding LoadOnDemandMode}">
+                <telerikDataGrid:RadDataGrid.Columns>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="name" HeaderText="Tiêu Đề"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="subjecttitle" HeaderText="Dự Án"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="literaturetypecode_format" HeaderText="Loại"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày Tạo" >
+                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
+                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                    </telerikDataGrid:DataGridTextColumn>
+                </telerikDataGrid:RadDataGrid.Columns>
+            </bsdGrid:BsdRadDataGrid>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

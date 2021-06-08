@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Phí Mô Giới"
+             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             x:Class="ConasiCRM.Portable.Views.PhiMoGioiList">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid Padding="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout Padding="0" Grid.Row="0">
+                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="{Binding Keyword}" Placeholder="Keyword..." />
+            </StackLayout>
+            <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding Data}" LoadOnDemandMode="{Binding LoadOnDemandMode}">
+                <telerikDataGrid:RadDataGrid.Columns>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Tên Phí"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="project_bsd_name" HeaderText="Dự Án"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_loaimoigioi_format" HeaderText="Loại Mô Giới"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_calculation_format" HeaderText="Cách Tính"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_method_format" HeaderText="Phương Thức"/>
+                    <telerikDataGrid:DataGridBooleanColumn PropertyName="bsd_progressive" HeaderText="Lũy Tiến"/>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_quantityfrom" HeaderText="Số Lượng(từ)">
+                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
+                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                    </telerikDataGrid:DataGridTextColumn>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_quantityto" HeaderText="Số Lượng(đến)" >
+                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
+                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                    </telerikDataGrid:DataGridTextColumn>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountfrom_format" HeaderText="Số Tiền(từ)" >
+                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
+                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                    </telerikDataGrid:DataGridTextColumn>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountto_format" HeaderText="Số Tiền(đến)" >
+                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
+                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                    </telerikDataGrid:DataGridTextColumn>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_feepercent_format" HeaderText="Phí(%)" >
+                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
+                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                    </telerikDataGrid:DataGridTextColumn>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_feeamount_format" HeaderText="Phí(số tiền)" >
+                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
+                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                    </telerikDataGrid:DataGridTextColumn>
+                    <telerikDataGrid:DataGridTextColumn PropertyName="statuscode_format" HeaderText="Tình Trạng" />
+                    <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày Tạo" >
+                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
+                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
+                    </telerikDataGrid:DataGridTextColumn>
+                </telerikDataGrid:RadDataGrid.Columns>
+            </bsdGrid:BsdRadDataGrid>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

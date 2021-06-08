@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
+             x:Class="ConasiCRM.Portable.Controls.BsdLookUp">
+    <ContentView.Content>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+            <controls:EntryUnfocused x:Name="entry" TextColor="Black" HorizontalOptions="FillAndExpand" FontSize="16" Focused="Entry_Focused" />
+            <ImageButton x:Name="btnClear" HorizontalOptions="End" Clicked="ClearLookUp_Clicked" BackgroundColor="Transparent" 
+                         IsVisible="{Binding HasClearButton}" Source="close.png" WidthRequest="20" 
+                         HeightRequest="20" VerticalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

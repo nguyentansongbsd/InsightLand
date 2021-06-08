@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConasiCRM.Portable.MasterDetailPage1"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:pages="clr-namespace:ConasiCRM.Portable"
+             Title=""
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
+             xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+                  xmlns:activityView="clr-namespace:ConasiCRM.Portable.Views.ActivityView"
+             xmlns:views="clr-namespace:ConasiCRM.Portable.Views">
+    <MasterDetailPage.Master>
+        <ContentPage Title="☰">
+            <ContentPage.Resources>
+                <ResourceDictionary>
+                    <Color x:Key="MasterBackground">#8e8d8d</Color>
+
+                    <Style x:Key="MasterExpanderHeaderStyle" TargetType="telerikPrimitives:ExpanderHeader">
+                        <Setter Property="IndicatorLocation" Value="End" />
+                        <Setter Property="IndicatorFontSize" Value="18" />
+                        <Setter Property="IndicatorColor" Value="White" />
+                        <Setter Property="BorderColor" Value="Transparent" />
+                        <Setter Property="BackgroundColor" Value="#666666" />
+                    </Style>
+                    <Style x:Key="MasterExpanderTextStyle" TargetType="Label">
+                        <Setter Property="FontSize" Value="18" />
+                        <Setter Property="FontAttributes" Value="Bold" />
+                        <!--<Setter Property="HeightRequest" Value="40" />-->
+                        <Setter Property="VerticalTextAlignment" Value="Center" />
+                        <Setter Property="TextColor" Value="White" />
+                    </Style>
+                    <Style x:Key="MenuItemStyle" TargetType="Label">
+                        <Setter Property="TextColor" Value="White" />
+                        <Setter Property="FontSize" Value="18" />
+                    </Style>
+                </ResourceDictionary>
+            </ContentPage.Resources>
+            <StackLayout BackgroundColor="{StaticResource MasterBackground}">
+                <StackLayout Orientation="Vertical" BackgroundColor="#ffffff" Padding="10,15,10,15">
+                    <Image x:Name="profileImage" Source="insightland_logo"></Image>
+                </StackLayout>
+                <ScrollView>
+                    <StackLayout Padding="5,5,10,30">
+                        <telerikPrimitives:RadExpander IsExpanded="True" BorderColor="Transparent" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource MasterExpanderHeaderStyle}">
+                                    <Label Style="{StaticResource MasterExpanderTextStyle}">Khách hàng</Label>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <StackLayout Padding="10" Spacing="10">
+                                    <controls:MenuItemLabel x:Name="LeadList" Clicked="LeadList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Khách hàng tiềm năng" />
+                                    <controls:MenuItemLabel x:Name="ContactList" Clicked="ContactList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Khách hàng cá nhân" />
+                                    <controls:MenuItemLabel x:Name="AccountList" Clicked="AccountList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Khách hàng doanh nghiệp" />
+                                    <controls:MenuItemLabel x:Name="DanhBa" Clicked="DanhBa_Clicked" Style="{StaticResource MenuItemStyle}" Text="Danh bạ" />
+                                </StackLayout>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+                        <telerikPrimitives:RadExpander IsExpanded="True" BorderColor="Transparent" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource MasterExpanderHeaderStyle}">
+                                    <Label Style="{StaticResource MasterExpanderTextStyle}">Bán hàng</Label>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <StackLayout Padding="10" Spacing="10">
+                                    <controls:MenuItemLabel x:Name="DirectSale" Clicked="DirectSale_Clicked" Style="{StaticResource MenuItemStyle}" Text="Bán hàng" />
+                                    <controls:MenuItemLabel x:Name="QueueList" Clicked="QueueList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Đặt chỗ" />
+                                    <controls:MenuItemLabel x:Name="ReservationList" Clicked="ReservationList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Đặt cọc" />
+                                    <controls:MenuItemLabel x:Name="EventList" Clicked="EventList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Sự kiện" />
+                                    <controls:MenuItemLabel x:Name="PhiMoiGioiList" Clicked="PhiMoiGioiList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Phí môi giới" />
+                                    <controls:MenuItemLabel x:Name="TaiLieuKinhDoanHList" Clicked="TaiLieuKinhDoanHList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Tài liệu kinh doanh" />
+                                </StackLayout>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+                        <telerikPrimitives:RadExpander IsExpanded="True" BorderColor="Transparent" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource MasterExpanderHeaderStyle}">
+                                    <Label Style="{StaticResource MasterExpanderTextStyle}">Làm việc</Label>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <StackLayout Padding="10" Spacing="10">
+                                    <controls:MenuItemLabel x:Name="PhanHoiList" Clicked="PhanHoiList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Phản hồi" />
+                                    <controls:MenuItemLabel x:Name="LichLamViec" Clicked="LichLamViec_Clicked" Style="{StaticResource MenuItemStyle}" Text="Lịch làm việc" />
+                                    <controls:MenuItemLabel Style="{StaticResource MenuItemStyle}" Text="Thông báo" />
+                                    <controls:MenuItemLabel x:Name="HoatDong" Clicked="HoatDong_Clicked" Style="{StaticResource MenuItemStyle}" Text="Hoạt động" />
+                                    <controls:MenuItemLabel x:Name="LichSuCuocGoi" Clicked="LichSuCuocGoi_Clicked" Style="{StaticResource MenuItemStyle}" Text="Thêm lịch sử cuộc gọi" />
+                                    <controls:MenuItemLabel x:Name="LichSuTinNhan" Clicked="LichSuTinNhan_Clicked" Style="{StaticResource MenuItemStyle}" Text="Thêm lịch sử tin nhắn" />
+                                </StackLayout>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+                        <telerikPrimitives:RadExpander IsExpanded="True" BorderColor="Transparent" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource MasterExpanderHeaderStyle}">
+                                    <Label Style="{StaticResource MasterExpanderTextStyle}">Chir tiêu</Label>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <StackLayout Padding="10" Spacing="10">
+                                    <controls:MenuItemLabel Style="{StaticResource MenuItemStyle}" Text="Dashboard" />
+                                    <controls:MenuItemLabel Style="{StaticResource MenuItemStyle}" Text="Báo cáo" />
+                                    <controls:MenuItemLabel x:Name="PhiMoiGioiGiaoDichList" Clicked="PhiMoiGioiGiaoDichList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Phí mô giới giao dịch" />
+                                    <controls:MenuItemLabel x:Name="HoaHongGiaoDichList" Clicked="HoaHongGiaoDichList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Hoa hồng giao dịch" />
+                                </StackLayout>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <NavigationPage>
+            <x:Arguments>
+                <views:DirectSale />
+            </x:Arguments>
+        </NavigationPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

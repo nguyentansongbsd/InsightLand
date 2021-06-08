@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
+             xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
+             Title="{Binding Title}"
+             BackgroundColor="White"
+             x:Class="ConasiCRM.Portable.Views.MeetingForm">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:DateFormatConverter x:Key="DateFormatConverter" />
+            <converter:DecimalToAreaConverter x:Key="DecimalToAreaConverter" />
+            <converter:DecimalToPercentConverter x:Key="DecimalToPercentConverter" />
+            <converter:ObjToBoolConverter x:Key="ObjToBool" />
+            <converter:DecimalToVndConverter x:Key="DecimalToVndConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <AbsoluteLayout>
+                <StackLayout Spacing=".5" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" Margin="0,0,0,0" AbsoluteLayout.LayoutFlags="All">
+                    <ScrollView>
+                        <StackLayout Padding="5">
+                            <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                                <telerikPrimitives:RadExpander.Header>
+                                    <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                        <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Chung"/>
+                                    </telerikPrimitives:ExpanderHeader>
+                                </telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:RadExpander.Content>
+                                    <StackLayout BackgroundColor="#cecece" Padding=".8" Spacing="0">
+                                        <Grid BackgroundColor="#ffffff" Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="4*"/>
+                                                <ColumnDefinition Width="6*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <controls:FormLabel Text="Người tham dự bắt buộc" Grid.Row="0" Grid.Column="0"/>
+                                            <controls:MyNewEntryPartyList x:Name="required" OnClicked="Required_OnClicked" Data="{Binding dataRequired}" Grid.Row="0" Grid.Column="1" IsEnabled="{Binding MeetingModel.editable}"/>
+
+                                            <controls:FormLabel Text="Người tham dự không bắt buộc" Grid.Row="1" Grid.Column="0"/>
+                                            <controls:MyNewEntryPartyList x:Name="optional" OnClicked="Optional_OnClicked" Data="{Binding dataOption}" Grid.Row="1" Grid.Column="1" IsEnabled="{Binding MeetingModel.editable}"/>
+
+                                            <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Row="2" Grid.Column="0">
+                                                <Label FontSize="16">Chủ đề</Label>
+                                                <Label TextColor="Red" FontSize="16">*</Label>
+                                            </StackLayout>
+                                            <Entry Grid.Row="2" Grid.Column="1" Text="{Binding MeetingModel.subject}" IsEnabled="{Binding MeetingModel.editable}" FontSize="16" TextColor="Black"/>
+
+                                            <controls:FormLabel Text="Địa điểm" Grid.Column="0" Grid.Row="3"/>
+                                            <Entry Text="{Binding MeetingModel.location}" FontSize="16" IsEnabled="{Binding MeetingModel.editable}" TextColor="Black" Grid.Column="1" Grid.Row="3"/>
+
+                                            <controls:FormLabel Text="Mô tả" Grid.Row="4" Grid.Column="0"/>
+                                            <Entry Text="{Binding MeetingModel.description}" FontSize="16" Grid.Row="4" Grid.Column="1" IsEnabled="{Binding MeetingModel.editable}"/>
+
+                                            <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="5">
+                                                <Label FontSize="16">Liên quan đến</Label>
+                                            </StackLayout>
+                                            <controls:MyNewEntry IsEnabled="{Binding MeetingModel.editable}" Grid.Column="1" Grid.Row="5" Text="{Binding MeetingModel.Customer.Name}" OnClicked="OpenModel_Clicked" HasClearButton="{Binding MeetingModel.Customer,Converter={StaticResource ObjToBool}}" ClearClicked="ClearLookup_Clicked"/>
+                                        </Grid>
+                                    </StackLayout>
+                                </telerikPrimitives:RadExpander.Content>
+                            </telerikPrimitives:RadExpander>
+                            <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                                <telerikPrimitives:RadExpander.Header>
+                                    <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                        <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Lịch Hẹn"/>
+                                    </telerikPrimitives:ExpanderHeader>
+                                </telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:RadExpander.Content>
+                                    <Grid Padding="10" RowSpacing="15">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="6*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="0">
+                                            <Label FontSize="16">Ngày bắt đầu</Label>
+                                            <Label TextColor="Red" FontSize="16">*</Label>
+                                        </StackLayout>
+                                        <Grid Grid.Column="1" Grid.Row="0" >
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="7*"/>
+                                                <ColumnDefinition Width="3*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <controls:MyNewDatePicker IsEnabled="{Binding MeetingModel.editable}" Grid.Column="0" Grid.Row="0" Focused="DatePicker_Focused" FontSize="16" NullableDate="{Binding MeetingModel.scheduledstart}" x:Name="datePicker" DateSelected="DatePickerStart_DateSelected"/>
+                                            <TimePicker FontSize="16" IsEnabled="{Binding MeetingModel.editable}" Grid.Column="1" Grid.Row="0" x:Name="timePickerStart" Time="{Binding MeetingModel.timeStart}" PropertyChanged="TimePickerStart_PropertyChanged"/>
+                                        </Grid>
+
+                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="1">
+                                            <Label FontSize="16">Ngày kết thúc</Label>
+                                            <Label TextColor="Red" FontSize="16">*</Label>
+                                        </StackLayout>
+                                        <Grid Grid.Column="1" Grid.Row="1" >
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="7*"/>
+                                                <ColumnDefinition Width="3*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <controls:MyNewDatePicker IsEnabled="{Binding MeetingModel.editable}" Grid.Column="0" Grid.Row="0" FontSize="16" Focused="DatePickerEnd_Focused" NullableDate="{Binding MeetingModel.scheduledend}" x:Name="datePickerEnd" DateSelected="DatePickerEnd_DateSelected"/>
+                                            <TimePicker FontSize="16" IsEnabled="{Binding MeetingModel.editable}" Grid.Column="1" Grid.Row="0" x:Name="timePickerEnd" Time="{Binding MeetingModel.timeEnd}" PropertyChanged="TimePickerEnd_PropertyChanged"/>
+                                        </Grid>
+
+                                        <controls:FormLabel Text="Sự kiện cả ngày" Grid.Row="2" Grid.Column="0"/>
+                                        <controls:MyNewCheckBox IsEnabled="{Binding MeetingModel.editable}" x:Name="check_event" IsChecked="{Binding MeetingModel.isalldayevent}"  Grid.Column="1" Grid.Row="2" changeChecked="Check_event_changeChecked"/>
+                                        <!--<telerikPrimitives:RadCheckBox VerticalOptions="Center" IsChecked="{Binding MeetingModel}" Grid.Column="1" Grid.Row="2"/>-->
+                                        
+                                        <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="3">
+                                            <Label VerticalOptions="Center" Text="Thời lượng" FontSize="16"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="3">
+                                            <Picker x:Name="actualduration_value" Title="Chọn thời lượng"
+                                                    ItemsSource="{Binding list_picker_durations}"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    IsEnabled="{Binding MeetingModel.editable}"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    SelectedItem="{Binding MeetingModel.durationValue}"
+                                                    ItemDisplayBinding="{Binding Label}"
+                                                    SelectedIndexChanged="Actualduration_value_SelectedIndexChanged"
+                                                    FontSize="16">
+                                            </Picker>
+                                        </StackLayout>
+                                    </Grid>
+                                </telerikPrimitives:RadExpander.Content>
+                            </telerikPrimitives:RadExpander>
+                        </StackLayout>
+                    </ScrollView>
+                    <Grid BackgroundColor="#ffffff" VerticalOptions="EndAndExpand" x:Name="grid_updateMeeting">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="48"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="updateMeetingClick" Clicked="UpdateMeeting_Clicked" Text="Cập nhật" Grid.Column="0" Grid.Row="0" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
+                        <Button x:Name="completedMeeting" Clicked="CompletedMeeting_Clicked" Text="Hoàn thành" VerticalOptions="CenterAndExpand" Grid.Column="1" Grid.Row="0" HorizontalOptions="FillAndExpand"/>
+                        <Button x:Name="canceledMeeting" Clicked="CanceledMeeting_Clicked" Text="Huỷ" VerticalOptions="CenterAndExpand" Grid.Column="2" Grid.Row="0" HorizontalOptions="FillAndExpand"/>
+                    </Grid>
+                    <Grid BackgroundColor="#ffffff" VerticalOptions="EndAndExpand" x:Name="grid_createMeeting">
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="48"/>
+                        </Grid.RowDefinitions>
+                        <!--<Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>-->
+                        <Button x:Name="createNew" Clicked="CreateNew_Clicked" Text="Lưu" Grid.Row="0" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
+                    </Grid>
+                </StackLayout>
+                <controls:ModalContentView IsVisible="{Binding ShowLookUpModal}">
+                    <StackLayout BackgroundColor="#ffffff" Padding="10">
+                        <Grid BackgroundColor="#ffffff" ColumnSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <!--<RowDefinition Height="Auto"/>-->
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3.1*"/>
+                                <ColumnDefinition Width="3.1*"/>
+                                <ColumnDefinition Width="3.1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Text="KH cá nhân" BackgroundColor="#eeeeee" Margin="0" Grid.Column="0" Grid.Row="0" x:Name="btnKHCN"  Clicked="BtnKHCN_Clicked" 
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="FillAndExpand"/>
+                            <Button Text="KH doanh nghiệp"
+                        VerticalOptions="CenterAndExpand" BackgroundColor="#eeeeee" Margin="0" Grid.Column="1" Grid.Row="0" x:Name="btnKHDN" Clicked="BtnKHDN_Clicked" 
+                        HorizontalOptions="FillAndExpand"/>
+                            <Button Text="KH tiềm năng"
+                        VerticalOptions="CenterAndExpand" BackgroundColor="#eeeeee" Margin="0" Grid.Column="2" Grid.Row="0" x:Name="btnKHTN" Clicked="BtnKHTN_Clicked" 
+                        HorizontalOptions="FillAndExpand"/>
+
+                            <!--<Frame CornerRadius="0" Padding="0" BorderColor="{StaticResource SearchBarBorderColor}" Grid.Row="1" >
+                                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="" Placeholder="Keyword..." />
+                            </Frame>-->
+                        </Grid>
+                        <StackLayout>
+                            <Frame CornerRadius="0" Padding="0" BorderColor="{StaticResource SearchBarBorderColor}">
+                                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="" Placeholder="Keyword..." />
+                            </Frame>
+                        </StackLayout>
+                        <ListView x:Name="lvLookUp" ItemTapped="LvLookUp_ItemTapped"
+                              ItemsSource="{Binding LookUpData}"
+                              HasUnevenRows="False"
+                              ItemAppearing="LvLookUp_ItemAppearing"
+                              CachingStrategy="RecycleElement">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout VerticalOptions="CenterAndExpand" Grid.Column="1">
+                                            <Label Text="{Binding Name}"  />
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.Footer>
+                                <ActivityIndicator IsRunning="{Binding LookUpLoading}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+                            </ListView.Footer>
+                        </ListView>
+                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" Orientation="Horizontal" Spacing="2">
+                            <Button Clicked="btnCloseLookUpModal" BackgroundColor="#eeeeee" TextColor="Black" Text="Đóng" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </StackLayout>
+                </controls:ModalContentView>
+                <controls:ModalContentView IsVisible="{Binding IsBusy}">
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+                </controls:ModalContentView>
+            </AbsoluteLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

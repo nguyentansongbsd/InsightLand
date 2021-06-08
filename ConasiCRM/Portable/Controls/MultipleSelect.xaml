@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
+             x:Name="root"
+             x:Class="ConasiCRM.Portable.Controls.MultipleSelect">
+    <ContentView.Content>
+        <StackLayout>
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Entry_Focus"/>
+            </StackLayout.GestureRecognizers>
+            <controls:EntryUnfocused x:Name="entry" Placeholder="{Binding Placeholder}" Focused="Entry_Focus" FontSize="16"/>
+            <FlexLayout Wrap="Wrap" x:Name="FlexLayout"/>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

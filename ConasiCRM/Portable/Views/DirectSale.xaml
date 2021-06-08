@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             BackgroundColor="White"
+             Title="Bán hàng"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
+             xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
+             xmlns:directSaleConverter ="clr-namespace:ConasiCRM.Portable.Converters.DirectSale"
+             x:Name="rootPage"
+             x:Class="ConasiCRM.Portable.Views.DirectSale">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:DateFormatConverter x:Key="DateFormatConverter" />
+            <converter:DecimalFormatConverter x:Key="DecimalFormatConverter" />
+            <converter:DecimalToVndConverter x:Key="DecimalToVndConverter" />
+            <converter:ObjToBoolConverter x:Key="ObjToBool" />
+            <converter:BoolToBoolConverter x:Key="BoolToBool" />
+            <directSaleConverter:ProjectToVisibleBtn x:Key="ProjectToVisibleBtn" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <StackLayout Spacing=".5" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <ScrollView>
+                    <StackLayout Padding="5">
+                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <Label Style="{StaticResource ExpanderHeadingText}">Thông tin bán hàng</Label>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <Grid Padding="10" RowSpacing="15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="7*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+
+                                    <controls:FormLabelRequired Text="Dự án" Grid.Column="0" Grid.Row="0" />
+                                    <controls:BsdLookUp Placeholder="Chọn dự án" SelectedItem="{Binding Project}" OpenClicked="Project_Focused" Grid.Column="1" Grid.Row="0" />
+
+                                    <controls:FormLabel Text="Đợt mở bán" Grid.Column="0" Grid.Row="1" />
+                                    <controls:BsdLookUp Placeholder="Chọn đợt mở bán" SelectedItem="{Binding PhasesLanch}" OpenClicked="EntryPhasesLaunch_Focused" Grid.Column="1" Grid.Row="1" />
+
+                                    <controls:FormLabel Text="Sự kiện" Grid.Row="2"/>
+                                    <telerikPrimitives:RadCheckBox CheckedColor="{StaticResource NavigationPrimary}" x:Name="checkbox" IsChecked="{Binding IsEvent,Mode=TwoWay}" Grid.Column="1" Grid.Row="2" />
+                                    
+                                    <controls:FormLabel Text="Mã sản phẩm" Grid.Row="3"/>
+                                    <Entry Text="{Binding UnitCode}" Grid.Row="3" Grid.Column="1"/>
+                                    
+                                    <controls:FormLabel Text="Hướng nhìn" Grid.Row="4" VerticalOptions="Start"/>
+                                    <controls:MultipleSelect x:Name="multipleSelectView" 
+                                                             VerticalOptions="Center"
+                                                             Placeholder="Chọn View"
+                                                             ItemsSource="{Binding BindingContext.ViewOptions,Source={x:Reference rootPage}}"
+                                                             SelectedItems="{Binding BindingContext.SelectedViews,Source={x:Reference rootPage}}"
+                                                             Grid.Column="1" 
+                                                             Grid.Row="4" />
+
+                                    <controls:FormLabel Text="Hướng" Grid.Row="5" VerticalOptions="Start"/>
+                                    <controls:MultipleSelect x:Name="multipleSelectDirection" 
+                                                             VerticalOptions="Center"
+                                                             Placeholder="Chọn hướng"
+                                                             ItemsSource="{Binding BindingContext.DirectionOptions,Source={x:Reference rootPage}}"
+                                                             SelectedItems="{Binding BindingContext.SelectedDirections,Source={x:Reference rootPage}}"
+                                                             Grid.Column="1" 
+                                                             Grid.Row="5" />
+                                    
+                                    <controls:FormLabel Text="Tình trạng BĐS" Grid.Row="6" VerticalOptions="Start"/>
+                                    <controls:MultipleSelect x:Name="multipleSelectUnitStatus" 
+                                                             VerticalOptions="Center"
+                                                             Placeholder="Chọn unit status"
+                                                             ItemsSource="{Binding BindingContext.UnitStatusOptions,Source={x:Reference rootPage}}"
+                                                             SelectedItems="{Binding BindingContext.SelectedUnitStatus,Source={x:Reference rootPage}}"
+                                                             Grid.Column="1" 
+                                                             Grid.Row="6" />
+                                    
+                                    <controls:FormLabel Text="Diện tích sử dụng (m2)" Grid.Row="7" VerticalOptions="Start"/>
+                                    <Grid Grid.Row="7" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <controls:EntryNumericFormat NumericText="{Binding minNetArea}" Grid.Column="0" MaxValue="99999" IsNotNegative="true"/>
+                                        <Label Text="-" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"/>
+                                        <controls:EntryNumericFormat NumericText="{Binding maxNetArea}" Grid.Column="2" MaxValue="99999" IsNotNegative="true"/>
+                                    </Grid>
+                                    
+                                    <controls:FormLabel Text="Giá bán (vnđ)" Grid.Row="8" VerticalOptions="Start"/>
+                                    <Grid Grid.Row="8" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <controls:EntryNumericFormat NumericText="{Binding minPrice}" Grid.Column="0" MaxValue="9999999999999" IsNotNegative="true"/>
+                                        <Label Text="-" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"/>
+                                        <controls:EntryNumericFormat NumericText="{Binding maxPrice}" Grid.Column="2" MaxValue="9999999999999" IsNotNegative="true"/>
+                                    </Grid>
+
+                                    <controls:FormLabel Text="Thu gọn" Grid.Row="9" />
+                                    <telerikPrimitives:RadCheckBox CheckedColor="{StaticResource NavigationPrimary}" IsChecked="{Binding IsCollapse,Mode=TwoWay}" Grid.Column="1" Grid.Row="9" />
+
+                                    <Button Clicked="SearchClicked" BackgroundColor="#eeeeee" TextColor="Black" Text="Tìm kiếm" Grid.Column="1" Grid.Row="10" />
+                                </Grid>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+                    </StackLayout>
+                </ScrollView>
+                <StackLayout x:Name="GroupBtn" IsVisible="{Binding Project,Converter={StaticResource ProjectToVisibleBtn}}" Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                    <Button BackgroundColor="#eeeeee" TextColor="Black" Text="Thông tin" Clicked="ShowInfo" HorizontalOptions="FillAndExpand" />
+                    <Button BackgroundColor="#eeeeee" TextColor="Black" Text="Xem phim" Clicked="VideoList_Clicked" HorizontalOptions="FillAndExpand" />
+                    <Button BackgroundColor="#eeeeee" TextColor="Black" Text="Xem ảnh" Clicked="ImageList_Clicked" HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+            </StackLayout>
+            <controls:ModalContentView x:Name="modalLookUp" />
+            <!--<controls:ModalContentView x:Name="modalLookUp" IsVisible="{Binding ShowLookUpModal}">
+                    <StackLayout x:Name="ModalWrap" BackgroundColor="#ffffff">
+                    <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource ExpanderHeaderBackground}" Padding="10">
+                        <Label x:Name="ModalTitle" TextColor="{StaticResource ExpanderHeaderTextColor}" HorizontalOptions="StartAndExpand" VerticalOptions="Center" FontSize="18" />
+                        <ImageButton Source="close.png" Padding="5" BackgroundColor="White" Command="{Binding CloseLookUpModal}" HeightRequest="32" WidthRequest="32" Aspect="AspectFit" />
+                    </StackLayout>
+                    <telerikPrimitives:RadBorder Margin="5">
+                        <telerikPrimitives:RadBorder.BorderColor>
+                            <OnPlatform x:TypeArguments="Color">
+                                <On Platform="iOS" Value="Transparent" />
+                                <On Platform="Android" Value="#eeeeee" />
+                            </OnPlatform>
+                        </telerikPrimitives:RadBorder.BorderColor>
+                        <SearchBar IsEnabled="{Binding LookUpLoading,Converter={StaticResource BoolToBool}}" x:Name="searchBarModalLookUp" Text="" FontSize="16" />
+                    </telerikPrimitives:RadBorder>
+                    <StackLayout>
+                        <ListView>
+
+                        </ListView>
+                    </StackLayout>
+                </StackLayout>
+                </controls:ModalContentView>-->
+            <ContentView x:Name="modalMultipleSelect" IsVisible="False" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="40" BackgroundColor="Red"/>
+            <!--<controls:BsdModal x:Name="bsdModal" IsLoading="True" HeaderText="Tiêu đề của modal" IsVisible="False">
+                <controls:BsdModal.ModalContent>
+                    <StackLayout Padding="10">
+                        <Label Text="test" />
+                        <ListView ItemsSource="{Binding test}" HasUnevenRows="True" CachingStrategy="RecycleElement">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Padding="0,10,0,10">
+                                            <Label Text="{Binding}" TextColor="#333333" FontSize="16"  />
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.Footer>
+                                <ActivityIndicator IsRunning="{Binding LookUpLoading}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+                            </ListView.Footer>
+                        </ListView>
+                    </StackLayout>
+                </controls:BsdModal.ModalContent>
+            </controls:BsdModal>-->
+            <controls:ModalContentView IsVisible="{Binding IsBusy}">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+            </controls:ModalContentView>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,145 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DebugType>pdbonly</DebugType>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+        <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.188" />
+        <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+        <PackageReference Include="SkiaSharp" Version="1.59.3" />
+        <PackageReference Include="SkiaSharp.Views.Forms" Version="1.59.3" />
+        <PackageReference Include="Xamarin.Forms.Contacts" Version="1.0.5" />
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Telerik.XamarinForms.Barcode">
+          <HintPath>..\..\..\Binaries\Portable\Telerik.XamarinForms.Barcode.dll</HintPath>
+        </Reference>
+        <Reference Include="Telerik.XamarinForms.Chart">
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Chart.dll</HintPath>
+        </Reference>
+        <Reference Include="Telerik.XamarinForms.Common">
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Common.dll</HintPath>
+        </Reference>
+        <Reference Include="Telerik.XamarinForms.ConversationalUI">
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.ConversationalUI.dll</HintPath>
+        </Reference>
+        <Reference Include="Telerik.XamarinForms.DataControls">
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.DataControls.dll</HintPath>
+        </Reference>
+        <Reference Include="Telerik.XamarinForms.DataGrid">
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.DataGrid.dll</HintPath>
+        </Reference>
+        <Reference Include="Telerik.XamarinForms.DataVisualization">
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.DataVisualization.dll</HintPath>
+        </Reference>
+        <Reference Include="Telerik.XamarinForms.Input">
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Input.dll</HintPath>
+        </Reference>
+        <Reference Include="Telerik.XamarinForms.PdfViewer">
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.PdfViewer.dll</HintPath>
+        </Reference>
+        <Reference Include="Telerik.XamarinForms.Primitives">
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Primitives.dll</HintPath>
+        </Reference>
+        <Reference Include="Telerik.XamarinForms.SkiaSharp">
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.SkiaSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="Telerik.Zip">
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Zip.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
+            <DependentUpon>*.xaml</DependentUpon>
+        </Compile>
+        <Compile Update="Login.xaml.cs">
+          <DependentUpon>Login.xaml</DependentUpon>
+        </Compile>
+        <Compile Update="Views\DirectSaleContentView - Copy.xaml.cs">
+          <DependentUpon>%(Filename)</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="Login.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="MasterDetailPage1.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="MasterDetailPage1Master.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\AccountForm.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\AccountList.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\ContactForm.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\ContactList.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\Dashboard.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\DirectSale - Copy.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\DirectSale.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\DirectSaleDetail.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\LeadForm.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\LeadList.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\LookUpView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\PageNotFound.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\ProjectInfo.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\QueueForm.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\QueueList.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\QueuList.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\ReservationForm.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\ReservationList.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\UnitImageGallery.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\UnitImageGalleryDetail.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\UnitInfo.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+    </ItemGroup>
+</Project>

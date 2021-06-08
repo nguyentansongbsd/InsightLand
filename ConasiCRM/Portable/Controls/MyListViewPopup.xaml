@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="ConasiCRM.Portable.Controls.MyListViewPopup">
+  <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Padding="20, 20, 20, 20" Spacing="0">
+    <StackLayout BackgroundColor="White">
+            <StackLayout BackgroundColor="#BFC5C6" Orientation="Horizontal" Padding="10">
+                <Label x:Name="title" Text="{Binding Placeholder}" FontSize="17" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
+                <ImageButton Source="close.png" BackgroundColor="Transparent" HeightRequest="32" Padding="5" Clicked="Close_clicked"/>
+            </StackLayout>
+      <ListView x:Name="listView" ItemsSource="{Binding ItemsSource}" HasUnevenRows="true" SelectionMode="None" ItemTapped="Item_Tapped" SeparatorColor="Transparent">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+                <StackLayout Padding="5">
+                    <StackLayout Padding="20,5" Orientation="Horizontal">
+                        <Label Text="{Binding Label}" FontSize="16" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                        <Image IsVisible="{Binding Selected}" Source="selected_icon.png" HeightRequest="16" HorizontalOptions="End" VerticalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout HeightRequest=".5" BackgroundColor="Gray" VerticalOptions="End"/>
+                </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
+    <Button BackgroundColor="#BFC5C6" Text="Xác Nhận" TextColor="Black" Clicked="Confirm_Clicked"></Button>
+  </StackLayout>
+</pages:PopupPage>

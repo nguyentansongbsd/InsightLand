@@ -1,0 +1,454 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+            xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
+              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
+             xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
+             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             xmlns:reservationConverter="clr-namespace:ConasiCRM.Portable.Converters.Reservation"
+             xmlns:unitConverter="clr-namespace:ConasiCRM.Portable.Converters.Unit"
+             Title="Báo giá"
+             BackgroundColor="White"
+             x:Class="ConasiCRM.Portable.Views.ReservationForm">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:DateFormatConverter x:Key="DateFormatConverter" />
+            <converter:DecimalToAreaConverter x:Key="DecimalToAreaConverter" />
+            <converter:DecimalToPercentConverter x:Key="DecimalToPercentConverter" />
+            <converter:DecimalToVndConverter x:Key="DecimalToVndConverter" />
+            <reservationConverter:StatusLabelConverter x:Key="StatusLabelConverter" />
+            <unitConverter:StatusLabelConverter x:Key="unitStatusLabelConverter" />
+            <converter:ObjToBoolConverter x:Key="ObjToBool" />
+            <reservationConverter:DiscountsIsExpiredToColorConverter x:Key="DiscountsIsExpiredToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <ScrollView x:Name="mainScrollView">
+                    <StackLayout Padding="5">
+                        <!--Người đồng sở hữu-->
+                        <telerikPrimitives:RadExpander x:Name="ExpanderCoOwner" IsExpanded="False" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Style="{StaticResource ExpanderHeadingText}">Người đồng sở hữu</Label>
+                                        <Button x:Name="btnViewCoOwner" Text="Xem" HeightRequest="20" FontSize="Small"  Clicked="ViewCoOwner_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderCoOwner}}" />
+                                        <ImageButton x:Name="btnDeleteCoOwner" Clicked="BtnDeleteCoOwner_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderCoOwner}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>
+                                        <ImageButton x:Name="btnNewCoOwner" Clicked="BtnNewCoOwner_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderCoOwner}}" BackgroundColor="Transparent" Padding="5" Source="plus_black.png" HeightRequest="28" WidthRequest="50" HorizontalOptions="End"/>
+                                    </StackLayout>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="gridCoOwner" ItemsSource="{Binding CoownerList}">
+                                    <telerikDataGrid:RadDataGrid.Columns>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Mô tả"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="customer"  HeaderText="Tên"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="ReservationName"  HeaderText="Báo giá"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_relationship_format" HeaderText="Mối quan hệ"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo"/>
+                                    </telerikDataGrid:RadDataGrid.Columns>
+                                </bsdGrid:BsdRadDataGrid>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+
+                        <!--Điều kiện bàn giao-->
+                        <telerikPrimitives:RadExpander x:Name="ExpanderHandoverCondition" IsExpanded="False" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Style="{StaticResource ExpanderHeadingText}">Điều kiện bàn giao</Label>
+                                        <ImageButton x:Name="btnDeleteHandoverCondition" Clicked="BtnDeleteHandoverCondition_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderHandoverCondition}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>
+                                        <ImageButton x:Name="btnNewHandoverCondition" Clicked="BtnNewHandoverCondition_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderHandoverCondition}}" BackgroundColor="Transparent" Padding="5" Source="plus_black.png" HeightRequest="28" WidthRequest="50" HorizontalOptions="End"/>
+                                    </StackLayout>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <bsdGrid:BsdRadDataGrid x:Name="gridHandoverCondition" Grid.Row="1" ItemsSource="{Binding HandoverConditionList}">
+                                    <telerikDataGrid:RadDataGrid.Columns>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Tên" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_method_format"  HeaderText="Phương thức" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_percent_format" HeaderText="Phần trăm(%)" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_priceperm2_format" HeaderText="Giá/m2" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amount_format" HeaderText="Số tiền" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo" />
+                                    </telerikDataGrid:RadDataGrid.Columns>
+                                </bsdGrid:BsdRadDataGrid>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+
+                        <!--Khuyến mãi-->
+                        <telerikPrimitives:RadExpander x:Name="ExpanderPromotions" IsExpanded="False" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Style="{StaticResource ExpanderHeadingText}">Khuyến mãi</Label>
+                                        <ImageButton x:Name="btnDeletePromotion" Clicked="BtnDeletePromotion_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderPromotions}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>
+                                        <ImageButton x:Name="btnOpenNewPromotion" Clicked="BtnOpenNewPromotion_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderPromotions}}" BackgroundColor="Transparent" Padding="5" Source="plus_black.png" HeightRequest="28" WidthRequest="50" HorizontalOptions="End"/>
+                                    </StackLayout>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <bsdGrid:BsdRadDataGrid x:Name="gridPromotions" ItemsSource="{Binding PromotionList}">
+                                    <telerikDataGrid:RadDataGrid.Columns>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="project_name" HeaderText="Dự án" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Tên"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="phaseslaunch_name" HeaderText="Đợt mở bán"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_values_format" HeaderText="Giá tiền" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_startdate_format" HeaderText="Ngày bắt đầu"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_enddate_format" HeaderText="Ngày kết thúc"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo" />
+                                    </telerikDataGrid:RadDataGrid.Columns>
+                                </bsdGrid:BsdRadDataGrid>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+
+                        <!--Chiết khấu đặc biệt-->
+                        <telerikPrimitives:RadExpander x:Name="ExpanderSpecialDiscount" IsExpanded="False" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Style="{StaticResource ExpanderHeadingText}">Chiết khấu đặc biệt</Label>
+                                        <Button x:Name="btnViewSpecialDiscount" Text="Xem" HeightRequest="20" FontSize="Small"  Clicked="BtnViewSpecicalDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" />
+                                        <!--<ImageButton x:Name="btnViewSpecicalDiscount" Clicked="BtnViewSpecicalDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>-->
+                                        <ImageButton x:Name="btnDeleteSpecicalDiscount" Clicked="BtnDeleteSpecicalDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>
+                                        <ImageButton x:Name="btnOpenNewSpecialDiscount" Clicked="BtnOpenNewSpecialDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" BackgroundColor="Transparent" Padding="5" Source="plus_black.png" HeightRequest="28" WidthRequest="50" HorizontalOptions="End"/>
+                                    </StackLayout>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <bsdGrid:BsdRadDataGrid x:Name="gridSpecialDiscount" ItemsSource="{Binding SpecialDiscountList}">
+                                    <telerikDataGrid:RadDataGrid.Columns>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Tên" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_percentdiscount_format"  HeaderText="Phần trăm chiết khấu" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountdiscount_format"  HeaderText="Số tiền chiết khấu" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="reservation_name" HeaderText="Báo giá" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_reasons" HeaderText="Lý do" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="statuscode_format" HeaderText="Trạng thái" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdby_name" HeaderText="Người tạo" />
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo" />
+                                    </telerikDataGrid:RadDataGrid.Columns>
+                                </bsdGrid:BsdRadDataGrid>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+
+                        <!--Thông tin chiết khấu-->
+                        <telerikPrimitives:RadExpander x:Name="ExpanderThongTinChietKhau" IsExpanded="False" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <Label Style="{StaticResource ExpanderHeadingText}">Thông tin chiết khấu</Label>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <!--<Entry Text="{Binding Reservation.bsd_discounts}" />-->
+                                    <StackLayout Orientation="Horizontal" Grid.Row="0">
+                                        <controls:FormLabel Text="Tên chiết khấu : " />
+                                        <controls:FormLabelValue Text="{Binding Reservation.discountlist_name}" />
+                                    </StackLayout>
+
+                                    <telerikDataControls:RadListView x:Name="listView" SelectionMode="None" Grid.Row="1">
+                                        <telerikDataControls:RadListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <telerikListView:ListViewTemplateCell>
+                                                    <telerikListView:ListViewTemplateCell.View>
+                                                        <StackLayout Orientation="Horizontal" Padding="5">
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="DiscountsListView_ItemTapped" CommandParameter="{Binding}" />
+                                                            </StackLayout.GestureRecognizers>
+                                                            <controls:MyNewCheckBox CheckedColor="#666666" Spacing="5" Title="{Binding Label}" TitleColor="{Binding IsExpired,Converter={StaticResource DiscountsIsExpiredToColorConverter}}" IsEnabled="False" IsChecked="{Binding Selected,Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" />
+                                                        </StackLayout>
+                                                    </telerikListView:ListViewTemplateCell.View>
+                                                </telerikListView:ListViewTemplateCell>
+                                            </DataTemplate>
+                                        </telerikDataControls:RadListView.ItemTemplate>
+                                    </telerikDataControls:RadListView>
+                                    <Button Grid.Row="2" Text="Cập nhật chiết khấu" HorizontalOptions="Start" FontSize="15" x:Name="btnUpdateDiscounts" Clicked="BtnUpdateDiscounts_Clicked" IsVisible="False"/>
+                                </Grid>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+
+                        <!--Thông tin tổng quát-->
+                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander" x:Name="DiscountInfoExp">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <Label Style="{StaticResource ExpanderHeadingText}">Thông tin tổng quát</Label>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <StackLayout Padding="5">
+                                    <!--Thông tin báo giá-->
+                                    <telerikPrimitives:RadBorder BorderColor="#999999" CornerRadius="0">
+                                        <StackLayout>
+                                            <StackLayout Padding="10,5" BackgroundColor="#999999">
+                                                <Label Text="Thông tin báo giá" TextColor="White" VerticalTextAlignment="Center" FontSize="Medium" />
+                                            </StackLayout>
+                                            <Grid Padding="10" RowSpacing="15">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                </Grid.RowDefinitions>
+
+                                                <controls:FormLabelRequired Text="Mã báo giá" Grid.Row="0" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.quotenumber}" Grid.Row="0" />
+
+                                                <controls:FormLabel Text="Số báo giá" Grid.Row="1" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.bsd_quotationnumber}" Grid.Row="1" />
+
+                                                <controls:FormLabelRequired Text="Mô tả báo giá" Grid.Row="2" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.name}" Grid.Row="2" />
+
+                                                <controls:FormLabel Text="Trạng thái báo giá" Grid.Row="3" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.statuscode,Converter={StaticResource StatusLabelConverter}}" Grid.Row="3" />
+
+                                                <controls:FormLabel Text="Xác nhận CK mua sỉ" Grid.Row="4" />
+                                                <telerikPrimitives:RadCheckBox CheckedColor="#333333" IsEnabled="False" IsChecked="{Binding Reservation.bsd_xacnhanckmuasi}" Grid.Column="1" Grid.Row="4" />
+
+                                                <!--Datepicker để mở lịch chọn ngày sign date, ẩn.-->
+                                                <DatePicker IsVisible="False" DateSelected="QuotationSignedDatePicker_DateSelected" x:Name="QuotationSignedDatePicker" Grid.Column="1" FontSize="16" Grid.Row="5" />
+                                            </Grid>
+                                        </StackLayout>
+                                    </telerikPrimitives:RadBorder>
+
+                                    <!--Thông tin căn hộ-->
+                                    <telerikPrimitives:RadBorder BorderColor="#999999" CornerRadius="0">
+                                        <StackLayout>
+                                            <StackLayout Padding="10,5" BackgroundColor="#999999">
+                                                <Label Text="Thông tin căn hộ" TextColor="White" VerticalTextAlignment="Center" FontSize="Medium"  />
+                                            </StackLayout>
+                                            <Grid Padding="10" RowSpacing="15">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                </Grid.RowDefinitions>
+
+                                                <controls:FormLabel Text="Số căn hộ" Grid.Row="0" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.unit_name}" Grid.Row="0" />
+
+                                                <controls:FormLabel Text="Trạng thái căn hộ" Grid.Row="1" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.unit_statuscode,Converter={StaticResource unitStatusLabelConverter}}" Grid.Row="1" />
+
+                                                <controls:FormLabel Text="Diện tích xây dựng" Grid.Row="2" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.unit_constructionarea,Converter={StaticResource DecimalToAreaConverter}}" Grid.Row="2" />
+
+                                                <controls:FormLabel Text="Diện tích sử dụng" Grid.Row="3" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.unit_netsaleablearea,Converter={StaticResource DecimalToAreaConverter}}" Grid.Row="3" />
+                                            </Grid>
+                                        </StackLayout>
+                                    </telerikPrimitives:RadBorder>
+
+                                    <!--Thông tin bán hàng-->
+                                    <telerikPrimitives:RadBorder BorderColor="#999999" CornerRadius="0">
+                                        <StackLayout>
+                                            <StackLayout Padding="10,5" BackgroundColor="#999999" >
+                                                <Label Text="Thông tin bán hàng" TextColor="White" VerticalTextAlignment="Center" FontSize="Medium"  />
+                                            </StackLayout>
+                                            <Grid Padding="10" RowSpacing="15">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                </Grid.RowDefinitions>
+
+                                                <controls:FormLabel Text="Mã phiếu đặt chỗ" Grid.Row="0" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.queuenumber}" Grid.Row="0" />
+
+                                                <controls:FormLabelRequired Text="khách hàng" Grid.Row="1" />
+                                                <controls:BsdLookUp x:Name="btnOpenLookUpCustomer" Placeholder="Chọn khách hàng" SelectedItem="{Binding Customer}" OpenClicked="BtnOpenLookUpCustomer_OpenClicked" Grid.Column="1" Grid.Row="1" />
+                                            </Grid>
+                                        </StackLayout>
+                                    </telerikPrimitives:RadBorder>
+
+                                    <!--Chi tiết-->
+                                    <telerikPrimitives:RadBorder BorderColor="#999999" CornerRadius="0">
+                                        <StackLayout>
+                                            <StackLayout Padding="10,5" BackgroundColor="#999999">
+                                                <Label Text="Chi tiết" TextColor="White" VerticalTextAlignment="Center" FontSize="Medium"  />
+                                            </StackLayout>
+
+                                            <Grid Padding="10" RowSpacing="15">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                </Grid.RowDefinitions>
+
+                                                <controls:FormLabel Text="Dự án" Grid.Row="0" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.project_name}" Grid.Row="0" />
+
+                                                <controls:FormLabel Text="Đợt mở bán" Grid.Row="1" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.phaseslaunch_name}" Grid.Row="1" />
+
+                                                <controls:FormLabel Text="Bảng giá" Grid.Row="2" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.pricelevel_name}" Grid.Row="2" />
+
+                                                <controls:FormLabelRequired Text="Lịch thanh toán" Grid.Column="0" Grid.Row="3"/>
+                                                <controls:BsdLookUp x:Name="LookUpLichThanhToan" SelectedItem="{Binding PaymentScheme}" OpenClicked="LichThanhToan_OpenClicked" Placeholder="Chọn lịch thanh toán" Grid.Column="1" Grid.Row="3"/>
+
+                                                <controls:FormLabelRequired Text="Thuế" Grid.Column="0" Grid.Row="4"/>
+                                                <controls:FormLabelValue Text="{Binding Reservation.tax,Converter={StaticResource DecimalToPercentConverter}}" Grid.Row="4" />
+
+                                                <controls:FormLabel Text="Phí đặt chỗ" Grid.Row="5" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.bsd_bookingfee,Converter={StaticResource DecimalToVndConverter}}" HorizontalTextAlignment="End" Grid.Row="5" />
+
+                                                <controls:FormLabel Text="Phí đặt cọc" Grid.Row="6" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.bsd_depositfee,Converter={StaticResource DecimalToVndConverter}}" TextColor="Red" HorizontalTextAlignment="End" Grid.Row="6" />
+                                            </Grid>
+                                        </StackLayout>
+                                    </telerikPrimitives:RadBorder>
+
+                                    <!--Thông tin giá trị-->
+                                    <telerikPrimitives:RadBorder BorderColor="#999999" CornerRadius="0">
+                                        <StackLayout>
+                                            <StackLayout Padding="10,5" BackgroundColor="#999999">
+                                                <Label Text="Thông tin giá trị" TextColor="White" VerticalTextAlignment="Center" FontSize="Medium" />
+                                            </StackLayout>
+                                            <Grid Padding="10" RowSpacing="15">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                </Grid.RowDefinitions>
+
+                                                <controls:FormLabel Text="Giá bán" Grid.Row="0" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.bsd_detailamount,Converter={StaticResource DecimalToVndConverter}}" HorizontalTextAlignment="End" Grid.Row="0" />
+
+                                                <controls:FormLabel Text="Chiết khấu" Grid.Row="1" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.bsd_discount,Converter={StaticResource DecimalToVndConverter}}" HorizontalTextAlignment="End" Grid.Row="1" />
+
+                                                <controls:FormLabel Text="Phí bàn giao" Grid.Row="2" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.bsd_packagesellingamount,Converter={StaticResource DecimalToVndConverter}}"  HorizontalTextAlignment="End" Grid.Row="2" />
+
+                                                <controls:FormLabel Text="Giá bán trước thuế" Grid.Row="3" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.bsd_totalamountlessfreight,Converter={StaticResource DecimalToVndConverter}}"  HorizontalTextAlignment="End" Grid.Row="3" />
+
+                                                <controls:FormLabel Text="Giá đất" Grid.Row="4" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.bsd_landvaluededuction,Converter={StaticResource DecimalToVndConverter}}"  HorizontalTextAlignment="End" Grid.Row="4" />
+
+                                                <controls:FormLabel Text="Thuế" Grid.Row="5" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.totaltax,Converter={StaticResource DecimalToVndConverter}}"  HorizontalTextAlignment="End" Grid.Row="5" />
+
+                                                <controls:FormLabel Text="Phí bảo trì" Grid.Row="6" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.bsd_freightamount,Converter={StaticResource DecimalToVndConverter}}"  HorizontalTextAlignment="End" Grid.Row="6" />
+
+                                                <controls:FormLabel Text="Tổng tiền" Grid.Row="7" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.totalamount,Converter={StaticResource DecimalToVndConverter}}" TextColor="Red"  HorizontalTextAlignment="End" Grid.Row="7" />
+                                            </Grid>
+                                        </StackLayout>
+                                    </telerikPrimitives:RadBorder>
+
+                                    <!--Thông tin phí quản lý-->
+                                    <telerikPrimitives:RadBorder BorderColor="#999999" CornerRadius="0">
+                                        <StackLayout>
+                                            <StackLayout Padding="10,5" BackgroundColor="#999999">
+                                                <Label Text="Thông tin phí quản lý" TextColor="White" VerticalTextAlignment="Center" FontSize="Medium" />
+                                            </StackLayout>
+                                            <Grid Padding="10" RowSpacing="15">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                </Grid.RowDefinitions>
+
+                                                <controls:FormLabel Text="Số tháng trả phí quản lý" Grid.Row="0" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.bsd_numberofmonthspaidmf}" HorizontalTextAlignment="End" Grid.Row="0" />
+
+                                                <controls:FormLabel Text="Phí quản lý" Grid.Row="1" />
+                                                <controls:FormLabelValue Text="{Binding Reservation.bsd_managementfee,Converter={StaticResource DecimalToVndConverter}}" HorizontalTextAlignment="End" Grid.Row="1" />
+                                            </Grid>
+                                        </StackLayout>
+                                    </telerikPrimitives:RadBorder>
+                                </StackLayout>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+
+                        <!--Lịch thanh toán-->
+                        <telerikPrimitives:RadExpander  IsExpanded="False" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <Label Style="{StaticResource ExpanderHeadingText}">Lịch thanh toán</Label>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <bsdGrid:BsdRadDataGrid ItemsSource="{Binding InstallmentList}">
+                                    <telerikDataGrid:RadDataGrid.Columns>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_ordernumber" HeaderText="STT"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Đợt thanh toán"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_duedate_format" HeaderText="Ngày đến hạn"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="statuscode_format" HeaderText="Tình trạng"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountofthisphase_format" HeaderText="Số tiền đợt thanh toán"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountwaspaid_format" HeaderText="Số tiền đã thanh toán"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_depositamount_format" HeaderText="Số tiền đặt cọc"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_waiveramount_format" HeaderText="Số tiền còn lại"/>
+                                    </telerikDataGrid:RadDataGrid.Columns>
+                                </bsdGrid:BsdRadDataGrid>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+                    </StackLayout>
+                </ScrollView>
+
+                <Grid x:Name="gridBtnGroup" VerticalOptions="EndAndExpand">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <telerikInput:RadButton BorderRadius="0" Grid.Row="0" VerticalOptions="FillAndExpand" x:Name="btnSaveForm" Clicked="BtnSaveForm_Clicked" BackgroundColor="#eeeeee" HorizontalOptions="FillAndExpand" Text="Lưu" TextColor="Black" />
+                    <telerikInput:RadButton BorderRadius="0" Grid.Row="0" VerticalOptions="FillAndExpand" x:Name="btnPaymentSchemeGenerate" Clicked="PaymentSchemeGenerate_Clicked" BackgroundColor="#eeeeee" HorizontalOptions="FillAndExpand" Text="Tạo lịch thanh toán" TextColor="Black" />
+                    <telerikInput:RadButton BorderRadius="0" Grid.Row="0" VerticalOptions="FillAndExpand" x:Name="btnSignQuotation" Clicked="SignQuotation_Clicked" BackgroundColor="#eeeeee" HorizontalOptions="FillAndExpand" Text="Xác nhận đặt cọc" TextColor="Black" />
+                    <telerikInput:RadButton BorderRadius="0" Grid.Row="0" VerticalOptions="FillAndExpand" x:Name="btnCancelQuotation" Clicked="BtnCancelQuotation_Clicked" BackgroundColor="#eeeeee" HorizontalOptions="Fill" Text="Hủy đặt cọc" TextColor="Black" />
+                </Grid>
+            </StackLayout>
+            <controls:ModalContentView x:Name="modalLookUp" />
+            <controls:ModalContentView IsVisible="{Binding IsBusy}">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+            </controls:ModalContentView>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>
