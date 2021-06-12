@@ -7,15 +7,28 @@
              NavigationPage.HasNavigationBar="False"
              x:Class="ConasiCRM.Portable.Login">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Margin="40,50"
+        <AbsoluteLayout>
+            <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout Margin="20,50"
                  Spacing="10" VerticalOptions="Center">
-                <Image Source="insightland_logo" Margin="0,15,0,15" />
-                <controls:BorderEntry BackgroundColor="#ffffff" Text="" x:Name="txtUsername" Placeholder="Tên đăng nhập" />
-                <controls:BorderEntry BackgroundColor="#ffffff" Text="" IsPassword="True" x:Name="txtPassword" Placeholder="Mật khẩu" />
-                <Button Text="Đăng nhập" BackgroundColor="#999999" CornerRadius="0" TextColor="White" FontSize="Medium" Clicked="Button_Clicked" x:Name="btnLogin" />
-                <ActivityIndicator x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-            </StackLayout>
-        </ScrollView>
+                    <Image Source="insightland_logo" Margin="0,15,0,15" />
+                    <controls:BorderEntry BackgroundColor="#ffffff" Text="" x:Name="txtUsername" Placeholder="Tên đăng nhập"/>
+                    <controls:BorderEntry BackgroundColor="#ffffff" Text="" IsPassword="True" x:Name="txtPassword" Placeholder="Mật khẩu" />
+                    <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" Margin="0,10">
+                        <CheckBox x:Name="checkboxRememberAcc" Color="#059688"/>
+                        <Label Text="Ghi nhớ đăng nhập" VerticalTextAlignment="Center" FontSize="16" TextColor="#444444">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="IsRemember_Tapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                    <Button Text="Đăng nhập" BackgroundColor="#1399D5" TextColor="White" FontAttributes="Bold" HeightRequest="40" Padding="10,5" FontSize="18" Clicked="Button_Clicked" x:Name="btnLogin" />
+                </StackLayout>
+            </ScrollView>
+            <controls:ModalContentView x:Name="Loading" IsVisible="false" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" >
+                <ActivityIndicator x:Name="activityIndicator" IsRunning="True" Color="{StaticResource IndicatorColor}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            </controls:ModalContentView>
+            
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

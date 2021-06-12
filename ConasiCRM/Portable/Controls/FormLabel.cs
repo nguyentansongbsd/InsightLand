@@ -12,7 +12,7 @@ namespace ConasiCRM.Portable.Controls
             this.FontSize = 16;
             this.VerticalTextAlignment = TextAlignment.Center;
             Grid.SetColumn(this, 0);
-            TextColor = Color.FromHex("#828181");
+            TextColor = Color.FromHex("#444444");
         }
     }
 }

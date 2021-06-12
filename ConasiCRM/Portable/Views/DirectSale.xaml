@@ -23,106 +23,72 @@
         <AbsoluteLayout>
             <StackLayout Spacing=".5" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <ScrollView>
-                    <StackLayout Padding="5">
-                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
-                            <telerikPrimitives:RadExpander.Header>
-                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
-                                    <Label Style="{StaticResource ExpanderHeadingText}">Thông tin bán hàng</Label>
-                                </telerikPrimitives:ExpanderHeader>
-                            </telerikPrimitives:RadExpander.Header>
-                            <telerikPrimitives:RadExpander.Content>
-                                <Grid Padding="10" RowSpacing="15">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="3*"></ColumnDefinition>
-                                        <ColumnDefinition Width="7*"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                    </Grid.RowDefinitions>
+                    <StackLayout Spacing="0">
+                        <Label Style="{StaticResource ExpanderHeadingText}" HorizontalOptions="FillAndExpand" BackgroundColor="#F3F3F3" Padding="10,0">Thông tin bán hàng</Label>
 
-                                    <controls:FormLabelRequired Text="Dự án" Grid.Column="0" Grid.Row="0" />
-                                    <controls:BsdLookUp Placeholder="Chọn dự án" SelectedItem="{Binding Project}" OpenClicked="Project_Focused" Grid.Column="1" Grid.Row="0" />
+                        <controls:FormLabelRequired Text="Dự án" Margin="10,5,10,0"/>
+                        <controls:BsdLookUp Placeholder="Chọn dự án" SelectedItem="{Binding Project}" OpenClicked="Project_Focused" Margin="10,0,10,5"/>
 
-                                    <controls:FormLabel Text="Đợt mở bán" Grid.Column="0" Grid.Row="1" />
-                                    <controls:BsdLookUp Placeholder="Chọn đợt mở bán" SelectedItem="{Binding PhasesLanch}" OpenClicked="EntryPhasesLaunch_Focused" Grid.Column="1" Grid.Row="1" />
+                        <controls:FormLabel Text="Đợt mở bán" Margin="10,5,10,0" />
+                        <controls:BsdLookUp Placeholder="Chọn đợt mở bán" SelectedItem="{Binding PhasesLanch}" OpenClicked="EntryPhasesLaunch_Focused" Margin="10,0,10,5" />
 
-                                    <controls:FormLabel Text="Sự kiện" Grid.Row="2"/>
-                                    <telerikPrimitives:RadCheckBox CheckedColor="{StaticResource NavigationPrimary}" x:Name="checkbox" IsChecked="{Binding IsEvent,Mode=TwoWay}" Grid.Column="1" Grid.Row="2" />
-                                    
-                                    <controls:FormLabel Text="Mã sản phẩm" Grid.Row="3"/>
-                                    <Entry Text="{Binding UnitCode}" Grid.Row="3" Grid.Column="1"/>
-                                    
-                                    <controls:FormLabel Text="Hướng nhìn" Grid.Row="4" VerticalOptions="Start"/>
-                                    <controls:MultipleSelect x:Name="multipleSelectView" 
+                        <StackLayout Margin="10,5" Orientation="Horizontal">
+                            <controls:FormLabel Text="Sự kiện"/>
+                            <telerikPrimitives:RadCheckBox CheckedColor="{StaticResource NavigationPrimary}" x:Name="checkbox" IsChecked="{Binding IsEvent,Mode=TwoWay}" />
+                        </StackLayout>
+
+                        <controls:FormLabel Text="Mã sản phẩm" Margin="10,5,10,0"/>
+                        <Entry Text="{Binding UnitCode}" Placeholder="Mã sản phẩm" Margin="10,0,10,5"/>
+
+                        <controls:FormLabel Text="Hướng nhìn" Margin="10,5,10,0" VerticalOptions="Start"/>
+                        <controls:MultipleSelect x:Name="multipleSelectView" 
                                                              VerticalOptions="Center"
                                                              Placeholder="Chọn View"
                                                              ItemsSource="{Binding BindingContext.ViewOptions,Source={x:Reference rootPage}}"
                                                              SelectedItems="{Binding BindingContext.SelectedViews,Source={x:Reference rootPage}}"
-                                                             Grid.Column="1" 
-                                                             Grid.Row="4" />
+                                                             Margin="10,0,10,5"/>
 
-                                    <controls:FormLabel Text="Hướng" Grid.Row="5" VerticalOptions="Start"/>
-                                    <controls:MultipleSelect x:Name="multipleSelectDirection" 
+                        <controls:FormLabel Text="Hướng" Margin="10,5,10,0" VerticalOptions="Start"/>
+                        <controls:MultipleSelect x:Name="multipleSelectDirection" 
                                                              VerticalOptions="Center"
                                                              Placeholder="Chọn hướng"
                                                              ItemsSource="{Binding BindingContext.DirectionOptions,Source={x:Reference rootPage}}"
                                                              SelectedItems="{Binding BindingContext.SelectedDirections,Source={x:Reference rootPage}}"
-                                                             Grid.Column="1" 
-                                                             Grid.Row="5" />
-                                    
-                                    <controls:FormLabel Text="Tình trạng BĐS" Grid.Row="6" VerticalOptions="Start"/>
-                                    <controls:MultipleSelect x:Name="multipleSelectUnitStatus" 
+                                                             Margin="10,0,10,5"/>
+
+                        <controls:FormLabel Text="Tình trạng BĐS" Margin="10,5,10,0" VerticalOptions="Start"/>
+                        <controls:MultipleSelect x:Name="multipleSelectUnitStatus" 
                                                              VerticalOptions="Center"
                                                              Placeholder="Chọn unit status"
                                                              ItemsSource="{Binding BindingContext.UnitStatusOptions,Source={x:Reference rootPage}}"
                                                              SelectedItems="{Binding BindingContext.SelectedUnitStatus,Source={x:Reference rootPage}}"
-                                                             Grid.Column="1" 
-                                                             Grid.Row="6" />
-                                    
-                                    <controls:FormLabel Text="Diện tích sử dụng (m2)" Grid.Row="7" VerticalOptions="Start"/>
-                                    <Grid Grid.Row="7" Grid.Column="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <controls:EntryNumericFormat NumericText="{Binding minNetArea}" Grid.Column="0" MaxValue="99999" IsNotNegative="true"/>
-                                        <Label Text="-" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"/>
-                                        <controls:EntryNumericFormat NumericText="{Binding maxNetArea}" Grid.Column="2" MaxValue="99999" IsNotNegative="true"/>
-                                    </Grid>
-                                    
-                                    <controls:FormLabel Text="Giá bán (vnđ)" Grid.Row="8" VerticalOptions="Start"/>
-                                    <Grid Grid.Row="8" Grid.Column="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <controls:EntryNumericFormat NumericText="{Binding minPrice}" Grid.Column="0" MaxValue="9999999999999" IsNotNegative="true"/>
-                                        <Label Text="-" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"/>
-                                        <controls:EntryNumericFormat NumericText="{Binding maxPrice}" Grid.Column="2" MaxValue="9999999999999" IsNotNegative="true"/>
-                                    </Grid>
+                                                             Margin="10,0,10,5"/>
 
-                                    <controls:FormLabel Text="Thu gọn" Grid.Row="9" />
-                                    <telerikPrimitives:RadCheckBox CheckedColor="{StaticResource NavigationPrimary}" IsChecked="{Binding IsCollapse,Mode=TwoWay}" Grid.Column="1" Grid.Row="9" />
+                        <controls:FormLabel Text="Diện tích sử dụng (m2)" Margin="10,5,10,0" VerticalOptions="Start"/>
+                        <Grid Margin="10,0,10,5" ColumnDefinitions="Auto,*,Auto,*">
+                            <Label Text="Từ" VerticalTextAlignment="Center" Grid.Column="0"/>
+                            <controls:EntryNumericFormat NumericText="{Binding minNetArea}" Grid.Column="1" MaxValue="99999" IsNotNegative="true" Placeholder="50"/>
+                            <Label Text="Đến" VerticalTextAlignment="Center" Grid.Column="2"/>
+                            <controls:EntryNumericFormat NumericText="{Binding maxNetArea}" Grid.Column="3" MaxValue="99999" IsNotNegative="true" Placeholder="90"/>
+                        </Grid>
 
-                                    <Button Clicked="SearchClicked" BackgroundColor="#eeeeee" TextColor="Black" Text="Tìm kiếm" Grid.Column="1" Grid.Row="10" />
-                                </Grid>
-                            </telerikPrimitives:RadExpander.Content>
-                        </telerikPrimitives:RadExpander>
+                        <controls:FormLabel Text="Giá bán (vnđ)" Margin="10,5,10,0" VerticalOptions="Start"/>
+                        <Grid Margin="10,0,10,5" ColumnDefinitions="Auto,*,Auto,*">
+                            <Label Text="Từ" VerticalTextAlignment="Center" Grid.Column="0"/>
+                            <controls:EntryNumericFormat NumericText="{Binding minPrice}" Grid.Column="1" MaxValue="9999999999999" IsNotNegative="true" Placeholder="1.000.000.000"/>
+                            <Label Text="Đến" VerticalTextAlignment="Center" Grid.Column="2"/>
+                            <controls:EntryNumericFormat NumericText="{Binding maxPrice}" Grid.Column="3" MaxValue="9999999999999" IsNotNegative="true" Placeholder="4.000.000.000"/>
+                        </Grid>
+
+                        <StackLayout Margin="10,5" Orientation="Horizontal">
+                            <controls:FormLabel Text="Thu gọn" />
+                            <telerikPrimitives:RadCheckBox CheckedColor="{StaticResource NavigationPrimary}" IsChecked="{Binding IsCollapse,Mode=TwoWay}"/>
+                        </StackLayout>
+
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" Margin="10">
+                            <Button Grid.Column="0" Text="Làm mới" BackgroundColor="#eeeeee" HeightRequest="40" Padding="10,5" CornerRadius="10" TextColor="Black" Clicked="Refresh_CLicked"/>
+                            <Button Grid.Column="1" Text="Tìm kiếm" BackgroundColor="#eeeeee" HeightRequest="40" Padding="10,5"  CornerRadius="10" TextColor="Black" Clicked="SearchClicked"/>
+                        </Grid>
                     </StackLayout>
                 </ScrollView>
                 <StackLayout x:Name="GroupBtn" IsVisible="{Binding Project,Converter={StaticResource ProjectToVisibleBtn}}" Orientation="Horizontal" VerticalOptions="EndAndExpand">

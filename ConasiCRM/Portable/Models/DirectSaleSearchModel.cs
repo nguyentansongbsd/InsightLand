@@ -22,7 +22,7 @@ namespace ConasiCRM.Portable.Models
         public decimal? maxPrice { get; set; }
 
         public DirectSaleSearchModel(Guid projectId, Guid phasesLanchId, 
-            bool isEvent,bool isCollapse, string view,string UnitCode, ObservableCollection<string> Directions, 
+            bool isEvent,bool isCollapse, string view,string UnitCode, ObservableCollection<string> Directions,
             ObservableCollection<string> Views, ObservableCollection<string> UnitStatuses, 
             decimal? minNetArea, decimal? maxNetArea, decimal? minPrice, decimal? maxPrice)
         {

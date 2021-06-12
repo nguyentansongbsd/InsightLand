@@ -31,29 +31,15 @@
             <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <ScrollView x:Name="mainScrollView">
                     <StackLayout Padding="5">
-                        <!--Người đồng sở hữu-->
-                        <telerikPrimitives:RadExpander x:Name="ExpanderCoOwner" IsExpanded="False" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Style="{StaticResource ExpanderHeadingText}">Người đồng sở hữu</Label>
-                                        <Button x:Name="btnViewCoOwner" Text="Xem" HeightRequest="20" FontSize="Small"  Clicked="ViewCoOwner_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderCoOwner}}" />
-                                        <ImageButton x:Name="btnDeleteCoOwner" Clicked="BtnDeleteCoOwner_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderCoOwner}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>
-                                        <ImageButton x:Name="btnNewCoOwner" Clicked="BtnNewCoOwner_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderCoOwner}}" BackgroundColor="Transparent" Padding="5" Source="plus_black.png" HeightRequest="28" WidthRequest="50" HorizontalOptions="End"/>
+                                        <Label Style="{StaticResource ExpanderHeadingText}">Tổng tiền</Label>
+                                        <Label Text="{Binding Reservation.totalamount,Converter={StaticResource DecimalToVndConverter}}" TextColor="Red" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center"/>
                                     </StackLayout>
                                 </telerikPrimitives:ExpanderHeader>
                             </telerikPrimitives:RadExpander.Header>
-                            <telerikPrimitives:RadExpander.Content>
-                                <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="gridCoOwner" ItemsSource="{Binding CoownerList}">
-                                    <telerikDataGrid:RadDataGrid.Columns>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Mô tả"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="customer"  HeaderText="Tên"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="ReservationName"  HeaderText="Báo giá"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_relationship_format" HeaderText="Mối quan hệ"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo"/>
-                                    </telerikDataGrid:RadDataGrid.Columns>
-                                </bsdGrid:BsdRadDataGrid>
-                            </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
                         <!--Điều kiện bàn giao-->
@@ -174,6 +160,31 @@
                                     </telerikDataControls:RadListView>
                                     <Button Grid.Row="2" Text="Cập nhật chiết khấu" HorizontalOptions="Start" FontSize="15" x:Name="btnUpdateDiscounts" Clicked="BtnUpdateDiscounts_Clicked" IsVisible="False"/>
                                 </Grid>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+
+                        <!--Người đồng sở hữu-->
+                        <telerikPrimitives:RadExpander x:Name="ExpanderCoOwner" IsExpanded="False" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Style="{StaticResource ExpanderHeadingText}">Người đồng sở hữu</Label>
+                                        <Button x:Name="btnViewCoOwner" Text="Xem" HeightRequest="20" FontSize="Small"  Clicked="ViewCoOwner_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderCoOwner}}" />
+                                        <ImageButton x:Name="btnDeleteCoOwner" Clicked="BtnDeleteCoOwner_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderCoOwner}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>
+                                        <ImageButton x:Name="btnNewCoOwner" Clicked="BtnNewCoOwner_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderCoOwner}}" BackgroundColor="Transparent" Padding="5" Source="plus_black.png" HeightRequest="28" WidthRequest="50" HorizontalOptions="End"/>
+                                    </StackLayout>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="gridCoOwner" ItemsSource="{Binding CoownerList}">
+                                    <telerikDataGrid:RadDataGrid.Columns>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Mô tả"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="customer"  HeaderText="Tên"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="ReservationName"  HeaderText="Báo giá"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_relationship_format" HeaderText="Mối quan hệ"/>
+                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo"/>
+                                    </telerikDataGrid:RadDataGrid.Columns>
+                                </bsdGrid:BsdRadDataGrid>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 

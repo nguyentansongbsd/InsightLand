@@ -70,10 +70,7 @@ namespace ConasiCRM.Portable.Views
         private async void OpenUnitPopUp_Tapped(object sender, EventArgs e)
         {
             viewModel.IsBusy = true;
-            var stackLayOut = sender as StackLayout;
-            var tapGes = (TapGestureRecognizer)stackLayOut.GestureRecognizers[0];
-
-            CurrentUnit = tapGes.CommandParameter as Unit;
+            CurrentUnit = (sender as Button).CommandParameter as Unit;
             string action = string.Empty;
             if (CurrentUnit.statuscode == 1 || CurrentUnit.statuscode == 100000006) // preparing (vàng) + reserve(lá cây đậm)
             {
@@ -206,7 +203,15 @@ namespace ConasiCRM.Portable.Views
                 await DisplayAlert("Thông báo", "Chọn Đặt chỗ muốn xem", "Đóng");
                 return;
             }
-            await Navigation.PushAsync(new QueueForm(model.opportunityid));
+            //await Navigation.PushAsync(new QueueForm(model.opportunityid));
+        }
+
+        private async void Unitinfo_Tapped(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            var item = (Unit)((sender as StackLayout).GestureRecognizers[0] as TapGestureRecognizer).CommandParameter;
+            await Navigation.PushAsync(new UnitInfo(item.productid));
+            viewModel.IsBusy = false;
         }
     }
 }

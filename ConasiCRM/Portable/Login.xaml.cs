@@ -2,6 +2,7 @@
 using ConasiCRM.Portable.Config;
 using ConasiCRM.Portable.Helper;
 using ConasiCRM.Portable.Models;
+using ConasiCRM.Portable.Settings;
 using ConasiCRM.Portable.Views;
 using Newtonsoft.Json;
 using System;
@@ -10,7 +11,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
@@ -24,8 +25,18 @@ namespace ConasiCRM.Portable
         public Login()
         {
             InitializeComponent();
-            txtUsername.Text = OrgConfig.Username;
-            txtPassword.Text = OrgConfig.Password;
+            
+            if (UserLogged.IsLogged)
+            {
+                checkboxRememberAcc.IsChecked = true;
+                txtUsername.Text = UserLogged.User;
+                txtPassword.Text = UserLogged.Password;
+            }
+            else
+            {
+                checkboxRememberAcc.IsChecked = false;
+            }
+            
         }
         protected override void OnAppearing()
         {
@@ -37,10 +48,14 @@ namespace ConasiCRM.Portable
             base.OnDisappearing();
             App.Current.On<Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Pan);
         }
+
+       private void IsRemember_Tapped(object sender, EventArgs e)
+        {
+            checkboxRememberAcc.IsChecked = !checkboxRememberAcc.IsChecked;
+        }
+
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            this.activityIndicator.IsRunning = true;
-            this.btnLogin.IsEnabled = false;
             if (txtUsername.Text.Trim() == "")
             {
                 await DisplayAlert("", "Tên đăng nhập không được để trống", "Đóng");
@@ -53,6 +68,7 @@ namespace ConasiCRM.Portable
             }
             try
             {
+                this.Loading.IsVisible = true;
                 var client = BsdHttpClient.Instance();
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://login.microsoftonline.com/common/oauth2/token");
                 var formContent = new FormUrlEncodedContent(new[]
@@ -65,20 +81,36 @@ namespace ConasiCRM.Portable
                     });
                 request.Content = formContent;
                 var response = await client.SendAsync(request);
-                var body = await response.Content.ReadAsStringAsync();
-                GetTokenResponse tokenData = JsonConvert.DeserializeObject<GetTokenResponse>(body);
-                App.Current.Properties["Token"] = tokenData.access_token;
-                //await Navigation.PushAsync(new MainPage());
-                await Navigation.PushAsync(new MasterDetailPage1());
-                //await Navigation.PushAsync(new ReservationForm(Guid.Parse("d1f38d96-2355-e911-a98b-000d3aa00fc2")));
-                Navigation.RemovePage(this);
+                if (response.IsSuccessStatusCode)
+                {
+                    var body = await response.Content.ReadAsStringAsync();
+                    GetTokenResponse tokenData = JsonConvert.DeserializeObject<GetTokenResponse>(body);
+                    if (checkboxRememberAcc.IsChecked)
+                    {
+                        UserLogged.User = txtUsername.Text;
+                        UserLogged.Password = txtPassword.Text;
+                        UserLogged.IsLogged = true;
+                    }
+                    else
+                    {
+                        UserLogged.User = string.Empty;
+                        UserLogged.Password = string.Empty;
+                        UserLogged.IsLogged = false;
+                    }
+                    App.Current.Properties["Token"] = tokenData.access_token;
+                    await Navigation.PushAsync(new MasterDetailPage1());
+                    Navigation.RemovePage(this);
+                }
+                else
+                {
+                    await DisplayAlert("", "Thông tin đăng nhập không đúng. Vui lòng thử lại", "Đóng");
+                }
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Thông báo", "Lỗi kết nối đến Server. \n" + ex.Message, "Đóng");
             }
-            this.btnLogin.IsEnabled = true;
-            this.activityIndicator.IsRunning = false;
+            this.Loading.IsVisible = false;
         }
 
     }

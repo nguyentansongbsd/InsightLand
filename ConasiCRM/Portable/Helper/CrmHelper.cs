@@ -1,5 +1,6 @@
 ﻿using ConasiCRM.Portable.Config;
 using ConasiCRM.Portable.Models;
+using ConasiCRM.Portable.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -259,8 +260,8 @@ namespace ConasiCRM.Portable.Helper
             var formContent = new FormUrlEncodedContent(new[]
                 {
                         new KeyValuePair<string, string>("client_id", "2ad88395-b77d-4561-9441-d0e40824f9bc"),
-                        new KeyValuePair<string, string>("username", OrgConfig.Username),
-                        new KeyValuePair<string, string>("password", OrgConfig.Password),
+                        new KeyValuePair<string, string>("username", UserLogged.User),
+                        new KeyValuePair<string, string>("password", UserLogged.Password),
                         new KeyValuePair<string, string>("grant_type", "password"),
                         new KeyValuePair<string, string>("resource", OrgConfig.SharePointResource)
                     });

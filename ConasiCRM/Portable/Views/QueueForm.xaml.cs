@@ -77,6 +77,7 @@ namespace ConasiCRM.Portable.Views
             viewModel.CurrentLookUpConfig = viewModel.ContactLookUpConfig;
             viewModel.ProcessLookup(nameof(viewModel.ContactLookUpConfig));
         }
+
         public void AccountOpen(object sender, EventArgs e)
         {
 
@@ -206,14 +207,20 @@ namespace ConasiCRM.Portable.Views
         {
             string fetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
               <entity name='opportunity'>
-                   <attribute name='opportunityid' />
-                   <attribute name='bsd_queuenumber' />
                    <attribute name='name' />
-                   <attribute name='statuscode' />
-                   <attribute name='createdon' />
-                   <attribute name='bsd_queuingexpired' />
-                   <attribute name='bsd_queuingfee' />
-                   <attribute name='bsd_collectedqueuingfee' />
+                    <attribute name='statecode' />
+                    <attribute name='customerid' alias='customer_id'/>
+                    <attribute name='emailaddress' />
+                    <attribute name='bsd_queuenumber' />
+                    <attribute name='statuscode' />
+                    <attribute name='bsd_queuingfee' />
+                    <attribute name='bsd_project' alias='project_id' />
+                    <attribute name='bsd_phaselaunch' />
+                    <attribute name='createdon' />
+                    <attribute name='bsd_queuingexpired' />
+                    <attribute name='statuscode' />
+                    <attribute name='opportunityid' />
+                    <order attribute='createdon' descending='true' />
                    <link-entity name='contact' from='contactid' to='parentcontactid' visible='false' link-type='outer' alias='a_7eff24578704e911a98b000d3aa2e890'>
                          <attribute name='contactid' alias='contact_id' />
                          <attribute name='bsd_fullname' alias='contact_name' />
@@ -232,8 +239,8 @@ namespace ConasiCRM.Portable.Views
                    <link-entity name='pricelevel' from='pricelevelid' to='pricelevelid' visible='false' link-type='outer' alias='a_fcff24578704e911a98b000d3aa2e890'>
                         <attribute name='name' alias='pricelist_name' />
                    </link-entity>
-                   <link-entity name='product' from='productid' to='bsd_units' link-type='inner' alias='ai'>
-                          <attribute name='productid' alias='bsd_units_id' />
+                    <link-entity name='product' from='productid' to='bsd_units' visible='false' link-type='outer' alias='a_b088efffb214e911a97f000d3aa04914'>
+                        <attribute name='productid' alias='bsd_units_id' />
                           <attribute name='name' alias='bsd_units_name' />
                           <attribute name='bsd_constructionarea' alias='constructionarea' />
                           <attribute name='bsd_netsaleablearea' alias='netsaleablearea' />
@@ -247,70 +254,72 @@ namespace ConasiCRM.Portable.Views
                           </link-entity>
                     </link-entity>
                     <filter type='and'>
-                        <condition attribute='opportunityid' operator='eq' uitype='opportunity' value='" + QueueId.ToString() + @"' />
+                       <condition attribute='opportunityid' operator='eq' uitype='opportunity' value='"+ QueueId.ToString() +@"' />
                     </filter>
               </entity>
             </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<QueueFormModel>>("opportunities", fetchXml);
             var queueInfo = result.value.FirstOrDefault();
 
-            QueueFormModel queueFormModel = new QueueFormModel();
-            queueFormModel.bsd_queuenumber = queueInfo.bsd_queuenumber;
-            queueFormModel.name = queueInfo.name;
-            queueFormModel.statuscode = queueInfo.statuscode;
-            if (queueInfo.contact_id != Guid.Empty)
+            if (queueInfo != null)
             {
-                viewModel.Customer = new CustomerLookUp()
+                QueueFormModel queueFormModel = new QueueFormModel();
+                queueFormModel.bsd_queuenumber = queueInfo.bsd_queuenumber;
+                queueFormModel.name = queueInfo.name;
+                queueFormModel.statuscode = queueInfo.statuscode;
+                if (queueInfo.contact_id != Guid.Empty)
                 {
-                    Id = queueInfo.contact_id,
-                    Name = queueInfo.contact_name,
-                    Type = 1
-                };
-            }
-            else if (queueInfo.account_id != Guid.Empty)
-            {
-                viewModel.Customer = new CustomerLookUp()
+                    viewModel.Customer = new CustomerLookUp()
+                    {
+                        Id = queueInfo.contact_id,
+                        Name = queueInfo.contact_name,
+                        Type = 1
+                    };
+                }
+                else if (queueInfo.account_id != Guid.Empty)
                 {
-                    Id = queueInfo.account_id,
-                    Name = queueInfo.account_name,
-                    Type = 2
-                };
+                    viewModel.Customer = new CustomerLookUp()
+                    {
+                        Id = queueInfo.account_id,
+                        Name = queueInfo.account_name,
+                        Type = 2
+                    };
+                }
+
+                queueFormModel.createdon = queueInfo.createdon;
+                queueFormModel.bsd_queuingexpired = queueInfo.bsd_queuingexpired;
+
+
+                //queueFormModel.bsd_project_id = queueInfo.bsd_project_id;
+                queueFormModel.bsd_project_name = queueInfo.bsd_project_name;
+
+                //queueFormModel.bsd_phaseslaunch_id = queueInfo.bsd_phaseslaunch_id;
+                queueFormModel.bsd_phaseslaunch_name = queueInfo.bsd_phaseslaunch_name;
+                queueFormModel.bsd_discountlist_id = queueInfo.bsd_discountlist_id; // lấy để đưa qua đặt cọc. 
+
+                //queueFormModel.bsd_block_id = queueInfo.bsd_block_id;
+                queueFormModel.bsd_block_name = queueInfo.bsd_block_name;
+
+                //queueFormModel.bsd_floor_id = queueInfo.bsd_floor_id;
+                queueFormModel.bsd_floor_name = queueInfo.bsd_floor_name;
+
+                queueFormModel.bsd_units_id = queueInfo.bsd_units_id; // lay id de dat coc.
+                queueFormModel.bsd_units_name = queueInfo.bsd_units_name;
+
+                //queueFormModel.pricelist_id = queueInfo.pricelist_id;
+                queueFormModel.pricelist_name = queueInfo.pricelist_name;
+
+                queueFormModel.constructionarea = queueInfo.constructionarea;
+                queueFormModel.netsaleablearea = queueInfo.netsaleablearea;
+                queueFormModel.bsd_queuingfee = queueInfo.bsd_queuingfee;
+                queueFormModel.bsd_collectedqueuingfee = queueInfo.bsd_collectedqueuingfee;// đa nhan tien
+                queueFormModel.landvalue = queueInfo.landvalue;
+                queueFormModel.unit_price = queueInfo.unit_price;
+                viewModel.QueueFormModel = queueFormModel;
+
+                InitBtn();
             }
-
-            queueFormModel.createdon = queueInfo.createdon;
-            queueFormModel.bsd_queuingexpired = queueInfo.bsd_queuingexpired;
-
-
-            //queueFormModel.bsd_project_id = queueInfo.bsd_project_id;
-            queueFormModel.bsd_project_name = queueInfo.bsd_project_name;
-
-            //queueFormModel.bsd_phaseslaunch_id = queueInfo.bsd_phaseslaunch_id;
-            queueFormModel.bsd_phaseslaunch_name = queueInfo.bsd_phaseslaunch_name;
-            queueFormModel.bsd_discountlist_id = queueInfo.bsd_discountlist_id; // lấy để đưa qua đặt cọc. 
-
-            //queueFormModel.bsd_block_id = queueInfo.bsd_block_id;
-            queueFormModel.bsd_block_name = queueInfo.bsd_block_name;
-
-            //queueFormModel.bsd_floor_id = queueInfo.bsd_floor_id;
-            queueFormModel.bsd_floor_name = queueInfo.bsd_floor_name;
-
-            queueFormModel.bsd_units_id = queueInfo.bsd_units_id; // lay id de dat coc.
-            queueFormModel.bsd_units_name = queueInfo.bsd_units_name;
-
-            //queueFormModel.pricelist_id = queueInfo.pricelist_id;
-            queueFormModel.pricelist_name = queueInfo.pricelist_name;
-
-            queueFormModel.constructionarea = queueInfo.constructionarea;
-            queueFormModel.netsaleablearea = queueInfo.netsaleablearea;
-            queueFormModel.bsd_queuingfee = queueInfo.bsd_queuingfee;
-            queueFormModel.bsd_collectedqueuingfee = queueInfo.bsd_collectedqueuingfee;// đa nhan tien
-            queueFormModel.landvalue = queueInfo.landvalue;
-            queueFormModel.unit_price = queueInfo.unit_price;
-            viewModel.QueueFormModel = queueFormModel;
-
-
-            InitBtn();
-
+            
             viewModel.Title = "Thông tin đặt chỗ";
             viewModel.IsBusy = false;
         }
@@ -385,7 +394,7 @@ namespace ConasiCRM.Portable.Views
                 if (res.IsSuccess)
                 {
                     ActionDirectSaleMoble_Result actionDirectSaleMoble_Result = JsonConvert.DeserializeObject<ActionDirectSaleMoble_Result>(res.Content);
-                    await Navigation.PushAsync(new QueueForm(Guid.Parse(actionDirectSaleMoble_Result.ReturnId)));
+                    //await Navigation.PushAsync(new QueueForm(Guid.Parse(actionDirectSaleMoble_Result.ReturnId)));
                     Navigation.RemovePage(this);
                 }
                 else
@@ -447,7 +456,7 @@ namespace ConasiCRM.Portable.Views
                 {
                     url_action = $"/opportunities({this.QueueId})/Microsoft.Dynamics.CRM.bsd_Action_Opportunity_HuyGiuChoCoTien";
                     res = await CrmHelper.PostData(url_action, null);
-                    await Navigation.PushAsync(new QueueForm(this.QueueId));
+                    //await Navigation.PushAsync(new QueueForm(this.QueueId));
                     Navigation.RemovePage(this);
                 }
                 else

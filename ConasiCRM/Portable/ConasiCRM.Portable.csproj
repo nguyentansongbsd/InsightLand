@@ -18,10 +18,11 @@
         <PackageReference Include="SkiaSharp" Version="1.59.3" />
         <PackageReference Include="SkiaSharp.Views.Forms" Version="1.59.3" />
         <PackageReference Include="Xamarin.Forms.Contacts" Version="1.0.5" />
+        <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
     </ItemGroup>
     <ItemGroup>
         <Reference Include="Telerik.XamarinForms.Barcode">
-          <HintPath>..\..\..\Binaries\Portable\Telerik.XamarinForms.Barcode.dll</HintPath>
+          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Barcode.dll</HintPath>
         </Reference>
         <Reference Include="Telerik.XamarinForms.Chart">
           <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Chart.dll</HintPath>
@@ -67,6 +68,11 @@
         <Compile Update="Views\DirectSaleContentView - Copy.xaml.cs">
           <DependentUpon>%(Filename)</DependentUpon>
         </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="Fonts\FontAwesome5BrandsRegular.otf" />
+      <EmbeddedResource Include="Fonts\FontAwesome5Regular.otf" />
+      <EmbeddedResource Include="Fonts\FontAwesome5Solid.otf" />
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Update="Login.xaml">
@@ -141,5 +147,14 @@
       <EmbeddedResource Update="Views\UnitInfo.xaml">
         <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Settings\" />
+      <Folder Include="Fonts\" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="Fonts\FontAwesome5BrandsRegular.otf" />
+      <None Remove="Fonts\FontAwesome5Regular.otf" />
+      <None Remove="Fonts\FontAwesome5Solid.otf" />
     </ItemGroup>
 </Project>

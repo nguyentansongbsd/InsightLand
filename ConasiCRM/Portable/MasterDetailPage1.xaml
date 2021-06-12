@@ -7,7 +7,6 @@
              Title=""
              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
-                  xmlns:activityView="clr-namespace:ConasiCRM.Portable.Views.ActivityView"
              xmlns:views="clr-namespace:ConasiCRM.Portable.Views">
     <MasterDetailPage.Master>
         <ContentPage Title="☰">
@@ -65,11 +64,12 @@
                             <telerikPrimitives:RadExpander.Content>
                                 <StackLayout Padding="10" Spacing="10">
                                     <controls:MenuItemLabel x:Name="DirectSale" Clicked="DirectSale_Clicked" Style="{StaticResource MenuItemStyle}" Text="Bán hàng" />
-                                    <controls:MenuItemLabel x:Name="QueueList" Clicked="QueueList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Đặt chỗ" />
+                                    <controls:MenuItemLabel x:Name="QueueList" Clicked="QueueList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Đặt chỗ và giữ chỗ" />
                                     <controls:MenuItemLabel x:Name="ReservationList" Clicked="ReservationList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Đặt cọc" />
                                     <controls:MenuItemLabel x:Name="EventList" Clicked="EventList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Sự kiện" />
                                     <controls:MenuItemLabel x:Name="PhiMoiGioiList" Clicked="PhiMoiGioiList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Phí môi giới" />
                                     <controls:MenuItemLabel x:Name="TaiLieuKinhDoanHList" Clicked="TaiLieuKinhDoanHList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Tài liệu kinh doanh" />
+                                    <controls:MenuItemLabel x:Name="DanhSachTheoDoiList" Clicked="DanhSachTheoDoiList_Clicked" Style="{StaticResource MenuItemStyle}" Text="Danh sách theo dõi" />
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
@@ -93,7 +93,7 @@
                         <telerikPrimitives:RadExpander IsExpanded="True" BorderColor="Transparent" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource MasterExpanderHeaderStyle}">
-                                    <Label Style="{StaticResource MasterExpanderTextStyle}">Chir tiêu</Label>
+                                    <Label Style="{StaticResource MasterExpanderTextStyle}">Chỉ tiêu</Label>
                                 </telerikPrimitives:ExpanderHeader>
                             </telerikPrimitives:RadExpander.Header>
                             <telerikPrimitives:RadExpander.Content>
@@ -105,6 +105,7 @@
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
+                        <Button Text="Đăng xuất" BorderColor="#1399D5" BorderWidth="1" BackgroundColor="White" HeightRequest="40" TextColor="#1399D5" Clicked="Logout_Clicked"/>
                     </StackLayout>
                 </ScrollView>
             </StackLayout>

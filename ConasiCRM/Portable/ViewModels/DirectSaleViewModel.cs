@@ -22,16 +22,25 @@ namespace ConasiCRM.Portable.ViewModels
         public ObservableCollection<OptionSet> ViewOptions { get; set; }
         public ObservableCollection<OptionSet> UnitStatusOptions { get; set; }
 
+
         public ObservableCollection<string> SelectedDirections { get; set; }
         public ObservableCollection<string> SelectedViews { get; set; }
         public ObservableCollection<string> SelectedUnitStatus { get; set; }
 
-        public string UnitCode { get; set; }
+        private string _unitCode;
+        public string UnitCode { get =>_unitCode; set { _unitCode = value;OnPropertyChanged(nameof(UnitCode)); } }
 
-        public decimal? minNetArea { get; set; }
-        public decimal? maxNetArea { get; set; }
-        public decimal? minPrice { get; set; }
-        public decimal? maxPrice { get; set; }
+        private decimal? _minNetArea;
+        public decimal? minNetArea { get =>_minNetArea; set { _minNetArea = value; OnPropertyChanged(nameof(minNetArea)); } }
+
+        private decimal? _maxNetArea;
+        public decimal? maxNetArea { get => _maxNetArea; set { _maxNetArea = value; OnPropertyChanged(nameof(maxNetArea)); } }
+
+        private decimal? _minPrice;
+        public decimal? minPrice { get => _minPrice; set { _minPrice = value;OnPropertyChanged(nameof(minPrice)); } }
+
+        private decimal? _maxPrice;
+        public decimal? maxPrice { get => _maxPrice; set { _maxPrice = value; OnPropertyChanged(nameof(maxPrice)); } }
 
         private LookUp _project;
         public LookUp Project

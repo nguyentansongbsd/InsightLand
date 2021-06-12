@@ -114,5 +114,24 @@ namespace ConasiCRM.Portable.Views
                 viewModel.ProcessLookup(nameof(viewModel.PhasesLanchConfig), true);
             }
         }
+
+        private async void Refresh_CLicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            await Navigation.PushAsync(new MasterDetailPage1());
+            //viewModel.Project = null;
+            //viewModel.PhasesLanch = null;
+            //viewModel.IsEvent = false;
+            //viewModel.UnitCode = null;
+            //viewModel.SelectedViews = null;
+            //viewModel.SelectedDirections.Clear();
+            //viewModel.SelectedUnitStatus.Clear();
+            //viewModel.minNetArea = null;
+            //viewModel.maxNetArea = null;
+            //viewModel.minPrice = null;
+            //viewModel.maxPrice = null;
+            //viewModel.IsCollapse = false;
+            viewModel.IsBusy = false;
+        }
     }
 }

@@ -85,17 +85,13 @@
                 </Grid>-->
                 <StackLayout>
                     <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OpenUnitPopUp_Tapped" CommandParameter="{Binding Item}" />
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Unitinfo_Tapped" CommandParameter="{Binding Item}"/>
                     </StackLayout.GestureRecognizers>
-                    <Grid BackgroundColor="{Binding Item.item_background}" Margin="2" Padding="10,0,10,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                    <Grid BackgroundColor="{Binding Item.item_background}" ColumnDefinitions="*,*,*,Auto" RowDefinitions="Auto" Margin="2" Padding="10,0,10,0">
                         <Label Text="{Binding Item.name}" Margin="5,10" Grid.Column="0" TextColor="Black" FontAttributes="Bold" FontSize="Default" VerticalTextAlignment="Start" HorizontalTextAlignment="Center"/>
                         <Label Text="{Binding Item.price_format}" Margin="5" Grid.Column="1" TextColor="Black" FontAttributes="Bold" FontSize="Default" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
                         <Label Text="{Binding Item.bsd_netsaleablearea_format}" Margin="5" Grid.Column="2" TextColor="Black" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                        <Button Grid.Column="3" Text="&#xf141;" FontFamily="FontAwesomeSolid" VerticalOptions="Center" HeightRequest="30" WidthRequest="30" Padding="5" FontSize="18" CornerRadius="10" BackgroundColor="LightGray" Clicked="OpenUnitPopUp_Tapped" CommandParameter="{Binding Item}"/>
                     </Grid>
                 </StackLayout>
             </DataTemplate>

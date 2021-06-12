@@ -74,6 +74,11 @@ namespace ConasiCRM.Portable
             IsPresented = false;
         }
 
+        private void DanhSachTheoDoiList_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
         private void PhanHoiList_Clicked(object sender, EventArgs e)
         {
             Detail = new NavigationPage(new ListPhanHoi());
@@ -120,6 +125,11 @@ namespace ConasiCRM.Portable
         {
             Detail = new NavigationPage(new LichLamViec());
             IsPresented = false;
+        }
+
+        private void Logout_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new NavigationPage(new Login());
         }
     }
 }

@@ -18,7 +18,7 @@ namespace ConasiCRM.Portable.Controls
             var titleLabel = new Label()
             {
                 FontSize = 16,
-                TextColor = Color.FromHex("#828181")
+                TextColor = Color.FromHex("#444444")
             };
             titleLabel.SetBinding(Label.TextProperty, new Binding(nameof(Text)));
             this.Children.Add(titleLabel);
