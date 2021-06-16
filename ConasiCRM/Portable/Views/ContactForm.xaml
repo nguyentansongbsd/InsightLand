@@ -37,13 +37,6 @@
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="{Binding singleContact.bsd_haveprotector,Converter={StaticResource BoolToInt}}"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
@@ -141,39 +134,82 @@
                                                  Grid.Column="0" Grid.Row="9">
                                         <Label VerticalOptions="Center" Text="Năm sinh" FontSize="16"/>
                                         <Label HorizontalTextAlignment="End" VerticalOptions="Center" Text="*" TextColor="#fb0000" FontSize="16"/>
-                                    </StackLayout>                                    
+                                    </StackLayout>                                     
                                     <Entry x:Name="Namsinh_txt" Text="{Binding singleContact.bsd_nmsinh}" FontSize="16" 
                                            IsVisible="{Binding singleContact.bsd_loingysinh}" Unfocused="text_yearfocus"
                                            TextChanged="check_year"
                                            Keyboard="Numeric"
                                            Grid.Column="1" Grid.Row="9"/>
+                                    <!--<Entry x:Name="_bsd_topic_value_text" Text="{Binding Lead._bsd_topic_value}" FontSize="16"  Grid.Column="1" Grid.Row="0"/>-->
+                                </Grid>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
 
-                                    <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="10">
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông tin CMND/Hộ chiếu"/>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <Grid BackgroundColor="#ffffff" Padding="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,6*">
+                                    
+                                    <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="0">
                                         <Label VerticalOptions="Center" Text="Số CMND" FontSize="16"/>
                                         <Label HorizontalTextAlignment="End" VerticalOptions="Center" Text="*" TextColor="#fb0000" FontSize="16"/>
                                     </StackLayout>
-                                    <Entry Text="{Binding singleContact.bsd_identitycardnumber}" Keyboard="Numeric" IsEnabled="{Binding optionEntryHasOnlyTerminatedStatus}" FontSize="16"  Grid.Column="1" Grid.Row="10"/>
+                                    <Entry Text="{Binding singleContact.bsd_identitycardnumber}" Keyboard="Numeric" IsEnabled="{Binding optionEntryHasOnlyTerminatedStatus}" FontSize="16"  Grid.Column="1" Grid.Row="0"/>
                                     
-                                    <Label VerticalOptions="Center" Text="Ngày Cấp" FontSize="16" Grid.Column="0" Grid.Row="11"/>
-                                    <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="11">
+                                    <Label VerticalOptions="Center" Text="Ngày Cấp" FontSize="16" Grid.Column="0" Grid.Row="1"/>
+                                    <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
                                         <!--<local:MyDatePicker MinimumDate="01/01/0001" NullableDate="{Binding Lead.new_birthday}" FontSize="16" HorizontalOptions="FillAndExpand"/>-->
                                         <local:MyNewDatePicker x:Name="bsd_dategrant_picker" NullableDate="{Binding singleContact.bsd_dategrant}" HorizontalOptions="FillAndExpand"/>
                                         <ImageButton x:Name="clear_dategrant_picker" IsVisible="{Binding singleContact.bsd_dategrant, Converter={StaticResource NotNullToBool}}" Clicked="Clear_dategrant_picker_Clicked" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
                                     </StackLayout>
                                     
-                                    <Label VerticalOptions="Center" Text="Nơi Cấp" FontSize="16" Grid.Column="0" Grid.Row="12"/>
-                                    <Entry Text="{Binding singleContact.bsd_placeofissue}" FontSize="16"  Grid.Column="1" Grid.Row="12"/>
+                                    <Label VerticalOptions="Center" Text="Nơi Cấp" FontSize="16" Grid.Column="0" Grid.Row="2"/>
+                                    <Entry Text="{Binding singleContact.bsd_placeofissue}" FontSize="16"  Grid.Column="1" Grid.Row="2"/>
                                     
-                                    <Label VerticalOptions="Center" Text="Hình chụp CMND" FontSize="16" Grid.Column="0" Grid.Row="13"/>
-                                    <Grid Grid.Row="14" Grid.ColumnSpan="2" Grid.Column="0" ColumnSpacing="5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        
+                                    <Label VerticalOptions="Center" Text="Số Hộ Chiếu" FontSize="16" Grid.Column="0" Grid.Row="3"/>
+                                    <Entry Text="{Binding singleContact.bsd_passport}" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
+                                    
+                                    <Label VerticalOptions="Center" Text="Ngày Cấp hộ Chiếu" FontSize="16" Grid.Column="0" Grid.Row="4"/>
+                                    <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="4">
+                                        <!--<local:MyDatePicker MinimumDate="01/01/0001" NullableDate="{Binding Lead.new_birthday}" FontSize="16" HorizontalOptions="FillAndExpand"/>-->
+                                        <local:MyNewDatePicker x:Name="bsd_issuedonpassport_picker" NullableDate="{Binding singleContact.bsd_issuedonpassport}" HorizontalOptions="FillAndExpand"/>
+                                        <ImageButton x:Name="clear_issuedonpassport_picker" IsVisible="{Binding singleContact.bsd_issuedonpassport, Converter={StaticResource NotNullToBool}}" Clicked="Clear_issuedonpassport_picker_Clicked" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
+                                    </StackLayout>
+                                    
+                                    <Label VerticalOptions="Center" Text="Nơi Cấp Hộ Chiếu" FontSize="16" Grid.Column="0" Grid.Row="5"/>
+                                    <Entry Text="{Binding singleContact.bsd_placeofissuepassport}" FontSize="16"  Grid.Column="1" Grid.Row="5"/>
+
+                                    <Label VerticalOptions="Center" Text="Số thẻ căn cước" FontSize="16" Grid.Column="0" Grid.Row="6"/>
+                                    <Entry Text="{Binding singleContact.bsd_idcard}" Keyboard="Numeric" FontSize="16"  Grid.Column="1" Grid.Row="6"/>
+
+                                    <Label VerticalOptions="Center" Text="Ngày Cấp" FontSize="16" Grid.Column="0" Grid.Row="7"/>
+                                    <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="7">
+                                        <!--<local:MyDatePicker MinimumDate="01/01/0001" NullableDate="{Binding Lead.new_birthday}" FontSize="16" HorizontalOptions="FillAndExpand"/>-->
+                                        <local:MyNewDatePicker x:Name="bsd_issuedateidcard_picker" NullableDate="{Binding singleContact.bsd_issuedateidcard}" HorizontalOptions="FillAndExpand"/>
+                                        <ImageButton x:Name="clear_issuedateidcard_picker" IsVisible="{Binding singleContact.bsd_issuedateidcard, Converter={StaticResource NotNullToBool}}" Clicked="Clear_issuedateidcard_picker_Clicked" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
+                                    </StackLayout>
+
+                                    <Label VerticalOptions="Center" Text="Nơi Cấp" FontSize="16" Grid.Column="0" Grid.Row="8"/>
+                                    <Entry Text="{Binding singleContact._bsd_placeofissueidcar}" FontSize="16"  Grid.Column="1" Grid.Row="8"/>
+
+                                </Grid>
+                            </telerikPrimitives:RadExpander.Content>
+                        </telerikPrimitives:RadExpander>
+
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
+                            <telerikPrimitives:RadExpander.Header>
+                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                    <Label Style="{StaticResource ExpanderHeadingText}" Text="Hình chụp CMND"/>
+                                </telerikPrimitives:ExpanderHeader>
+                            </telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:RadExpander.Content>
+                                <Grid BackgroundColor="#ffffff" Padding="10" RowDefinitions="Auto,*">
+                                    <Label Grid.Row="0" VerticalOptions="Center" Text="Hình chụp CMND" FontSize="16" />
+                                    <Grid Grid.Row="1" ColumnDefinitions="*,*">
                                         <telerikPrimitives:RadBorder x:Name="matTruocCMND_field" BorderThickness="2" BorderColor="#cecece" CornerRadius="5" Grid.Row="0" Grid.Column="0">
                                             <telerikPrimitives:RadBorder.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="MatTruocCMND_Tapped"/>
@@ -192,6 +228,7 @@
                                                        IsVisible="{Binding singleContact.bsd_mattruoccmnd, Converter={StaticResource NotNullToBool}}"/>
                                             </AbsoluteLayout>
                                         </telerikPrimitives:RadBorder>
+
                                         <telerikPrimitives:RadBorder x:Name="matSauCMND_field" BorderThickness="2" BorderColor="#cecece" CornerRadius="5" Grid.Row="0" Grid.Column="1">
                                             <telerikPrimitives:RadBorder.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="MatSauCMND_Tapped"/>
@@ -211,39 +248,11 @@
                                             </AbsoluteLayout>
                                         </telerikPrimitives:RadBorder>
                                     </Grid>
-                                    
-                                    <Label VerticalOptions="Center" Text="Số Hộ Chiếu" FontSize="16" Grid.Column="0" Grid.Row="15"/>
-                                    <Entry Text="{Binding singleContact.bsd_passport}" FontSize="16"  Grid.Column="1" Grid.Row="15"/>
-                                    
-                                    <Label VerticalOptions="Center" Text="Ngày Cấp hộ Chiếu" FontSize="16" Grid.Column="0" Grid.Row="16"/>
-                                    <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="16">
-                                        <!--<local:MyDatePicker MinimumDate="01/01/0001" NullableDate="{Binding Lead.new_birthday}" FontSize="16" HorizontalOptions="FillAndExpand"/>-->
-                                        <local:MyNewDatePicker x:Name="bsd_issuedonpassport_picker" NullableDate="{Binding singleContact.bsd_issuedonpassport}" HorizontalOptions="FillAndExpand"/>
-                                        <ImageButton x:Name="clear_issuedonpassport_picker" IsVisible="{Binding singleContact.bsd_issuedonpassport, Converter={StaticResource NotNullToBool}}" Clicked="Clear_issuedonpassport_picker_Clicked" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
-                                    </StackLayout>
-                                    
-                                    <Label VerticalOptions="Center" Text="Nơi Cấp Hộ Chiếu" FontSize="16" Grid.Column="0" Grid.Row="17"/>
-                                    <Entry Text="{Binding singleContact.bsd_placeofissuepassport}" FontSize="16"  Grid.Column="1" Grid.Row="17"/>
-
-                                    <Label VerticalOptions="Center" Text="Số thẻ căn cước" FontSize="16" Grid.Column="0" Grid.Row="18"/>
-                                    <Entry Text="{Binding singleContact.bsd_idcard}" Keyboard="Numeric" FontSize="16"  Grid.Column="1" Grid.Row="18"/>
-
-                                    <Label VerticalOptions="Center" Text="Ngày Cấp" FontSize="16" Grid.Column="0" Grid.Row="19"/>
-                                    <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="19">
-                                        <!--<local:MyDatePicker MinimumDate="01/01/0001" NullableDate="{Binding Lead.new_birthday}" FontSize="16" HorizontalOptions="FillAndExpand"/>-->
-                                        <local:MyNewDatePicker x:Name="bsd_issuedateidcard_picker" NullableDate="{Binding singleContact.bsd_issuedateidcard}" HorizontalOptions="FillAndExpand"/>
-                                        <ImageButton x:Name="clear_issuedateidcard_picker" IsVisible="{Binding singleContact.bsd_issuedateidcard, Converter={StaticResource NotNullToBool}}" Clicked="Clear_issuedateidcard_picker_Clicked" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
-                                    </StackLayout>
-
-                                    <Label VerticalOptions="Center" Text="Nơi Cấp" FontSize="16" Grid.Column="0" Grid.Row="20"/>
-                                    <Entry Text="{Binding singleContact._bsd_placeofissueidcar}" FontSize="16"  Grid.Column="1" Grid.Row="20"/>
-
-                                    <!--<Entry x:Name="_bsd_topic_value_text" Text="{Binding Lead._bsd_topic_value}" FontSize="16"  Grid.Column="1" Grid.Row="0"/>-->
                                 </Grid>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
                         
-                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Mở Rộng"/>
@@ -320,7 +329,7 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
                         
-                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Nhu Cầu Và Tiêu Chí"/>
@@ -434,7 +443,7 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
                         
-                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Phong Thuỷ"/>
@@ -477,7 +486,7 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
                         
-                        <telerikPrimitives:RadExpander x:Name="layout_danhsachdatcho" IsExpanded="True" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander x:Name="layout_danhsachdatcho" IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Danh Sách Đặt Chỗ"/>
@@ -504,7 +513,7 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
                         
-                        <telerikPrimitives:RadExpander x:Name="layout_danhsachdatcoc" IsExpanded="True" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander x:Name="layout_danhsachdatcoc" IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Danh Sách Đặt Cọc"/>
@@ -531,7 +540,7 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
                         
-                        <telerikPrimitives:RadExpander x:Name="layout_danhsachhopdong" IsExpanded="True" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander x:Name="layout_danhsachhopdong" IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Danh Sách Hợp Đồng"/>
@@ -559,7 +568,7 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
                         
-                        <telerikPrimitives:RadExpander x:Name="layout_chamsockhachhang" IsExpanded="True" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander x:Name="layout_chamsockhachhang" IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Chăm Sóc Khách Hàng"/>
@@ -586,7 +595,7 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
-                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander" x:Name="label_du_an_quan_tam">
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander" x:Name="label_du_an_quan_tam">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <StackLayout Orientation="Horizontal">
