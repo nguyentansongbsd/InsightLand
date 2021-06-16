@@ -130,6 +130,6 @@ namespace ConasiCRM.Portable
         private void Logout_Clicked(object sender, EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new Login());
-        }
+        }      
     }
 }

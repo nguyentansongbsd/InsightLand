@@ -21,44 +21,6 @@
         <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
     </ItemGroup>
     <ItemGroup>
-        <Reference Include="Telerik.XamarinForms.Barcode">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Barcode.dll</HintPath>
-        </Reference>
-        <Reference Include="Telerik.XamarinForms.Chart">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Chart.dll</HintPath>
-        </Reference>
-        <Reference Include="Telerik.XamarinForms.Common">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Common.dll</HintPath>
-        </Reference>
-        <Reference Include="Telerik.XamarinForms.ConversationalUI">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.ConversationalUI.dll</HintPath>
-        </Reference>
-        <Reference Include="Telerik.XamarinForms.DataControls">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.DataControls.dll</HintPath>
-        </Reference>
-        <Reference Include="Telerik.XamarinForms.DataGrid">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.DataGrid.dll</HintPath>
-        </Reference>
-        <Reference Include="Telerik.XamarinForms.DataVisualization">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.DataVisualization.dll</HintPath>
-        </Reference>
-        <Reference Include="Telerik.XamarinForms.Input">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Input.dll</HintPath>
-        </Reference>
-        <Reference Include="Telerik.XamarinForms.PdfViewer">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.PdfViewer.dll</HintPath>
-        </Reference>
-        <Reference Include="Telerik.XamarinForms.Primitives">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Primitives.dll</HintPath>
-        </Reference>
-        <Reference Include="Telerik.XamarinForms.SkiaSharp">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.SkiaSharp.dll</HintPath>
-        </Reference>
-        <Reference Include="Telerik.Zip">
-          <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Zip.dll</HintPath>
-        </Reference>
-    </ItemGroup>
-    <ItemGroup>
         <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
             <DependentUpon>*.xaml</DependentUpon>
         </Compile>
@@ -106,6 +68,9 @@
         <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       </EmbeddedResource>
       <EmbeddedResource Update="Views\DirectSaleDetail.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\FollowDetailPage.xaml">
         <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       </EmbeddedResource>
       <EmbeddedResource Update="Views\LeadForm.xaml">
@@ -156,5 +121,52 @@
       <None Remove="Fonts\FontAwesome5BrandsRegular.otf" />
       <None Remove="Fonts\FontAwesome5Regular.otf" />
       <None Remove="Fonts\FontAwesome5Solid.otf" />
+    </ItemGroup>
+    <ItemGroup>
+      <Reference Include="Telerik.Documents.Core">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Documents.Core.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.Documents.Fixed">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Documents.Fixed.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.Documents.SpreadsheetStreaming">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Documents.SpreadsheetStreaming.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.XamarinForms.Barcode">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Barcode.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.XamarinForms.Chart">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Chart.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.XamarinForms.Common">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Common.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.XamarinForms.ConversationalUI">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.ConversationalUI.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.XamarinForms.DataControls">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.DataControls.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.XamarinForms.DataGrid">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.DataGrid.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.XamarinForms.DataVisualization">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.DataVisualization.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.XamarinForms.Input">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Input.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.XamarinForms.PdfViewer">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.PdfViewer.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.XamarinForms.Primitives">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Primitives.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.XamarinForms.SkiaSharp">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.SkiaSharp.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.Zip">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Zip.dll</HintPath>
+      </Reference>
     </ItemGroup>
 </Project>
