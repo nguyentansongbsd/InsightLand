@@ -108,19 +108,7 @@ namespace ConasiCRM.Portable
         {
             Detail = new NavigationPage(new HoatDongList());
             IsPresented = false;
-        }
-
-        private void LichSuCuocGoi_Clicked(object sender, EventArgs e)
-        {
-            Detail = new NavigationPage(new LichSuCuocGoi());
-            IsPresented = false;
-        }
-
-        private void LichSuTinNhan_Clicked(object sender, EventArgs e)
-        {
-            Detail = new NavigationPage(new LichSuTinNhan());
-            IsPresented = false;
-        }
+        }      
 
         private void LichLamViec_Clicked(object sender, EventArgs e)
         {
@@ -131,6 +119,6 @@ namespace ConasiCRM.Portable
         private void Logout_Clicked(object sender, EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new Login());
-        }
+        }      
     }
 }

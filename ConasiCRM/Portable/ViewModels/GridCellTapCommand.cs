@@ -24,17 +24,12 @@ namespace ConasiCRM.Portable.ViewModels
         }
         public override void Execute(object parameter)
         {
-
-
-
             var context = parameter as DataGridCellInfo;
             T model = (T)context.Item;
             //string idAttrName = contact.GetType().Name.ToLower() + "id";
             PropertyInfo myPropInfo = typeof(T).GetProperty(_idAttrName);
             object val = myPropInfo.GetValue(model, null);
             TView view = (TView)Activator.CreateInstance(typeof(TView), val);
-
-
             if (App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 1].GetType() != view.GetType())
             {
                 Application.Current.MainPage.Navigation.PushAsync(view);

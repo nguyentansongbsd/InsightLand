@@ -85,8 +85,6 @@
                                     <controls:MenuItemLabel x:Name="LichLamViec" Clicked="LichLamViec_Clicked" Style="{StaticResource MenuItemStyle}" Text="Lịch làm việc" />
                                     <controls:MenuItemLabel Style="{StaticResource MenuItemStyle}" Text="Thông báo" />
                                     <controls:MenuItemLabel x:Name="HoatDong" Clicked="HoatDong_Clicked" Style="{StaticResource MenuItemStyle}" Text="Hoạt động" />
-                                    <controls:MenuItemLabel x:Name="LichSuCuocGoi" Clicked="LichSuCuocGoi_Clicked" Style="{StaticResource MenuItemStyle}" Text="Thêm lịch sử cuộc gọi" />
-                                    <controls:MenuItemLabel x:Name="LichSuTinNhan" Clicked="LichSuTinNhan_Clicked" Style="{StaticResource MenuItemStyle}" Text="Thêm lịch sử tin nhắn" />
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>

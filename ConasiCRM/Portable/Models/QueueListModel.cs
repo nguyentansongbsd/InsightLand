@@ -68,6 +68,8 @@ namespace ConasiCRM.Portable.Models
         {
             get { return StringHelper.DateFormat(createdon); }
         }
+
+        public string telephone { get; set; }
         public QueueListModel()
         {
             this.unit_name = " ";
