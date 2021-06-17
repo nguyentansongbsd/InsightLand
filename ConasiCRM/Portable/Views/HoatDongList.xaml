@@ -5,9 +5,21 @@
              xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
              x:Class="ConasiCRM.Portable.Views.HoatDongList">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="MeetingMenu" Order="Default" Clicked="MeetingMenu_Clicked"  Icon="icon_meeting.png" Priority="0" />
-        <ToolbarItem Name="PhoneMenu" Order="Default" Clicked="PhoneMenu_Clicked" Icon="icon_phone.png" Priority="0" />
-        <ToolbarItem Name="TaskMenu" Order="Default" Clicked="NewTaskMenu_Clicked" Icon="icon_task.png" Priority="0" />
+        <ToolbarItem Name="MeetingMenu" Order="Default" Clicked="MeetingMenu_Clicked" Priority="0">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="FontAwesomeSolid" Color="White" Glyph="&#xf073;" Size="Large"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        <ToolbarItem Name="PhoneMenu" Order="Default" Clicked="PhoneMenu_Clicked" Priority="0">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="FontAwesomeSolid" Color="White" Glyph="&#xf095;" Size="Large"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        <ToolbarItem Name="TaskMenu" Order="Default" Clicked="NewTaskMenu_Clicked" Priority="0">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="FontAwesomeSolid" Color="White" Glyph="&#xf0ae;" Size="Large"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid Padding="5">

@@ -39,7 +39,7 @@ namespace ConasiCRM.Portable.Views
                 viewModel.RefreshCommand.Execute(null);
             };
             service = new CRMService<QueueListModel>();
-            dataGrid.Commands.Add(new GridCellTapCommand<QueueListModel, QueueForm>("opportunityid"));
+            dataGrid.Commands.Add(new GridCellQueueListTapCommand());
             dataGrid.LoadOnDemand += async (sender, e) =>
             {
                 viewModel.Page += 1;
@@ -71,10 +71,11 @@ namespace ConasiCRM.Portable.Views
                     <attribute name='createdon' />
                     <attribute name='bsd_queuingexpired' />
                     <attribute name='statuscode' />
-                    <attribute name='opportunityid' />
-                    <order attribute='createdon' descending='true' />
+                    <attribute name='opportunityid' />                    
+                    <order attribute='createdon' descending='true' />                    
                     <link-entity name='account' from='accountid' to='customerid' visible='false' link-type='outer' alias='a'>
                       <attribute name='bsd_name' alias='account_name' />
+                      <attribute name='telephone1' alias='telephone' />
                     </link-entity>
                     <link-entity name='contact' from='contactid' to='customerid' visible='false' link-type='outer' alias='b'>
                       <attribute name='bsd_fullname'  alias='contact_name'/>

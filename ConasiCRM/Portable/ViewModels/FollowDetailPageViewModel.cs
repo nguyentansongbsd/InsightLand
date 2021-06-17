@@ -37,7 +37,7 @@ namespace ConasiCRM.Portable.ViewModels
                                 <attribute name='bsd_followuplistid' />
                                 <order attribute='createdon' descending='true' /> 
                                 <filter type='and'>
-                                  <condition attribute='bsd_followuplistid' operator='eq' value='" + id + @"'/> (50d6fae1-211f-eb11-a813-000d3a82fbcb)
+                                  <condition attribute='bsd_followuplistid' operator='eq' value='" + id + @"'/>
                                 </filter>
                                 <link-entity name='quote' from='quoteid' to='bsd_reservation' visible='false' link-type='outer' alias='a_9fe1c29b064be61180ea3863bb367d40'>
                                   <attribute name='customerid' alias='customerid_quote'/>
