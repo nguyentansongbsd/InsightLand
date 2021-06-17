@@ -76,7 +76,8 @@ namespace ConasiCRM.Portable
 
         private void DanhSachTheoDoiList_Clicked(object sender, EventArgs e)
         {
-
+            Detail = new NavigationPage(new FollowUpListPage());
+            IsPresented = false;
         }
 
         private void PhanHoiList_Clicked(object sender, EventArgs e)

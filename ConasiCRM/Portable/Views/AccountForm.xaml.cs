@@ -115,6 +115,16 @@ namespace ConasiCRM.Portable.Views
             //    primarycontactid_default.IsVisible = false;
             //}
 
+            if (!string.IsNullOrWhiteSpace(viewModel.singleAccount.bsd_businesstypevalue))
+            {
+                var businesstype = viewModel.singleAccount.bsd_businesstypevalue.Split(',').ToList();
+
+                foreach (var item in businesstype)
+                {
+                    viewModel.SelectedLoaiHinh.Add(item);
+                }
+            };
+
             if (viewModel.singleAccount.bsd_localization != null) { viewModel.getLocalization(viewModel.singleAccount.bsd_localization); }
 
             if (viewModel.singleAccount.bsd_customergroup != null) { viewModel.getCustomergroup(viewModel.singleAccount.bsd_customergroup); }
@@ -631,12 +641,14 @@ namespace ConasiCRM.Portable.Views
         private async Task<String> checkData()
         {
             var tmp = new List<string>();
-            if (viewModel.singleAccount.bsd_businesstype_customer == true) { tmp.Add("100000000"); }
-            if (viewModel.singleAccount.bsd_businesstype_partner == true) { tmp.Add("100000001"); }
-            if (viewModel.singleAccount.bsd_businesstype_saleagents == true) { tmp.Add("100000002"); }
-            if (viewModel.singleAccount.bsd_businesstype_deverloper == true) { tmp.Add("100000003"); }
+            //if (viewModel.singleAccount.bsd_businesstype_customer == true) { tmp.Add("100000000"); }
+            //if (viewModel.singleAccount.bsd_businesstype_partner == true) { tmp.Add("100000001"); }
+            //if (viewModel.singleAccount.bsd_businesstype_saleagents == true) { tmp.Add("100000002"); }
+            //if (viewModel.singleAccount.bsd_businesstype_deverloper == true) { tmp.Add("100000003"); }
 
-            var bsd_businesstype = string.Join(", ", tmp);
+            //var a = viewModel.SelectedLoaiHinh;
+
+            var bsd_businesstype = string.Join(", ", viewModel.SelectedLoaiHinh);
             if (viewModel.PrimaryContact != null)
             {
                 viewModel.singleAccount._primarycontactid_value = viewModel.PrimaryContact.Id.ToString();
@@ -796,13 +808,13 @@ namespace ConasiCRM.Portable.Views
 
         private async Task<object> getContent(AccountFormViewModel account)
         {
-            var tmp = new List<string>();
-            if (viewModel.singleAccount.bsd_businesstype_customer == true) { tmp.Add("100000000"); }
-            if (viewModel.singleAccount.bsd_businesstype_partner == true) { tmp.Add("100000001"); }
-            if (viewModel.singleAccount.bsd_businesstype_saleagents == true) { tmp.Add("100000002"); }
-            if (viewModel.singleAccount.bsd_businesstype_deverloper == true) { tmp.Add("100000003"); }
+            //var tmp = new List<string>();
+            //if (viewModel.singleAccount.bsd_businesstype_customer == true) { tmp.Add("100000000"); }
+            //if (viewModel.singleAccount.bsd_businesstype_partner == true) { tmp.Add("100000001"); }
+            //if (viewModel.singleAccount.bsd_businesstype_saleagents == true) { tmp.Add("100000002"); }
+            //if (viewModel.singleAccount.bsd_businesstype_deverloper == true) { tmp.Add("100000003"); }
 
-            viewModel.singleAccount.bsd_businesstypevalue = string.Join(", ", tmp);
+            viewModel.singleAccount.bsd_businesstypevalue = string.Join(", ", viewModel.SelectedLoaiHinh);
 
             IDictionary<string, object> data = new Dictionary<string, object>();
             data["accountid"] = account.singleAccount.accountid.ToString();

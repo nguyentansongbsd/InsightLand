@@ -30,6 +30,9 @@ namespace ConasiCRM.Portable.ViewModels
         //public Account Account { get { return _Account; } set { _Account = value; OnPropertyChanged(nameof(Account)); } }
         //private Account _Account;
 
+        public ObservableCollection<OptionSet> LoaiHinhOptions { get; set; }
+        public ObservableCollection<string> SelectedLoaiHinh { get; set; }
+
         private AccountFormModel _singleAccount;
         public AccountFormModel singleAccount { get => _singleAccount; set { _singleAccount = value; OnPropertyChanged(nameof(singleAccount)); } }
 
@@ -148,6 +151,8 @@ namespace ConasiCRM.Portable.ViewModels
         public ObservableCollection<MandatorySecondaryModel> list_MandatorySecondary { get; set; }
         public AccountFormViewModel()
         {
+            SelectedLoaiHinh = new ObservableCollection<string>();
+
             list_lookup_primarycontactid = new ObservableCollection<ContactMandatoryPrimary>();
             list_lookup_Country = new ObservableCollection<ListCountry>();
             list_lookup_Province = new ObservableCollection<ListProvince>();
@@ -172,6 +177,14 @@ namespace ConasiCRM.Portable.ViewModels
             pageLookup_district = 1;
             morelookup_district = true;
             optionEntryHasOnlyTerminatedStatus = true;
+
+            LoaiHinhOptions = new ObservableCollection<OptionSet>()
+            {
+                new OptionSet("100000000","Khách hàng"),
+                new OptionSet("100000001","Đối tác"),
+                new OptionSet("100000002","Đại lý"),
+                new OptionSet("100000003","Chủ đầu tư")
+            };
 
             BusinessTypeOptionList = new ObservableCollection<OptionSet>();
             BusinessTypeOptionList.Add(new OptionSet("100000000", "Customer"));

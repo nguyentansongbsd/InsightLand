@@ -33,7 +33,7 @@ namespace ConasiCRM.Portable.Controls
         public static readonly BindableProperty StackListProperty = BindableProperty.Create(nameof(StackList), typeof(ObservableCollection<StackLayout>), typeof(MultipleSelect), null, BindingMode.TwoWay);
         public ObservableCollection<StackLayout> StackList { get => (ObservableCollection<StackLayout>)GetValue(SelectedItemsProperty); set => SetValue(SelectedItemsProperty, value); }
 
-        public ListView listView;
+        //public ListView listView;
 
         //public event EventHandler<OnCloseEventArgs> OnClose;
 
