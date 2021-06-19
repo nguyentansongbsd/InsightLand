@@ -22,6 +22,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AccountForm : ContentPage
     {
+        public Action<bool> CheckSingleAccount;
         private Guid AccountId;
         private AccountFormViewModel viewModel;
         public ICRMService<Account> accountService;
@@ -204,6 +205,12 @@ namespace ConasiCRM.Portable.Views
                     viewModel.list_MandatorySecondary.Add(new MandatorySecondaryModel());
                 }
             }
+
+            if (viewModel.singleAccount != null)
+                CheckSingleAccount(true);
+            else
+                CheckSingleAccount(false);
+
             viewModel.IsBusy = false;
         }
 

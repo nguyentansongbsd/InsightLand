@@ -443,11 +443,7 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
                         
-<<<<<<< HEAD
                         <telerikPrimitives:RadExpander x:Name="selectionPhongThuy" IsVisible="false" IsExpanded="True" AutomationId="masterCardExpander">
-=======
-                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
->>>>>>> 148527e10871db3eb90c7eb7627ab75bde482478
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Phong Thuỷ"/>

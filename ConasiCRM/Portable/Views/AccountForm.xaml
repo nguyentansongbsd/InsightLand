@@ -534,6 +534,7 @@
                     HorizontalOptions="FillAndExpand"/>
               </Grid>-->
             </StackLayout>
+            
             <controls:ModalContentView x:Name="PrimaryContactLoopkup" />
             <!--Popup ListView Mandatory Primary-->
             <!--<ContentView x:Name="popup_list_viewMandatory_primary"
