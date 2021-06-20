@@ -14,6 +14,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LeadForm : ContentPage
     {
+        public Action<bool> CheckSingleLead;
         LeadFormViewModel viewModel;
         //ProjectViewModel viewModelProject;
 
@@ -58,7 +59,7 @@ namespace ConasiCRM.Portable.Views
 
             if(leadid != null)
             {
-                await viewModel.LoadOneLead(leadid);
+                await viewModel.LoadOneLead(leadid);                
                 await viewModel.Load_NhuCauVeDiaDiem(leadid);
                 await viewModel.dudiemdanhgia();
                 await viewModel.Load_DanhSachDuAn(leadid);
@@ -81,15 +82,13 @@ namespace ConasiCRM.Portable.Views
                         viewModel.list_Duanquantam.Add(new ProjectList());
                     }
                 }
-            }
-            else
-            {
-
-            }
-
+                if (viewModel.singleLead != null)
+                    CheckSingleLead(true);
+                else
+                    CheckSingleLead(false);
+            }                       
             await viewModel.LoadLeadsRating();
-
-            this.render(leadid);
+            this.render(leadid);               
             viewModel.IsBusy = false;
         }
 

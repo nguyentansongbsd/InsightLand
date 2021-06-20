@@ -165,7 +165,6 @@
                             <telerikPrimitives:RadExpander.Content>
                                 <StackLayout BackgroundColor="#cecece" Padding=".8">
                                     <Grid BackgroundColor="#ffffff" Padding="10" ColumnDefinitions="4*,6*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
-
                                         <Label VerticalOptions="Center" Text="Mô tả" FontSize="16" Grid.Column="0" Grid.Row="0"/>
                                         <telerikPrimitives:RadBorder BorderColor="#e5e5e5" CornerRadius="5" Grid.Column="1" Grid.Row="0">
                                             <Editor x:Name="description_text" Text="{Binding singleLead.description}" FontSize="16"/>
@@ -213,7 +212,7 @@
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
-
+                      
                         <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">

@@ -25,6 +25,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ContactForm : ContentPage
     {
+        public Action<bool> CheckSingleContact;
         ContactFormViewModel viewModel;
         LeadFormViewModel viewModel_lead;
 
@@ -135,12 +136,12 @@ namespace ConasiCRM.Portable.Views
                 }
 
                 await viewModel.GetImageCMND();
-            }
 
-            else
-            {
-
-            }
+                if (viewModel.singleContact != null)
+                    CheckSingleContact(true);
+                else
+                    CheckSingleContact(false);
+            }            
             this.render(contactId);
             viewModel.IsBusy = false;
         }
@@ -152,6 +153,7 @@ namespace ConasiCRM.Portable.Views
                 this.Title = "Cập Nhật Khách Hàng Cá Nhân";
                 btn_save_contact.Text = "Cập Nhật";
                 btn_save_contact.Clicked += UpdateContact_Clicked;
+                selectionPhongThuy.IsVisible = true;
                 label_du_an_quan_tam.IsVisible = true;
 
                 //datagrid_danhsachdatcho.SetBinding(RadDataGrid.ItemsSourceProperty, new Binding("list_danhsachdatcho", source: viewModel));
@@ -174,6 +176,7 @@ namespace ConasiCRM.Portable.Views
             {
                 this.Title = "Tạo Mới Khách Hàng Cá Nhân";
                 btn_save_contact.Text = "Tạo Mới";
+                selectionPhongThuy.IsVisible = false;
                 label_du_an_quan_tam.IsVisible = false;
                 btn_save_contact.Clicked += AddContact_Clicked;
 
