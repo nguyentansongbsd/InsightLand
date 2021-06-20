@@ -22,6 +22,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AccountForm : ContentPage
     {
+        public Action<bool> CheckSingleAccount;
         private Guid AccountId;
         private AccountFormViewModel viewModel;
         public ICRMService<Account> accountService;
@@ -36,15 +37,13 @@ namespace ConasiCRM.Portable.Views
         public AccountForm()
         {
             InitializeComponent();
-            AccountId = Guid.Empty;
-            
+            AccountId = Guid.Empty;           
             Init();
         }
         public AccountForm(Guid accountId)
         {
             InitializeComponent();
-            AccountId = accountId;
-            
+            AccountId = accountId;           
             Init();
         }
 
@@ -206,6 +205,12 @@ namespace ConasiCRM.Portable.Views
                     viewModel.list_MandatorySecondary.Add(new MandatorySecondaryModel());
                 }
             }
+
+            if (viewModel.singleAccount != null)
+                CheckSingleAccount(true);
+            else
+                CheckSingleAccount(false);
+
             viewModel.IsBusy = false;
         }
 
@@ -708,7 +713,7 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-        private async void SaveMenuToolBar_Clicked(object sender, EventArgs e)
+        private async void SaveMenu_Clicked(object sender, EventArgs e)
         {
             viewModel.IsBusy = true;
             int Mode = 1;
@@ -916,7 +921,6 @@ namespace ConasiCRM.Portable.Views
             return data;
         }
 
-
         //--------------------------------------------------------------------//
 
         /// <summary>
@@ -1000,7 +1004,6 @@ namespace ConasiCRM.Portable.Views
             }
             viewModel.IsBusy = false;
         }
-
 
         private void ShowPopupBusinessType(object sender, EventArgs e)
         {
@@ -1115,8 +1118,7 @@ namespace ConasiCRM.Portable.Views
             PropertyInfo prop = account.GetType().GetProperty(fieldName);
             prop.SetValue(account, null);
         }
-        
-
+       
         private void primarycontactname_Focused(object sender, EventArgs e)
         {
             viewModel.CurrentLookUpConfig = viewModel.PrimaryContactConfig;
@@ -1131,6 +1133,6 @@ namespace ConasiCRM.Portable.Views
             //    if(txt_url.Text.Contains("http://"))
             //    txt_url.Text = "http://" + txt_url.Text;
             //}
-        }
+        }        
     }
 }

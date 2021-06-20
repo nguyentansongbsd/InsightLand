@@ -8,11 +8,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telerik.XamarinForms.Common;
+using Xamarin.Forms;
 
 namespace ConasiCRM.Portable.ViewModels
 {
-    public class ContactListViewModel : ListViewBaseViewModel<ContactListModel>
+    public class ContactListViewModel : ListViewBaseViewModel2<ContactListModel>
     {
-
+        public ContactListViewModel()
+        {
+            PreLoadData = new Command(() =>
+            {
+                EntityName = "contacts";
+                FetchXml = $@"<fetch version='1.0' count='15' page='{Page}' output-format='xml-platform' mapping='logical' distinct='false'>
+                  <entity name='contact'>
+                    <attribute name='bsd_fullname' />
+                    <attribute name='mobilephone' />
+                    <attribute name='birthdate' />
+                    <attribute name='emailaddress1' />
+                    <attribute name='bsd_diachithuongtru' />
+                    <attribute name='createdon' />
+                    <attribute name='contactid' />
+                    <order attribute='fullname' descending='false' />
+                  </entity>
+                </fetch>";
+            });
+        }
     }
 }

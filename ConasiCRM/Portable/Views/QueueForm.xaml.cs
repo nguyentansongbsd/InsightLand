@@ -22,7 +22,7 @@ namespace ConasiCRM.Portable.Views
         public QueueFormViewModel viewModel;
         public Guid UnitId;
         public Guid QueueId;
-        public QueueForm(Guid unitId, bool fromDirectSale) // Direct Sales
+        public QueueForm(Guid unitId, bool fromDirectSale) // Direct Sales (add)
         {
             InitializeComponent();
             this.BindingContext = viewModel = new QueueFormViewModel();
@@ -519,6 +519,25 @@ namespace ConasiCRM.Portable.Views
             }
             else await DisplayAlert("Thông báo", "Tạo báo giá thất bại ." + res.GetErrorMessage(), "close");
             viewModel.IsBusy = false;
+        }
+
+        private async void DaiLyLookUp_OpenClicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void CongTacVienLookUp_OpenClicked(object sender,EventArgs e)
+        {
+
+        }
+
+        private async void KhachHangGioiThieuLookUp_OpenClicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.InitCustomerLookUpHeader();
+            viewModel.BtnContact.Clicked += ContactOpen;
+            viewModel.BtnAccount.Clicked += AccountOpen;
+            ContactOpen(viewModel.BtnContact, EventArgs.Empty);
         }
     }
 

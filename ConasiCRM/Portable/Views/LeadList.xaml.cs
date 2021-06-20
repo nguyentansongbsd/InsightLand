@@ -25,77 +25,20 @@ namespace ConasiCRM.Portable.Views
         public LeadList()
         {
             InitializeComponent();
-            BindingContext = viewModel = new LeadListViewModel();
-            searchBar.TextChanged += (sender, textChangedEventArgs) =>
-            {
-                if (string.IsNullOrWhiteSpace(textChangedEventArgs.NewTextValue))
-                {
-                    viewModel.RefreshCommand.Execute(null);
-                }
-            };
-            searchBar.SearchButtonPressed += (sender, a) => viewModel.RefreshCommand.Execute(null);
-            dataGrid.Commands.Add(new GridCellTapCommand<LeadListModel, LeadForm>("leadid"));
-            dataGrid.LoadOnDemand += async (sender, e) =>
-            {
-                viewModel.Page += 1;
-                await LoadData();
-                e.IsDataLoaded = true;
-            };
+            this.BindingContext = viewModel = new LeadListViewModel();
+            Init();
         }
-
-        public async Task LoadData()
+        public async void Init()
         {
-            string searchCondition = "";
-            if (!string.IsNullOrWhiteSpace(viewModel.Keyword))
-            {
-                searchCondition = @"<filter type='or'>
-                        <condition attribute='fullname' operator='like' value='%" + viewModel.Keyword + @"%' />
-                        <condition attribute='subject' operator='like' value='%" + viewModel.Keyword + @"%' />
-                        <condition attribute='mobilephone' operator='like' value='%" + viewModel.Keyword + @"%' />
-                        <condition attribute='telephone1' operator='like' value='%" + viewModel.Keyword + @"%' />
-                    </filter>";
-            }
-            string xml = @"<fetch version='1.0' count='" + OrgConfig.RecordPerPage + @"' page='" + viewModel.Page + @"' output-format='xml-platform' mapping='logical' distinct='false'>
-              <entity name='lead'>
-                <attribute name='fullname' />
-                <attribute name='createdon' />
-                <attribute name='statuscode' />
-                <attribute name='mobilephone' />
-                <attribute name='telephone1' />
-                <attribute name='emailaddress1' />
-                <attribute name='bsd_contactaddress' />
-                <attribute name='leadid' />
-                <order attribute='createdon' descending='true' />
-                 " + searchCondition + @"
-              </entity>
-            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LeadListModel>>("leads", xml);
-
-            if (result == null) // looix
-            {
-                viewModel.Data.Clear();
-                viewModel.LoadOnDemandMode = LoadOnDemandMode.Manual;
-                return;
-            }
-
-            var data = result.value;
-            //var data = await service.RetrieveMultiple("leads", xml);
-            if (data.Any())
-            {
-                foreach (var item in data)
-                {
-                    viewModel.Data.Add(item);
-                }
-            }
-            else
-            {
-                viewModel.LoadOnDemandMode = LoadOnDemandMode.Manual;
-            }
-        }
+            await viewModel.LoadData();
+        }       
 
         private async void NewMenu_Clicked(object sender, EventArgs e)
         {
+            viewModel.IsBusy = true;
+            await Task.Delay(1000);
             await Navigation.PushAsync(new LeadForm());
+            viewModel.IsBusy = false;
         }
 
         protected override void OnAppearing()
@@ -106,5 +49,21 @@ namespace ConasiCRM.Portable.Views
                 viewModel.RefreshCommand.Execute(null);
             }
         }
+
+        private async void listView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            viewModel.IsBusy = true;
+            await Task.Delay(1000);
+            var item = e.Item as LeadListModel;
+            LeadForm newPage = new LeadForm(item.leadid);
+            newPage.CheckSingleLead = async (checkSingleLead) =>
+            {
+                if (checkSingleLead == true)
+                {
+                    await Navigation.PushAsync(newPage);
+                }
+                viewModel.IsBusy = false;
+            };                        
+        }      
     }
 }

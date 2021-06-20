@@ -11,9 +11,6 @@
              xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
              x:Name="rootPage"
              x:Class="ConasiCRM.Portable.Views.AccountForm">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Name="SaveMenuToolBar" Order="Primary" Icon="checked.png" Clicked="SaveMenuToolBar_Clicked" Text="Save" Priority="1" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:ObjToBoolConverter x:Key="ObjToBool" />
@@ -41,6 +38,7 @@
                                             <RowDefinition Height="48"/>
                                             <RowDefinition Height="48"/>
                                             <RowDefinition Height="*"/>
+                                            <RowDefinition Height="48"/>
                                             <RowDefinition Height="48"/>
                                             <RowDefinition Height="48"/>
                                             <!--<RowDefinition Height="48"/>-->
@@ -138,11 +136,16 @@
                                             </Picker>
                                             <!--<ImageButton x:Name="btn_localization" IsVisible="false" Clicked="Clearvalue_localization" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>-->
                                         </StackLayout>
+                                        <controls:FormLabel Text="Người uỷ quyền" Grid.Column="0" Grid.Row="6" />
+                                        <Grid Grid.Column="1" Grid.Row="6">
+                                            <Entry Text="Không"/>
+                                            <StackLayout/>
+                                        </Grid>
 
-                                        <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="6">
+                                        <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="7">
                                             <Label VerticalOptions="Center" Text="Nhóm khách hàng"  />
                                         </StackLayout>
-                                        <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="6">
+                                        <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="7">
                                             <Picker x:Name="customer_group_value" Title="Chọn nhóm khách hàng"
                                         ItemsSource="{Binding list_picker_bsd_customergroup}"
                                         VerticalOptions="CenterAndExpand"
@@ -308,7 +311,6 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
-
                         <!--DATAGRID THONG TIN DANH SACH DAT CHO   -->
                         <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander" x:Name="datagridQueuing" IsVisible="true">
                             <telerikPrimitives:RadExpander.Header>
@@ -458,7 +460,6 @@
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
-
                         <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="MandatorySecondaryID" x:Name="datagridMandatorySecondary" IsVisible="true">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
@@ -540,6 +541,7 @@
                     HorizontalOptions="FillAndExpand"/>
               </Grid>-->
             </StackLayout>
+            
             <controls:ModalContentView x:Name="PrimaryContactLoopkup" />
             <!--Popup ListView Mandatory Primary-->
             <!--<ContentView x:Name="popup_list_viewMandatory_primary"
