@@ -69,6 +69,20 @@ namespace ConasiCRM.Portable.ViewModels
             }
         }
 
+        private CustomerLookUp _khachHangGioiThieu;
+        public CustomerLookUp KhachHangGioiThieu
+        {
+            get => _khachHangGioiThieu;
+            set
+            {
+                if (_khachHangGioiThieu != value)
+                {
+                    _khachHangGioiThieu = value;
+                    OnPropertyChanged(nameof(KhachHangGioiThieu));
+                }
+            }
+        }
+
         public QueueFormViewModel()
         {
             ContactLookUpConfig = new LookUpConfig()

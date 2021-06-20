@@ -24,8 +24,7 @@ namespace ConasiCRM.Portable.Views
         private async void listView_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
             var item = e.Item as FollowUpListPageModel;
-            
-            //await Navigation.PushAsync(new );
+            await Navigation.PushAsync(new FollowDetailPage(item.bsd_followuplistid));
         }
     }
 }

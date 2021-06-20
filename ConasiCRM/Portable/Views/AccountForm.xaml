@@ -40,6 +40,7 @@
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="48"/>
                                             <RowDefinition Height="48"/>
+                                            <RowDefinition Height="48"/>
                                             <!--<RowDefinition Height="48"/>-->
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
@@ -135,10 +136,16 @@
                                             </Picker>
                                             <!--<ImageButton x:Name="btn_localization" IsVisible="false" Clicked="Clearvalue_localization" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>-->
                                         </StackLayout>
-                                        <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="6">
+                                        <controls:FormLabel Text="Người uỷ quyền" Grid.Column="0" Grid.Row="6" />
+                                        <Grid Grid.Column="1" Grid.Row="6">
+                                            <Entry Text="Không"/>
+                                            <StackLayout/>
+                                        </Grid>
+
+                                        <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="7">
                                             <Label VerticalOptions="Center" Text="Nhóm khách hàng"  />
                                         </StackLayout>
-                                        <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="6">
+                                        <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="7">
                                             <Picker x:Name="customer_group_value" Title="Chọn nhóm khách hàng"
                                         ItemsSource="{Binding list_picker_bsd_customergroup}"
                                         VerticalOptions="CenterAndExpand"

@@ -5,6 +5,7 @@
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
              xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
              xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              BackgroundColor="White"
              x:Class="ConasiCRM.Portable.Views.LeadForm">
     <ContentPage.Resources>
@@ -42,7 +43,7 @@
                                             <ColumnDefinition Width="4*"/>
                                             <ColumnDefinition Width="6*"/>
                                         </Grid.ColumnDefinitions>
-                                        
+
                                         <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="0">
                                             <Label VerticalOptions="Center" Text="Tiêu đề" FontSize="16"/>
                                             <Label HorizontalTextAlignment="End" VerticalOptions="Center" Text="*" TextColor="#fb0000" FontSize="16"/>
@@ -50,19 +51,19 @@
                                         <local:MyNewEntry Text="{Binding singleLead.bsd_topic_label}" FontSize="16" PlaceHolder="Chọn tiêu đề" HasClearButton="false" OnClicked="show_popup_topic" Grid.Column="1" Grid.Row="0"/>
 
                                         <!--<Entry x:Name="_bsd_topic_value_text" Text="{Binding singleLead._bsd_topic_value}" FontSize="16"  Grid.Column="1" Grid.Row="0"/>-->
-                                        
+
                                         <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="1">
                                             <Label VerticalOptions="Center" Text="Họ tên" FontSize="16"/>
                                             <Label HorizontalTextAlignment="End" VerticalOptions="Center" Text="*" TextColor="#fb0000" FontSize="16"/>
                                         </StackLayout>
                                         <local:MyNewEntry Text="{Binding singleLead.fullname}" FontSize="16" HasClearButton="false" OnClicked="show_popup_fullname" Grid.Column="1" Grid.Row="1"/>
-                                        
+
                                         <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="2">
                                             <Label VerticalOptions="Center" Text="Số điện thoại" FontSize="16"/>
                                             <Label HorizontalTextAlignment="End" VerticalOptions="Center" Text="*" TextColor="#fb0000" FontSize="16"/>
                                         </StackLayout>
                                         <Entry x:Name="mobilephone_text" Keyboard="Telephone" Text="{Binding singleLead.mobilephone}" FontSize="16"  Grid.Column="1" Grid.Row="2"/>
-                                        
+
                                         <Label VerticalOptions="Center" Text="Số CMND (ID)" FontSize="16" Grid.Column="0" Grid.Row="3"/>
                                         <Entry x:Name="cardnumber_text" Keyboard="Telephone" Text="{Binding singleLead.bsd_identitycardnumber}" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
 
@@ -95,12 +96,24 @@
                                             <ImageButton x:Name="clear_new_birthday_picker" IsVisible="{Binding singleLead.new_birthday, Converter={StaticResource NotNullToBool}}" Clicked="Clear_new_birthday_picker_Clicked" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
                                         </StackLayout>
 
+                                        <Label VerticalOptions="Center" Text="Địa chỉ liên lạc(VN)" FontSize="16" Grid.Column="0" Grid.Row="9"/>
+                                        <controls:MyNewEntry Text="diachi" HasClearButton="false"  Grid.Column="1" Grid.Row="9" OnClicked="DiaChiVN_Clicked"/>
+
+                                        <Label VerticalOptions="Center" Text="Địa chỉ liên lạc(EN)" FontSize="16" Grid.Column="0" Grid.Row="10"/>
+                                        <controls:MyNewEntry Text="diachi" HasClearButton="false"  Grid.Column="1" Grid.Row="10"/>
+
+                                        <Label VerticalOptions="Center" Text="Tình trạng" FontSize="16" Grid.Column="0" Grid.Row="11"/>
+                                        <Grid Grid.Column="1" Grid.Row="11">
+                                            <Entry Text="Mo"/>
+                                            <StackLayout/>
+                                        </Grid>
+
                                     </Grid>
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
-                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Công Ty"/>
@@ -136,14 +149,14 @@
                                                 </StackLayout>
                                             </StackLayout>
                                         </telerikPrimitives:RadBorder>
-                                        
+
                                     </Grid>
 
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
-                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Chi Tiết Công Ty"/>
@@ -151,23 +164,7 @@
                             </telerikPrimitives:RadExpander.Header>
                             <telerikPrimitives:RadExpander.Content>
                                 <StackLayout BackgroundColor="#cecece" Padding=".8">
-                                    <Grid BackgroundColor="#ffffff" Padding="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="100"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="4*"/>
-                                            <ColumnDefinition Width="6*"/>
-                                        </Grid.ColumnDefinitions>
-
+                                    <Grid BackgroundColor="#ffffff" Padding="10" ColumnDefinitions="4*,6*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                                         <Label VerticalOptions="Center" Text="Mô tả" FontSize="16" Grid.Column="0" Grid.Row="0"/>
                                         <telerikPrimitives:RadBorder BorderColor="#e5e5e5" CornerRadius="5" Grid.Column="1" Grid.Row="0">
                                             <Editor x:Name="description_text" Text="{Binding singleLead.description}" FontSize="16"/>
@@ -199,6 +196,7 @@
                                         <local:MyNewEntry Text="{Binding singleLead.transactioncurrencyid_label}" PlaceHolder="Chọn đơn vị" FontSize="16" OnClicked="show_popup_transactioncurrencyid"
                                                           HasClearButton="{Binding singleLead._transactioncurrencyid_value, Converter={StaticResource NotNullToBool}}" ClearClicked="Clear_transactioncurrencyid_picker_Clicked"
                                                           Grid.Column="1" Grid.Row="5"/>
+
                                         <Label VerticalOptions="Center" Text="Chiến dịch" FontSize="16" Grid.Column="0" Grid.Row="6"/>
                                         <local:MyNewEntry Text="{Binding singleLead.campaignid_label}" PlaceHolder="Chọn chiến dịch" FontSize="16" OnClicked="show_popup_campaignid"
                                                           HasClearButton="{Binding singleLead._campaignid_value, Converter={StaticResource NotNullToBool}}" ClearClicked="Clear_campaign_picker_Clicked"
@@ -214,43 +212,8 @@
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
-
-                        <!--<telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
-                            <telerikPrimitives:RadExpander.Header>
-                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
-                                    <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Quản Bá Sản Phẩm"/>
-                                </telerikPrimitives:ExpanderHeader>
-                            </telerikPrimitives:RadExpander.Header>
-                            <telerikPrimitives:RadExpander.Content>
-                                <StackLayout BackgroundColor="#cecece" Padding=".8">
-                                    <Grid BackgroundColor="#ffffff" Padding="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="4*"/>
-                                            <ColumnDefinition Width="6*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Label VerticalOptions="Center" Text="Chiến dịch" FontSize="16" Grid.Column="0" Grid.Row="0"/>
-                                        <local:MyNewEntry Text="{Binding singleLead.campaignid_label}" PlaceHolder="Chọn chiến dịch" FontSize="16" OnClicked="show_popup_campaignid"
-                                                          HasClearButton="{Binding singleLead._campaignid_value, Converter={StaticResource NotNullToBool}}" ClearClicked="Clear_campaign_picker_Clicked"
-                                                          Grid.Column="1" Grid.Row="0"/>
-
-                                        <Label VerticalOptions="Center" Text="Tài liệu tiếp thị" FontSize="16" Grid.Column="0" Grid.Row="1"/>
-                                        <local:MyNewCheckBox Grid.Column="1" Grid.Row="1" Title="{Binding singleLead.donotsendmmValue}" IsChecked="{Binding singleLead.donotsendmm}"/>
-
-                                        <Label VerticalOptions="Center" Text="Ngày cuối" FontSize="16" Grid.Column="0" Grid.Row="2"/>
-                                        <local:MyNewDatePicker MinimumDate="01/01/0001" Grid.Column="1" Grid.Row="2"
-                                                NullableDate="{Binding singleLead.lastusedincampaign}" IsEnabled="False" FontSize="16"/>
-                                    </Grid>
-                                </StackLayout>
-                            </telerikPrimitives:RadExpander.Content>
-                        </telerikPrimitives:RadExpander>-->
-
-                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                      
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Đánh Giá Khách Hàng"/>
@@ -283,7 +246,7 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
-                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Nhu Cầu Và Tiêu Chí"/>
@@ -397,29 +360,29 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
-                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander" x:Name="label_du_an_quan_tam">
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander" x:Name="label_du_an_quan_tam">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <StackLayout Orientation="Horizontal">
-                                    <!---<RelativeLayout Style="{StaticResource ExpanderHeadingText}" Padding="25,3,10,3">-->
+                                        <!---<RelativeLayout Style="{StaticResource ExpanderHeadingText}" Padding="25,3,10,3">-->
                                         <Label Text="Danh sách dự án quan tâm"
                                                 Style="{StaticResource ExpanderHeadingText}"/>
-                                        
-                                            <ImageButton x:Name="btnRemoveDuanquantam" HeightRequest="25" 
+
+                                        <ImageButton x:Name="btnRemoveDuanquantam" HeightRequest="25" 
                                             WidthRequest="22"
                                             Source="btnDelete.png" Margin="0,0,5,0"
                                             BackgroundColor="Transparent"     
                                             IsVisible="{Binding bsd_projectid,Converter={StaticResource NotNullToBool}}"
                                             Clicked="BtnRemoveDuanquantam_Clicked" HorizontalOptions="End"/>
-                                            <ImageButton x:Name="btnAddDuanquantam" HeightRequest="25" 
+                                        <ImageButton x:Name="btnAddDuanquantam" HeightRequest="25" 
                                             WidthRequest="22" Margin="5,0,10,0"
                                             Source="plus_black.png" 
                                             BackgroundColor="Transparent"                                            
-                                            Clicked="BtnAddDuanquantam_Clicked" HorizontalOptions="End"/>   
+                                            Clicked="BtnAddDuanquantam_Clicked" HorizontalOptions="End"/>
                                     </StackLayout>
-                                </telerikPrimitives:ExpanderHeader>                                
+                                </telerikPrimitives:ExpanderHeader>
                             </telerikPrimitives:RadExpander.Header>
-                            
+
                             <telerikPrimitives:RadExpander.Content>
                                 <StackLayout x:Name="stacklayout_duanquantam">
                                     <bsdGrid:BsdRadDataGrid ItemsSource="{Binding list_Duanquantam}" x:Name="datagrid_duanquantam">
@@ -438,7 +401,7 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
-                        <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander" IsVisible="{Binding singleLead.new_birthday, Converter={StaticResource NotNullToBool}}">
+                        <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander" IsVisible="{Binding singleLead.new_birthday, Converter={StaticResource NotNullToBool}}">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Label Style="{StaticResource ExpanderHeadingText}" Text="Phong Thuỷ"/>
@@ -447,7 +410,7 @@
                             <telerikPrimitives:RadExpander.Content>
                                 <StackLayout Spacing="0">
                                     <Image Source="{Binding PhongThuy.image}"/>
-                                    
+
                                     <Grid BackgroundColor="#ffffff" Padding="10" RowSpacing="10">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
@@ -460,24 +423,24 @@
                                             <ColumnDefinition Width="4*"/>
                                             <ColumnDefinition Width="6*"/>
                                         </Grid.ColumnDefinitions>
-                                        
+
                                         <Label Text="Năm Sinh Âm Lịch" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" FontSize="16"/>
                                         <Label Text="{Binding PhongThuy.ten_nam_sinh_am_lich}" Grid.Row="0" Grid.Column="1" FontSize="16"/>
-                                        
+
                                         <Label Text="Quẻ mệnh" FontAttributes="Bold" Grid.Row="1" Grid.Column="0" FontSize="16"/>
                                         <Label Text="{Binding PhongThuy.quemenh_label}" Grid.Row="1" Grid.Column="1" FontSize="16" LineBreakMode="WordWrap"/>
-                                        
+
                                         <Label Text="Ngũ Hành" FontAttributes="Bold" Grid.Row="2" Grid.Column="0" FontSize="16"/>
                                         <Label Text="{Binding PhongThuy.menh_label}" Grid.Row="2" Grid.Column="1" FontSize="16"/>
-                                        
+
                                         <Label Text="Hướng tốt" FontAttributes="Bold" Grid.Row="3" Grid.Column="0" FontSize="16"/>
                                         <Label Text="{Binding PhongThuy.huong_tot}" Grid.Row="3" Grid.Column="1" FontSize="16"/>
-                                        
+
                                         <Label Text="Hướng xấu" FontAttributes="Bold" Grid.Row="4" Grid.Column="0" FontSize="16"/>
                                         <Label Text="{Binding PhongThuy.huong_xau}" Grid.Row="4" Grid.Column="1" FontSize="16"/>
                                     </Grid>
                                 </StackLayout>
-                                
+
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
@@ -524,7 +487,7 @@
 
                     </StackLayout>
                 </ScrollView>
-                
+
                 <Grid x:Name="footer_form_lead" IsVisible="{Binding singleLead.statecode, Converter={StaticResource LeadStateCodeToBool}}" ColumnSpacing="0" VerticalOptions="EndAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
@@ -541,7 +504,7 @@
                     </telerikPrimitives:RadBorder>
                 </Grid>
             </StackLayout>
-            
+
             <!--Popup Fullname-->
             <ContentView x:Name="popup_fullname"
                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
@@ -655,9 +618,48 @@
 
             </ContentView>
             <!--End Popup-->
-            
+
+            <!--Popup ContactAddress-->
+            <local:ModalContentView x:Name="popup_contact_address" IsVisible="False" Padding="20">
+                <StackLayout BackgroundColor="#ffffff">
+                    <Label Text="Địa chỉ liên lạc" TextColor="Black" Font="Bold,18" BackgroundColor="LightGray" Padding="10,5" HorizontalTextAlignment="Center"/>
+                    <ScrollView>
+                        <StackLayout Padding="10" Spacing="3">
+                            <controls:FormLabelRequired VerticalOptions="Center" Text="Số nhà, đường, phường (VN)" />
+                            <Entry x:Name="popupcontactaddress_housenumberstreet" FontSize="16"/>
+
+                            <controls:FormLabel VerticalOptions="Center" Text="Số nhà, đường, phường (EN)" FontSize="16"/>
+                            <Entry x:Name="popupcontactaddress_housenumber" FontSize="16"/>
+
+                            <controls:FormLabel VerticalOptions="Center" Text="Quốc gia" FontSize="16"/>
+                            <!--<Label x:Name="popupcontactaddress_country_id" IsVisible="false"/>
+                            <Label x:Name="popupcontactaddress_country_en" IsVisible="false"/>-->
+                            <local:MyNewEntry x:Name="popupcontactaddress_country" PlaceHolder="Chọn quốc gia" HasClearButton="False" />
+                            <!--OnClicked="show_popup_listview_country" ClearClicked="clear_entry_country"-->
+
+                            <controls:FormLabel VerticalOptions="Center" Text="Tỉnh/Thành" FontSize="16"/>
+                            <!--<Label x:Name="popupcontactaddress_province_id" IsVisible="false"/>
+                            <Label x:Name="popupcontactaddress_province_en" IsVisible="false"/>-->
+                            <local:MyNewEntry x:Name="popupcontactaddress_province" PlaceHolder="Chọn tỉnh/thành" HasClearButton="False" />
+                            <!--OnClicked="show_popup_listview_province" ClearClicked="clear_entry_province"-->
+
+                            <controls:FormLabel VerticalOptions="Center" Text="Quận/Huyện" FontSize="16"/>
+                            <!--<Label x:Name="popupcontactaddress_district_id" IsVisible="false"/>
+                            <Label x:Name="popupcontactaddress_district_en" IsVisible="false"/>-->
+                            <local:MyNewEntry x:Name="popupcontactaddress_district" PlaceHolder="Chọn quận/huyện" HasClearButton="False" />
+                            <!--OnClicked="show_popup_listview_district" ClearClicked="clear_entry_district"-->
+                        </StackLayout>
+                    </ScrollView>
+                    <Grid x:Name="popupcontact_footer" ColumnDefinitions="*,*" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand">
+                        <Button Grid.Column="0" Text="Đóng"  HorizontalOptions="FillAndExpand" BackgroundColor="Silver"/> <!--Clicked="hide_popup_contactaddress"-->
+                        <Button x:Name="popupcontactaddress_btn_submit" Grid.Column="1" Text="Xác nhận" HorizontalOptions="FillAndExpand" BackgroundColor="Silver"/>
+                    </Grid>
+
+                </StackLayout>
+            </local:ModalContentView>
+            <!--End Popup-->
+
             <!--Popup Province-->
-            
             <ContentView x:Name="popup_province"
                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                         AbsoluteLayout.LayoutFlags="All"
@@ -690,11 +692,9 @@
                 </StackLayout>
 
             </ContentView>
-            
             <!--End Popup-->
 
-            <!--Popup Province-->
-
+            <!--Popup project-->
             <ContentView x:Name="popup_project"
                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                         AbsoluteLayout.LayoutFlags="All"
@@ -727,7 +727,6 @@
                 </StackLayout>
 
             </ContentView>
-
             <!--End Popup-->
 
             <!--Popup ListView-->
@@ -756,14 +755,14 @@
 
             </ContentView>
             <!--End Popup-->
-            
+
             <!--Popup Loading-->
             <ContentView x:Name="popup_loading"
                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                 AbsoluteLayout.LayoutFlags="All"
                 IsVisible="{Binding IsBusy}"
                 BackgroundColor="#C0808080">
-                
+
                 <ActivityIndicator
                     HorizontalOptions="Center"
                     VerticalOptions="Center"

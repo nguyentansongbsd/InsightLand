@@ -17,11 +17,6 @@ namespace ConasiCRM.Portable.Views
     public partial class FollowDetailPage : ContentPage
     {
         FollowDetailPageViewModel viewModel;
-        public FollowDetailPage()
-        {
-            InitializeComponent();            
-        }
-
         public FollowDetailPage(string id)
         {
             InitializeComponent();

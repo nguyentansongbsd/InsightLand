@@ -720,9 +720,9 @@
                             <Label x:Name="popupcontactaddress_country_id" IsVisible="false"/>
                             <Label x:Name="popupcontactaddress_country_en" IsVisible="false"/>
                             <local:MyNewEntry PlaceHolder="Chọn quốc gia"
-                            x:Name="popupcontactaddress_country"
-                            OnClicked="show_popup_listview_country"
-                            ClearClicked="clear_entry_country"/>
+                                            x:Name="popupcontactaddress_country"
+                                            OnClicked="show_popup_listview_country"
+                                            ClearClicked="clear_entry_country"/>
                             
                             <StackLayout Orientation="Horizontal" Spacing="2">
                                 <Label VerticalOptions="Center" Text="Tỉnh/Thành" FontSize="16"/>
@@ -770,10 +770,7 @@
                     <StackLayout Orientation="Horizontal" x:Name="header_popup_listview" HorizontalOptions="FillAndExpand" HeightRequest="80" Spacing="1"/>
                     
                     <StackLayout BackgroundColor="#ffffff" Padding="10">
-                        
-                        <StackLayout>
-                            <SearchBar x:Name="SearchBarListView" Placeholder="Tìm kiếm" TextChanged="SearchBarListView_TextChanged"/>
-                        </StackLayout>
+                        <SearchBar x:Name="SearchBarListView" Placeholder="Tìm kiếm" TextChanged="SearchBarListView_TextChanged"/>
                         
                         <StackLayout VerticalOptions="FillAndExpand" x:Name="source_listviewpopup"/>
                         
@@ -781,16 +778,7 @@
                             <ActivityIndicator HeightRequest="20" Color="Black" IsRunning="{Binding looking_up}" IsVisible="{Binding looking_up}" HorizontalOptions="CenterAndExpand"/>
                         </StackLayout>
                         
-                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Button Text="Đóng" Clicked="hide_listview_popup" HorizontalOptions="FillAndExpand" BackgroundColor="Silver"/>
-                        </Grid>
-                        
+                        <Button Text="Đóng" Clicked="hide_listview_popup" HorizontalOptions="FillAndExpand" BackgroundColor="Silver"/>
                     </StackLayout>
                 </StackLayout>
             </local:ModalContentView>
@@ -798,7 +786,6 @@
             
             
             <!--Popup Province-->
-            
             <local:ModalContentView x:Name="popup_province"
                 IsVisible="False"
                 Padding="40">
@@ -835,11 +822,9 @@
                 </StackLayout>
                 
             </local:ModalContentView>
-            
             <!--End Popup-->
             
             <!--Popup ListView Menu For CMND -->
-            
            <local:MyListViewMenu x:Name="popup_menu_imageCMND" HasTitle="false" IsVisible="false" ItemTapped="MenuItem_Tapped">
                 <local:MyListViewMenu.ItemTemplate>
                     <DataTemplate>
@@ -849,11 +834,9 @@
                     </DataTemplate>
                 </local:MyListViewMenu.ItemTemplate>
             </local:MyListViewMenu>
-            
             <!-- End Popup -->
             
             <!--Popup Detail CMND Image -->
-            
            <local:ModalContentView x:Name="popup_detailCMNDImage" BackgroundColor="Black" Padding="0" IsVisible="false">
                 <AbsoluteLayout>
                     <Grid AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
@@ -877,23 +860,9 @@
                 
                 
             </local:ModalContentView>
-            
             <!-- End Popup -->
             
-            <!--Popup Loading-->
-            <local:ModalContentView x:Name="popup_loading"
-                IsVisible="{Binding IsBusy}">
-                
-                <ActivityIndicator
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    IsRunning="{Binding IsBusy}"
-                    IsVisible="{Binding IsBusy}" Color="#000000">
-                </ActivityIndicator>
-            </local:ModalContentView>
-            <!--End Popup-->
-            <!--Popup Province-->
-
+            <!--Popup anh sách dự án quan tâm-->
             <ContentView x:Name="popup_project"
                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                         AbsoluteLayout.LayoutFlags="All"
@@ -926,7 +895,19 @@
                 </StackLayout>
 
             </ContentView>
+            <!--End Popup-->
 
+            <!--Popup Loading-->
+            <local:ModalContentView x:Name="popup_loading"
+                IsVisible="{Binding IsBusy}">
+                
+                <ActivityIndicator
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="{Binding IsBusy}" Color="#000000">
+                </ActivityIndicator>
+            </local:ModalContentView>
             <!--End Popup-->
         </AbsoluteLayout>
     </ContentPage.Content>

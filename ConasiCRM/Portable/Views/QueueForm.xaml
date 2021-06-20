@@ -29,18 +29,7 @@
                                 </telerikPrimitives:ExpanderHeader>
                             </telerikPrimitives:RadExpander.Header>
                             <telerikPrimitives:RadExpander.Content>
-                                <Grid Padding="10" RowSpacing="15">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                                        <ColumnDefinition Width="6*"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                    </Grid.RowDefinitions>
-
+                                <Grid Padding="10" RowSpacing="15" ColumnDefinitions="4*,6*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                                     <controls:FormLabelRequired x:Name="QueueNumberLabel" Text="Mã đặt chỗ" Grid.Column="0" Grid.Row="0"/>
                                     <controls:FormLabelValue x:Name="QueueNumberValue" Text="{Binding QueueFormModel.bsd_queuenumber}" Grid.Row="0" />
 
@@ -50,8 +39,20 @@
                                     <controls:FormLabelRequired Text="Khách hàng" Grid.Column="0" Grid.Row="2"/>
                                     <controls:BsdLookUp Placeholder="Chọn khách hàng" Grid.Column="1" Grid.Row="2" SelectedItem="{Binding Customer}" OpenClicked="BsdLookUp_OpenClicked" />
 
-                                    <controls:FormLabelRequired Text="Trạng thái" Grid.Column="0" Grid.Row="3"/>
-                                    <controls:FormLabelValue Text="{Binding QueueFormModel.statuscode,Converter={StaticResource QueueStatusConverter}}" Grid.Row="3" />
+                                    <controls:FormLabel Text="Đại lý/Sàn giao dịch" Grid.Column="0" Grid.Row="3" />
+                                    <controls:BsdLookUp Placeholder="Chọn đại lý" Grid.Column="1" Grid.Row="3" SelectedItem="{Binding Customer}" OpenClicked="DaiLyLookUp_OpenClicked" />
+
+                                    <controls:FormLabel Text="Cộng tác viên" Grid.Column="0" Grid.Row="4" />
+                                    <controls:BsdLookUp Placeholder="Chọn cộng tác viên" Grid.Column="1" Grid.Row="4" SelectedItem="{Binding Customer}" OpenClicked="CongTacVienLookUp_OpenClicked" />
+
+                                    <controls:FormLabel Text="Khách hàng giới thiệu" Grid.Column="0" Grid.Row="5" />
+                                    <controls:BsdLookUp Placeholder="Chọn khách hàng" Grid.Column="1" Grid.Row="5" SelectedItem="{Binding KhachHangGioiThieu}" OpenClicked="KhachHangGioiThieuLookUp_OpenClicked" />
+
+                                    <controls:FormLabelRequired Text="Trạng thái" Grid.Column="0" Grid.Row="6"/>
+                                    <controls:FormLabelValue Text="{Binding QueueFormModel.statuscode,Converter={StaticResource QueueStatusConverter}}" Grid.Row="6" />
+
+                                    <controls:FormLabel Text="Giữ chỗ dự án" Grid.Column="0" Grid.Row="7" />
+                                    <CheckBox x:Name="checkBoxGiuCho" Grid.Column="1" Grid.Row="7" />
                                 </Grid>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
@@ -62,21 +63,16 @@
                                 </telerikPrimitives:ExpanderHeader>
                             </telerikPrimitives:RadExpander.Header>
                             <telerikPrimitives:RadExpander.Content>
-                                <Grid Padding="10" RowSpacing="15">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                                        <ColumnDefinition Width="6*"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                    </Grid.RowDefinitions>
-
+                                <Grid Padding="10" RowSpacing="15" ColumnDefinitions="4*,6*" RowDefinitions="Auto,Auto,Auto">
+                                    
                                     <controls:FormLabel Text="Thời gian đặt chỗ" Grid.Row="0" />
                                     <controls:FormLabelValue Text="{Binding QueueFormModel.createdon,Converter={StaticResource DateTimeFormatConverter}}" Grid.Row="0" />
 
-                                    <controls:FormLabel Text="Thời gian hết hạn" Grid.Row="1"/>
+                                    <controls:FormLabel Text="Thời gian đặt chỗ thực tế" Grid.Row="1"/>
                                     <controls:FormLabelValue Text="{Binding QueueFormModel.bsd_queuingexpired,Converter={StaticResource DateTimeFormatConverter}}" Grid.Row="1" />
+
+                                    <controls:FormLabel Text="Thời gian hết hạn" Grid.Row="2"/>
+                                    <controls:FormLabelValue Text="{Binding QueueFormModel.bsd_queuingexpired,Converter={StaticResource DateTimeFormatConverter}}" Grid.Row="2" TextColor="Red"/>
                                 </Grid>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>

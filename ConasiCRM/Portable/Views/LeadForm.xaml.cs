@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using ConasiCRM.Portable.Controls;
 using ConasiCRM.Portable.Models;
@@ -250,7 +249,7 @@ namespace ConasiCRM.Portable.Views
         private void New_gender_picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             viewModel.singleLead.new_gender = viewModel.singleGender == null ? null : viewModel.singleGender.Val;
-            if (viewModel.singleGender != null)
+            if (viewModel.singleGender.Val != null)
             {
                 viewModel.singleLead.new_gender = viewModel.singleGender.Val;
                 viewModel.PhongThuy.gioi_tinh = Int32.Parse(viewModel.singleLead.new_gender);
@@ -861,6 +860,11 @@ namespace ConasiCRM.Portable.Views
                 return;
             }
             listviewProject.ItemsSource = viewModel.list_project_lookup.Where(x => x.bsd_name.IndexOf(e.NewTextValue, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+        
+        private void DiaChiVN_Clicked(object sender, EventArgs e)
+        {
+            popup_contact_address.IsVisible = true;
         }
     }
 }
