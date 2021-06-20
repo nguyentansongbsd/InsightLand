@@ -23,6 +23,7 @@ namespace ConasiCRM.Portable.ViewModels
                             <attribute name='fullname' />
                             <attribute name='createdon' />
                             <attribute name='statuscode' />
+                            <attribute name='subject' />
                             <attribute name='mobilephone' />
                             <attribute name='telephone1' />
                             <attribute name='emailaddress1' />
