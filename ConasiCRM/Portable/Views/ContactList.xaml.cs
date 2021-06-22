@@ -52,7 +52,6 @@ namespace ConasiCRM.Portable.Views
         private async void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             viewModel.IsBusy = true;
-            await Task.Delay(1000);
             var item = e.Item as ContactListModel;
             ContactForm newPage = new ContactForm(item.contactid);
             newPage.CheckSingleContact = async (checkSingleLead) =>

@@ -4,6 +4,7 @@
              xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
              xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
+             Title="Hoa hồng giao dịch"
              x:Class="ConasiCRM.Portable.Views.HoaHongGiaoDichList">
     <ContentPage.Resources>
         <ResourceDictionary>

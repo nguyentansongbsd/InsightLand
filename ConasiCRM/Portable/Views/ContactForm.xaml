@@ -654,7 +654,6 @@
                 </Grid>
             </StackLayout>
             
-            
             <!--Popup Fullname-->
             <local:ModalContentView x:Name="popup_fullname"
                 IsVisible="False"
@@ -783,7 +782,6 @@
                 </StackLayout>
             </local:ModalContentView>
             <!--End Popup-->
-            
             
             <!--Popup Province-->
             <local:ModalContentView x:Name="popup_province"

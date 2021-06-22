@@ -7,7 +7,8 @@ namespace ConasiCRM.Portable.Controls
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return value == null || ((string)value) == "0";
+            var a = value == null || ((string)value) == "0";
+            return a;
         }
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
