@@ -20,6 +20,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PhanHoiForm : ContentPage
     {
+        public Action<bool> CheckPhanHoi;
         private Guid IncidentId;
         public PhanHoiFormViewModel viewModel;
 
@@ -43,10 +44,19 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             IncidentId = incidentid;
-            Init();
+            CheckSinglePhanHoi();
         }
 
-        public async void Init()
+        private async void CheckSinglePhanHoi()
+        {
+            await Init();
+            if (viewModel.singlePhanHoi != null)
+                CheckPhanHoi(true);
+            else
+                CheckPhanHoi(false);
+        }
+
+        public async Task Init()
         {
             accountService = new CRMService<Account>();
             this.BindingContext = viewModel = new PhanHoiFormViewModel();
@@ -56,7 +66,7 @@ namespace ConasiCRM.Portable.Views
                 viewModel.Title = "Cập Nhật Phản Hồi";
                 buttonUpdate.IsVisible=true;
                 buttonCreate.IsVisible = false;
-                Start(IncidentId);
+                await Start(IncidentId);
             }
             else
             {

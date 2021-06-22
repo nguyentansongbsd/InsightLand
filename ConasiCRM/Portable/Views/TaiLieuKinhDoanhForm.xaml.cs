@@ -24,9 +24,9 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TaiLieuKinhDoanhForm : ContentPage
     {
+        public Action<bool> CheckTaiLieuKinhDoanh;
         private Guid salesliteratureid;
         public TaiLieuKinhDoanhFormViewModel viewModel;
-
 
         public TaiLieuKinhDoanhForm(Guid literatureid)
         {
@@ -35,8 +35,20 @@ namespace ConasiCRM.Portable.Views
 
             salesliteratureid = literatureid;
             viewModel.IsBusy = true;
+            Init();          
+        }
 
-            Task.Run(loadData);
+        private async void Init()
+        {
+            await loadData();
+            if(viewModel.TaiLieuKinhDoanh != null)
+            {
+                CheckTaiLieuKinhDoanh(true);
+            }
+            else
+            {
+                CheckTaiLieuKinhDoanh(false);
+            }
         }
         public async Task loadData()
         {
@@ -55,9 +67,11 @@ namespace ConasiCRM.Portable.Views
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<TaiLieuKinhDoanhFormModel>>("salesliteratures", xml);
             var data = result.value.FirstOrDefault();
             if (data == null)
-            {
+            {              
                 await DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-            }
+                return;
+            }            
+
             viewModel.TaiLieuKinhDoanh = data;
             await loadUnit(salesliteratureid);
             await loadDoiThuCanhTranh(salesliteratureid);

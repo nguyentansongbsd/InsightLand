@@ -1,0 +1,730 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Telerik.XamarinForms.Barcode</name>
+    </assembly>
+    <members>
+        <member name="M:Telerik.XamarinForms.Barcode.RadBarcode.OnSymbologyPropertyChanged(System.Object,System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            Called when a property of the symbology changes. Suitable for performing necessary updates based on the changes.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.Symbology1DBase.FontSize">
+            <summary>
+            Gets or sets the font size of the text dislayed in the barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.Symbology1DBase.FontFamily">
+            <summary>
+            Gets or sets the font family of the text dislayed in the barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.Symbology1DBase.HorizontalTextAlignment">
+            <summary>
+            Gets or sets the horizontal alignment of the text dislayed in the barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.Symbology1DBase.VerticalTextAlignment">
+            <summary>
+            Gets or sets the vertical alignment of the text dislayed in the barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.Symbology1DBase.ShowText">
+            <summary>
+            Gets or sets whether the barcode should display the human readable value of the barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.Symbology1DBase.CodeTextSpacing">
+            <summary>
+            Gets or sets the spacing around the text.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.Barcode.EncodingMode">
+            <summary>
+            The EncodingMode enumeration determines the type of the acceptable data.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.EncodingMode.Auto">
+            <summary>
+            Auto mode.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.EncodingMode.Byte">
+            <summary>
+            Accepts byte data.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.EncodingMode.Text">
+            <summary>
+            Allows text data.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.EncodingMode.Numeric">
+            <summary>
+            Allows numeric data.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.PDF417.ECLevel">
+            <summary>
+            Gets or sets how much data will be available for error correction.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.PDF417.Rows">
+            <summary>
+            Gets or sets the number of rows fro the generated barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.PDF417.Columns">
+            <summary>
+            Gets or sets the number of columns fro the generated barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.PDF417.EncodingMode">
+            <summary>
+            Gets or sets the type of the acceptable data.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.Barcode.CodeMode">
+            <summary>
+            Determines the type of code, such as Numeric, Alphanumeric, Byte or Kanji.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.CodeMode.Byte">
+            <summary>
+            Byte Mode.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.CodeMode.Numeric">
+            <summary>
+            Allows Numbers [0-9].
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.CodeMode.Alphanumeric">
+            <summary>
+            Allows characters or numbers.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.CodeMode.Kanji">
+            <summary>
+            Kanji Mode.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.Barcode.ECIMode">
+            <summary>
+            Determines the Extended Channel Interpretation (ECI) mode, which allows for encoding of characters from other sets.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.None">
+            <summary>
+            None.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_7">
+            <summary>
+            ECI 9.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_6">
+            <summary>
+            ECI 8.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_5">
+            <summary>
+            ECI 7.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_4">
+            <summary>
+            ECI 6.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_3">
+            <summary>
+            ECI 5.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_2">
+            <summary>
+            ECI 4.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_1En">
+            <summary>
+            ECI 3.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.CP437">
+            <summary>
+            ECI 2.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_1">
+            <summary>
+            ECI 1.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_8">
+            <summary>
+            ECI 10.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_9">
+            <summary>
+            ECI 11.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_11">
+            <summary>
+            ECI 13.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_13">
+            <summary>
+            ECI 15.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO8859_15">
+            <summary>
+            ECI 17.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.Windows1250">
+            <summary>
+            ECI 21.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.Windows1251">
+            <summary>
+            ECI 22.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.Windows1252">
+            <summary>
+            ECI 23.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.Windows1256">
+            <summary>
+            ECI 24.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.UTF8">
+            <summary>
+            UTF-8.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ECIMode.ISO646US">
+            <summary>
+            ECI 27.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.Barcode.ErrorCorrectionLevel">
+            <summary>
+            Determines how much data is available for error correction.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ErrorCorrectionLevel.L">
+            <summary>
+            Low.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ErrorCorrectionLevel.M">
+            <summary>
+            Medium.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ErrorCorrectionLevel.Q">
+            <summary>
+            Quartile.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.ErrorCorrectionLevel.H">
+            <summary>
+            High.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.Barcode.FNC1Mode">
+            <summary>
+            Signifies application of special formatting to the code data.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.FNC1Mode.None">
+            <summary>
+            None.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.FNC1Mode.FirstPosition">
+            <summary>
+            FNC 1 in first position.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Barcode.FNC1Mode.SecondPosition">
+            <summary>
+            FNC 1 in second position.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.QRCode.Version">
+            <summary>
+            Gets or sets the version of the QR code. The version determines the size of the QR code and the amount of information that can be encoded.
+            Accepted values are in the range [1..40]. If you set the version to a number outside this range, version will be calculated automatically.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.QRCode.CodeMode">
+            <summary>
+            Gets or sets the type of code that will be used for encoding, such as Numeric, Alphanumeric, Byte or Kanji. 
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.QRCode.ErrorCorrectionLevel">
+            <summary>
+            Gets or sets how much data will be available for error correction.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.QRCode.ECIMode">
+            <summary>
+            Gets or sets the Extended Channel Interpretation (ECI) mode, which allows for encoding of characters from other sets.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.QRCode.FNC1Mode">
+            <summary>
+            Gets or sets application of special formatting to the code data.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.QRCode.ApplicationIndicator">
+            <summary>
+            Gets or sets the application indentifier to be encoded in the QR code.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.SymbologyBase.AutoChecksum">
+            <summary>
+            Gets or sets whether the barcode should automatically calculate a checksum.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.SymbologyBase.Module">
+            <summary>
+            Gets or sets a module by which the barcode can be scaled up.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Barcode.SymbologyBase.SizingMode">
+            <summary>
+            Gets or sets whether the bars of the barcode should be stretched to fill the space available.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Primitives.RadRect.op_Equality(Telerik.Barcode.Primitives.RadRect,Telerik.Barcode.Primitives.RadRect)">
+            <summary>
+            Determines whether two <see cref="T:Telerik.Barcode.Primitives.RadRect"/> structures are equal.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Primitives.RadRect.op_Inequality(Telerik.Barcode.Primitives.RadRect,Telerik.Barcode.Primitives.RadRect)">
+            <summary>
+            Determines whether two <see cref="T:Telerik.Barcode.Primitives.RadRect"/> structures are not equal.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Primitives.RadRect.IntersectsWith(Telerik.Barcode.Primitives.RadRect)">
+            <summary>
+            Determines whether the current rect intersects with the specified one.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Primitives.RadRect.Contains(System.Double,System.Double)">
+            <summary>
+            Determines if this RadRect instance contains the point that is described by the arguments.
+            </summary>
+            <param name="x">The X coordinate of the point to check.</param>
+            <param name="y">The Y coordinate of the point to check.</param>
+            <returns>Returns true if this rectangle contains the point from the arguments and false otherwise.</returns>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.Symbology1D.HorizontalTextAlignment">
+            <summary>
+            Gets or sets the horizontal alignment of the text dislayed in the barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.Symbology1D.VerticalTextAlignment">
+            <summary>
+            Gets or sets the vertical alignment of the text dislayed in the barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.Symbology1D.ShowText">
+            <summary>
+            Gets or sets whether the barcode should display the human readable value of the barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.Symbology1D.CodeTextSpacing">
+            <summary>
+            Gets or sets the spacing around the text.
+            </summary>
+        </member>
+        <member name="T:Telerik.Barcode.Symbology.EncodingMode">
+            <summary>
+            The EncodingMode enumeration determines the type of the acceptable data.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.EncodingMode.Auto">
+            <summary>
+            Auto mode.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.EncodingMode.Byte">
+            <summary>
+            Accepts byte data.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.EncodingMode.Text">
+            <summary>
+            Allows text data.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.EncodingMode.Numeric">
+            <summary>
+            Allows numeric data.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.PDF417.ECLevel">
+            <summary>
+            Gets or sets how much data will be available for error correction.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.PDF417.Rows">
+            <summary>
+            Gets or sets the number of rows from the generated barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.PDF417.Columns">
+            <summary>
+            Gets or sets the number of columns from the generated barcode.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.PDF417.EncodingMode">
+            <summary>
+            Gets or sets the type of the acceptable data.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.PDF417.DataMatrix">
+            <summary>
+            Gets the true/false values representing each module in the PDF417 code.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Symbology.PDF417.#ctor">
+            <summary>
+            Creates a new PDF417 symbology with default values which can be used by <see cref="!:RadBarcode"/> to encode values into PDF417 barcodes.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Symbology.PDF417.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates a new PDF417 symbology which can be used by <see cref="!:RadBarcode"/> to encode values into PDF417 barcodes.
+            </summary>
+            <param name="columns">The number of columns fro the generated barcode.</param>
+            <param name="rows">The number of rows fro the generated barcode.</param>
+            <param name="errorCorrectionLevel">How much data will be available for error correction.</param>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.TextSubMode.Upper">
+            <summary>
+            Switch to "Uppercase".
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.TextSubMode.Lower">
+            <summary>
+            Switch to "Lowercase".
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.TextSubMode.Mixed">
+            <summary>
+            Switch to "Mixed".
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.TextSubMode.Punctuation">
+            <summary>
+            Switch to "Punctuation" only for next character.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Symbology.AlphaNumeric.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Barcode.Symbology.AlphaNumeric"/> class.
+            </summary>
+        </member>
+        <member name="T:Telerik.Barcode.Symbology.KanjiMode">
+            <summary>
+            Provides methods for encoding and validation of double-byte Kanji characters.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Symbology.KanjiMode.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Barcode.Symbology.KanjiMode"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Symbology.KanjiMode.EncodeData(System.String)">
+            <summary>
+            This method encodes the data for the Kanji Mode.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Symbology.KanjiMode.ValidateData(System.String)">
+            <summary>
+            Validates the data,  to ensure no invalid characters are present.
+            </summary>
+        </member>
+        <member name="T:Telerik.Barcode.Symbology.CodeMode">
+            <summary>
+            Determines the type of code, such as Numeric, Alphanumeric, Byte or Kanji.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.CodeMode.Byte">
+            <summary>
+            Byte Mode.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.CodeMode.Numeric">
+            <summary>
+            Allows Numbers [0-9].
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.CodeMode.Alphanumeric">
+            <summary>
+            Allows characters or numbers.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.CodeMode.Kanji">
+            <summary>
+            Kanji Mode.
+            </summary>
+        </member>
+        <member name="T:Telerik.Barcode.Symbology.ErrorCorrectionLevel">
+            <summary>
+            Determines how much data is available for error correction.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ErrorCorrectionLevel.L">
+            <summary>
+            Low.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ErrorCorrectionLevel.M">
+            <summary>
+            Medium.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ErrorCorrectionLevel.Q">
+            <summary>
+            Quartile.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ErrorCorrectionLevel.H">
+            <summary>
+            High.
+            </summary>
+        </member>
+        <member name="T:Telerik.Barcode.Symbology.ECIMode">
+            <summary>
+            Determines the Extended Channel Interpretation (ECI) mode, which allows for encoding of characters from other sets.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.None">
+            <summary>
+            None.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_7">
+            <summary>
+            ECI 9.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_6">
+            <summary>
+            ECI 8.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_5">
+            <summary>
+            ECI 7.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_4">
+            <summary>
+            ECI 6.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_3">
+            <summary>
+            ECI 5.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_2">
+            <summary>
+            ECI 4.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_1En">
+            <summary>
+            ECI 3.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.CP437">
+            <summary>
+            ECI 2.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_1">
+            <summary>
+            ECI 1.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_8">
+            <summary>
+            ECI 10.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_9">
+            <summary>
+            ECI 11.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_11">
+            <summary>
+            ECI 13.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_13">
+            <summary>
+            ECI 15.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO8859_15">
+            <summary>
+            ECI 17.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.Windows1250">
+            <summary>
+            ECI 21.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.Windows1251">
+            <summary>
+            ECI 22.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.Windows1252">
+            <summary>
+            ECI 23.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.Windows1256">
+            <summary>
+            ECI 24.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.UTF8">
+            <summary>
+            UTF-8.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.ECIMode.ISO646US">
+            <summary>
+            ECI 27.
+            </summary>
+        </member>
+        <member name="T:Telerik.Barcode.Symbology.FNC1Mode">
+            <summary>
+            Signifies application of special formatting to the code data.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.FNC1Mode.None">
+            <summary>
+            None.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.FNC1Mode.FirstPosition">
+            <summary>
+            FNC 1 in first position.
+            </summary>
+        </member>
+        <member name="F:Telerik.Barcode.Symbology.FNC1Mode.SecondPosition">
+            <summary>
+            FNC 1 in second position.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.QRCode.BinaryMatrix">
+            <summary>
+            Gets the true/false values representing each module in the QR code.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.QRCode.FilledValuesMatrix">
+            <summary>
+            Gets the matrix, reflecting the filled modules/positions in the QR code matrix.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.QRCode.VersionDimension">
+            <summary>
+            Gets the size of the QR code based on the current version.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.QRCode.Version">
+            <summary>
+            Gets or sets the version of the QR code. The version determines the size of the QR code and the amount of information that can be encoded.
+            Accepted values are in the range [1..40]. If you set the version to a number outside this range, version will be calculated automatically.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.QRCode.CodeMode">
+            <summary>
+            Gets or sets the type of code that will be used for encoding, such as Numeric, Alphanumeric, Byte or Kanji. 
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.QRCode.ErrorCorrectionLevel">
+            <summary>
+            Gets or sets how much data will be available for error correction.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.QRCode.ECIMode">
+            <summary>
+            Gets or sets the Extended Channel Interpretation (ECI) mode, which allows for encoding of characters from other sets.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.QRCode.FNC1Mode">
+            <summary>
+            Gets or sets application of special formatting to the code data.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.QRCode.ApplicationIndicator">
+            <summary>
+            Gets or sets the application indentifier to be encoded in the QR code.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Symbology.QRCode.#ctor">
+            <summary>
+            Creates a new QRCode symbology with default values which can be used by <see cref="!:RadBarcode"/> to encode values into QR barcodes.
+            </summary>
+        </member>
+        <member name="M:Telerik.Barcode.Symbology.QRCode.#ctor(Telerik.Barcode.Symbology.CodeMode,System.Int32,Telerik.Barcode.Symbology.ErrorCorrectionLevel,Telerik.Barcode.Symbology.ECIMode,Telerik.Barcode.Symbology.FNC1Mode,System.String)">
+            <summary>
+            Creates a new QRCode symbology which can be used by <see cref="!:RadBarcode"/> to encode values into QR barcodes.
+            </summary>
+            <param name="mode">The type of code that will be used for encoding.</param>
+            <param name="version">Determines the size of the QR code and the amount of information that can be encoded.
+            Accepted values are in the range [1..40]. If you set the version to a number outside this range, version will be calculated automatically.</param>
+            <param name="errorLevel">How much data will be available for error correction.</param>
+            <param name="eciMode">Extended Channel Interpretation (ECI) mode, which allows for encoding of characters from other sets.</param>
+            <param name="fncMode">Application of special formatting to the code data.</param>
+            <param name="appIndicator">The application indentifier to be encoded in the QR code.</param>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.SymbologyBase.SizingMode">
+            <summary>
+            Gets or sets whether the bars of the barcode should be stretched to fill the space available.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.SymbologyBase.AutoChecksum">
+            <summary>
+            Gets or sets whether the barcode should calculate a checksum.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.SymbologyBase.Module">
+            <summary>
+            Gets or sets a module by which the barcode can be scaled up.
+            </summary>
+        </member>
+        <member name="P:Telerik.Barcode.Symbology.SymbologyBase.Value">
+            <summary>
+            Gets the value currently being encoded by the symbology.
+            </summary>
+        </member>
+    </members>
+</doc>

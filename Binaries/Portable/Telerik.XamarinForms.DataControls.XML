@@ -1,0 +1,713 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Telerik.XamarinForms.DataControls</name>
+    </assembly>
+    <members>
+        <member name="T:Telerik.XamarinForms.DataControls.ItemStyle">
+            <summary>
+            A class exposing properties that could be used to customize the appearance.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.ItemStyle.BackgroundColorProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.ItemStyle.BackgroundColor"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.ItemStyle.BorderColorProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.ItemStyle.BorderColor"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.ItemStyle.BorderLocationProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.ItemStyle.BorderLocation"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.ItemStyle.BorderWidthProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.ItemStyle.BorderWidth"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.ItemStyle.TextCellTextColorProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.ItemStyle.TextCellTextColor"/> property.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ItemStyle.BackgroundColor">
+            <summary>
+            Gets or sets the color of the token background.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ItemStyle.BorderColor">
+            <summary>
+            Gets or sets the color of the border.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ItemStyle.BorderLocation">
+            <summary>
+            Gets or sets the location of the border.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ItemStyle.BorderWidth">
+            <summary>
+            Gets or sets the width of the border.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ItemStyle.TextCellTextColor">
+            <summary>
+            Gets or sets the color of the color of the text in a text cell.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.ItemsControl.ItemTemplateProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.ItemsControl.ItemTemplate"/> bindable property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.ItemsControl.ItemsSourceProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.ItemsControl.ItemsSource"/> bindable property.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.ListView.Commands.CommandService">
+            <summary>
+            Encapsulates the command-related routine within a <see cref="T:Telerik.XamarinForms.DataControls.RadListView"/> instance.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.ListView.Commands.CommandService.ExecuteCommand(Telerik.XamarinForms.DataControls.ListView.Commands.CommandId,System.Object)">
+            <summary>
+            Attempts to find the command, associated with the specified Id and to perform its Execute routine, using the provided parameter.
+            </summary>
+            <param name="id">The <see cref="T:Telerik.XamarinForms.DataControls.ListView.Commands.CommandId"/> value to look for.</param>
+            <param name="parameter">The parameter that is passed to the CanExecute and Execute methods of the command.</param>
+            <returns>True if the command is successfully executed, false otherwise.</returns>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.ListView.Commands.CommandService.CanExecuteCommand(Telerik.XamarinForms.DataControls.ListView.Commands.CommandId,System.Object)">
+            <summary>
+            Determines whether the command, associated with the specified Id can be executed given the parameter provided.
+            </summary>
+            <param name="id">The <see cref="T:Telerik.XamarinForms.DataControls.ListView.Commands.CommandId"/> value to look for.</param>
+            <param name="parameter">The parameter that is passed to the CanExecute and Execute methods of the command.</param>
+            <returns>True if the command can be executed, false otherwise.</returns>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.ListView.Commands.ItemHoldCommandContext">
+            <summary>
+            Represents the context that is passed as a parameter of a ItemHold command.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.ListView.Commands.ItemHoldCommandContext.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.XamarinForms.DataControls.ListView.Commands.ItemHoldCommandContext"/> class.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.Commands.ItemHoldCommandContext.Item">
+            <summary>
+            Gets the item.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.Commands.ReorderEndedCommandContext.Item">
+            <summary>
+            Gets the data item that is being interacted with.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.Commands.ReorderEndedCommandContext.DestinationItem">
+            <summary>
+            Gets the data item that corresponds to the location where the dragged item has been released.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.Commands.ReorderEndedCommandContext.Group">
+            <summary>
+            Gets the data group containing the data item that is being interacted with.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.Commands.ReorderEndedCommandContext.DestinationGroup">
+            <summary>
+            Gets the data group that corresponds to the location where the dragged item has been released.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.Commands.ReorderEndedCommandContext.Placement">
+            <summary>
+            Gets a value indicating whether the dargged item should be placed before or after the destination item.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.ListView.Commands.ItemTapCommandContext">
+            <summary>
+            Represents the context that is passed as a parameter of a <see cref="!:ItemTapCommand"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.ListView.Commands.ItemTapCommandContext.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.XamarinForms.DataControls.ListView.Commands.ItemTapCommandContext"/> class.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.Commands.ItemTapCommandContext.Item">
+            <summary>
+            Gets the tapped item.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.ListView.Commands.ListViewCommand">
+            <summary>
+            Represents a command abstraction that is associated with a particular <see cref="T:Telerik.XamarinForms.DataControls.RadListView"/> instance.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.Commands.ListViewCommand.Id">
+            <summary>
+            Gets or sets the <see cref="P:Telerik.XamarinForms.DataControls.ListView.Commands.ListViewCommand.CommandId"/> value for this instance.
+            This value is used to associate a command with a known event within a <see cref="T:Telerik.XamarinForms.DataControls.RadListView"/> instance.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.ListView.Commands.ListViewUserCommand">
+            <summary>
+            Represents a predefined command that aggregates a custom ICommand implementation, which may be used to perform additional action over the default implementation.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.ListView.Commands.ListViewUserCommand.CommandProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.ListView.Commands.ListViewUserCommand.Command"/> dependency property.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.Commands.ListViewUserCommand.Command">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.Input.ICommand"/> implementation that is used to perform the custom logic associated with this command.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.ListView.Commands.ListViewUserCommand.CanExecute(System.Object)">
+            <summary>
+            Determines whether the command can be executed against the provided parameter.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.ListView.Commands.ListViewUserCommand.Execute(System.Object)">
+            <summary>
+            Performs the core action given the provided parameter.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.ListView.GroupHeaderTapEventArgs">
+            <summary>
+            Represents the arguments that are passed to the <see cref="E:Telerik.XamarinForms.DataControls.RadListView.GroupHeaderTapped"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.ListView.GroupHeaderTapEventArgs.#ctor(Telerik.XamarinForms.DataControls.ListView.GroupHeaderContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.XamarinForms.DataControls.ListView.GroupHeaderTapEventArgs"/> class.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.GroupHeaderTapEventArgs.Key">
+            <summary>
+            Gets the specific for the group key.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.GroupHeaderTapEventArgs.Items">
+            <summary>
+            Gets the child items of the group.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.GroupHeaderTapEventArgs.Level">
+            <summary>
+            Gets the zero-based level (or the depth) of the group.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.GroupHeaderTapEventArgs.IsExpanded">
+            <summary>
+            Gets a value indicating whether the group is currently expanded (has its child items visible).
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.ListView.ItemHoldEventArgs">
+            <summary>
+            Represents the arguments that are passed to the <see cref="!:RadListView.ItemHoldEvent"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.ListView.ItemHoldEventArgs.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.XamarinForms.DataControls.ListView.ItemHoldEventArgs"/> class.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.ItemHoldEventArgs.Item">
+            <summary>
+            Gets the item.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.ReorderEndedEventArgs.Item">
+            <summary>
+            Gets the data item that is being interacted with.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.ReorderEndedEventArgs.DestinationItem">
+            <summary>
+            Gets the data item that corresponds to the location where the dragged item has been released.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.ReorderEndedEventArgs.Group">
+            <summary>
+            Gets the data group containing the data item that is being interacted with.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.ReorderEndedEventArgs.DestinationGroup">
+            <summary>
+            Gets the data group that corresponds to the location where the dragged item has been released.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.ReorderEndedEventArgs.Placement">
+            <summary>
+            Gets a value indicating whether the dargged item should be placed before or after the destination item.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.ListView.GroupHeaderContext">
+            <summary>
+            Represents the context that is passed to a <see cref="T:Telerik.XamarinForms.DataControls.ListView.ListViewGroupHeaderCell"/> control that represents a group within a <see cref="T:Telerik.XamarinForms.DataControls.RadListView"/> instance.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.GroupHeaderContext.Key">
+            <summary>
+            Gets the specific for the group key.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.GroupHeaderContext.Items">
+            <summary>
+            Gets the child items of the group.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.GroupHeaderContext.Level">
+            <summary>
+            Gets the zero-based level (or the depth) of the group.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.ListView.GroupHeaderContext.IsExpanded">
+            <summary>
+            Gets or sets a value indicating whether the group is currently expanded (has its child items visible).
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.ListView.ListViewItemStyle">
+            <summary>
+            A class exposing properties that could be used to customize the appearance of ListView item.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.ListView.ListViewStyleSelector.OnSelectStyle(System.Object,Telerik.XamarinForms.DataControls.ListView.ListViewStyleContext)">
+            <summary>
+            Called when [select style].
+            </summary>
+            <param name="item">The item.</param>
+            <param name="styleContext">The style context.</param>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.ListView.ListViewStyleSelector.SelectStyle(System.Object,Telerik.XamarinForms.DataControls.ListView.ListViewStyleContext)">
+            <summary>
+            Selects the style.
+            </summary>
+            <param name="item">The item.</param>
+            <param name="styleContext">The style context.</param>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadListView.CommandService">
+            <summary>
+            Gets the <see cref="P:Telerik.XamarinForms.DataControls.RadListView.CommandService"/> instance that manages the commanding behavior of this instance.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadListView.Commands">
+            <summary>
+            Gets the collection with all the custom commands registered with the <see cref="P:Telerik.XamarinForms.DataControls.RadListView.CommandService"/>. Custom commands have higher priority than the built-in (default) ones.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.RadListView.HeaderTemplateProperty">
+            <summary>
+            Identifies the <see cref="!:Header"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.RadListView.FooterTemplateProperty">
+            <summary>
+            Identifies the <see cref="!:Footer"/> property.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadListView.HeaderTemplate">
+            <summary>
+            Specifies a <see cref="T:Xamarin.Forms.DataTemplate"/> to be displayed as a header before all items.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadListView.FooterTemplate">
+            <summary>
+            Specifies a <see cref="T:Xamarin.Forms.DataTemplate"/> to be displayed as a footer after all items.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.RadListView.UpdateItemIsSelected(System.Object,System.Boolean)">
+            <summary>
+            A mechanism to change the item selected state that is not triggered
+            by direct changes in the <see cref="P:Telerik.XamarinForms.DataControls.RadListView.SelectedItems"/> collection.
+            This can be considered as an external update.
+            </summary>
+            <param name="item">The item.</param>
+            <param name="isSelected">The is selected.</param>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.NonVirtualizedItemsControl">
+            <summary>
+            A non-virtualized items control that uses a StackLayout for an items panel.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.TreeView.CheckBoxModes">
+            <summary>
+            Determines the behavior of the CheckBoxes.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.CheckBoxModes.None">
+            <summary>
+            The CheckBoxes are hidden.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.CheckBoxModes.Individual">
+            <summary>
+            CheckBoxes are visible. Checking one does not affect its parents and children.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.CheckBoxModes.Propagate">
+            <summary>
+            CheckBoxes are visible. Checking one affects its parents and children.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Telerik.XamarinForms.DataControls.TreeView.CheckedItemsCollection" -->
+        <member name="T:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewUserCommand">
+            <summary>
+            Represents a predefined command that aggregates a custom ICommand implementation, which may be used to perform additional action over the default implementation.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewUserCommand.SuppressDefaultCommandProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewUserCommand.SuppressDefaultCommand"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewUserCommand.CommandProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewUserCommand.Command"/> dependency property.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewUserCommand.SuppressDefaultCommand">
+            <summary>
+            Gets or sets a value indicating wheather the default implementation of the command should be executed.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewUserCommand.Command">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.Input.ICommand"/> implementation that is used to perform the custom logic associated with this command.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewUserCommand.CanExecute(System.Object)">
+            <summary>
+            Determines whether the command can be executed against the provided parameter.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewUserCommand.Execute(System.Object)">
+            <summary>
+            Performs the core action given the provided parameter.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewCommandService">
+            <summary>
+            Encapsulates the command-related routine within a <see cref="T:Telerik.XamarinForms.DataControls.RadTreeView"/> instance.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewCommandService.ExecuteCommand(Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewCommandId,System.Object,System.Boolean)">
+            <summary>
+            Attempts to find the command, associated with the specified Id and to perform its Execute routine, using the provided parameter.
+            </summary>
+            <param name="id">The <see cref="T:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewCommandId"/> value to look for.</param>
+            <param name="parameter">The parameter that is passed to the CanExecute and Execute methods of the command.</param>
+            <returns>True if the command is successfully executed, false otherwise.</returns>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewCommandService.CanExecuteCommand(Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewCommandId,System.Object)">
+            <summary>
+            Determines whether the command, associated with the specified Id can be executed given the parameter provided.
+            </summary>
+            <param name="id">The <see cref="T:Telerik.XamarinForms.DataControls.TreeView.Commands.TreeViewCommandId"/> value to look for.</param>
+            <param name="parameter">The parameter that is passed to the CanExecute and Execute methods of the command.</param>
+            <returns>True if the command can be executed, false otherwise.</returns>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator">
+            <summary>
+            Customized Label control which properly updates the expand and collapse symbols based on its properties.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsExpandedProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsExpanded"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsLeafProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsLeaf"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsLoadOnDemandEnabledProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsLoadOnDemandEnabled"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.ExpandedSymbolProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.ExpandedSymbol"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.CollapsedSymbolProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.CollapsedSymbol"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.LoadingSymbolProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.LoadingSymbol"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsLoadingProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsLoading"/> property.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsLoading">
+            <summary>
+            Gets or sets a boolean value indicating if a loading data operation is ongoing.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.LoadingSymbol">
+            <summary>
+            Gets or sets the string which will be visualized loading data on demand.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.CollapsedSymbol">
+            <summary>
+            Gets or sets the string which will be visualized whenever the <see cref="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem"/> is in collapsed state.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.ExpandedSymbol">
+            <summary>
+            Gets or sets the string which will be visualized whenever the <see cref="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem"/> is in expanded state.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsExpanded">
+            <summary>
+            Gets or sets a boolean value indicating the state of the <see cref="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsLeaf">
+            <summary>
+            Gets or sets a boolean value indicating if the <see cref="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem"/> has children.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.ExpandCollapseIndicator.IsLoadOnDemandEnabled">
+            <summary>
+            Gets or sets a boolean value indicating if the lazy loading feature is enabled for the respective <see cref="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.TreeView.ItemText">
+            <summary>
+            Customized Label control enabling Telerik theming mechanism.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.TreeView.TreeViewStyleSelector.OnSelectStyle(System.Object,Telerik.XamarinForms.DataControls.TreeView.TreeViewStyleContext)">
+            <summary>
+            Called when [select style].
+            </summary>
+            <param name="item">The item.</param>
+            <param name="styleContext">The style context.</param>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.TreeView.TreeViewStyleSelector.SelectStyle(System.Object,Telerik.XamarinForms.DataControls.TreeView.TreeViewStyleContext)">
+            <summary>
+            Selects the style.
+            </summary>
+            <param name="item">The item.</param>
+            <param name="styleContext">The style context.</param>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem">
+            <summary>
+            This class is set as <see cref="P:Xamarin.Forms.BindableObject.BindingContext"/> of the UI container created based on the provided <see cref="T:Xamarin.Forms.DataTemplate"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem.Header">
+            <summary>
+            Gets the value of the property set as <see cref="P:Telerik.XamarinForms.DataControls.TreeViewDescriptor.DisplayMemberPath"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem.Item">
+            <summary>
+            Gets the business object from the <see cref="P:Telerik.XamarinForms.DataControls.RadTreeView.ItemsSource"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem.Level">
+            <summary>
+            Gets an uint value showing show deep in the hierarchy is the <see cref="P:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem.Item"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem.IsExpanded">
+            <summary>
+            Gets a boolean value indicating the state of the <see cref="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem.IsCheckBoxVisible">
+            <summary>
+            Gets a boolean value indicating if a checkbox should be visualized.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem.IsLoading">
+            <summary>
+            Gets a boolean value indicating if children are being currently loaded into the item.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem.IsChecked">
+            <summary>
+            Gets or sets a nullable boolean value indicating the state of the checkbox.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem.IsLeaf">
+            <summary>
+            Gets a boolean value indicating if the <see cref="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem"/> has children.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem.IsLoadOnDemandEnabled">
+            <summary>
+            Gets a boolean value indicating if the lazy loading feature is enabled for the respective <see cref="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewDataItem"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.RadTreeView.CheckedItemsProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.RadTreeView.CheckedItems"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.RadTreeView.CheckBoxModeProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.RadTreeView.CheckBoxMode"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.RadTreeView.DescriptorsProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.RadTreeView.Descriptors"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.RadTreeView.ItemsSourceProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.RadTreeView.ItemsSource"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.RadTreeView.ItemStyleProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.RadTreeView.ItemStyle"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.RadTreeView.ItemStyleSelectorProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.RadTreeView.ItemStyleSelector"/> property.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadTreeView.CheckBoxMode">
+            <summary>
+            Gets or sets a value controlling the behavior of the CheckBoxes.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadTreeView.CheckedItems">
+            <summary>
+            Gets a collection of items which are checked in UI.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadTreeView.Descriptors">
+            <summary>
+            Gets a collection of <see cref="T:Telerik.XamarinForms.DataControls.TreeViewDescriptor"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadTreeView.ItemsSource">
+            <summary>
+            Gets or sets the data that will be visualized.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadTreeView.ItemStyle">
+            <summary>
+            Gets or sets <see cref="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewItemStyle"/> class which defines the look of the items.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadTreeView.ItemStyleSelector">
+            <summary>
+            Gets or sets <see cref="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewStyleSelector"/> class which selects a <see cref="T:Telerik.XamarinForms.DataControls.TreeView.TreeViewItemStyle"/> for each item separately.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadTreeView.CommandService">
+            <summary>
+            Gets the <see cref="P:Telerik.XamarinForms.DataControls.RadTreeView.CommandService"/> instance that manages the commanding behavior of this instance.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.RadTreeView.Commands">
+            <summary>
+            Gets the collection with all the custom commands registered with the <see cref="P:Telerik.XamarinForms.DataControls.RadTreeView.CommandService"/>. Custom commands have higher priority than the built-in (default) ones.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.RadTreeView.Collapse(System.Object)">
+            <summary>
+            Sends a specific item in its collapsed state.
+            </summary>
+            <param name="item">The item to be collapsed.</param>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.RadTreeView.CollapseAll">
+            <summary>
+            Sends all items in their collapsed state.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.RadTreeView.Expand(System.Object)">
+            <summary>
+            Sends a specific item in its expanded state.
+            </summary>
+            <param name="item">The item to be expanded.</param>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.RadTreeView.ExpandAll">
+            <summary>
+            Sends all items in their expanded state.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.RadTreeView.CheckItem(System.Object)">
+            <summary>
+            Attempts to add an item to the <see cref="P:Telerik.XamarinForms.DataControls.RadTreeView.CheckedItems"/> collection.
+            </summary>
+            <param name="item">The item to be added.</param>
+        </member>
+        <member name="M:Telerik.XamarinForms.DataControls.RadTreeView.UncheckItem(System.Object)">
+            <summary>
+            Attempts to remove an item from the <see cref="P:Telerik.XamarinForms.DataControls.RadTreeView.CheckedItems"/> collection.
+            </summary>
+            <param name="item">The item to be removed.</param>
+        </member>
+        <member name="T:Telerik.XamarinForms.DataControls.TreeViewDescriptor">
+            <summary>
+            A <see cref="T:Xamarin.Forms.BindableObject"/> which provides meta information for a specific type which is part of the <see cref="!:ItemsSource"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeViewDescriptor.TargetTypeProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeViewDescriptor.TargetType"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeViewDescriptor.DisplayMemberPathProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeViewDescriptor.DisplayMemberPath"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeViewDescriptor.ItemsSourcePathProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeViewDescriptor.ItemsSourcePath"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.DataControls.TreeViewDescriptor.ItemTemplateProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.DataControls.TreeViewDescriptor.ItemTemplate"/> property.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeViewDescriptor.TargetType">
+            <summary>
+            Gets or sets the <see cref="T:System.Type"/> of an item.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeViewDescriptor.DisplayMemberPath">
+            <summary>
+            Gets or sets the name of the property holding the header of the TreeViewDataItem.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeViewDescriptor.ItemsSourcePath">
+            <summary>
+            Gets or sets the name of the property holding children of the respective type of items.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.DataControls.TreeViewDescriptor.ItemTemplate">
+            <summary>
+            Gets or sets the <see cref="T:Xamarin.Forms.DataTemplateSelector"/> or <see cref="T:Xamarin.Forms.DataTemplate"/> to be applied to the respective type of items.
+            </summary>
+        </member>
+    </members>
+</doc>

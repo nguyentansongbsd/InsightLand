@@ -35,8 +35,7 @@ namespace ConasiCRM.Portable.Views
 
         private async void NewMenu_Clicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
-            await Task.Delay(1000);
+            viewModel.IsBusy = true;            
             await Navigation.PushAsync(new ContactForm());
             viewModel.IsBusy = false;
         }
@@ -49,15 +48,14 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-        private async void listView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            viewModel.IsBusy = true;
-            await Task.Delay(1000);
+            viewModel.IsBusy = true;           
             var item = e.Item as ContactListModel;
             ContactForm newPage = new ContactForm(item.contactid);
-            newPage.CheckSingleContact = async (checkSingleLead) =>
+            newPage.CheckSingleContact = async (CheckSingleContact) =>
             {
-                if (checkSingleLead == true)
+                if (CheckSingleContact == true)
                 {
                     await Navigation.PushAsync(newPage);
                 }

@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Telerik.XamarinForms.ConversationalUI</name>
+    </assembly>
+    <members>
+        <member name="P:Telerik.XamarinForms.ConversationalUI.TypingIndicator.Authors">
+            <summary>
+            Gets the authors that are currently typing.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.ConversationalUI.TypingIndicator.IsTyping">
+            <summary>
+            Gets or sets a value indicating whether anybody is typing. This property has lower priority than 
+            the Authors property in that if there is at least one author that is typing, the value of IsTyping
+            is not taken into consideration.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.ConversationalUI.TypingIndicator.Image">
+            <summary>
+            Gets or sets the custom image to be displayed. If the value of this property is null a default
+            image is displayed.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.ConversationalUI.TypingIndicator.Text">
+            <summary>
+            Gets or sets the custom text to be displayed. If the value of this property is null a default
+            text is displayed.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.ConversationalUI.TypingIndicator.ActualIsTyping">
+            <summary>
+            Gets a value indicating whether the IsTyping property is true, or there is at least one author that is typing.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.ConversationalUI.TypingIndicator.BuildActualText">
+            <summary>
+            Gets the text that will be displayed. Override this method to set custom text.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.ConversationalUI.TypingIndicatorDots.IsTyping">
+            <summary>
+            Gets or sets a value indicating whether the dots animation should be running or not.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.ConversationalUI.RadChat.InputAreaBackgroundColor">
+            <summary>
+            Gets or sets the background color of the area that the input elements (entry and button) are reside.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.ConversationalUI.RadChat.FocusEntry">
+             <summary>
+             Attemps to set focus to the entry element.
+             </summary>
+             <returns>true if the keyboard focus was set to the entry element; 
+             false if the call to this method did not force a focus change.
+            </returns>
+        </member>
+        <member name="T:Telerik.XamarinForms.ConversationalUI.TelerikThemeStyles">
+            <summary>
+            A class related to the theming infrastructure.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.ConversationalUI.TelerikThemeStyles.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.XamarinForms.ConversationalUI.TelerikThemeStyles"/> class.
+            </summary>
+        </member>
+    </members>
+</doc>

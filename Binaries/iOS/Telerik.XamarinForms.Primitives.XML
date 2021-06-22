@@ -1,0 +1,295 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Telerik.XamarinForms.Primitives</name>
+    </assembly>
+    <members>
+        <member name="T:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox">
+            <summary>
+            Represents simple implementation of checkbox.
+            </summary>
+            <seealso cref="T:UIKit.UIView" />
+        </member>
+        <member name="M:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox"/> class.
+            </summary>
+        </member>
+        <member name="E:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox.Toggled">
+            <summary>
+            Occurs when Control is checked.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox.CheckBoxLength">
+            <summary>
+            Gets or sets the height and width of the CheckBox.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox.CheckedColor">
+            <summary>
+            Gets or sets the color of the checked background.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox.CheckedSymbolColor">
+            <summary>
+            Gets or sets the color of the checked symbol.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox.IsChecked">
+            <summary>
+            Gets or sets the checked state of the control.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox.StrokeWidth">
+            <summary>
+            Gets or sets the width of all strokes - checked and indeterminate symbols as well as unchecked border.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox.UncheckedColor">
+            <summary>
+            Gets or sets the stroke color of the unchecked state.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox.IndeterminateColor">
+            <summary>
+            Gets or sets the background color of the Indeterminate state.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox.IndeterminateSymbolColor">
+            <summary>
+            Gets or sets the symbol color of the Indeterminate state.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.PrimitivesRenderer.iOS.TKCheckBox.LayoutSubviews">
+            <inheritdoc/>
+        </member>
+        <member name="M:Telerik.XamarinForms.Primitives.SlideView.Commands.SlideViewCommandService.ExecuteCommand(Telerik.XamarinForms.Primitives.SlideView.Commands.SlideViewCommandId,System.Object)">
+            <summary>
+            Attempts to find the command, associated with the specified Id and to perform its Execute routine, using the provided parameter.
+            </summary>
+            <param name="id">The <see cref="!:CommandId"/> value to look for.</param>
+            <param name="parameter">The parameter that is passed to the CanExecute and Execute methods of the command.</param>
+            <returns>True if the command is successfully executed, false otherwise.</returns>
+        </member>
+        <member name="M:Telerik.XamarinForms.Primitives.SlideView.Commands.SlideViewCommandService.CanExecuteCommand(Telerik.XamarinForms.Primitives.SlideView.Commands.SlideViewCommandId,System.Object)">
+            <summary>
+            Determines whether the command, associated with the specified Id can be executed given the parameter provided.
+            </summary>
+            <param name="id">The <see cref="!:CommandId"/> value to look for.</param>
+            <param name="parameter">The parameter that is passed to the CanExecute and Execute methods of the command.</param>
+            <returns>True if the command can be executed, false otherwise.</returns>
+        </member>
+        <member name="T:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxCommandService">
+            <summary>
+            Encapsulates the command-related routine within a <see cref="T:Telerik.XamarinForms.Primitives.RadCheckBox"/> instance.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxCommandService.ExecuteCommand(Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxCommandId,System.Object)">
+            <summary>
+            Attempts to find the command, associated with the specified Id and to perform its Execute routine, using the provided parameter.
+            </summary>
+            <param name="id">The <see cref="T:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxCommandId"/> value to look for.</param>
+            <param name="parameter">The parameter that is passed to the CanExecute and Execute methods of the command.</param>
+            <returns>True if the command is successfully executed, false otherwise.</returns>
+        </member>
+        <member name="M:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxCommandService.CanExecuteCommand(Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxCommandId,System.Object)">
+            <summary>
+            Determines whether the command, associated with the specified Id can be executed given the parameter provided.
+            </summary>
+            <param name="id">The <see cref="T:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxCommandId"/> value to look for.</param>
+            <param name="parameter">The parameter that is passed to the CanExecute and Execute methods of the command.</param>
+            <returns>True if the command can be executed, false otherwise.</returns>
+        </member>
+        <member name="T:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxUserCommand">
+            <summary>
+            Represents a predefined command that aggregates a custom ICommand implementation, which may be used to perform additional action over the default implementation.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxUserCommand.SuppressDefaultCommandProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxUserCommand.SuppressDefaultCommand"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxUserCommand.CommandProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxUserCommand.Command"/> dependency property.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxUserCommand.SuppressDefaultCommand">
+            <summary>
+            Gets or sets a value indicating wheather the default implementation of the command should be executed.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxUserCommand.Command">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.Input.ICommand"/> implementation that is used to perform the custom logic associated with this command.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxUserCommand.CanExecute(System.Object)">
+            <summary>
+            Determines whether the command can be executed against the provided parameter.
+            </summary>
+        </member>
+        <member name="M:Telerik.XamarinForms.Primitives.CheckBox.Commands.CheckBoxUserCommand.Execute(System.Object)">
+            <summary>
+            Performs the core action given the provided parameter.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.RadCheckBox.CheckedColorProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.Primitives.RadCheckBox.CheckedColor"/> property. 
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.RadCheckBox.CheckedSymbolColorProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.Primitives.RadCheckBox.CheckedSymbolColor"/> property. 
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.RadCheckBox.IndeterminateColorProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.Primitives.RadCheckBox.IndeterminateColor"/> property. 
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.RadCheckBox.IndeterminateSymbolColorProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.Primitives.RadCheckBox.IndeterminateSymbolColor"/> property. 
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.RadCheckBox.IsCheckedProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.Primitives.RadCheckBox.IsChecked"/> property. 
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.RadCheckBox.LengthProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.Primitives.RadCheckBox.Length"/> property. 
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.RadCheckBox.StrokeWidthProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.Primitives.RadCheckBox.StrokeWidth"/> property. 
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.RadCheckBox.UncheckedColorProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.XamarinForms.Primitives.RadCheckBox.UncheckedColor"/> property. 
+            </summary>
+        </member>
+        <member name="E:Telerik.XamarinForms.Primitives.RadCheckBox.IsCheckedChanged">
+            <summary>
+            Occurs when the <see cref="P:Telerik.XamarinForms.Primitives.RadCheckBox.IsChecked"/> property has changed.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Primitives.RadCheckBox.CheckedColor">
+            <summary>
+            Gets or sets the <see cref="T:Xamarin.Forms.Color"/> applied to the control when it is checked.
+            The default value is Black.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Primitives.RadCheckBox.CheckedSymbolColor">
+            <summary>
+            Gets or sets the <see cref="T:Xamarin.Forms.Color"/> applied to the check symbol of the control.
+            The default value is Black.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Primitives.RadCheckBox.CommandService">
+            <summary>
+            Gets the <see cref="P:Telerik.XamarinForms.Primitives.RadCheckBox.CommandService"/> instance that manages the commanding behavior of this instance.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Primitives.RadCheckBox.IndeterminateColor">
+            <summary>
+            Gets or sets the <see cref="T:Xamarin.Forms.Color"/> applied to the control when it is Indeterminate.
+            The default value is Black.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Primitives.RadCheckBox.IndeterminateSymbolColor">
+            <summary>
+            Gets or sets the <see cref="T:Xamarin.Forms.Color"/> applied to the Indeterminate symbol of the control.
+            The default value is Black.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Primitives.RadCheckBox.IsChecked">
+            <summary>
+            Gets or sets a <see cref="P:Telerik.XamarinForms.Primitives.RadCheckBox.IsChecked"/>.
+            The default value is false.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Primitives.RadCheckBox.Length">
+            <summary>
+            Gets or sets the size of the checkbox.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Primitives.RadCheckBox.StrokeWidth">
+            <summary>
+            Gets or sets the width with which the symbols are drawn.
+            </summary>
+        </member>
+        <member name="P:Telerik.XamarinForms.Primitives.RadCheckBox.UncheckedColor">
+            <summary>
+            Gets or sets the <see cref="T:Xamarin.Forms.Color"/> applied to the control when it is unchecked.
+            The default value is Black.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.PlacementMode.Bottom">
+            <summary>
+            A position of the Popup control where the control aligns its upper edge 
+            with the lower edge of the PlacementTarget and aligns its left edge with 
+            the left edge of the PlacementTarget. If the lower screen-edge obscures 
+            the Popup, the control repositions itself so that its lower edge aligns 
+            with the upper edge of the PlacementTarget. If the upper screen-edge 
+            obscures the Popup, the control then repositions itself so that its upper 
+            edge aligns with the lower edge of the PlacementTarget and constraint its 
+            height.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.PlacementMode.Right">
+            <summary>
+            A position of the Popup control that aligns its left edge with the right edge 
+            of the PlacementTarget and aligns its upper edge with the upper edge of the 
+            PlacementTarget. If the right screen-edge obscures the Popup, the control 
+            repositions itself so that its left edge aligns with the left edge of the 
+            PlacementTarget. If the left screen-edge obscures the Popup, the control 
+            repositions itself so that its left edge aligns with the right edge of the 
+            PlacementTarget and constrain its width. 
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.PlacementMode.Left">
+            <summary>
+            A Popup control that aligns its right edge with the left edge of the PlacementTarget 
+            and aligns its upper edge with the upper edge of the PlacementTarget. If the left 
+            screen-edge obscures the Popup, the Popup repositions itself so that its left edge 
+            aligns with the right edge of the PlacementTarget. If the right screen-edge obscures 
+            the Popup, the right edge of the control aligns with the left edge of the PlacementTarget 
+            and constrain its width.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.PlacementMode.Top">
+            <summary>
+            A position of the Popup control that aligns its lower edge with the upper edge of 
+            the PlacementTarget and aligns its left edge with the left edge of the PlacementTarget. 
+            If the upper screen-edge obscures the Popup, the control repositions itself so that 
+            its upper edge aligns with the lower edge of the PlacementTarget. If the lower 
+            screen-edge obscures the Popup, the lower edge of the control aligns with the 
+            upper edge of the PlacementTarget and constrain its height.
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.PlacementMode.Center">
+            <summary>
+            A position of the Popup control that aligns at the middle of the PlacementTarget. 
+            </summary>
+        </member>
+        <member name="F:Telerik.XamarinForms.Primitives.PlacementMode.Relative">
+            <summary>
+            A position of the Popup control that aligns the top left corner of the popip with
+            the top left corner of the placement target with the horizontal and vertical offset
+            considered in the calculations.
+            </summary>
+        </member>
+        <member name="E:Telerik.XamarinForms.Primitives.RadScrollView.TopHeaderUnloaded">
+            <summary>
+            An event needed to work around a peculiarity in UWP where the TopHeader is unloaded while being shown on screen.
+            </summary>
+        </member>
+    </members>
+</doc>

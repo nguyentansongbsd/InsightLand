@@ -39,13 +39,21 @@ namespace ConasiCRM.Portable.Views
             this.Title = "Cập nhật thông tin khách hàng tiềm năng";
             this.BindingContext = viewModel = new LeadFormViewModel();
             this.constructor();
-            this.loadData(Id.ToString());
+            Init(Id);
+        }
+
+        public async void Init(Guid Id)
+        {
+            await loadData(Id.ToString());
+            if (viewModel.singleLead != null)
+                CheckSingleLead(true);
+            else
+                CheckSingleLead(false);
         }
 
         public void constructor()
         {
             isShowingPopup = false;
-
             viewModel.singleLead = new LeadFormModel();
             //viewModelProject = new ProjectViewModel();
             checkBoxes = new List<MyNewCheckBox>();
@@ -53,7 +61,7 @@ namespace ConasiCRM.Portable.Views
             multiselectClearimageButton = new List<ImageButton>();
         }
 
-        private async void loadData(string leadid)
+        private async Task loadData(string leadid)
         {
             viewModel.IsBusy = true;
 
@@ -81,11 +89,7 @@ namespace ConasiCRM.Portable.Views
                     {
                         viewModel.list_Duanquantam.Add(new ProjectList());
                     }
-                }
-                if (viewModel.singleLead != null)
-                    CheckSingleLead(true);
-                else
-                    CheckSingleLead(false);
+                }              
             }                       
             await viewModel.LoadLeadsRating();
             this.render(leadid);               
