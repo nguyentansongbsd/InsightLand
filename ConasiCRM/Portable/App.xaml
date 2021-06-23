@@ -11,7 +11,7 @@
             <Color x:Key="GridHeadingBorder">#d8d4d4</Color>
             <Color x:Key="SearchBarBG">#e5e3e3</Color>
             <Color x:Key="SearchBarBorderColor">#666666</Color>
-            <Color x:Key="NavigationPrimary">#000000</Color>
+            <Color x:Key="NavigationPrimary">#1399D5</Color>
 
             <Color x:Key="ExpanderHeaderBackground">#F3F3F3</Color>
             <Color x:Key="ExpanderHeaderTextColor">Black</Color>

@@ -52,58 +52,58 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="Telerik.Xamarin.Android.Chart">
-      <HintPath>..\..\..\Binaries\Android\Telerik.Xamarin.Android.Chart.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.Xamarin.Android.Chart.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Xamarin.Android.Common">
-      <HintPath>..\..\..\Binaries\Android\Telerik.Xamarin.Android.Common.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.Xamarin.Android.Common.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Xamarin.Android.Data">
-      <HintPath>..\..\..\Binaries\Android\Telerik.Xamarin.Android.Data.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.Xamarin.Android.Data.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Xamarin.Android.Gauges">
-      <HintPath>..\..\..\Binaries\Android\Telerik.Xamarin.Android.Gauges.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.Xamarin.Android.Gauges.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Xamarin.Android.Input">
-      <HintPath>..\..\..\Binaries\Android\Telerik.Xamarin.Android.Input.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.Xamarin.Android.Input.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Xamarin.Android.List">
-      <HintPath>..\..\..\Binaries\Android\Telerik.Xamarin.Android.List.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.Xamarin.Android.List.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Xamarin.Android.Primitives">
-      <HintPath>..\..\..\Binaries\Android\Telerik.Xamarin.Android.Primitives.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.Xamarin.Android.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.XamarinForms.Barcode">
-      <HintPath>..\..\..\Binaries\Android\Telerik.XamarinForms.Barcode.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.XamarinForms.Barcode.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.XamarinForms.Chart">
-      <HintPath>..\..\..\Binaries\Android\Telerik.XamarinForms.Chart.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.XamarinForms.Chart.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.XamarinForms.Common">
-      <HintPath>..\..\..\Binaries\Android\Telerik.XamarinForms.Common.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.XamarinForms.Common.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.XamarinForms.ConversationalUI">
-      <HintPath>..\..\..\Binaries\Android\Telerik.XamarinForms.ConversationalUI.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.XamarinForms.ConversationalUI.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.XamarinForms.DataControls">
-      <HintPath>..\..\..\Binaries\Android\Telerik.XamarinForms.DataControls.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.XamarinForms.DataControls.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.XamarinForms.DataGrid">
-      <HintPath>..\..\..\Binaries\Android\Telerik.XamarinForms.DataGrid.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.XamarinForms.DataGrid.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.XamarinForms.DataVisualization">
-      <HintPath>..\..\..\Binaries\Android\Telerik.XamarinForms.DataVisualization.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.XamarinForms.DataVisualization.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.XamarinForms.Input">
-      <HintPath>..\..\..\Binaries\Android\Telerik.XamarinForms.Input.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.XamarinForms.Input.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.XamarinForms.PdfViewer">
-      <HintPath>..\..\..\Binaries\Android\Telerik.XamarinForms.PdfViewer.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.XamarinForms.PdfViewer.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.XamarinForms.Primitives">
-      <HintPath>..\..\..\Binaries\Android\Telerik.XamarinForms.Primitives.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.XamarinForms.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.XamarinForms.SkiaSharp">
-      <HintPath>..\..\..\Binaries\Android\Telerik.XamarinForms.SkiaSharp.dll</HintPath>
+      <HintPath>..\..\..\Binaries\Binaries\Android\Telerik.XamarinForms.SkiaSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
