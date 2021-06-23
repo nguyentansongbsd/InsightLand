@@ -21,76 +21,14 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new PhiMoGioiGiaoDichListViewModel();
-            this.init();
-            dataGrid.Commands.Add(new GridCellTapCommand<PhiMoGioiGiaoDichListModel, PhiMoGioiGiaoDichForm>("bsd_brokeragetransactionid")); // event detail PhiMoGioi
-            dataGrid.LoadOnDemand += async (sender, e) =>
-            {
-                viewModel.Page += 1;
-                await loadData();
-                e.IsDataLoaded = true;
-            };
-            //Task.Run(loadTotalAmount);
+            Init();
         }
-
-        public async void init()
+        public async void Init()
         {
+            await viewModel.LoadData();
             await loadTotalAmount();
             await loadTotalAmountReceived();
-        }
-        public async Task loadData()
-        {
-            string xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' count='" + OrgConfig.RecordPerPage + @"' page='" + viewModel.Page + @"'>
-                <entity name='bsd_brokeragetransaction'>
-                    <all-attributes/>
-                    <order attribute='createdon' descending='false' />
-                    <filter type='and'>
-                    </filter>
-                    <link-entity name='quote' from='quoteid' to='bsd_reservation' visible='false' link-type='outer' alias='quote'>
-                      <attribute name='name' alias='quote_name'/>
-                    </link-entity>
-                    <link-entity name='bsd_brokeragefees' from='bsd_brokeragefeesid' to='bsd_brokeragefees' visible='false' link-type='outer' alias='brokeragefees'>
-                      <attribute name='bsd_name' alias='brokeragefees_name'/>
-                    </link-entity>
-                  <link-entity name='product' from='productid' to='bsd_units' visible='false' link-type='outer' alias='product'>
-                  <attribute name='name' alias='product_name'/>
-                </link-entity>
-                <link-entity name='bsd_project' from='bsd_projectid' to='bsd_project' visible='false' link-type='outer'>
-                <attribute name='bsd_name' alias='project_bsd_name'/> 
-                </link-entity>
-                <link-entity name='account' from='accountid' to='bsd_customer' visible='false' link-type='outer' >
-                <attribute name='bsd_name' alias='account_bsd_name'/>
-                </link-entity>
-                <link-entity name='contact' from='contactid' to='bsd_customer' visible='false' link-type='outer' >
-                <attribute name='bsd_fullname' alias='contact_bsd_fullname'/>
-                </link-entity>
-                <link-entity name='contact' from='contactid' to='bsd_collaborator' visible='false' link-type='outer' > 
-                <attribute name='bsd_fullname' alias='sales_name'/>
-                </link-entity>
-                </entity>
-            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<PhiMoGioiGiaoDichListModel>>("bsd_brokeragetransactions", xml);
-            if (result == null) // 
-            {
-                viewModel.Data.Clear();
-                viewModel.LoadOnDemandMode = LoadOnDemandMode.Manual;
-                return;
-            }
-
-            var data = result.value;
-            if (data.Any())
-            {
-                foreach (var item in data)
-                {
-                    viewModel.Data.Add(item);
-                }
-            }
-            else
-            {
-                viewModel.LoadOnDemandMode = LoadOnDemandMode.Manual;
-            }
-
-        }
-
+        }             
         public async Task loadTotalAmount()
         {
 
@@ -130,6 +68,21 @@ namespace ConasiCRM.Portable.Views
         public void totalPMGConLai()
         {
             viewModel.totalPMGConLai = viewModel.totalPMG - viewModel.totalPMGNhan;
+        }
+
+        private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            viewModel.IsBusy = true;
+            PhiMoGioiGiaoDichListModel val = e.Item as PhiMoGioiGiaoDichListModel;
+            PhiMoGioiGiaoDichForm newPage = new PhiMoGioiGiaoDichForm(val.bsd_brokeragetransactionid);
+            newPage.CheckData = async (CheckData) =>
+            {
+                if (CheckData == true)
+                {
+                    await Navigation.PushAsync(newPage);
+                }
+                viewModel.IsBusy = false;
+            };
         }
     }
 }

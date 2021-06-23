@@ -20,65 +20,16 @@ namespace ConasiCRM.Portable.Views
         public HoaHongGiaoDichListViewModel viewModel;
 		public HoaHongGiaoDichList ()
 		{
-			InitializeComponent ();
-            this.init();
+			InitializeComponent ();           
             BindingContext = viewModel = new HoaHongGiaoDichListViewModel();
-            dataGrid.Commands.Add(new GridCellTapCommand<HoaHongGiaoDichListModel, HoaHongGiaoDichForm>("bsd_commissiontransactionid")); // event detail PhiMoGioi
-            dataGrid.LoadOnDemand += async (sender, e) =>
-            {
-                viewModel.Page += 1;
-                await loadData();
-                e.IsDataLoaded = true;
-            };
+            Init();
         }
-        public async Task loadData()
+        public async void Init()
         {
-            string xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' count='" + OrgConfig.RecordPerPage + @"' page='" + viewModel.Page + @"'>
-              <entity name='bsd_commissiontransaction'>
-                <all-attributes/>
-                <order attribute='bsd_name' descending='false' />
-                <link-entity name='bsd_project' from='bsd_projectid' to='bsd_project' visible='false' link-type='outer' alias='project'>
-                  <attribute name='bsd_name' alias='project_bsd_name'/>
-                </link-entity>
-                <link-entity name='product' from='productid' to='bsd_units' visible='false' link-type='outer' alias='products'>
-                  <attribute name='name' alias='products_name'/>
-                </link-entity>
-                <link-entity name='account' from='accountid' to='bsd_saleagentcompany' visible='false' link-type='outer' alias='accounts'>
-                  <attribute name='bsd_name' alias='accounts_bsd_name'/>
-                </link-entity>
-                <link-entity name='quote' from='quoteid' to='bsd_reservation' visible='false' link-type='outer' alias='quotes'>
-                  <attribute name='name' alias='quotes_name' />
-                </link-entity>
-              </entity>
-            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<HoaHongGiaoDichListModel>>("bsd_commissiontransactions", xml);
-            if (result == null) // 
-            {
-                viewModel.Data.Clear();
-                viewModel.LoadOnDemandMode = LoadOnDemandMode.Manual;
-                return;
-            }
-
-            var data = result.value;
-
-            if (data.Any())
-            {
-                foreach (var item in data)
-                {
-                    viewModel.Data.Add(item);
-                }
-            }
-            else
-            {
-                viewModel.LoadOnDemandMode = LoadOnDemandMode.Manual;
-            }
-        }
-
-        public async void init()
-        {
+            await viewModel.LoadData();
             await loadTongTienHoaHong();
             await loadTongTienHoaHongNhan();
-        }
+        }             
         public async Task loadTongTienHoaHong()
         {
             string xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' aggregate='true'>
@@ -115,6 +66,20 @@ namespace ConasiCRM.Portable.Views
         public void totalHoaHongConLai()
         {
             viewModel.totalHoaHongConLai = viewModel.totalHoaHong - viewModel.totalHoaHongNhan;
+        }
+        private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            viewModel.IsBusy = true;
+            HoaHongGiaoDichListModel val = e.Item as HoaHongGiaoDichListModel;
+            HoaHongGiaoDichForm newPage = new HoaHongGiaoDichForm(val.bsd_commissiontransactionid);
+            newPage.CheckData = async (CheckData) =>
+            {
+                if (CheckData == true)
+                {
+                    await Navigation.PushAsync(newPage);
+                }
+                viewModel.IsBusy = false;
+            };
         }
     }
 }

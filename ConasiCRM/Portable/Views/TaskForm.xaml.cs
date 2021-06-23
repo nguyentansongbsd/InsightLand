@@ -18,6 +18,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TaskForm : ContentPage
     {
+        public Action<bool> CheckTaskForm;
         private Guid _idActivity;
         public TaskFormViewModel viewModel;
         public TaskForm(Guid idActivity)
@@ -26,8 +27,18 @@ namespace ConasiCRM.Portable.Views
             this.BindingContext = viewModel = new TaskFormViewModel();
             this._idActivity = idActivity;
             viewModel.IsBusy = true;
-            loadDataForm(this._idActivity);
+            Init();
         }
+
+        public async void Init()
+        {
+            await loadDataForm(this._idActivity);
+            if (viewModel.TaskFormModel != null)
+                CheckTaskForm(true);
+            else
+                CheckTaskForm(false);
+        }
+
         public TaskForm()
         {
             InitializeComponent();
@@ -62,7 +73,7 @@ namespace ConasiCRM.Portable.Views
             viewModel.TaskFormModel = taskFormModel;
         }
 
-        public async void loadDataForm(Guid id)
+        public async Task loadDataForm(Guid id)
         {
             grid_create.IsVisible = false;
             grid_updateTask.IsVisible = true;
@@ -127,17 +138,7 @@ namespace ConasiCRM.Portable.Views
                 taskFormModel.editable = true;
             }
 
-            if (taskForm.scheduledstart.HasValue)
-            {
-                taskFormModel.scheduledstart = taskForm.scheduledstart.Value.ToLocalTime();
-                taskFormModel.timeStart = taskForm.scheduledstart.Value.ToLocalTime().TimeOfDay;
-            }
-            else
-            {
-                taskFormModel.scheduledstart = null;
-                taskFormModel.timeStart = DateTime.Now.TimeOfDay;
-            }
-            if (taskForm.scheduledend.HasValue)
+            if(taskForm.scheduledend.HasValue)
             {
                 taskFormModel.scheduledend = taskForm.scheduledend.Value.ToLocalTime();
                 taskFormModel.timeEnd = taskForm.scheduledend.Value.ToLocalTime().TimeOfDay;
@@ -147,7 +148,16 @@ namespace ConasiCRM.Portable.Views
                 taskFormModel.scheduledend = null;
                 taskFormModel.timeEnd = DateTime.Now.TimeOfDay;
             }
-            
+            if (taskForm.scheduledstart.HasValue == true)
+            {
+                taskFormModel.scheduledstart = taskForm.scheduledstart.Value.ToLocalTime();
+                taskFormModel.timeStart = taskForm.scheduledstart.Value.ToLocalTime().TimeOfDay;
+            }
+            else
+            {
+                taskFormModel.scheduledstart = null;
+                taskFormModel.timeStart = DateTime.Now.TimeOfDay;
+            }
             taskFormModel.description = taskForm.description;
             taskFormModel.actualdurationminutes = taskForm.actualdurationminutes;
 
