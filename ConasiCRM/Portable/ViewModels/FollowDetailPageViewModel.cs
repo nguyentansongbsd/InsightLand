@@ -11,11 +11,11 @@ namespace ConasiCRM.Portable.ViewModels
     public class FollowDetailPageViewModel : BaseViewModel
     {
         private FollowDetailModel _followDetail;
-        public FollowDetailModel FollowDetail { get => _followDetail ; set { _followDetail= value; OnPropertyChanged(nameof(FollowDetail)); } }
-       
+        public FollowDetailModel FollowDetail { get => _followDetail; set { _followDetail = value; OnPropertyChanged(nameof(FollowDetail)); } }
+
         public FollowDetailPageViewModel()
         {
-         
+
         }
         public async Task Load(string id)
         {
@@ -31,7 +31,7 @@ namespace ConasiCRM.Portable.ViewModels
                                 <attribute name='bsd_date' />
                                 <attribute name='bsd_type' />
                                 <attribute name='bsd_installment' />
-                                <attribute name='bsd_project' />
+                                <attribute name='bsd_project' />                            
                                 <attribute name='bsd_group' />
                                 <attribute name='bsd_followuplistcode' />
                                 <attribute name='bsd_followuplistid' />
@@ -39,20 +39,21 @@ namespace ConasiCRM.Portable.ViewModels
                                 <filter type='and'>
                                   <condition attribute='bsd_followuplistid' operator='eq' value='" + id + @"'/>
                                 </filter>
-                                <link-entity name='quote' from='quoteid' to='bsd_reservation' visible='false' link-type='outer' alias='a_9fe1c29b064be61180ea3863bb367d40'>
-                                  <attribute name='customerid' alias='customerid_quote'/>
+                                <link-entity name='quote' from='quoteid' to='bsd_reservation' visible='false' link-type='outer' alias='quote'>
+                                    <attribute name='totalamount'  alias='totalamount_quote'/>  
+                                    <attribute name='name' alias='name_quote' />  
+                                    <attribute name='totallineitemamount_base'  alias='totallineitemamount_base_quote'/>
                                 </link-entity>
-                                <link-entity name='product' from='productid' to='bsd_units' link-type='inner' alias='ai'>
-                                  <attribute name='name' alias='name_product'/>
-                                </link-entity>
-                                <link-entity name='bsd_project' from='bsd_projectid' to='bsd_project' link-type='inner' alias='aj'>
-                                  <attribute name='bsd_name' alias='bsd_name_bsd_project'/>
+                                <link-entity name='bsd_project' from='bsd_projectid' to='bsd_project' link-type='inner' alias='project'>
+                                    <attribute name='bsd_name'  alias='bsd_name_project'/>  
+                                    <attribute name='bsd_projectcode'  alias='bsd_projectcode_project'/>  
+                                    <attribute name='bsd_bookingfee'  alias='bsd_bookingfee_project'/>   
                                 </link-entity>
                                 <link-entity name='salesorder' from='salesorderid' to='bsd_optionentry' visible='false' link-type='outer' alias='a_2ec267f5064be61180ea3863bb367d40'>
                                   <attribute name='customerid' />
                                 </link-entity>
                               </entity>
-                            </fetch> ";
+                            </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<FollowDetailModel>>("bsd_followuplists", fetchXml);
             if (result != null)
             {

@@ -244,5 +244,20 @@ namespace ConasiCRM.Portable.Models
         {
             return str == null ? new List<string>() : str.Split(',').ToList();
         }
+
+        public string bsd_contactaddress { get; set; }
+        public string bsd_diachi { get; set; }
+        public string bsd_housenumberstreet { get; set; }
+        public string bsd_housenumber { get; set; }
+        public string _bsd_country_value { get; set; }
+        public string bsd_country_label { get; set; }
+        public string bsd_country_en { get; set; }
+        public string _bsd_province_value { get; set; }
+        public string bsd_province_label { get; set; }
+        public string bsd_province_en { get; set; }
+        public string _bsd_district_value { get; set; }
+        public string bsd_district_label { get; set; }
+        public string bsd_district_en { get; set; }
+
     }
 }

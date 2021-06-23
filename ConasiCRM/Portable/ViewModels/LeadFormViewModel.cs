@@ -27,11 +27,45 @@ namespace ConasiCRM.Portable.ViewModels
         private PhongThuyModel _PhongThuy;
         public PhongThuyModel PhongThuy { get => _PhongThuy; set { _PhongThuy = value; OnPropertyChanged(nameof(PhongThuy)); } }
 
+        private bool _looking_up;
+        public bool looking_up { get => _looking_up; set { _looking_up = value; OnPropertyChanged(nameof(looking_up)); } }
+
+        private string _country;
+        public string Country { get => _country; set { _country = value; OnPropertyChanged(nameof(Country)); } }
+        public string CountryId { get; set; }
+        public string CountryEn { get; set; }
+
+        private string _province;
+        public string Province { get => _province; set { _province = value; OnPropertyChanged(nameof(Province)); } }
+        public string ProvinceId { get; set; }
+        public string ProvinceEn { get; set; }
+
+        private string _district;
+        public string District { get => _district; set { _district = value; OnPropertyChanged(nameof(District)); } }
+        public string DistrictId { get; set; }
+        public string DistrictEn { get; set; }
+
+        private string _addressVn;
+        public string AddressVn { get => _addressVn; set { _addressVn = value; OnPropertyChanged(nameof(AddressVn)); } }
+
+        private string _addressEn;
+        public string AddressEn { get => _addressEn; set { _addressEn = value; OnPropertyChanged(nameof(AddressEn)); } }
+
+        private string _streetVn;
+        public string StreetVn { get => _streetVn; set { _streetVn = value; OnPropertyChanged(nameof(StreetVn)); } }
+
+        private string _streetEn;
+        public string StreetEn { get => _streetEn; set { _streetEn = value; OnPropertyChanged(nameof(StreetEn)); } }
+
         public ObservableCollection<LookUp> list_lookup { get; set; }
         public ObservableCollection<LookUp> list_topic_lookup { get; set; }
         public ObservableCollection<LookUp> list_currency_lookup { get; set; }
         public ObservableCollection<LookUp> list_campaign_lookup { get; set; }
         public ObservableCollection<Provinces> list_provinces_lookup { get; set; }
+
+        public ObservableCollection<LookUp> list_country_lookup { get; set; }
+        public ObservableCollection<LookUp> list_province_lookup { get; set; }
+        public ObservableCollection<LookUp> list_district_lookup { get; set; }
 
         public ObservableCollection<OptionSet> list_gender_optionset { get; set; }
         public ObservableCollection<OptionSet> list_industrycode_optionset { get; set; }
@@ -41,11 +75,17 @@ namespace ConasiCRM.Portable.ViewModels
 
         public ObservableCollection<LeadsRating> list_leadrating { get; set; }
 
-       
+        public bool morelookup_country;
+        public int pageLookup_country;
+        public int pageLookup_province;
+        public bool morelookup_province;
+        public int pageLookup_district;
+        public bool morelookup_district;
+
         public Diemdanhgia Dudiemdanhgia { get; set; }
 
         private ObservableCollection<ProjectList> _list_Duanquantam;
-       public ObservableCollection<ProjectList> list_Duanquantam { get { return _list_Duanquantam; } set { _list_Duanquantam = value; OnPropertyChanged(nameof(_list_Duanquantam)); } }
+        public ObservableCollection<ProjectList> list_Duanquantam { get { return _list_Duanquantam; } set { _list_Duanquantam = value; OnPropertyChanged(nameof(_list_Duanquantam)); } }
 
         public ObservableCollection<ProjectList> list_project_lookup { set; get; }
 
@@ -59,12 +99,24 @@ namespace ConasiCRM.Portable.ViewModels
 
             PhongThuy = new PhongThuyModel();
 
+            looking_up = false;
+            pageLookup_country = 1;
+            morelookup_country = true;
+            pageLookup_province = 1;
+            morelookup_province = true;
+            pageLookup_district = 1;
+            morelookup_district = true;
+
             list_lookup = new ObservableCollection<LookUp>();
             list_topic_lookup = new ObservableCollection<LookUp>();
             list_currency_lookup = new ObservableCollection<LookUp>();
             list_campaign_lookup = new ObservableCollection<LookUp>();
 
             list_provinces_lookup = new ObservableCollection<Provinces>();
+
+            list_country_lookup = new ObservableCollection<LookUp>();
+            list_province_lookup = new ObservableCollection<LookUp>();
+            list_district_lookup = new ObservableCollection<LookUp>();
 
             list_gender_optionset = new ObservableCollection<OptionSet>();
             list_industrycode_optionset = new ObservableCollection<OptionSet>();
@@ -114,6 +166,18 @@ namespace ConasiCRM.Portable.ViewModels
                                     </link-entity>
                                     <link-entity name='campaign' from='campaignid' to='campaignid' visible='false' link-type='outer'>
                                         <attribute name='name'  alias='campaignid_label'/>
+                                    </link-entity>
+                                    <link-entity name='bsd_country' from='bsd_countryid' to='bsd_country' visible='false' link-type='outer'>
+                                        <attribute name='bsd_countryname'  alias='bsd_country_label'/>
+                                        <attribute name='bsd_nameen'  alias='bsd_country_en'/>
+                                    </link-entity>
+                                    <link-entity name='new_province' from='new_provinceid' to='bsd_province' visible='false' link-type='outer'>
+                                        <attribute name='bsd_provincename'  alias='bsd_province_label'/>
+                                        <attribute name='bsd_nameen'  alias='bsd_province_en'/>
+                                    </link-entity>
+                                    <link-entity name='new_district' from='new_districtid' to='bsd_district' visible='false' link-type='outer'>
+                                        <attribute name='new_name'  alias='bsd_district_label'/>
+                                        <attribute name='bsd_nameen'  alias='bsd_district_en'/>
                                     </link-entity>
                                 </entity>
                             </fetch>";
@@ -256,6 +320,10 @@ namespace ConasiCRM.Portable.ViewModels
             data["bsd_quantam_bietthu"] = lead.bsd_quantam_bietthu.ToString();
             data["bsd_quantam_khuthuongmai"] = lead.bsd_quantam_khuthuongmai.ToString();
             data["bsd_quantam_nhapho"] = lead.bsd_quantam_nhapho.ToString();
+            data["bsd_contactaddress"] = lead.bsd_contactaddress;
+            data["bsd_diachi"] = lead.bsd_diachi;
+            data["bsd_housenumberstreet"] = lead.bsd_housenumberstreet;
+            data["bsd_housenumber"] = lead.bsd_housenumber;
 
             if (lead._transactioncurrencyid_value == null)
             {
@@ -273,6 +341,34 @@ namespace ConasiCRM.Portable.ViewModels
             {
                 data["campaignid@odata.bind"] = "/campaigns(" + lead._campaignid_value + ")"; /////Lookup Field
             }
+
+            if (lead._bsd_country_value == null)
+            {
+                await DeletLookup("bsd_country", lead.leadid);
+            }
+            else
+            {
+                data["bsd_Country@odata.bind"] = "/bsd_countries(" + lead._bsd_country_value + ")"; /////Lookup Field
+            }
+
+            if (lead._bsd_province_value == null)
+            {
+                await DeletLookup("bsd_province", lead.leadid);
+            }
+            else
+            {
+                data["bsd_province@odata.bind"] = "/new_provinces(" + lead._bsd_province_value + ")"; /////Lookup Field
+            }
+
+            if (lead._bsd_district_value == null)
+            {
+                await DeletLookup("bsd_district", lead.leadid);
+            }
+            else
+            {
+                data["bsd_District@odata.bind"] = "/new_districts(" + lead._bsd_district_value + ")"; /////Lookup Field
+            }
+
             return data;
         }
 
@@ -283,12 +379,7 @@ namespace ConasiCRM.Portable.ViewModels
         public async Task LoadTopicsForLookup()
         {
             string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                                                                                                                                            <entity name='bsd_topic'>
-                                                                                                                                                <attribute name='bsd_topicid' alias='Id'/>
-                                                                                                                                                <attribute name='bsd_name' alias='Name'/>
-                                                                                                                                                <order attribute='bsd_name' descending='false' />
-                                                                                                                                            </entity>
-                                                                                                                                        </fetch>";
+                     </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("bsd_topics", fetch);
             if (result == null)
             {
@@ -582,7 +673,7 @@ namespace ConasiCRM.Portable.ViewModels
         public async Task dudiemdanhgia()
         {
             //dieu kien bsd_group la khach hang va chi 1 dong diem danh gia id = 922F71AA-311E-E911-A984-000D3AA04C17 (quy dinh chi co 1 dong theo group)
-                  string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                               <entity name='bsd_systemsetup'>                                
                                 <attribute name='bsd_totalleadsratingpoint' />
                                 <filter type='and'>
@@ -591,7 +682,7 @@ namespace ConasiCRM.Portable.ViewModels
                                 </filter>
                               </entity>
                             </fetch>";
-            
+
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Diemdanhgia>>("bsd_systemsetups", fetch);
             var tmp = result.value.FirstOrDefault(); ;
             if (result == null)
@@ -735,7 +826,7 @@ namespace ConasiCRM.Portable.ViewModels
                               </entity>
                             </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LeadCheckData>>("leads", fetch);
-            var tmp = result.value.FirstOrDefault();            
+            var tmp = result.value.FirstOrDefault();
 
             this.single_Leadcheck = tmp;
         }
@@ -765,8 +856,86 @@ namespace ConasiCRM.Portable.ViewModels
             }
             return true;
         }
+
+        public async Task LoadCountryForLookup()
+        {
+            string fetch = @"<fetch version='1.0' count='30' page='" + pageLookup_country + @"' output-format='xml-platform' mapping='logical' distinct='false'>
+                                  <entity name='bsd_country'>
+                                    <attribute name='bsd_countryname' alias='Name'/>
+                                    <attribute name='bsd_countryid' alias='Id'/>
+                                    <attribute name='bsd_nameen' alias='Detail'/>
+                                    <order attribute='bsd_countryname' descending='true' />
+                                  </entity>
+                                </fetch>";
+            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("bsd_countries", fetch);
+            if (result == null)
+            {
+                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
+                return;
+            }
+            if (result.value.Count == 0) return;
+
+            foreach (var x in result.value)
+            {
+                list_country_lookup.Add(x);
+            }
+
+        }
+
+        public async Task loadProvincesForLookup(string countryId)
+        {
+            string fetch = @"<fetch version='1.0' count='30' page='" + pageLookup_province + @"' output-format='xml-platform' mapping='logical' distinct='false'>
+                                  <entity name='new_province'>
+                                    <attribute name='bsd_provincename' alias='Name'/>
+                                    <attribute name='new_provinceid' alias='Id'/>
+                                    <attribute name='bsd_nameen' alias='Detail'/>
+                                    <order attribute='bsd_provincename' descending='false' />
+                                    <filter type='and'>
+                                      <condition attribute='bsd_country' operator='eq' value='" + countryId + @"' />
+                                    </filter>
+                                  </entity>
+                                </fetch>";
+            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("new_provinces", fetch);
+            if (result == null)
+            {
+                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
+                return;
+            }
+            if (result.value.Count == 0) return;
+
+            foreach (var x in result.value)
+            {
+                list_province_lookup.Add(x);
+            }
+
+        }
+
+        public async Task loadDistrictForLookup(string provinceId)
+        {
+            string fetch = @"<fetch version='1.0' count='30' page='" + pageLookup_district + @"' output-format='xml-platform' mapping='logical' distinct='false'>
+                              <entity name='new_district'>
+                                <attribute name='new_name' alias='Name'/>
+                                <attribute name='new_districtid' alias='Id'/>
+                                <attribute name='bsd_nameen' alias='Detail'/>
+                                <order attribute='new_name' descending='false' />
+                                <filter type='and'>
+                                  <condition attribute='new_province' operator='eq' value='" + provinceId + @"' />
+                                </filter>
+                              </entity>
+                            </fetch>";
+            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("new_districts", fetch);
+            if (result == null)
+            {
+                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
+                return;
+            }
+            if (result.value.Count == 0) return;
+
+            foreach (var x in result.value)
+            {
+                list_district_lookup.Add(x);
+            }
+
+        }
     }
-
-    
-
 }
