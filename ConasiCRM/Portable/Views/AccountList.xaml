@@ -6,7 +6,6 @@
              xmlns:controls="clr-namespace:ConasiCRM.Controls"
              x:Class="ConasiCRM.Portable.Views.AccountList">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
         <ToolbarItem Name="NewMenu" Order="Primary" Clicked="NewMenu_Clicked" Icon="plus.png" Text="New Account" Priority="1"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>

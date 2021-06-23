@@ -158,7 +158,6 @@ namespace ConasiCRM.Portable.Views
                 taskFormModel.scheduledstart = null;
                 taskFormModel.timeStart = DateTime.Now.TimeOfDay;
             }
-
             taskFormModel.description = taskForm.description;
             taskFormModel.actualdurationminutes = taskForm.actualdurationminutes;
 
@@ -208,14 +207,14 @@ namespace ConasiCRM.Portable.Views
         {
 
             int valueDate = int.Parse(viewModel.TaskFormModel.durationValue.Val);
-            if (viewModel.TaskFormModel.scheduledstart == null)
+            if (viewModel.TaskFormModel.scheduledstart.HasValue && viewModel.TaskFormModel.scheduledend.HasValue)
             {
                 viewModel.TaskFormModel.scheduledstart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
                 viewModel.TaskFormModel.timeStart = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, 0);
                 viewModel.TaskFormModel.scheduledend = viewModel.TaskFormModel.scheduledstart.Value.AddMinutes(valueDate);
                 viewModel.TaskFormModel.timeEnd = new TimeSpan(viewModel.TaskFormModel.scheduledend.Value.Hour, viewModel.TaskFormModel.scheduledend.Value.Minute, 0);
             }
-            else
+            else if (viewModel.TaskFormModel.scheduledstart.HasValue && viewModel.TaskFormModel.scheduledend.HasValue)
             {
                 viewModel.TaskFormModel.scheduledend = new DateTime(viewModel.TaskFormModel.scheduledstart.Value.Year, viewModel.TaskFormModel.scheduledstart.Value.Month, viewModel.TaskFormModel.scheduledstart.Value.Day, viewModel.TaskFormModel.scheduledstart.Value.Hour, viewModel.TaskFormModel.scheduledstart.Value.Minute, 0).AddMinutes(valueDate);
                 viewModel.TaskFormModel.timeEnd = new TimeSpan(viewModel.TaskFormModel.scheduledend.Value.Hour, viewModel.TaskFormModel.scheduledend.Value.Minute, 0);
@@ -325,6 +324,7 @@ namespace ConasiCRM.Portable.Views
 
         private int compareDateTime(DateTime? date, DateTime? date1)
         {
+            return 1;
             int result = DateTime.Compare(date.Value, date1.Value);
             if (result < 0)
                 return -1;
@@ -335,6 +335,7 @@ namespace ConasiCRM.Portable.Views
         }
         private void DatePickerStart_DateSelected(object sender, DateChangedEventArgs e)
         {
+            return;
             if (viewModel.FocusDateTimeStart)
             {
                 DateTime timeNew = e.NewDate;
