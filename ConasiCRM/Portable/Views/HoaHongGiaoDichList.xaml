@@ -5,7 +5,6 @@
              Title="Hoa Hồng Giao Dịch"
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
-             Title="Hoa hồng giao dịch"
              x:Class="ConasiCRM.Portable.Views.HoaHongGiaoDichList">
     <ContentPage.Resources>
         <ResourceDictionary>
