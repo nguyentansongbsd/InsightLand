@@ -143,7 +143,7 @@ namespace ConasiCRM.Portable.Views
                         multipleSelectView.addSelectedItem(x);
                     }
                 }
-                await viewModel.GetImageCMND();                
+                await viewModel.GetImageCMND();  
             }            
             this.render(contactId);
             viewModel.IsBusy = false;

@@ -19,8 +19,13 @@ namespace ConasiCRM.Portable.Models
         public string _bsd_reservation_value { get; set; }
         public DateTime createdon { get; set; }
         public string _bsd_units_value { get; set; }
-        public string name_product { get; set; }
-        public string bsd_name_bsd_project { get; set; }
-        public string customerid_quote { get; set; }
+
+        public string bsd_name_project { get; set; }
+        public double bsd_bookingfee_project { get; set; }
+        public string bsd_projectcode_project { get; set; }
+        public double totalamount_quote { get; set; }
+
+        public double totallineitemamount_base_quote { get; set; }
+        public string name_quote { get; set; }
     }
 }
