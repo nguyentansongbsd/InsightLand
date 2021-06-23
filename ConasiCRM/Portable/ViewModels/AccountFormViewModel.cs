@@ -143,12 +143,38 @@ namespace ConasiCRM.Portable.ViewModels
 
         public ObservableCollection<LookUp> list_popup_topic { get; set; }
         private AccountForm_CheckdataModel _list_check_data;
-        public AccountForm_CheckdataModel list_check_data { get { return _list_check_data; } set { _list_check_data = value;OnPropertyChanged(nameof(list_check_data)); } }
+        public AccountForm_CheckdataModel list_check_data { get { return _list_check_data; } set { _list_check_data = value; OnPropertyChanged(nameof(list_check_data)); } }
 
         private bool _optionEntryHasOnlyTerminatedStatus;
-        public bool optionEntryHasOnlyTerminatedStatus { get { return _optionEntryHasOnlyTerminatedStatus; } set { _optionEntryHasOnlyTerminatedStatus = value;OnPropertyChanged(nameof(optionEntryHasOnlyTerminatedStatus)); } }
+        public bool optionEntryHasOnlyTerminatedStatus { get { return _optionEntryHasOnlyTerminatedStatus; } set { _optionEntryHasOnlyTerminatedStatus = value; OnPropertyChanged(nameof(optionEntryHasOnlyTerminatedStatus)); } }
 
         public ObservableCollection<MandatorySecondaryModel> list_MandatorySecondary { get; set; }
+
+        public int PageQueueing { get; set; } = 1;
+        public int PageQuotation { get; set; } = 1;
+        public int PageContract { get; set; } = 1;
+        public int PageCase { get; set; } = 1;
+        public int PageActivities { get; set; } = 1;
+        public int PageMandatory { get; set; } = 1;
+
+        private bool _showMoreQueueing;
+        public bool ShowMoreQueueing { get => _showMoreQueueing; set { _showMoreQueueing = value; OnPropertyChanged(nameof(ShowMoreQueueing)); } }
+
+        private bool _showMoreQuotation;
+        public bool ShowMoreQuotation { get => _showMoreQuotation; set { _showMoreQuotation = value; OnPropertyChanged(nameof(ShowMoreQuotation)); } }
+
+        private bool _showMoreContract;
+        public bool ShowMoreContract { get => _showMoreContract; set { _showMoreContract = value; OnPropertyChanged(nameof(ShowMoreContract)); } }
+
+        private bool _showMoreCase;
+        public bool ShowMoreCase { get => _showMoreCase; set { _showMoreCase = value; OnPropertyChanged(nameof(ShowMoreCase)); } }
+
+        private bool _showMoreActivities;
+        public bool ShowMoreActivities { get => _showMoreActivities; set { _showMoreActivities = value; OnPropertyChanged(nameof(ShowMoreActivities)); } }
+
+        private bool _showMoreMandatory;
+        public bool ShowMoreMandatory { get => _showMoreMandatory; set { _showMoreMandatory = value; OnPropertyChanged(nameof(ShowMoreMandatory)); } }
+
         public AccountFormViewModel()
         {
             SelectedLoaiHinh = new ObservableCollection<string>();
@@ -218,7 +244,7 @@ namespace ConasiCRM.Portable.ViewModels
                 EntityName = "contacts",
                 PropertyName = "PrimaryContact",
                 LookUpTitle = "Chọn người đại diện"
-                
+
             };
 
             list_Duanquantam = new ObservableCollection<ProjectList>();
@@ -404,7 +430,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task LoadListProvince()
         {
-            if(morelookup_province)
+            if (morelookup_province)
             {
                 string fetch = @"<fetch version='1.0' count='30' page='" + pageLookup_province + @"' output-format='xml-platform' mapping='logical' distinct='false'> 
                                 <entity name='new_province'> 
@@ -557,7 +583,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task LoadDSQueueingAccount(Guid accountid)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageQueueing}' output-format='xml-platform' mapping='logical' distinct='false'>
                                 <entity name='opportunity'>
                                     <all-attributes/>
                                     <order attribute='createdon' descending='true' />
@@ -582,6 +608,16 @@ namespace ConasiCRM.Portable.ViewModels
             //    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
             //}
             var data = result.value;
+
+            if (data.Count < 3)
+            {
+                ShowMoreQueueing = false;
+            }
+            else
+            {
+                ShowMoreQueueing = true;
+            }
+
             if (data.Any())
             {
                 foreach (var item in data)
@@ -607,7 +643,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task LoadDSQuotationAccount(Guid accountid)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageQuotation}' output-format='xml-platform' mapping='logical' distinct='false'>
                             <entity name='quote'>
                                 <all-attributes/>
                                 <order attribute='createdon' descending='true' />
@@ -635,6 +671,15 @@ namespace ConasiCRM.Portable.ViewModels
             //    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
             //}
             var data = result.value;
+
+            if (data.Count < 3)
+            {
+                ShowMoreQuotation = false;
+            }
+            else
+            {
+                ShowMoreQuotation = true;
+            }
             if (data.Any())
             {
                 foreach (var item in data)
@@ -665,7 +710,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task LoadDSContractAccount(Guid accountid)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageContract}' output-format='xml-platform' mapping='logical' distinct='false'>
                             <entity name='salesorder'>
                                 <all-attributes/>
                                 <order attribute='createdon' descending='true' />
@@ -693,6 +738,15 @@ namespace ConasiCRM.Portable.ViewModels
             //    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
             //}
             var data = result.value;
+
+            if (data.Count < 3)
+            {
+                ShowMoreContract = false;
+            }
+            else
+            {
+                ShowMoreContract = true;
+            }
             if (data.Any())
             {
                 foreach (var item in data)
@@ -715,8 +769,8 @@ namespace ConasiCRM.Portable.ViewModels
                     {
                         item.customerid = item.contract_namecontact;
                     }
-                   if (item.statuscode != 100000006) { optionEntryHasOnlyTerminatedStatus = false; }
-                        
+                    if (item.statuscode != 100000006) { optionEntryHasOnlyTerminatedStatus = false; }
+
                     list_thongtincontract.Add(item);
 
                 }
@@ -726,7 +780,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task LoadDSCaseAccount(Guid accountid)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageCase}' output-format='xml-platform' mapping='logical' distinct='false'>
                         <entity name='incident'>
                             <all-attributes/>
                             <order attribute='createdon' descending='true' />
@@ -748,6 +802,14 @@ namespace ConasiCRM.Portable.ViewModels
             //    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
             //}
             var data = result.value;
+            if (data.Count < 3)
+            {
+                ShowMoreCase = false;
+            }
+            else
+            {
+                ShowMoreCase = true;
+            }
             if (data.Any())
             {
                 foreach (var item in data)
@@ -768,7 +830,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task LoadDSActivitiesAccount(Guid accountid)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageActivities}' output-format='xml-platform' mapping='logical' distinct='false'>
                             <entity name='activitypointer'>
                                 <all-attributes/>
                                 <order attribute='createdon' descending='true' />
@@ -786,6 +848,14 @@ namespace ConasiCRM.Portable.ViewModels
             //    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
             //}
             var data = result.value;
+            if (data.Count < 3)
+            {
+                ShowMoreActivities = false;
+            }
+            else
+            {
+                ShowMoreActivities = true;
+            }
             if (data.Any())
             {
                 foreach (var item in data)
@@ -810,10 +880,10 @@ namespace ConasiCRM.Portable.ViewModels
                                   <filter type='or'>
                                     <filter type='and'>
                                       <condition attribute='accountid' operator='ne' value='{" + accountid + @"}' />
-                                      <condition attribute='bsd_vatregistrationnumber' operator='eq' value='"+ bsd_vatregistrationnumber + @"' />
+                                      <condition attribute='bsd_vatregistrationnumber' operator='eq' value='" + bsd_vatregistrationnumber + @"' />
                                     </filter>
                                     <filter type='and'>
-                                      <condition attribute='bsd_registrationcode' operator='eq' value='"+ bsd_registrationcode + @"' />
+                                      <condition attribute='bsd_registrationcode' operator='eq' value='" + bsd_registrationcode + @"' />
                                       <condition attribute='accountid' operator='ne' value='{" + accountid + @"}' />
                                     </filter>
                                   </filter>
@@ -834,7 +904,7 @@ namespace ConasiCRM.Portable.ViewModels
         //ADD Sub-grid "Mandatory Secondary"
         public async Task Load_List_Mandatory_Secondary(string accountid)
         {
-            string fetchxml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetchxml = $@"<fetch version='1.0' count='3' page='{PageMandatory}' output-format='xml-platform' mapping='logical' distinct='false'>
                                   <entity name='bsd_mandatorysecondary'>
                                     <attribute name='bsd_mandatorysecondaryid' />
                                     <attribute name='bsd_name' />
@@ -852,7 +922,7 @@ namespace ConasiCRM.Portable.ViewModels
                                         <attribute name='bsd_fullname' alias='bsd_contact_name'/>
                                     </link-entity>
                                     <filter type='and'>
-                                      <condition attribute='bsd_developeraccount' operator='eq' value='{" + accountid + @"}' />
+                                      <condition attribute='bsd_developeraccount' operator='eq' value='{accountid}' />
                                     </filter>
                                   </entity>
                                 </fetch>";
@@ -863,6 +933,8 @@ namespace ConasiCRM.Portable.ViewModels
                 return;
             }
             var data = result.value;
+            ShowMoreMandatory = data.Count < 3 ? false : true;
+
             if (data.Any())
             {
                 foreach (var x in data)
@@ -871,8 +943,8 @@ namespace ConasiCRM.Portable.ViewModels
                     list_MandatorySecondary.Add(x);
                 }
             }
-               
-    }
+
+        }
         //chưa co quan he nay
         //public async Task Load_DanhSachDuAn(string accountid)
         //{

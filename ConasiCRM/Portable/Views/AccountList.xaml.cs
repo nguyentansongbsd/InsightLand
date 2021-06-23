@@ -34,29 +34,19 @@ namespace ConasiCRM.Portable.Views
         }
         private async void NewMenu_Clicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
-            await Task.Delay(1000);
+            viewModel.IsBusy = true;   
             await Navigation.PushAsync(new AccountForm());
             viewModel.IsBusy = false;
         }
 
-        private async void ViewMenu_Clicked(object sender, EventArgs e)
+        private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            //AccountListModel model = dataGrid.SelectedItem as AccountListModel;
-            //var form = new AccountForm(model.accountid);
-            //await Navigation.PushAsync(form);
-
-        }
-
-        private async void listView_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            viewModel.IsBusy = true;
-            await Task.Delay(1000);
+            viewModel.IsBusy = true;           
             var item = e.Item as AccountListModel;
             AccountForm newPage = new AccountForm(item.accountid);
-            newPage.CheckSingleAccount = async (checkSingleLead) =>
+            newPage.CheckSingleAccount = async (CheckSingleAccount) =>
             {
-                if (checkSingleLead == true)
+                if (CheckSingleAccount == true)
                 {
                     await Navigation.PushAsync(newPage);
                 }
@@ -64,22 +54,4 @@ namespace ConasiCRM.Portable.Views
             };
         }
     }
-    //public class AccountTapComand : DataGridCommand
-    //{
-    //    public AccountTapComand()
-    //    {
-    //        Id = DataGridCommandId.CellTap;
-    //    }
-    //    public override bool CanExecute(object parameter)
-    //    {
-    //        return true;
-    //    }
-    //    public override void Execute(object parameter)
-    //    {
-    //        var context = parameter as DataGridCellInfo;
-    //        Account contact = (Account)context.Item;
-    //        Application.Current.MainPage.Navigation.PushAsync(new AccountForm(contact.accountid));
-    //        this.Owner.CommandService.ExecuteDefaultCommand(DataGridCommandId.CellTap, parameter);
-    //    }
-    //}
 }

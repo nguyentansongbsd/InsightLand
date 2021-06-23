@@ -37,18 +37,27 @@ namespace ConasiCRM.Portable.Views
         public AccountForm()
         {
             InitializeComponent();
-            AccountId = Guid.Empty;           
+            AccountId = Guid.Empty;
             Init();
         }
         public AccountForm(Guid accountId)
         {
             InitializeComponent();
-            AccountId = accountId;           
-            Init();
+            AccountId = accountId;
+            CheckAccount();
         }
 
-        public async void Init()
-        { 
+        private async void CheckAccount()
+        {
+            await Init();
+            if (viewModel.singleAccount != null)
+                CheckSingleAccount(true);
+            else
+                CheckSingleAccount(false);
+        }
+
+        public async Task Init()
+        {
             accountService = new CRMService<Account>();
             this.BindingContext = viewModel = new AccountFormViewModel();
             viewModel.ModalLookUp = PrimaryContactLoopkup;
@@ -58,11 +67,13 @@ namespace ConasiCRM.Portable.Views
             if (AccountId != Guid.Empty)
             {
                 viewModel.Title = "Cập Nhật Khách Hàng Doanh Nghiệp";
-                Start(AccountId);
+                btnSave.Text = "Cập nhật";
+                await Start(AccountId);
             }
             else
             {
                 viewModel.Title = "Thêm Khách Hàng Doanh Nghiệp";
+                btnSave.Text = "Lưu";
                 viewModel.singleAccount = new AccountFormModel();
 
                 viewModel.singleCustomergroup = viewModel.list_picker_bsd_customergroup.SingleOrDefault(x => x.Val == "");
@@ -80,9 +91,8 @@ namespace ConasiCRM.Portable.Views
                 datagridActivities.IsVisible = false;
                 datagridMandatorySecondary.IsVisible = false;
                 viewModel.IsBusy = false;
-
             }
-            
+
         }
 
         public async Task Start(Guid AccountId)
@@ -140,43 +150,7 @@ namespace ConasiCRM.Portable.Views
 
             if (AccountId != null) { await viewModel.LoadDSActivitiesAccount(AccountId); }
 
-            if(AccountId != null) { await viewModel.Load_List_Mandatory_Secondary(AccountId.ToString()); }
-
-            if (viewModel.list_thongtinqueing.Count < 3)
-            {
-                for (int i = viewModel.list_thongtinqueing.Count; i < 3; i++)
-                {
-                    viewModel.list_thongtinqueing.Add(new ListQueueingAcc());
-                }
-            }
-            if (viewModel.list_thongtinquotation.Count < 3)
-            {
-                for (int i = viewModel.list_thongtinquotation.Count; i < 3; i++)
-                {
-                    viewModel.list_thongtinquotation.Add(new ListQuotationAcc());
-                }
-            }
-            if (viewModel.list_thongtincontract.Count < 3)
-            {
-                for (int i = viewModel.list_thongtincontract.Count; i < 3; i++)
-                {
-                    viewModel.list_thongtincontract.Add(new ListContractAcc());
-                }
-            }
-            if (viewModel.list_thongtincase.Count < 3)
-            {
-                for (int i = viewModel.list_thongtincase.Count; i < 3; i++)
-                {
-                    viewModel.list_thongtincase.Add(new ListCaseAcc());
-                }
-            }
-            if (viewModel.list_thongtinactivitie.Count < 3)
-            {
-                for (int i = viewModel.list_thongtinactivitie.Count; i < 3; i++)
-                {
-                    viewModel.list_thongtinactivitie.Add(new ListActivitiesAcc());
-                }
-            }
+            if (AccountId != null) { await viewModel.Load_List_Mandatory_Secondary(AccountId.ToString()); }
 
             var data = viewModel.list_thongtincontract;
             if (data.Any())
@@ -197,19 +171,6 @@ namespace ConasiCRM.Portable.Views
                     }
                 }
             }
-
-            if (viewModel.list_MandatorySecondary.Count < 3)
-            {
-                for (int i = viewModel.list_MandatorySecondary.Count; i < 3; i++)
-                {
-                    viewModel.list_MandatorySecondary.Add(new MandatorySecondaryModel());
-                }
-            }
-
-            if (viewModel.singleAccount != null)
-                CheckSingleAccount(true);
-            else
-                CheckSingleAccount(false);
 
             viewModel.IsBusy = false;
         }
@@ -664,7 +625,7 @@ namespace ConasiCRM.Portable.Views
             {
                 viewModel.singleAccount._primarycontactid_value = null;
             }
-           
+
             if (string.IsNullOrWhiteSpace(viewModel.singleAccount.bsd_name) || string.IsNullOrWhiteSpace(viewModel.singleAccount._primarycontactid_value) ||
                 string.IsNullOrWhiteSpace(viewModel.singleAccount.bsd_localization) || string.IsNullOrWhiteSpace(viewModel.singleAccount.telephone1) ||
                 string.IsNullOrWhiteSpace(viewModel.singleAccount.bsd_registrationcode) || string.IsNullOrWhiteSpace(viewModel.singleAccount.bsd_housenumberstreet) ||
@@ -679,35 +640,31 @@ namespace ConasiCRM.Portable.Views
             }
             else
             {
-                if(!await viewModel.Check_form_keydata(viewModel.singleAccount.bsd_vatregistrationnumber,viewModel.singleAccount.bsd_registrationcode, viewModel.singleAccount.accountid.ToString()))
+                if (!await viewModel.Check_form_keydata(viewModel.singleAccount.bsd_vatregistrationnumber, viewModel.singleAccount.bsd_registrationcode, viewModel.singleAccount.accountid.ToString()))
                 {
                     if (viewModel.singleAccount.bsd_registrationcode == viewModel.list_check_data.bsd_registrationcode ||
                         (viewModel.singleAccount.bsd_vatregistrationnumber == viewModel.list_check_data.bsd_vatregistrationnumber && string.IsNullOrEmpty(viewModel.singleAccount.bsd_vatregistrationnumber.Trim())))
                     {
                         viewModel.IsBusy = false;
-                        return "Số GPKD hoặc mã số thuế đã tạo trong dữ liệu doanh nghiệp ["+ viewModel.list_check_data.bsd_account_name +"]";
+                        return "Số GPKD hoặc mã số thuế đã tạo trong dữ liệu doanh nghiệp [" + viewModel.list_check_data.bsd_account_name + "]";
                     }
                 }
-                
+
                 Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
                 if (!string.IsNullOrEmpty(viewModel.singleAccount.emailaddress1) && !string.IsNullOrWhiteSpace(viewModel.singleAccount.emailaddress1))
                 {
-                    
+
                     Match match = regex.Match(viewModel.singleAccount.emailaddress1);
                     if (!match.Success) { viewModel.IsBusy = false; return "Địa chỉ mail sai. Vui lòng thử lại!"; }
                 }
 
                 if (!string.IsNullOrEmpty(viewModel.singleAccount.bsd_email2) && !string.IsNullOrWhiteSpace(viewModel.singleAccount.bsd_email2))
                 {
-                    
+
                     Match match1 = regex.Match(viewModel.singleAccount.bsd_email2);
                     if (!match1.Success) { viewModel.IsBusy = false; return "Địa chỉ mail sai. Vui lòng thử lại!"; }
                 }
                 //MailAddress m = new MailAddress(viewModel.singleAccount.emailaddress1);
-
-
-
-
 
                 return "Sucesses";
             }
@@ -1118,7 +1075,7 @@ namespace ConasiCRM.Portable.Views
             PropertyInfo prop = account.GetType().GetProperty(fieldName);
             prop.SetValue(account, null);
         }
-       
+
         private void primarycontactname_Focused(object sender, EventArgs e)
         {
             viewModel.CurrentLookUpConfig = viewModel.PrimaryContactConfig;
@@ -1133,6 +1090,54 @@ namespace ConasiCRM.Portable.Views
             //    if(txt_url.Text.Contains("http://"))
             //    txt_url.Text = "http://" + txt_url.Text;
             //}
-        }        
+        }
+
+        private async void ShowMore_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageQueueing++;
+            await viewModel.LoadDSQueueingAccount(AccountId);
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowMoreQuotation_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageQuotation++;
+            await viewModel.LoadDSQuotationAccount(AccountId);
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowMoreContract_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageContract++;
+            await viewModel.LoadDSContractAccount(AccountId);
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowMoreCase_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageCase++;
+            await viewModel.LoadDSCaseAccount(AccountId);
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowMoreActivities_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageActivities++;
+            await viewModel.LoadDSActivitiesAccount(AccountId);
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowMoreMandatory_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageMandatory++;
+            await viewModel.Load_List_Mandatory_Secondary(AccountId.ToString());
+            viewModel.IsBusy = false;
+        }
     }
 }

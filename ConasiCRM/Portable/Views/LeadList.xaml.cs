@@ -35,8 +35,7 @@ namespace ConasiCRM.Portable.Views
 
         private async void NewMenu_Clicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
-            await Task.Delay(1000);
+            viewModel.IsBusy = true;           
             await Navigation.PushAsync(new LeadForm());
             viewModel.IsBusy = false;
         }
@@ -50,10 +49,9 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-        private async void listView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            viewModel.IsBusy = true;
-            await Task.Delay(1000);
+            viewModel.IsBusy = true;           
             var item = e.Item as LeadListModel;
             LeadForm newPage = new LeadForm(item.leadid);
             newPage.CheckSingleLead = async (checkSingleLead) =>

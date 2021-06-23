@@ -122,17 +122,20 @@
       <None Remove="Fonts\FontAwesome5BrandsRegular.otf" />
       <None Remove="Fonts\FontAwesome5Regular.otf" />
       <None Remove="Fonts\FontAwesome5Solid.otf" />
+      <None Remove="Telerik.XamarinForms.Barcode" />
+      <None Remove="Telerik.XamarinForms.Chart" />
+      <None Remove="Telerik.XamarinForms.Common" />
+      <None Remove="Telerik.XamarinForms.ConversationalUI" />
+      <None Remove="Telerik.XamarinForms.DataControls" />
+      <None Remove="Telerik.XamarinForms.DataGrid" />
+      <None Remove="Telerik.XamarinForms.DataVisualization" />
+      <None Remove="Telerik.XamarinForms.Input" />
+      <None Remove="Telerik.XamarinForms.PdfViewer" />
+      <None Remove="Telerik.XamarinForms.Primitives" />
+      <None Remove="Telerik.XamarinForms.SkiaSharp" />
+      <None Remove="Telerik.Zip" />
     </ItemGroup>
     <ItemGroup>
-      <Reference Include="Telerik.Documents.Core">
-        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Documents.Core.dll</HintPath>
-      </Reference>
-      <Reference Include="Telerik.Documents.Fixed">
-        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Documents.Fixed.dll</HintPath>
-      </Reference>
-      <Reference Include="Telerik.Documents.SpreadsheetStreaming">
-        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Documents.SpreadsheetStreaming.dll</HintPath>
-      </Reference>
       <Reference Include="Telerik.XamarinForms.Barcode">
         <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.XamarinForms.Barcode.dll</HintPath>
       </Reference>

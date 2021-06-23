@@ -2,11 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConasiCRM.Portable.Views.FollowDetailPage"
+             xmlns:converters="clr-namespace:ConasiCRM.Portable.Converters"
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives" 
              xmlns:viewmodels="clr-namespace:ConasiCRM.Portable.ViewModels" x:DataType="viewmodels:FollowDetailPageViewModel"
              Title="Danh Sách Theo Dõi">
     <ContentPage.Resources>
         <ResourceDictionary>
+            <converters:GroupConverter x:Key="groupConverter"/>
             <Color x:Key="MasterBackground">#039EBD</Color>
             <Style x:Key="FollowDetailExpanderHeaderStyle" TargetType="telerikPrimitives:ExpanderHeader">
                 <Setter Property="IndicatorText" Value="&#xf105;"/>
@@ -110,7 +112,7 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_date}" Style="{StaticResource InforContentTextStyle}"/>
+                                    <Label Grid.Column="1" Text="{Binding FollowDetail.createdon,StringFormat='{0}dd/MM/yyyy'}" Style="{StaticResource InforContentTextStyle}"/>
                                 </Grid>
                             </telerikPrimitives:RadBorder>
                             <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
@@ -123,7 +125,7 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="1" Text="Loại" Style="{StaticResource InforContentTextStyle}"/>
+                                    <Label Grid.Column="1" Text="" Style="{StaticResource InforContentTextStyle}"/>
                                 </Grid>
                             </telerikPrimitives:RadBorder>
                             <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
@@ -136,7 +138,7 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="1" Text="Nhóm" Style="{StaticResource InforContentTextStyle}"/>
+                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_group,Converter={StaticResource groupConverter}}" Style="{StaticResource InforContentTextStyle}"/>
                                 </Grid>
                             </telerikPrimitives:RadBorder>
                             <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
@@ -149,7 +151,7 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.name_product}" Style="{StaticResource InforContentTextStyle}"/>
+                                    <Label Grid.Column="1" Text="{Binding FollowDetail.name_quote}" Style="{StaticResource InforContentTextStyle}"/>
                                 </Grid>
                             </telerikPrimitives:RadBorder>
                             <telerikPrimitives:RadBorder Padding="10">
@@ -162,7 +164,7 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="1" Text="Khách hàng" Style="{StaticResource InforContentTextStyle}"/>
+                                    <Label Grid.Column="1" Text="" Style="{StaticResource InforContentTextStyle}"/>
                                 </Grid>
                             </telerikPrimitives:RadBorder>
                         </StackLayout>
@@ -186,7 +188,7 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_name_bsd_project}" Style="{StaticResource InforContentTextStyle}"/>
+                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_name_project}" Style="{StaticResource InforContentTextStyle}"/>
                                 </Grid>
                             </telerikPrimitives:RadBorder>
                             <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
@@ -231,7 +233,7 @@
                             <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
                                 <Grid ColumnDefinitions="135,*">
                                     <Label Text="Bảng giá" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="Tiêu đề" Style="{StaticResource InforContentTextStyle}"/>
+                                    <Label Grid.Column="1" Text="{Binding FollowDetail.totallineitemamount_base_quote}" Style="{StaticResource InforContentTextStyle}"/>
                                 </Grid>
                             </telerikPrimitives:RadBorder>
                             <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
@@ -243,7 +245,7 @@
                             <telerikPrimitives:RadBorder Padding="10">
                                 <Grid ColumnDefinitions="135,*">
                                     <Label Text="Giá bán" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="Tiêu đề" Style="{StaticResource InforContentTextStyle}"/>
+                                    <Label Grid.Column="1" Text="{Binding FollowDetail.totalamount_quote}" Style="{StaticResource InforContentTextStyle}"/>
                                 </Grid>
                             </telerikPrimitives:RadBorder>
                         </StackLayout>
@@ -260,7 +262,7 @@
                             <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
                                 <Grid ColumnDefinitions="135,*">
                                     <Label Text="Ngày hết hạn" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_expiredate}" Style="{StaticResource InforContentTextStyle}"/>
+                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_expiredate,StringFormat='{0}dd/MM/yyyy'}" Style="{StaticResource InforContentTextStyle}"/>
                                 </Grid>
                             </telerikPrimitives:RadBorder>
                             <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
@@ -272,7 +274,7 @@
                             <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
                                 <Grid ColumnDefinitions="135,*">
                                     <Label Text="Đã thanh lý" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="Tiêu đề" Style="{StaticResource InforContentTextStyle}"/>
+                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_bookingfee_project}" Style="{StaticResource InforContentTextStyle}"/>
                                 </Grid>
                             </telerikPrimitives:RadBorder>
                             <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">

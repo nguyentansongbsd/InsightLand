@@ -97,10 +97,10 @@
                                         </StackLayout>
 
                                         <Label VerticalOptions="Center" Text="Địa chỉ liên lạc(VN)" FontSize="16" Grid.Column="0" Grid.Row="9"/>
-                                        <controls:MyNewEntry Text="diachi" HasClearButton="false"  Grid.Column="1" Grid.Row="9" OnClicked="DiaChiVN_Clicked"/>
+                                        <controls:MyNewEntry Text="{Binding AddressVn}" HasClearButton="false"  Grid.Column="1" Grid.Row="9" OnClicked="DiaChiVN_Clicked"/>
 
                                         <Label VerticalOptions="Center" Text="Địa chỉ liên lạc(EN)" FontSize="16" Grid.Column="0" Grid.Row="10"/>
-                                        <controls:MyNewEntry Text="diachi" HasClearButton="false"  Grid.Column="1" Grid.Row="10"/>
+                                        <controls:MyNewEntry Text="{Binding AddressEn}" HasClearButton="false"  Grid.Column="1" Grid.Row="10"/>
 
                                         <Label VerticalOptions="Center" Text="Tình trạng" FontSize="16" Grid.Column="0" Grid.Row="11"/>
                                         <Grid Grid.Column="1" Grid.Row="11">
@@ -488,7 +488,7 @@
                     </StackLayout>
                 </ScrollView>
 
-                <Grid x:Name="footer_form_lead" IsVisible="{Binding singleLead.statecode, Converter={StaticResource LeadStateCodeToBool}}" ColumnSpacing="0" VerticalOptions="EndAndExpand">
+                <Grid IsVisible="{Binding singleLead.statecode, Converter={StaticResource LeadStateCodeToBool}}" ColumnSpacing="0" VerticalOptions="EndAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
@@ -626,33 +626,25 @@
                     <ScrollView>
                         <StackLayout Padding="10" Spacing="3">
                             <controls:FormLabelRequired VerticalOptions="Center" Text="Số nhà, đường, phường (VN)" />
-                            <Entry x:Name="popupcontactaddress_housenumberstreet" FontSize="16"/>
+                            <Entry x:Name="popupcontactaddress_housenumberstreet" Text="{Binding StreetVn}" FontSize="16"/>
 
                             <controls:FormLabel VerticalOptions="Center" Text="Số nhà, đường, phường (EN)" FontSize="16"/>
-                            <Entry x:Name="popupcontactaddress_housenumber" FontSize="16"/>
+                            <Entry x:Name="popupcontactaddress_housenumber" Text="{Binding StreetEn}" FontSize="16"/>
 
                             <controls:FormLabel VerticalOptions="Center" Text="Quốc gia" FontSize="16"/>
-                            <!--<Label x:Name="popupcontactaddress_country_id" IsVisible="false"/>
-                            <Label x:Name="popupcontactaddress_country_en" IsVisible="false"/>-->
-                            <local:MyNewEntry x:Name="popupcontactaddress_country" PlaceHolder="Chọn quốc gia" HasClearButton="False" />
-                            <!--OnClicked="show_popup_listview_country" ClearClicked="clear_entry_country"-->
+                            <local:MyNewEntry x:Name="popupcontactaddress_country" Text="{Binding Country}" PlaceHolder="Chọn quốc gia" HasClearButton="False" OnClicked="show_popup_listview_country" ClearClicked="clear_entry_country"/>
 
                             <controls:FormLabel VerticalOptions="Center" Text="Tỉnh/Thành" FontSize="16"/>
-                            <!--<Label x:Name="popupcontactaddress_province_id" IsVisible="false"/>
-                            <Label x:Name="popupcontactaddress_province_en" IsVisible="false"/>-->
-                            <local:MyNewEntry x:Name="popupcontactaddress_province" PlaceHolder="Chọn tỉnh/thành" HasClearButton="False" />
-                            <!--OnClicked="show_popup_listview_province" ClearClicked="clear_entry_province"-->
-
+                            <local:MyNewEntry x:Name="popupcontactaddress_province" Text="{Binding Province}" PlaceHolder="Chọn tỉnh/thành" HasClearButton="False" OnClicked="show_popup_listview_province" ClearClicked="clear_entry_province" />
+                            
                             <controls:FormLabel VerticalOptions="Center" Text="Quận/Huyện" FontSize="16"/>
-                            <!--<Label x:Name="popupcontactaddress_district_id" IsVisible="false"/>
-                            <Label x:Name="popupcontactaddress_district_en" IsVisible="false"/>-->
-                            <local:MyNewEntry x:Name="popupcontactaddress_district" PlaceHolder="Chọn quận/huyện" HasClearButton="False" />
-                            <!--OnClicked="show_popup_listview_district" ClearClicked="clear_entry_district"-->
+                            <local:MyNewEntry x:Name="popupcontactaddress_district" Text="{Binding District}" PlaceHolder="Chọn quận/huyện" HasClearButton="False" OnClicked="show_popup_listview_district" ClearClicked="clear_entry_district"/>
+                            
                         </StackLayout>
                     </ScrollView>
                     <Grid x:Name="popupcontact_footer" ColumnDefinitions="*,*" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand">
-                        <Button Grid.Column="0" Text="Đóng"  HorizontalOptions="FillAndExpand" BackgroundColor="Silver"/> <!--Clicked="hide_popup_contactaddress"-->
-                        <Button x:Name="popupcontactaddress_btn_submit" Grid.Column="1" Text="Xác nhận" HorizontalOptions="FillAndExpand" BackgroundColor="Silver"/>
+                        <Button Grid.Column="0" Text="Đóng"  HorizontalOptions="FillAndExpand" BackgroundColor="Silver" Clicked="hide_popup_contactaddress"/> 
+                        <Button x:Name="popupcontactaddress_btn_submit" Grid.Column="1" Text="Xác nhận" HorizontalOptions="FillAndExpand" BackgroundColor="Silver" Clicked="btnConfirm_Clicked"/>
                     </Grid>
 
                 </StackLayout>
@@ -736,15 +728,11 @@
                         IsVisible="False"
                         BackgroundColor="#C0808080"
                         Padding="40">
-                <StackLayout BackgroundColor="#ffffff" Padding="10">
-                    <Label x:Name="title_popuplistview" Font="Bold,18" HorizontalTextAlignment="Center"/>
+                <StackLayout BackgroundColor="#ffffff" Spacing="0">
+                    <Label x:Name="title_popuplistview" Font="Bold,18" HorizontalTextAlignment="Center" Padding="15,10"/>
+                    <BoxView HeightRequest="1" BackgroundColor="LightGray"/>
 
-                    <StackLayout HeightRequest=".9" BackgroundColor="#000000"/>
-
-                    <StackLayout>
-                        <SearchBar x:Name="SearchBarListView" Placeholder="Tìm kiếm" TextChanged="SearchBarListView_TextChanged"/>
-                    </StackLayout>
-
+                    <SearchBar x:Name="SearchBarListView" Placeholder="Tìm kiếm" TextChanged="SearchBarListView_TextChanged"/>
                     <StackLayout VerticalOptions="FillAndExpand" x:Name="source_listviewpopup"/>
 
                     <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" Orientation="Horizontal" Spacing="2">

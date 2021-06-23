@@ -17,6 +17,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ReservationForm : ContentPage
     {
+        public Action<bool> CheckReservation;
         private readonly ReservationFormViewModel viewModel;
         private Guid ReservationId;
 
@@ -29,7 +30,7 @@ namespace ConasiCRM.Portable.Views
             viewModel.ModalLookUp = modalLookUp;
             viewModel.InitializeModal();
             viewModel.AfterLookUpClose += AfterLookUpClose;
-            Load();
+            Init();
 
             #region LoadCoOwners
             MessagingCenter.Subscribe<CoOwnerForm, bool>(this, "LoadCoOwners", async (s, arg) =>
@@ -67,145 +68,154 @@ namespace ConasiCRM.Portable.Views
                 viewModel.IsBusy = false;
             });
             #endregion            
-        }
+    }
 
-        public async void Load()
+        private async void Init()
         {
-            string fetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-              <entity name='quote'>
-                <attribute name='name' />
-                <attribute name='quoteid' />
-                <attribute name='customerid' />
-                <attribute name='quotenumber' />
-                <attribute name='bsd_quotationnumber' />
-                <attribute name='bsd_quotecodesams' />
-                <attribute name='bsd_xacnhanckmuasi' />
-                <attribute name='statuscode' />
-
-                <attribute name='bsd_bookingfee' />
-                <attribute name='bsd_depositfee' />
-
-                <attribute name='bsd_detailamount' />
-                <attribute name='bsd_discount' />
-                <attribute name='bsd_packagesellingamount' />
-                <attribute name='bsd_totalamountlessfreight' />
-                <attribute name='bsd_landvaluededuction' />
-                <attribute name='totaltax' />
-                <attribute name='bsd_freightamount' />
-                <attribute name='totalamount' />
-
-                <attribute name='bsd_numberofmonthspaidmf' />
-                <attribute name='bsd_managementfee' />
-                <attribute name='bsd_discounts' />
-                <order attribute='createdon' descending='true' />
-                <filter type='and'>
-                  <condition attribute='quoteid' operator='eq' uitype='quote' value='" + ReservationId + @"' />
-                </filter>
-                <link-entity name='product' from='productid' to='bsd_unitno' link-type='inner' alias='aa'>
-                      <attribute name='name' alias='unit_name' />
-                      <attribute name='statuscode' alias='unit_statuscode' />
-                      <attribute name='bsd_netsaleablearea' alias='unit_netsaleablearea' />
-                      <attribute name='bsd_constructionarea' alias='unit_constructionarea' />
-                </link-entity>
-                <link-entity name='contact' from='contactid' to='customerid' visible='false' link-type='outer' alias='a_f6c625518704e911a98b000d3aa2e890'>
-                      <attribute name='contactid' alias='contact_id' />
-                      <attribute name='bsd_fullname' alias='contact_name' />
-                    </link-entity>
-                    <link-entity name='account' from='accountid' to='customerid' visible='false' link-type='outer' alias='a_b1c625518704e911a98b000d3aa2e890'>
-                      <attribute name='accountid' alias='account_id' />
-                      <attribute name='bsd_name' alias='account_name' />
-                </link-entity>
-                <link-entity name='opportunity' from='opportunityid' to='opportunityid' visible='false' link-type='outer' alias='a_a2ff24578704e911a98b000d3aa2e890'>
-                     <attribute name='bsd_queuenumber' alias='queuenumber' />
-                </link-entity>
-                <link-entity name='bsd_project' from='bsd_projectid' to='bsd_projectid' visible='false' link-type='outer' alias='a_ae0b05eeb214e911a97f000d3aa04914'>
-                     <attribute name='bsd_name' alias='project_name' />
-                </link-entity>
-                <link-entity name='bsd_phaseslaunch' from='bsd_phaseslaunchid' to='bsd_phaseslaunchid' visible='false' link-type='outer' alias='a_dab1e1e7b214e911a97f000d3aa04914'>
-                     <attribute name='bsd_phaseslaunchid' alias='phaseslaunch_id' />
-                     <attribute name='bsd_name' alias='phaseslaunch_name' />
-                </link-entity>
-                <link-entity name='pricelevel' from='pricelevelid' to='pricelevelid' visible='false' link-type='outer' alias='a_060025578704e911a98b000d3aa2e890'>
-                      <attribute name='name' alias='pricelevel_name' />
-                </link-entity>
-                <link-entity name='bsd_paymentscheme' from='bsd_paymentschemeid' to='bsd_paymentscheme' visible='false' link-type='outer' alias='a_8524eae1b214e911a97f000d3aa04914'>
-                      <attribute name='bsd_paymentschemeid' alias='paymentscheme_id' />
-                      <attribute name='bsd_name' alias='paymentscheme_name' />
-                </link-entity>
-                <link-entity name='bsd_taxcode' from='bsd_taxcodeid' to='bsd_taxcode' visible='false' link-type='outer' alias='a_120c05eeb214e911a97f000d3aa04914'>
-                       <attribute name='bsd_value' alias='tax' />
-                 </link-entity>
-                <link-entity name='bsd_discounttype' from='bsd_discounttypeid' to='bsd_discountlist' visible='false' link-type='outer' alias='a_f577eedbb214e911a97f000d3aa04914'>
-                     <attribute name='bsd_discounttypeid' alias='discountlist_id'  />
-                     <attribute name='bsd_name' alias='discountlist_name' />
-                </link-entity>
-              </entity>
-            </fetch>";
-            // join với contact + account de lấy name.
-            // join với product để lấy unit name, unit status có sẵn trên quote.
-            // join với queue để lấy mã phiếu đặt chô
-            // joi project, dot mo ban, bang gia, lich thanh toan
-            // join voi bsd_taxcode de lay phan tram thue.
-            // join voi discount list dể lấy tên chiết khấu và mã, dugnf để lấy danh sách discounts..
-
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ReservationFormModel>>("quotes", fetchXml);
-            var reservation = result.value.SingleOrDefault();
-
-            if (reservation == null)
-            {
-                await DisplayAlert("", "Lỗi, không tìm thấy Reservation", "Đóng");
-                return;
-            }
-
-            if (reservation.paymentscheme_id != Guid.Empty)
-            {
-                viewModel.PaymentScheme = new LookUp()
-                {
-                    Id = reservation.paymentscheme_id,
-                    Name = reservation.paymentscheme_name
-                };
-            }
-            if (reservation.discountlist_id == Guid.Empty)
-            {
-                ExpanderThongTinChietKhau.IsVisible = false;
-            }
-
-            if (reservation.contact_id != Guid.Empty)
-            {
-                viewModel.Customer = new CustomerLookUp()
-                {
-                    Id = reservation.contact_id,
-                    Name = reservation.contact_name,
-                    Type = 1
-                };
-            }
-            else if (reservation.account_id != Guid.Empty)
-            {
-                viewModel.Customer = new CustomerLookUp()
-                {
-                    Id = reservation.account_id,
-                    Name = reservation.account_name,
-                    Type = 2
-                };
-            }
-
-            viewModel.Reservation = reservation;
-
-            var tasks = new Task[6]
-            {
-                LoadCoOwners(),
-                LoadhandoverConditions(),
-                LoadPromotions(),
-                LoadSpecialDiscounts(),
-                LoadInstallments(),
-                LoadDiscounts()
-            };
-            await Task.WhenAll(tasks);
-            //await mainScrollView.ScrollToAsync(DiscountInfoExp, ScrollToPosition.Start, false);
-            VisibleControls();
-            InitButtonGroup();
-            viewModel.IsBusy = false;
+            await Load();
+                if (viewModel.Reservation != null)
+                    CheckReservation(true);
+                else
+                    CheckReservation(false);
         }
+
+        public async Task Load()
+            {
+                string fetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+                  <entity name='quote'>
+                    <attribute name='name' />
+                    <attribute name='quoteid' />
+                    <attribute name='customerid' />
+                    <attribute name='quotenumber' />
+                    <attribute name='bsd_quotationnumber' />
+                    <attribute name='bsd_quotecodesams' />
+                    <attribute name='bsd_xacnhanckmuasi' />
+                    <attribute name='statuscode' />
+
+                    <attribute name='bsd_bookingfee' />
+                    <attribute name='bsd_depositfee' />
+
+                    <attribute name='bsd_detailamount' />
+                    <attribute name='bsd_discount' />
+                    <attribute name='bsd_packagesellingamount' />
+                    <attribute name='bsd_totalamountlessfreight' />
+                    <attribute name='bsd_landvaluededuction' />
+                    <attribute name='totaltax' />
+                    <attribute name='bsd_freightamount' />
+                    <attribute name='totalamount' />
+
+                    <attribute name='bsd_numberofmonthspaidmf' />
+                    <attribute name='bsd_managementfee' />
+                    <attribute name='bsd_discounts' />
+                    <order attribute='createdon' descending='true' />
+                    <filter type='and'>
+                      <condition attribute='quoteid' operator='eq' uitype='quote' value='" + ReservationId + @"' />
+                    </filter>
+                    <link-entity name='product' from='productid' to='bsd_unitno' link-type='inner' alias='aa'>
+                          <attribute name='name' alias='unit_name' />
+                          <attribute name='statuscode' alias='unit_statuscode' />
+                          <attribute name='bsd_netsaleablearea' alias='unit_netsaleablearea' />
+                          <attribute name='bsd_constructionarea' alias='unit_constructionarea' />
+                    </link-entity>
+                    <link-entity name='contact' from='contactid' to='customerid' visible='false' link-type='outer' alias='a_f6c625518704e911a98b000d3aa2e890'>
+                          <attribute name='contactid' alias='contact_id' />
+                          <attribute name='bsd_fullname' alias='contact_name' />
+                        </link-entity>
+                        <link-entity name='account' from='accountid' to='customerid' visible='false' link-type='outer' alias='a_b1c625518704e911a98b000d3aa2e890'>
+                          <attribute name='accountid' alias='account_id' />
+                          <attribute name='bsd_name' alias='account_name' />
+                    </link-entity>
+                    <link-entity name='opportunity' from='opportunityid' to='opportunityid' visible='false' link-type='outer' alias='a_a2ff24578704e911a98b000d3aa2e890'>
+                         <attribute name='bsd_queuenumber' alias='queuenumber' />
+                    </link-entity>
+                    <link-entity name='bsd_project' from='bsd_projectid' to='bsd_projectid' visible='false' link-type='outer' alias='a_ae0b05eeb214e911a97f000d3aa04914'>
+                         <attribute name='bsd_name' alias='project_name' />
+                    </link-entity>
+                    <link-entity name='bsd_phaseslaunch' from='bsd_phaseslaunchid' to='bsd_phaseslaunchid' visible='false' link-type='outer' alias='a_dab1e1e7b214e911a97f000d3aa04914'>
+                         <attribute name='bsd_phaseslaunchid' alias='phaseslaunch_id' />
+                         <attribute name='bsd_name' alias='phaseslaunch_name' />
+                    </link-entity>
+                    <link-entity name='pricelevel' from='pricelevelid' to='pricelevelid' visible='false' link-type='outer' alias='a_060025578704e911a98b000d3aa2e890'>
+                          <attribute name='name' alias='pricelevel_name' />
+                    </link-entity>
+                    <link-entity name='bsd_paymentscheme' from='bsd_paymentschemeid' to='bsd_paymentscheme' visible='false' link-type='outer' alias='a_8524eae1b214e911a97f000d3aa04914'>
+                          <attribute name='bsd_paymentschemeid' alias='paymentscheme_id' />
+                          <attribute name='bsd_name' alias='paymentscheme_name' />
+                    </link-entity>
+                    <link-entity name='bsd_taxcode' from='bsd_taxcodeid' to='bsd_taxcode' visible='false' link-type='outer' alias='a_120c05eeb214e911a97f000d3aa04914'>
+                           <attribute name='bsd_value' alias='tax' />
+                     </link-entity>
+                    <link-entity name='bsd_discounttype' from='bsd_discounttypeid' to='bsd_discountlist' visible='false' link-type='outer' alias='a_f577eedbb214e911a97f000d3aa04914'>
+                         <attribute name='bsd_discounttypeid' alias='discountlist_id'  />
+                         <attribute name='bsd_name' alias='discountlist_name' />
+                    </link-entity>
+                  </entity>
+                </fetch>";
+                // join với contact + account de lấy name.
+                // join với product để lấy unit name, unit status có sẵn trên quote.
+                // join với queue để lấy mã phiếu đặt chô
+                // joi project, dot mo ban, bang gia, lich thanh toan
+                // join voi bsd_taxcode de lay phan tram thue.
+                // join voi discount list dể lấy tên chiết khấu và mã, dugnf để lấy danh sách discounts..
+
+                var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ReservationFormModel>>("quotes", fetchXml);
+                var reservation = result.value.SingleOrDefault();
+
+                if (reservation == null)
+                {
+                    await DisplayAlert("", "Lỗi, không tìm thấy Reservation", "Đóng");
+                    return;
+                }
+
+                if (reservation.paymentscheme_id != Guid.Empty)
+                {
+                    viewModel.PaymentScheme = new LookUp()
+                    {
+                        Id = reservation.paymentscheme_id,
+                        Name = reservation.paymentscheme_name
+                    };
+                }
+                if (reservation.discountlist_id == Guid.Empty)
+                {
+                    ExpanderThongTinChietKhau.IsVisible = false;
+                }
+
+                if (reservation.contact_id != Guid.Empty)
+                {
+                    viewModel.Customer = new CustomerLookUp()
+                    {
+                        Id = reservation.contact_id,
+                        Name = reservation.contact_name,
+                        Type = 1
+                    };
+                }
+                else if (reservation.account_id != Guid.Empty)
+                {
+                    viewModel.Customer = new CustomerLookUp()
+                    {
+                        Id = reservation.account_id,
+                        Name = reservation.account_name,
+                        Type = 2
+                    };
+                }
+
+                viewModel.Reservation = reservation;
+
+                var tasks = new Task[6]
+                {
+                    LoadCoOwners(),
+                    LoadhandoverConditions(),
+                    LoadPromotions(),
+                    LoadSpecialDiscounts(),
+                    LoadInstallments(),
+                    LoadDiscounts()
+                };
+                await Task.WhenAll(tasks);           
+                //await mainScrollView.ScrollToAsync(DiscountInfoExp, ScrollToPosition.Start, false);
+                VisibleControls();
+                InitButtonGroup();
+                viewModel.IsBusy = false;
+            }
 
         private void VisibleControls()
         {

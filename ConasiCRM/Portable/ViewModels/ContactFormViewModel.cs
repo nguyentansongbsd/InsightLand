@@ -152,7 +152,7 @@ namespace ConasiCRM.Portable.ViewModels
         public void reset()
         {
             singleContact = new ContactFormModel();
-            singleLocalization = new OptionSet();
+         //   singleLocalization = new OptionSet();
             singleGender = new OptionSet();
             singleContactgroup = new OptionSet();
 
