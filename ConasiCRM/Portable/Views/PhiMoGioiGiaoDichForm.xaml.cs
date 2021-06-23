@@ -15,7 +15,6 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PhiMoGioiGiaoDichForm : ContentPage
     {
-        public Action<bool> CheckData;
         public PhiMoGioiGiaoDichFormViewModel viewModel;
         public Guid idPMGGD;
         public PhiMoGioiGiaoDichForm(Guid _idPMGGD)
@@ -24,19 +23,8 @@ namespace ConasiCRM.Portable.Views
             this.BindingContext = viewModel = new PhiMoGioiGiaoDichFormViewModel();
             viewModel.IsBusy = true;
             this.idPMGGD = _idPMGGD;
-            Init();
+            Task.Run(loadData);
         }
-
-        private async void Init()
-        {
-            await loadData();
-            if (viewModel.PhiMoGioiGD != null)
-                CheckData(true);
-            else
-                CheckData(false);
-        }
-
-
         public async Task loadData()
         {
             string xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>

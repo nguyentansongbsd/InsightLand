@@ -17,7 +17,6 @@ namespace ConasiCRM.Portable.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MeetingForm : ContentPage
 	{
-        public Action<bool> CheckMeeting;
         private Guid _idActivity;
         public MeetingViewModel viewModel;
         private List<StackLayout> _dataRequired;
@@ -90,20 +89,10 @@ namespace ConasiCRM.Portable.Views
             BindingContext = viewModel = new MeetingViewModel();
             this._idActivity = idActivity;
             viewModel.IsBusy = true;
-            Init();
-        }
-        // chuyển grid sang list view - đã test update - chưa test complete, cancel
-
-        public async void Init()
-        {
-            await loadDataForm(this._idActivity);
-            if (viewModel.MeetingModel != null)
-                CheckMeeting(true);
-            else
-                CheckMeeting(false);
+            loadDataForm(_idActivity);
         }
 
-        public async Task loadDataForm(Guid id)
+        public async void loadDataForm(Guid id)
         {
             dataRequired = new List<StackLayout>();
             dataOption = new List<StackLayout>();

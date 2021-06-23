@@ -18,7 +18,6 @@ namespace ConasiCRM.Portable.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PhoneCallForm : ContentPage
 	{
-        public Action<bool> CheckPhoneCell;
         private Guid _idActivity;
         public PhoneCellViewModel viewModel;
         private List<StackLayout> _dataStackTo;
@@ -93,19 +92,11 @@ namespace ConasiCRM.Portable.Views
             BindingContext = viewModel = new PhoneCellViewModel();
             this._idActivity = idActivity;
             viewModel.IsBusy = true;
-            Init();
+            loadDataForm(this._idActivity);
             //fromCell.SetBinding(MyNewEntryPartyList.DataProperty, new Binding("dataStack"));
             //fromCell.BindingContext = this;
         }
-        public async void Init()
-        {
-            await loadDataForm(this._idActivity);
-            if (viewModel.PhoneCellModel != null)
-                CheckPhoneCell(true);
-            else
-                CheckPhoneCell(false);
-        }
-        public async Task loadDataForm(Guid id)
+        public async void loadDataForm(Guid id)
         {
             viewModel.listFromCell.Clear();
             viewModel.listToCell.Clear();
@@ -116,6 +107,8 @@ namespace ConasiCRM.Portable.Views
 
             grid_createPhone.IsVisible = false;
             grid_updatePhone.IsVisible = true;
+
+
 
             string xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
             <entity name='phonecall'>
@@ -153,7 +146,7 @@ namespace ConasiCRM.Portable.Views
           </fetch>";
 
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<PhoneCellModel>>("phonecalls", xml);
-            PhoneCellModel phoneCell = result.value.FirstOrDefault();            
+            PhoneCellModel phoneCell = result.value.FirstOrDefault();
 
             PhoneCellModel phoneCellModel = new PhoneCellModel();
             phoneCellModel.activityid = phoneCell.activityid;
