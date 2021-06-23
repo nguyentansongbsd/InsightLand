@@ -55,8 +55,18 @@ namespace ConasiCRM.Portable.Views
             InitializeComponent();
             this.BindingContext = viewModel = new ContactFormViewModel();
             this.constructor();
-            this.loadData(contactId.ToString());
+            Init(contactId);
         }
+
+        public async void Init(Guid contactId)
+        {
+            await this.loadData(contactId.ToString());
+            if (viewModel.singleContact != null)
+                CheckSingleContact(true);
+            else
+                CheckSingleContact(false);
+        }
+         
 
         public void constructor()
         {
@@ -66,7 +76,7 @@ namespace ConasiCRM.Portable.Views
             isShowingPopup = false;
         }
 
-        public async void loadData(string contactId)
+        public async Task loadData(string contactId)
         {
             viewModel.IsBusy = true;
 
@@ -136,11 +146,6 @@ namespace ConasiCRM.Portable.Views
                 }
 
                 await viewModel.GetImageCMND();
-
-                if (viewModel.singleContact != null)
-                    CheckSingleContact(true);
-                else
-                    CheckSingleContact(false);
             }            
             this.render(contactId);
             viewModel.IsBusy = false;
@@ -249,7 +254,7 @@ namespace ConasiCRM.Portable.Views
 /// GENDER PICKER
         private void gendercode_picker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(viewModel.singleGender != null)
+            if(viewModel.singleGender.Val != null)
             {
                 viewModel.singleContact.gendercode = viewModel.singleGender.Val;
                 viewModel.PhongThuy.gioi_tinh = Int32.Parse(viewModel.singleContact.gendercode);
