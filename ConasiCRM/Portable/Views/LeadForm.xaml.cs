@@ -58,7 +58,6 @@ namespace ConasiCRM.Portable.Views
         public void constructor()
         {
             isShowingPopup = false;
-
             viewModel.singleLead = new LeadFormModel();
             //viewModelProject = new ProjectViewModel();
             checkBoxes = new List<MyNewCheckBox>();
@@ -102,8 +101,8 @@ namespace ConasiCRM.Portable.Views
                     {
                         viewModel.list_Duanquantam.Add(new ProjectList());
                     }
-                }
-            }
+                }              
+            }        
             await viewModel.LoadLeadsRating();
             this.render(leadid);
             viewModel.IsBusy = false;

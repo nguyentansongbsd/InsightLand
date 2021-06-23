@@ -16,6 +16,7 @@ namespace ConasiCRM.Portable.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PhiMoGioiForm : ContentPage
 	{
+        public Action<bool> CheckPhiMoGioi;
         private Guid idPhiMoGioi;
         public PhiMoGioiFormViewModel viewModel;
 		public PhiMoGioiForm (Guid idPMG)
@@ -24,8 +25,18 @@ namespace ConasiCRM.Portable.Views
             BindingContext = viewModel = new PhiMoGioiFormViewModel();
             this.idPhiMoGioi = idPMG;
             viewModel.IsBusy = true;
-            Task.Run(loadData);
+            Init();
+           // Task.Run(loadData);
 		}
+
+        private async void Init()
+        {
+            await loadData();
+            if(viewModel.PhiMoGioi != null)
+                CheckPhiMoGioi(true);
+            else
+                CheckPhiMoGioi(false);
+        }
 
         public async Task loadData()
         {
@@ -45,9 +56,10 @@ namespace ConasiCRM.Portable.Views
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<PhiMoGioiFormModel>>("bsd_brokeragefeeses", xml);
             var data = result.value.FirstOrDefault();
             if (data == null)
-            {
+            {               
                 await DisplayAlert("Thông báo", "Thông tin chi tiết của phí mô giới không tìm thấy !", "Đóng");
-            }
+                return;
+            }          
             viewModel.PhiMoGioi = data;
             viewModel.IsBusy = false;
         }

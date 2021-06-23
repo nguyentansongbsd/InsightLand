@@ -19,6 +19,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class QueueForm : ContentPage
     {
+        public Action<bool> CheckQueueInfo;
         public QueueFormViewModel viewModel;
         public Guid UnitId;
         public Guid QueueId;
@@ -52,8 +53,16 @@ namespace ConasiCRM.Portable.Views
             viewModel.ModalLookUp = modalLookUp;
             viewModel.InitializeModal();
             viewModel.AfterLookUpClose += AfterLookUpClose;
+            Init();
+        }
 
-            Load();
+        public async void Init()
+        {
+            await Load();
+            if (viewModel.QueueFormModel != null)
+                CheckQueueInfo(true);
+            else
+                CheckQueueInfo(false);
         }
 
         private void BsdLookUp_OpenClicked(object sender, EventArgs e)
@@ -203,7 +212,7 @@ namespace ConasiCRM.Portable.Views
             viewModel.IsBusy = false;
         }
 
-        public async void Load()
+        public async Task Load()
         {
             string fetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
               <entity name='opportunity'>
@@ -315,10 +324,9 @@ namespace ConasiCRM.Portable.Views
                 queueFormModel.bsd_collectedqueuingfee = queueInfo.bsd_collectedqueuingfee;// đa nhan tien
                 queueFormModel.landvalue = queueInfo.landvalue;
                 queueFormModel.unit_price = queueInfo.unit_price;
-                viewModel.QueueFormModel = queueFormModel;
-
-                InitBtn();
-            }
+                viewModel.QueueFormModel = queueFormModel;               
+                InitBtn();                
+            }           
             
             viewModel.Title = "Thông tin đặt chỗ";
             viewModel.IsBusy = false;

@@ -3,15 +3,96 @@
              BackgroundColor="White"
              Title="Đặt chỗ"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
-             xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
-              xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             xmlns:controls="clr-namespace:ConasiCRM.Controls"           
+             xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters" xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
              x:Class="ConasiCRM.Portable.Views.QueueList">
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
     </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:InformationLabelConverter x:Key="InformationLabelConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid Padding="5">
+        <AbsoluteLayout>
+            <Grid RowDefinitions="Auto,*" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <SearchBar Grid.Row="0" Placeholder="Keyword"/>
+                <controls:BsdListView x:Name="listView" Grid.Row="1" ItemsSource="{Binding Data}" HasUnevenRows="True" ItemTapped="listView_ItemTapped">
+                    <controls:BsdListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
+                                    <Label Grid.Row="0" Grid.Column="0" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding project_name}" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                                                <Span Text="{Binding statuscode_label,Converter={StaticResource InformationLabelConverter}}" FontSize="18"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <telerikPrimitives:RadBorder Grid.Row="0" Grid.Column="1" BorderThickness="1" HeightRequest="35" WidthRequest="35" CornerRadius="30, 30, 30, 30" x:Name="BottomSheet" BackgroundColor="Green">
+                                        <Label Text="&#xf095;" FontSize="16" TextColor="White" FontFamily="FontAwesomeSolid" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" >
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path= BindingContext.PhoneCommand, Source={x:Reference listView}}" CommandParameter="{Binding telephone}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </telerikPrimitives:RadBorder>
+                                    <Label Grid.Row="1" Grid.Column="0" FontSize="16" Grid.ColumnSpan="2" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Căn hộ: "/>
+                                                <Span Text="{Binding unit_name}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label FontSize="16" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Khách hàng: "/>
+                                                <Span Text="{Binding customername}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label FontSize="16" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Tiền đặt chỗ: "/>
+                                                <Span Text="{Binding bsd_queuingfee_format}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="4" Grid.Column="0" FontSize="16" Grid.ColumnSpan="2" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Thời gian đặt chỗ: "/>
+                                                <Span Text="{Binding createdon_format}" TextColor="Black"/>
+                                                <Span Text=" đến "/>
+                                                <Span Text="{Binding bsd_queuingexpired_format}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </controls:BsdListView.ItemTemplate>
+                </controls:BsdListView>
+            </Grid>
+            <ContentView x:Name="popup_loading"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All"
+                IsVisible="{Binding IsBusy}"
+                BackgroundColor="#C0808080">
+
+                <ActivityIndicator
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="{Binding IsBusy}" Color="#000000">
+                </ActivityIndicator>
+            </ContentView>
+        </AbsoluteLayout>
+        <!--<Grid Padding="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
@@ -33,6 +114,6 @@
 
             </bsdGrid:BsdRadDataGrid>
             <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-        </Grid>
+        </Grid>-->
     </ContentPage.Content>
 </ContentPage>

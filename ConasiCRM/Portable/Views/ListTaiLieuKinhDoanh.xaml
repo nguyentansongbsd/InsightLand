@@ -2,14 +2,60 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              Title="Tài Liệu Kinh Doanh"
-             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
-             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             xmlns:controls="clr-namespace:ConasiCRM.Controls"
+             xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
              x:Class="ConasiCRM.Portable.Views.ListTaiLieuKinhDoanh">
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid Padding="5">
+        <AbsoluteLayout>
+            <Grid RowDefinitions="Auto,*" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <SearchBar Grid.Row="0" Placeholder="Keyword"/>
+                <controls:BsdListView x:Name="listView" Grid.Row="1" ItemsSource="{Binding Data}" HasUnevenRows="True" ItemTapped="listView_ItemTapped">
+                    <controls:BsdListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding name}" FontSize="18" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation"/>
+                                    <Label FontSize="16" Grid.Row="0" Grid.Column="1" Text="{Binding createdon_format}" LineBreakMode="TailTruncation" VerticalTextAlignment="Center"/>
+                                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="16" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Dự Án: "/>
+                                                <Span Text="{Binding subjecttitle}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label FontSize="16" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Loại: "/>
+                                                <Span Text="{Binding literaturetypecode_format}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </controls:BsdListView.ItemTemplate>
+                </controls:BsdListView>
+            </Grid>
+            <ContentView x:Name="popup_loading"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All"
+                IsVisible="{Binding IsBusy}"
+                BackgroundColor="#C0808080">
+
+                <ActivityIndicator
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="{Binding IsBusy}" Color="#000000">
+                </ActivityIndicator>
+            </ContentView>
+        </AbsoluteLayout>
+        <!--<Grid Padding="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
@@ -30,6 +76,6 @@
                 </telerikDataGrid:RadDataGrid.Columns>
             </bsdGrid:BsdRadDataGrid>
             <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-        </Grid>
+        </Grid>-->
     </ContentPage.Content>
 </ContentPage>

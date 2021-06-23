@@ -54,21 +54,20 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             this.BindingContext = viewModel = new ContactFormViewModel();
-            this.constructor();
+            this.constructor();                  
             Init(contactId);
-        }
+    }
 
-        public async void Init(Guid contactId)
-        {
-            await this.loadData(contactId.ToString());
-            if (viewModel.singleContact != null)
-                CheckSingleContact(true);
-            else
-                CheckSingleContact(false);
-        }
-         
+    public async void Init(Guid Id)
+    {
+        await loadData(Id.ToString());
+        if (viewModel.singleContact != null)
+           CheckSingleContact(true);
+        else
+           CheckSingleContact(false);
+    }
 
-        public void constructor()
+    public void constructor()
         {
             viewModel.singleContact = new ContactFormModel();
             tab_tapped = new TapGestureRecognizer();
@@ -144,8 +143,7 @@ namespace ConasiCRM.Portable.Views
                         multipleSelectView.addSelectedItem(x);
                     }
                 }
-
-                await viewModel.GetImageCMND();
+                await viewModel.GetImageCMND();  
             }            
             this.render(contactId);
             viewModel.IsBusy = false;

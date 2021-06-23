@@ -5,7 +5,7 @@
              xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
              xmlns:reservationConverter="clr-namespace:ConasiCRM.Portable.Converters.Reservation"
-             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             xmlns:controls="clr-namespace:ConasiCRM.Controls"     
              x:Class="ConasiCRM.Portable.Views.ReservationList">
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
@@ -16,11 +16,80 @@
             <converter:DecimalFormatConverter x:Key="DecimalFormatConverter" />
             <converter:DecimalToVndConverter x:Key="DecimalToVndConverter" />
             <converter:QueueStatusConverter x:Key="QueueStatusConverter" />
+            <converter:InformationLabelConverter x:Key="InformationLabelConverter"/>
             <reservationConverter:StatusLabelConverter x:Key="StatusLabelConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid Padding="5">
+        <AbsoluteLayout>
+            <Grid RowDefinitions="Auto,*" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <SearchBar Grid.Row="0" Placeholder="Keyword"/>
+                <controls:BsdListView x:Name="listView" Grid.Row="1" ItemsSource="{Binding Data}" HasUnevenRows="True" ItemTapped="listView_ItemTapped">
+                    <controls:BsdListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
+                                    <Label Grid.Row="0" Grid.Column="0" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding bsd_projectid_name}" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                                                <Span Text="{Binding statuscode_format,Converter={StaticResource InformationLabelConverter}}" FontSize="18"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="1" Grid.Column="0" FontSize="16" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Căn hộ: "/>
+                                                <Span Text="{Binding bsd_unitno_name}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label FontSize="16" Grid.Row="2" Grid.Column="0" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Khách hàng: "/>
+                                                <Span Text="{Binding purchaser}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label FontSize="16" Grid.Row="3" Grid.Column="0" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Tổng tiền: "/>
+                                                <Span Text="{Binding totalamount_format}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="4" Grid.Column="0" FontSize="16" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Đợt phát hành: "/>
+                                                <Span Text="{Binding phaseslaunch_name}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </controls:BsdListView.ItemTemplate>
+                </controls:BsdListView>
+            </Grid>
+            <ContentView x:Name="popup_loading"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All"
+                IsVisible="{Binding IsBusy}"
+                BackgroundColor="#C0808080">
+
+                <ActivityIndicator
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="{Binding IsBusy}" Color="#000000">
+                </ActivityIndicator>
+            </ContentView>
+        </AbsoluteLayout>
+        <!--<Grid Padding="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
@@ -41,6 +110,6 @@
                 </telerikDataGrid:RadDataGrid.Columns>
             </bsdGrid:BsdRadDataGrid>
             <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-        </Grid>
+        </Grid>-->
     </ContentPage.Content>
 </ContentPage>

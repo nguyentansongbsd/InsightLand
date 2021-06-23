@@ -15,6 +15,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EventForm : ContentPage
     {
+        public Action<bool> CheckEventData;
         private Guid eventIDForm;
         public EventFormViewModel viewModel;
         public EventForm(Guid eventID)
@@ -23,7 +24,16 @@ namespace ConasiCRM.Portable.Views
             BindingContext = viewModel = new EventFormViewModel();
             this.eventIDForm = eventID;
             viewModel.IsBusy = true; // khi load vào form chạy loading
-            Task.Run(loadData);
+            Init();
+        }
+
+        public async void Init()
+        {
+            await loadData();
+            if(viewModel.Event != null)
+                CheckEventData(true);
+            else
+                CheckEventData(false);
         }
 
         public async Task loadData()
@@ -63,9 +73,10 @@ namespace ConasiCRM.Portable.Views
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<EventFormModel>>("bsd_events", xml);
             var eventData = result.value.FirstOrDefault();
             if(eventData == null)
-            {
+            {               
                 await DisplayAlert("Thông báo", "Thông tin chi tiết của sự kiện không tìm thấy !", "Đóng");
-            }
+                return;
+            }          
             viewModel.Event = eventData;
             viewModel.IsBusy = false;
         }

@@ -34,8 +34,7 @@ namespace ConasiCRM.Portable.Views
         }
         private async void NewMenu_Clicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
-            await Task.Delay(1000);
+            viewModel.IsBusy = true;   
             await Navigation.PushAsync(new AccountForm());
             viewModel.IsBusy = false;
         }
@@ -48,15 +47,14 @@ namespace ConasiCRM.Portable.Views
 
         }
 
-        private async void listView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            viewModel.IsBusy = true;
-            await Task.Delay(1000);
+            viewModel.IsBusy = true;           
             var item = e.Item as AccountListModel;
             AccountForm newPage = new AccountForm(item.accountid);
-            newPage.CheckSingleAccount = async (checkSingleLead) =>
+            newPage.CheckSingleAccount = async (CheckSingleAccount) =>
             {
-                if (checkSingleLead == true)
+                if (CheckSingleAccount == true)
                 {
                     await Navigation.PushAsync(newPage);
                 }
