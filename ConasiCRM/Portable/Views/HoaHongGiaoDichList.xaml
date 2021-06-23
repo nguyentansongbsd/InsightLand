@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
-             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
+             xmlns:controls="clr-namespace:ConasiCRM.Controls"   
+             Title="Hoa Hồng Giao Dịch"
+             xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
              x:Class="ConasiCRM.Portable.Views.HoaHongGiaoDichList">
     <ContentPage.Resources>
@@ -11,10 +12,90 @@
             <converter:DecimalToAreaConverter x:Key="DecimalToAreaConverter" />
             <converter:DecimalToPercentConverter x:Key="DecimalToPercentConverter" />
             <converter:DecimalToVndConverter x:Key="DecimalToVndConverter" />
+            <converter:InformationLabelConverter x:Key="InformationLabelConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid Padding="5">
+        <AbsoluteLayout>
+            <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <Grid RowDefinitions="Auto,20" BackgroundColor="White">
+                    <telerikPrimitives:RadBorder Grid.Row="0" BorderThickness="1" CornerRadius="0, 0, 10, 10" BackgroundColor="#039EBD">
+                    </telerikPrimitives:RadBorder>
+                    <telerikPrimitives:RadBorder Grid.Row="0" Grid.RowSpan="2" BorderThickness="1" CornerRadius="10, 10, 10, 10" BorderColor="Gray" BackgroundColor="White" Margin="10,20,10,0">
+                        <Grid Padding="15" ColumnDefinitions="7*,3*" RowDefinitions="Auto,Auto,Auto">
+                            <Label Text="Tổng tiền hoa hồng" FontSize="18" Grid.Row="0" Grid.Column="0" TextColor="Black" />
+                            <Label Text="{Binding totalHoaHong, Converter={StaticResource DecimalToVndConverter}}"  HorizontalOptions="EndAndExpand" FontSize="18" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" TextColor="Black"/>
+
+                            <Label Text="Tổng tiền hoa hồng đã nhận" FontSize="18" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
+                            <Label Text="{Binding totalHoaHongNhan, Converter={StaticResource DecimalToVndConverter}}" HorizontalOptions="EndAndExpand" FontSize="18" Grid.Row="1" Grid.Column="1" FontAttributes="Bold" TextColor="Black"/>
+
+                            <Label Text="Tổng tiền hoa hồng còn lại" FontSize="18" Grid.Row="2" Grid.Column="0" TextColor="Black"/>
+                            <Label Text="{Binding totalHoaHongConLai, Converter={StaticResource DecimalToVndConverter}}" HorizontalOptions="EndAndExpand" FontSize="18" Grid.Row="2" Grid.Column="1" FontAttributes="Bold" TextColor="Black" Margin="0,0,0,5"/>
+                        </Grid>
+                    </telerikPrimitives:RadBorder>
+                </Grid>
+                <Label Padding="10,5,10,5" Text="Danh sách hoa hồng giao dịch" FontSize="18" FontAttributes="Bold" TextColor="#039EBD"/>
+                <controls:BsdListView x:Name="listView" ItemsSource="{Binding Data}" HasUnevenRows="True" ItemTapped="listView_ItemTapped">
+                    <controls:BsdListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
+                                    <Label Grid.Row="0" Grid.Column="0" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding project_bsd_name}" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                                                <Span Text="{Binding statuscode_format,Converter={StaticResource InformationLabelConverter}}" FontSize="18"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding createdon_format}" FontSize="16" VerticalTextAlignment="Start"/>
+                                    <Label FontSize="16" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Bất Động Sản: "/>
+                                                <Span Text="{Binding products_name}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label FontSize="16" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Tổng Tiền: "/>
+                                                <Span Text="{Binding bsd_totalcommission_format}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="3" Grid.Column="0" FontSize="16" Grid.ColumnSpan="2" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Thời gian bắt đầu: "/>
+                                                <Span Text="{Binding bsd_startdate_format}" TextColor="Black"/>
+                                                <Span Text=" đến "/>
+                                                <Span Text="{Binding bsd_enddate_format}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </controls:BsdListView.ItemTemplate>
+                </controls:BsdListView>
+            </StackLayout>
+            <ContentView x:Name="popup_loading"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All"
+                IsVisible="{Binding IsBusy}"
+                BackgroundColor="#C0808080">
+
+                <ActivityIndicator
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="{Binding IsBusy}" Color="#000000">
+                </ActivityIndicator>
+            </ContentView>
+        </AbsoluteLayout>
+        <!--<Grid Padding="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -75,6 +156,6 @@
                 </telerikDataGrid:RadDataGrid.Columns>
             </bsdGrid:BsdRadDataGrid>
             <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-        </Grid>
+        </Grid>-->
     </ContentPage.Content>
 </ContentPage>
