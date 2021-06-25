@@ -997,7 +997,7 @@ namespace ConasiCRM.Portable.Views
             {
                 this.hide_popup_province(null, null);
                 viewModel.IsBusy = true;
-                await viewModel.Add_NhuCauDiaDiem(selected.new_provinceid, viewModel.singleContact.contactid);
+                await viewModel.Add_NhuCauDiaDiem(selected.new_provinceid.ToString(), viewModel.singleContact.contactid);
 
                 if (viewModel.list_nhucauvediadiem.FirstOrDefault(x => x.new_id == null) != null)
                 {
@@ -1025,7 +1025,7 @@ namespace ConasiCRM.Portable.Views
                 if (x)
                 {
                     viewModel.IsBusy = true;
-                    await viewModel.Delete_NhuCauDiaDiem(tmp.new_provinceid, viewModel.singleContact.contactid);
+                    await viewModel.Delete_NhuCauDiaDiem(tmp.new_provinceid.ToString(), viewModel.singleContact.contactid);
                     viewModel.list_nhucauvediadiem.Remove(tmp);
                     if (viewModel.list_nhucauvediadiem.Count < 3)
                     {

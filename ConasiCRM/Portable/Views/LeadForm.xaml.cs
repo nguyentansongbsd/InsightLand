@@ -19,7 +19,6 @@ namespace ConasiCRM.Portable.Views
         //ProjectViewModel viewModelProject;
 
         List<MyNewCheckBox> checkBoxes;
-
         List<MyNewCheckBox> multiselectCheckBoxes;
         List<ImageButton> multiselectClearimageButton;
 
@@ -87,21 +86,21 @@ namespace ConasiCRM.Portable.Views
                 if (viewModel.singleLead.industrycode != null) { await viewModel.loadOneIndustrycode(viewModel.singleLead.industrycode); }
                 //if (leadid != null) { await viewModelProject.LoadProjectsForLeadForm(); }
 
-                if (viewModel.list_nhucauvediadiem.Count < 3)
-                {
-                    for (int i = viewModel.list_nhucauvediadiem.Count; i < 3; i++)
-                    {
-                        viewModel.list_nhucauvediadiem.Add(new Provinces());
-                    }
-                }
+                //if (viewModel.list_nhucauvediadiem.Count < 3)
+                //{
+                //    for (int i = viewModel.list_nhucauvediadiem.Count; i < 3; i++)
+                //    {
+                //        viewModel.list_nhucauvediadiem.Add(new Provinces());
+                //    }
+                //}
 
-                if (viewModel.list_Duanquantam.Count < 3)
-                {
-                    for (int i = viewModel.list_Duanquantam.Count; i < 3; i++)
-                    {
-                        viewModel.list_Duanquantam.Add(new ProjectList());
-                    }
-                }              
+                //if (viewModel.list_Duanquantam.Count < 3)
+                //{
+                //    for (int i = viewModel.list_Duanquantam.Count; i < 3; i++)
+                //    {
+                //        viewModel.list_Duanquantam.Add(new ProjectList());
+                //    }
+                //}              
             }        
             await viewModel.LoadLeadsRating();
             this.render(leadid);
@@ -117,7 +116,7 @@ namespace ConasiCRM.Portable.Views
                 btn_save_lead.Clicked += AddLead_Clicked;
 
                 label_nhu_cau_ve_dia_diem.IsVisible = false;
-                stacklayout_nhucauvediadiem.IsVisible = false;
+               // stacklayout_nhucauvediadiem.IsVisible = false;
                 label_du_an_quan_tam.IsVisible = false;
                 //block_danh_sach_du_an_quan_tam.IsVisible = false;
             }
@@ -131,7 +130,7 @@ namespace ConasiCRM.Portable.Views
 
 
                 label_nhu_cau_ve_dia_diem.IsVisible = true;
-                stacklayout_nhucauvediadiem.IsVisible = true;
+                //stacklayout_nhucauvediadiem.IsVisible = true;
                 label_du_an_quan_tam.IsVisible = true;
                 //block_danh_sach_du_an_quan_tam.IsVisible = true;
 
@@ -178,6 +177,7 @@ namespace ConasiCRM.Portable.Views
                     //Title = item.bsd_name,
                     Title = isEnable ? item.bsd_name : item.bsd_name + " (Hết hạn)",
                     TitleColor = isEnable ? Color.Black : Color.Red,
+                    VerticalOptions = LayoutOptions.Start
                 };
                 tmp.changeChecked += Tmp_IsCheckedChanged;
                 checkBoxes.Add(tmp);
@@ -197,6 +197,7 @@ namespace ConasiCRM.Portable.Views
                     //Title = item.bsd_name,
                     Title = isEnable ? item.bsd_name : item.bsd_name + " (Hết hạn)",
                     TitleColor = isEnable ? Color.Black : Color.Red,
+                    VerticalOptions = LayoutOptions.Start
                 };
                 tmp.changeChecked += Tmp_IsCheckedChanged;
                 checkBoxes.Add(tmp);
@@ -397,29 +398,34 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-        private async void BtnRemoveNhuCauDiaDiem_Clicked(object sender, EventArgs e)
+        private async void DeleteNhuCauVeDiaDiem_Tapped(object sender, EventArgs e)
         {
-            var tmp = datagrid_nhucavediadiem.SelectedItem as Provinces;
-            if (tmp != null)
+            Label lblClicked = (Label)sender;
+            var item = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
+            Provinces provinces = item.CommandParameter as Provinces;
+            if (provinces != null && provinces.new_provinceid != null)
             {
-                if (tmp.new_provinceid != null)
+                bool x = await App.Current.MainPage.DisplayAlert("", "Bạn có chắc chắn muốn xoá?", "Xoá", "Huỷ");
+                if (x)
                 {
-                    bool x = await App.Current.MainPage.DisplayAlert("", "Bạn có chắc chắn muốn xoá?", "Xoá", "Huỷ");
-                    if (x)
-                    {
-                        viewModel.IsBusy = true;
-                        await viewModel.Delete_NhuCauDiaDiem(tmp.new_provinceid, viewModel.singleLead.leadid);
-                        viewModel.list_nhucauvediadiem.Remove(tmp);
-                        if (viewModel.list_nhucauvediadiem.Count < 3)
-                        {
-                            viewModel.list_nhucauvediadiem.Add(new Provinces());
-                        }
-                        viewModel.IsBusy = false;
-                    }
+                    viewModel.IsBusy = true;
+                    await viewModel.Delete_NhuCauDiaDiem(provinces.new_provinceid, viewModel.singleLead.leadid);
+                    viewModel.list_nhucauvediadiem.Remove(provinces);
+                    //if (viewModel.list_nhucauvediadiem.Count < 3)
+                    //{
+                    //    // list_nhucauvediadiem.Add(new LisProvinces());
+                    //}
+                    viewModel.IsBusy = false;
                 }
             }
-
         }
+        private async void ShowMoreNhuCauDiaDiem_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageNhuCauDiaDiem++;
+            await viewModel.Load_NhuCauVeDiaDiem(viewModel.singleLead.leadid.ToString());
+            viewModel.IsBusy = false;
+        }        
 
         private void hide_popup_province(object sender, EventArgs e)
         {
@@ -796,10 +802,34 @@ namespace ConasiCRM.Portable.Views
             return base.OnBackButtonPressed();
         }
 
-        private async void BtnRemoveDuanquantam_Clicked(object sender, EventArgs e)
-        {
-            var tmp = datagrid_duanquantam.SelectedItem as ProjectList;
+        //private async void BtnRemoveDuanquantam_Clicked(object sender, EventArgs e)
+        //{
+        //    var tmp = datagrid_duanquantam.SelectedItem as ProjectList;
 
+        //    if (tmp != null)
+        //    {
+        //        if (tmp.bsd_projectid != null)
+        //        {
+        //            bool x = await App.Current.MainPage.DisplayAlert("", "Bạn có chắc chắn muốn xoá?", "Xoá", "Huỷ");
+        //            if (x)
+        //            {
+        //                viewModel.IsBusy = true;
+        //                await viewModel.Delete_DuAnQuanTam(tmp.bsd_projectid, viewModel.singleLead.leadid);
+        //                viewModel.list_Duanquantam.Remove(tmp);
+        //                if (viewModel.list_Duanquantam.Count < 3)
+        //                {
+        //                    viewModel.list_Duanquantam.Add(new ProjectList());
+        //                }
+        //                viewModel.IsBusy = false;
+        //            }
+        //        }
+        //    }
+        //}
+        private async void DeleteDuAnQuanTam_Tapped(object sender, EventArgs e)
+        {
+            Label lblClicked = (Label)sender;
+            var item = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
+            ProjectList tmp = item.CommandParameter as ProjectList;
             if (tmp != null)
             {
                 if (tmp.bsd_projectid != null)
@@ -810,14 +840,22 @@ namespace ConasiCRM.Portable.Views
                         viewModel.IsBusy = true;
                         await viewModel.Delete_DuAnQuanTam(tmp.bsd_projectid, viewModel.singleLead.leadid);
                         viewModel.list_Duanquantam.Remove(tmp);
-                        if (viewModel.list_Duanquantam.Count < 3)
-                        {
-                            viewModel.list_Duanquantam.Add(new ProjectList());
-                        }
+                        //if (viewModel.list_Duanquantam.Count < 3)
+                        //{
+                        //    viewModel.list_Duanquantam.Add(new ProjectList());
+                        //}
                         viewModel.IsBusy = false;
                     }
                 }
             }
+        }
+
+        private async void ShowMoreDuAnQuanTam_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageDuAnQuanTam++;
+            await viewModel.Load_DanhSachDuAn(viewModel.singleLead.leadid.ToString());
+            viewModel.IsBusy = false;
         }
 
         private async void BtnAddDuanquantam_Clicked(object sender, EventArgs e)
@@ -1162,6 +1200,6 @@ namespace ConasiCRM.Portable.Views
 
             popup_contact_address.IsVisible = false;
             viewModel.IsBusy = false;
-        }
+        }       
     }
 }
