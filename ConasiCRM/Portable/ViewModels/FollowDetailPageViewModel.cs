@@ -43,6 +43,12 @@ namespace ConasiCRM.Portable.ViewModels
                                     <attribute name='totalamount'  alias='totalamount_quote'/>  
                                     <attribute name='name' alias='name_quote' />  
                                     <attribute name='totallineitemamount_base'  alias='totallineitemamount_base_quote'/>
+                                    <link-entity name='contact' from='contactid' to='customerid' visible='false' link-type='outer' alias='af'>
+                                      <attribute name='bsd_fullname' alias='customer_name_contact' />
+                                    </link-entity>
+                                    <link-entity name='account' from='accountid' to='customerid' visible='false' link-type='outer' alias='acc'>
+                                        <attribute name='bsd_name' alias='customer_name_account_quote'/>
+                                    </link-entity>
                                 </link-entity>
                                 <link-entity name='bsd_project' from='bsd_projectid' to='bsd_project' link-type='inner' alias='project'>
                                     <attribute name='bsd_name'  alias='bsd_name_project'/>  
@@ -50,7 +56,10 @@ namespace ConasiCRM.Portable.ViewModels
                                     <attribute name='bsd_bookingfee'  alias='bsd_bookingfee_project'/>   
                                 </link-entity>
                                 <link-entity name='salesorder' from='salesorderid' to='bsd_optionentry' visible='false' link-type='outer' alias='a_2ec267f5064be61180ea3863bb367d40'>
-                                  <attribute name='customerid' />
+                                    <attribute name='name' alias='name_salesorder'/>
+                                    <link-entity name='account' from='accountid' to='customerid' visible='false' link-type='outer' alias='a_2e8b11fe7b72e911a9ac000d3a828574'>
+                                      <attribute name='bsd_name' alias='customer_name_account'/>
+                                    </link-entity>
                                 </link-entity>
                               </entity>
                             </fetch>";

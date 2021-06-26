@@ -145,7 +145,7 @@ namespace ConasiCRM.Portable.Views
             }
             else
             {
-                taskFormModel.scheduledend = null;
+                taskFormModel.scheduledend = DateTime.Now.Date;
                 taskFormModel.timeEnd = DateTime.Now.TimeOfDay;
             }
             if (taskForm.scheduledstart.HasValue == true)
@@ -205,20 +205,24 @@ namespace ConasiCRM.Portable.Views
 
         private void Actualduration_value_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             int valueDate = int.Parse(viewModel.TaskFormModel.durationValue.Val);
-            if (viewModel.TaskFormModel.scheduledstart.HasValue && viewModel.TaskFormModel.scheduledend.HasValue)
+
+            if (viewModel.TaskFormModel.scheduledstart == null)
             {
-                viewModel.TaskFormModel.scheduledstart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
-                viewModel.TaskFormModel.timeStart = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, 0);
-                viewModel.TaskFormModel.scheduledend = viewModel.TaskFormModel.scheduledstart.Value.AddMinutes(valueDate);
+                var start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
+                var time = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, 0);
+
+                viewModel.TaskFormModel.scheduledstart = start;
+                viewModel.TaskFormModel.timeStart = time;
+                viewModel.TaskFormModel.scheduledend = start.AddMinutes(valueDate);
                 viewModel.TaskFormModel.timeEnd = new TimeSpan(viewModel.TaskFormModel.scheduledend.Value.Hour, viewModel.TaskFormModel.scheduledend.Value.Minute, 0);
             }
-            else if (viewModel.TaskFormModel.scheduledstart.HasValue && viewModel.TaskFormModel.scheduledend.HasValue)
+            else
             {
                 viewModel.TaskFormModel.scheduledend = new DateTime(viewModel.TaskFormModel.scheduledstart.Value.Year, viewModel.TaskFormModel.scheduledstart.Value.Month, viewModel.TaskFormModel.scheduledstart.Value.Day, viewModel.TaskFormModel.scheduledstart.Value.Hour, viewModel.TaskFormModel.scheduledstart.Value.Minute, 0).AddMinutes(valueDate);
                 viewModel.TaskFormModel.timeEnd = new TimeSpan(viewModel.TaskFormModel.scheduledend.Value.Hour, viewModel.TaskFormModel.scheduledend.Value.Minute, 0);
             }
+
             viewModel.TaskFormModel.actualdurationminutes = valueDate;
         }
 
@@ -324,7 +328,6 @@ namespace ConasiCRM.Portable.Views
 
         private int compareDateTime(DateTime? date, DateTime? date1)
         {
-            return 1;
             int result = DateTime.Compare(date.Value, date1.Value);
             if (result < 0)
                 return -1;
@@ -335,7 +338,6 @@ namespace ConasiCRM.Portable.Views
         }
         private void DatePickerStart_DateSelected(object sender, DateChangedEventArgs e)
         {
-            return;
             if (viewModel.FocusDateTimeStart)
             {
                 DateTime timeNew = e.NewDate;
@@ -354,32 +356,7 @@ namespace ConasiCRM.Portable.Views
         // add thời gian bắt đầu
         private void TimePickerStart_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == TimePicker.TimeProperty.PropertyName)
-            {
-                var time = timePickerStart.Time;
-                if (viewModel.TaskFormModel.scheduledend != null && viewModel.TaskFormModel.scheduledstart != null)
-                {
-                    DateTime timeNew = viewModel.TaskFormModel.scheduledstart.Value;
-                    timeNew = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, time.Hours, time.Minutes, time.Seconds);
-                    // 
-                    if (this.compareDateTime(timeNew, viewModel.TaskFormModel.scheduledend.Value) == -1)
-                    {
-                        viewModel.TaskFormModel.timeStart = time;
-                        viewModel.TaskFormModel.scheduledstart = timeNew;
-                        this.totalDuration();
-                    }
-                    else
-                    {
-                        DisplayAlert("Thông Báo", "Vui lòng chọn thời gian bắt đầu nhỏ hơn thời gian kết thúc!", "Đồng ý");
-                        viewModel.TaskFormModel.scheduledstart = null;
-                    }
-                }
-                else
-                {
-                    viewModel.TaskFormModel.timeStart = time;
-                }
-
-            }
+            
         }
 
         private void DatePickerEnd_DateSelected(object sender, DateChangedEventArgs e)
@@ -402,7 +379,6 @@ namespace ConasiCRM.Portable.Views
                     else
                     {
                         DisplayAlert("Thông Báo", "Vui lòng chọn thời gian kết thúc lớn hơn thời gian bắt đầu!", "Đồng ý");
-                        viewModel.TaskFormModel.scheduledend = null;
                     }
                 }
                 else
@@ -419,27 +395,7 @@ namespace ConasiCRM.Portable.Views
         {
             if (e.PropertyName == TimePicker.TimeProperty.PropertyName)
             {
-                var time = timePickerEnd.Time;
-                if (viewModel.TaskFormModel.scheduledend != null)
-                {
-                    DateTime timeNew = viewModel.TaskFormModel.scheduledend.Value;
-                    timeNew = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, time.Hours, time.Minutes, time.Seconds);
-                    if (this.compareDateTime(timeNew, viewModel.TaskFormModel.scheduledstart) == 1)
-                    {
-                        viewModel.TaskFormModel.timeEnd = time;
-                        viewModel.TaskFormModel.scheduledend = timeNew;
-                        this.totalDuration();
-                    }
-                    else
-                    {
-                        DisplayAlert("Thông Báo", "Vui lòng chọn thời gian kết thúc lớn hơn thời gian bắt đầu!", "Đồng ý");
-                        viewModel.TaskFormModel.scheduledend = null;
-                    }
-                }
-                else
-                {
-                    viewModel.TaskFormModel.timeEnd = time;
-                }
+                this.totalDuration();
             }
         }
 
@@ -458,10 +414,18 @@ namespace ConasiCRM.Portable.Views
         {
             if (viewModel.TaskFormModel.scheduledstart != null && viewModel.TaskFormModel.scheduledend != null)
             {
-                TimeSpan difference = viewModel.TaskFormModel.scheduledend.Value - viewModel.TaskFormModel.scheduledstart.Value;
+                DateTime dateTimeStart = new DateTime(viewModel.TaskFormModel.scheduledstart.Value.Year, viewModel.TaskFormModel.scheduledstart.Value.Month, viewModel.TaskFormModel.scheduledstart.Value.Day, viewModel.TaskFormModel.timeStart.Hours, viewModel.TaskFormModel.timeStart.Minutes, viewModel.TaskFormModel.timeStart.Seconds);
+                DateTime dateTimeEnd = new DateTime(viewModel.TaskFormModel.scheduledend.Value.Year, viewModel.TaskFormModel.scheduledend.Value.Month, viewModel.TaskFormModel.scheduledend.Value.Day, viewModel.TaskFormModel.timeEnd.Hours, viewModel.TaskFormModel.timeEnd.Minutes, viewModel.TaskFormModel.timeEnd.Seconds);
+
+                TimeSpan difference = dateTimeEnd - dateTimeStart;
+                
                 double _minutes = Math.Round(difference.TotalMinutes);
 
-                if (_minutes < 60)
+                if(_minutes < 0)
+                {
+                    DisplayAlert("", "Vui lòng chọn thời gian kết thúc lớn hơn thời gian bắt đầu!", "Đồng ý");
+                }
+                else if (_minutes < 60 && _minutes > 0)
                 {
                     this.setDuration(_minutes, _minutes.ToString() + " phút");
                 }
@@ -503,6 +467,13 @@ namespace ConasiCRM.Portable.Views
         }
         private async void saveTask()
         {
+            DateTime dateTimeStart = new DateTime(viewModel.TaskFormModel.scheduledstart.Value.Year, viewModel.TaskFormModel.scheduledstart.Value.Month, viewModel.TaskFormModel.scheduledstart.Value.Day, viewModel.TaskFormModel.timeStart.Hours, viewModel.TaskFormModel.timeStart.Minutes, viewModel.TaskFormModel.timeStart.Seconds);
+            DateTime dateTimeEnd = new DateTime(viewModel.TaskFormModel.scheduledend.Value.Year, viewModel.TaskFormModel.scheduledend.Value.Month, viewModel.TaskFormModel.scheduledend.Value.Day, viewModel.TaskFormModel.timeEnd.Hours, viewModel.TaskFormModel.timeEnd.Minutes, viewModel.TaskFormModel.timeEnd.Seconds);
+            if (dateTimeStart > dateTimeEnd)
+            {
+                await DisplayAlert("", "Vui lòng chọn thời gian kết thúc lớn hơn thời gian bắt đầu!", "Đồng ý");
+                return ;
+            }
             var check = await checkData(); // kiểm tra dư liệu
             // check create or update
             if (check)

@@ -20,7 +20,7 @@
     <ContentPage.Content>
         <AbsoluteLayout>
             <Grid RowDefinitions="Auto,*" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <SearchBar Grid.Row="0" Placeholder="Keyword"/>
+                <SearchBar x:Name="searchBar" Grid.Row="0" Text="{Binding Keyword}" Placeholder="Keyword" SearchButtonPressed="Search_Pressed" TextChanged="Search_TextChanged"/>
                 <controls:BsdListView x:Name="listView" Grid.Row="1" ItemsSource="{Binding Data}" HasUnevenRows="True" ItemTapped="listView_ItemTapped">
                     <controls:BsdListView.ItemTemplate>
                         <DataTemplate>
@@ -30,7 +30,7 @@
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="{Binding subject}" FontAttributes="Bold" TextColor="Black"  FontSize="18"/>
-                                                <Span Text="{Binding statuscode,Converter={StaticResource tinhTrangConverters},StringFormat='-[{0}]'}" TextColor="#444444"  FontSize="18"/>
+                                                <Span Text="{Binding statuscode,Converter={StaticResource tinhTrangConverters},StringFormat='  ({0})'}" TextColor="#444444"  FontSize="18"/>
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
@@ -66,31 +66,9 @@
                     </controls:BsdListView.ItemTemplate>
                 </controls:BsdListView>
             </Grid>
-            <ContentView x:Name="popup_loading"
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All"
-                IsVisible="{Binding IsBusy}"
-                BackgroundColor="#C0808080">
-
-                <ActivityIndicator
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    IsRunning="{Binding IsBusy}"
-                    IsVisible="{Binding IsBusy}" Color="#000000">
-                </ActivityIndicator>
+            <ContentView x:Name="popup_loading" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080">
+                <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#000000"/>
             </ContentView>
         </AbsoluteLayout>
-        <!--
-                <telerikDataGrid:RadDataGrid.Columns>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="fullname" HeaderText="Họ tên"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="mobilephone" HeaderText="Mobile Phone"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="telephone1" HeaderText="Business Phone"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="emailaddress1" HeaderText="Email"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_contactaddress" HeaderText="Địa chỉ"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo"/>
-                </telerikDataGrid:RadDataGrid.Columns>
-            </bsdGrid:BsdRadDataGrid>
-            <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-        </Grid>-->
     </ContentPage.Content>
 </ContentPage>
