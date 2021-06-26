@@ -220,8 +220,8 @@
                                         <local:MyNewCheckBox IsChecked="{Binding singleLead.bsd_tieuchi_giacanho}" Title="Tiêu chí - Giá căn hộ" Grid.Column="0" Grid.Row="2" VerticalOptions="Start"/>
                                         <local:MyNewCheckBox IsChecked="{Binding singleLead.bsd_tieuchi_nhadautuuytin}" Title="Tiêu chí - Nhà đầu tư uy tính" Grid.Column="0" Grid.Row="3" VerticalOptions="Start"/>
                                         <local:MyNewCheckBox IsChecked="{Binding singleLead.bsd_tieuchi_moitruongsong}" Title="Tiêu chí - Môi trường sống" Grid.Column="0" Grid.Row="4" VerticalOptions="Start"/>
-                                        <local:MyNewCheckBox IsChecked="{Binding singleLead.bsd_tieuchi_baidauxe}" Title="Tiêu chí - Bãi đậu xe" Grid.Column="0" Grid.Row="5" VerticalOptions="Start"/>
-                                        <local:MyNewCheckBox IsChecked="{Binding singleLead.bsd_tieuchi_hethonganninh}" Title="Tiêu chí - Hệ thống an ninh" Grid.Column="0" Grid.Row="6" VerticalOptions="Start"/>
+                                        <local:MyNewCheckBox IsChecked="{Binding singleLead.bsd_tieuchi_hethonganninh}" Title="Tiêu chí - Hệ thống an ninh" Grid.Column="0" Grid.Row="5" VerticalOptions="Start"/>
+                                        <local:MyNewCheckBox IsChecked="{Binding singleLead.bsd_tieuchi_baidauxe}" Title="Tiêu chí - Bãi đậu xe" Grid.Column="0" Grid.Row="6" VerticalOptions="Start"/>
                                         <local:MyNewCheckBox IsChecked="{Binding singleLead.bsd_tieuchi_huongcanho}" Title="Tiêu chí - Hướng căn hộ" Grid.Column="0" Grid.Row="7" VerticalOptions="Start"/>
                                         <local:MyNewCheckBox IsChecked="{Binding singleLead.bsd_tieuchi_hethongcuuhoa}" Title="Tiêu chí - hệ thống cứu hoả" Grid.Column="1" Grid.Row="0" VerticalOptions="Start"/>
                                         <local:MyNewCheckBox IsChecked="{Binding singleLead.bsd_tieuchi_nhieutienich}" Title="Tiêu chí - Nhiều tiện ích" Grid.Column="1" Grid.Row="1" VerticalOptions="Start"/>
@@ -271,7 +271,7 @@
                                             <BindableLayout.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
-                                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding new_name}" FontSize="16" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation"/>
+                                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding bsd_provincename}" FontSize="16" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation"/>
                                                         <Label FontSize="16" Grid.Row="1" Grid.Column="0" Text="{Binding createdon}" LineBreakMode="TailTruncation" VerticalTextAlignment="Center"/>
                                                         <Label FontSize="15" Grid.Row="0" Grid.Column="1" FontFamily="FontAwesomeSolid" TextColor="Gray" Text="&#xf00d;">
                                                         <Label.GestureRecognizers>
@@ -309,55 +309,31 @@
                                             </ImageButton.Source>
                                         </ImageButton>
                                     </Grid>
-                                    <!--<ImageButton x:Name="btnRemoveDuanquantam" HeightRequest="25" 
-                                            WidthRequest="22"
-                                            Source="btnDelete.png" Margin="0,0,5,0"
-                                            BackgroundColor="Transparent"     
-                                            IsVisible="{Binding bsd_projectid,Converter={StaticResource NotNullToBool}}"
-                                            Clicked="BtnRemoveDuanquantam_Clicked" HorizontalOptions="End"/>
-                                        <ImageButton x:Name="btnAddDuanquantam" HeightRequest="25" 
-                                            WidthRequest="22" Margin="5,0,10,0"
-                                            Source="plus_black.png" 
-                                            BackgroundColor="Transparent"                                            
-                                            Clicked="BtnAddDuanquantam_Clicked" HorizontalOptions="End"/>-->                                   
                                 </telerikPrimitives:ExpanderHeader>
                             </telerikPrimitives:RadExpander.Header>
-
                             <telerikPrimitives:RadExpander.Content>
                                 <StackLayout x:Name="stacklayout_duanquantam">
-                                    <StackLayout>
-                                        <StackLayout x:Name="datagrid_duanquantam" BindableLayout.ItemsSource="{Binding list_Duanquantam}" BindableLayout.EmptyView="Không có dữ liệu" BackgroundColor="#eeeeee" Spacing="1">
-                                            <BindableLayout.EmptyViewTemplate>
-                                                <DataTemplate>
-                                                    <Label Text="Không có dữ liệu" TextColor="Black" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
-                                                </DataTemplate>
-                                            </BindableLayout.EmptyViewTemplate>
-                                            <BindableLayout.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
-                                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding bsd_name}" FontSize="16" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation"/>
-                                                        <Label FontSize="16" Grid.Row="1" Grid.Column="0" Text="{Binding bsd_projectcode}" LineBreakMode="TailTruncation" VerticalTextAlignment="Center"/>
-                                                        <Label FontSize="15" Grid.Row="0" Grid.Column="1" FontFamily="FontAwesomeSolid" TextColor="Gray" Text="&#xf00d;">
-                                                            <Label.GestureRecognizers>
-                                                                <TapGestureRecognizer Tapped="DeleteDuAnQuanTam_Tapped" CommandParameter="{Binding .}"/>
-                                                            </Label.GestureRecognizers>
-                                                        </Label>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </BindableLayout.ItemTemplate>
-                                        </StackLayout>
-                                        <Button Clicked="ShowMoreDuAnQuanTam_Clicked" IsVisible="{Binding ShowMoreDuAnQuanTam}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
-                                        <!--<bsdGrid:BsdRadDataGrid ItemsSource="{Binding list_nhucauvediadiem}" x:Name="datagrid_nhucavediadiem">
-                                            <telerikGrid:RadDataGrid.Columns>
-                                                <telerikGrid:DataGridTextColumn PropertyName="bsd_priority" HeaderText="Priority"/>
-                                                <telerikGrid:DataGridTextColumn PropertyName="new_id" HeaderText="ID"/>
-                                                <telerikGrid:DataGridTextColumn PropertyName="bsd_provincename" HeaderText="Province Name"/>
-                                                <telerikGrid:DataGridTextColumn PropertyName="new_name" HeaderText="Name"/>
-                                                <telerikGrid:DataGridTextColumn PropertyName="bsd_countries" HeaderText="Country"/>
-                                                <telerikGrid:DataGridTextColumn PropertyName="createdon" HeaderText="Creted On"/>
-                                            </telerikGrid:RadDataGrid.Columns>
-                                        </bsdGrid:BsdRadDataGrid>-->
+                                    <StackLayout x:Name="datagrid_duanquantam" BindableLayout.ItemsSource="{Binding list_Duanquantam}" BindableLayout.EmptyView="Không có dữ liệu" BackgroundColor="#eeeeee" Spacing="1">
+                                        <BindableLayout.EmptyViewTemplate>
+                                            <DataTemplate>
+                                                <Label Text="Không có dữ liệu" TextColor="Black" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
+                                            </DataTemplate>
+                                        </BindableLayout.EmptyViewTemplate>
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
+                                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding bsd_name}" FontSize="16" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation"/>
+                                                    <Label FontSize="16" Grid.Row="1" Grid.Column="0" Text="{Binding bsd_projectcode}" LineBreakMode="TailTruncation" VerticalTextAlignment="Center"/>
+                                                    <Label FontSize="15" Grid.Row="0" Grid.Column="1" FontFamily="FontAwesomeSolid" TextColor="Gray" Text="&#xf00d;">
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer Tapped="DeleteDuAnQuanTam_Tapped" CommandParameter="{Binding .}"/>
+                                                        </Label.GestureRecognizers>
+                                                    </Label>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
                                     </StackLayout>
+                                    <Button Clicked="ShowMoreDuAnQuanTam_Clicked" IsVisible="{Binding ShowMoreDuAnQuanTam}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
                                     <!--<bsdGrid:BsdRadDataGrid ItemsSource="{Binding list_Duanquantam}" x:Name="datagrid_duanquantam">
                                         <telerikGrid:RadDataGrid.Columns>
                                             <telerikGrid:DataGridTextColumn PropertyName="bsd_projectcode" HeaderText="Project Code"/>
@@ -373,7 +349,6 @@
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
-
                         <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander" IsVisible="{Binding singleLead.new_birthday, Converter={StaticResource NotNullToBool}}">
                             <telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">

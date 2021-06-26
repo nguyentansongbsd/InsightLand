@@ -356,6 +356,7 @@ namespace ConasiCRM.Portable.Views
         }
 
         /////////////////// ADDNhuCauDiaDiem ListView Popup
+        #region Nhu cau dia diem
         private async void BtnAddNhuCauDiaDiem_Clicked(object sender, EventArgs e)
         {
             isShowingPopup = true;
@@ -443,6 +444,7 @@ namespace ConasiCRM.Portable.Views
             }
             listviewProvinces.ItemsSource = viewModel.list_provinces_lookup.Where(x => x.new_name.IndexOf(e.NewTextValue, StringComparison.OrdinalIgnoreCase) >= 0);
         }
+        #endregion
 
         ///////////////////// ADDDanhSachDuAnQuanTam Popup
         //private void BtnAddDanhSachDuAnQuanTam_Clicked(object sender, EventArgs e)
