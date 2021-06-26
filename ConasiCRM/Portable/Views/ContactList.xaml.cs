@@ -1,18 +1,6 @@
-﻿using ConasiCRM.Portable.Config;
-using ConasiCRM.Portable.Helper;
-using ConasiCRM.Portable.Models;
-using ConasiCRM.Portable.Services;
+﻿using ConasiCRM.Portable.Models;
 using ConasiCRM.Portable.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Telerik.XamarinForms.Common;
-using Telerik.XamarinForms.DataGrid;
-using Telerik.XamarinForms.DataGrid.Commands;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -61,6 +49,21 @@ namespace ConasiCRM.Portable.Views
                 }
                 viewModel.IsBusy = false;
             };
+        }
+
+        private async void SearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            await viewModel.LoadOnRefreshCommandAsync();
+            viewModel.IsBusy = false;
+        }
+
+        private void SearchBar_TextChanged(System.Object sender, Xamarin.Forms.TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(viewModel.Keyword))
+            {
+                SearchBar_SearchButtonPressed(null, EventArgs.Empty);
+            }
         }
     }
 }

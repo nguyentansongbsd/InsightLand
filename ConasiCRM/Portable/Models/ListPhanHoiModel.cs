@@ -1,15 +1,8 @@
-﻿using ConasiCRM.Portable.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-using System.Globalization;
-using System.Linq;
-using Xamarin.Forms;
+﻿using System;
 
 namespace ConasiCRM.Portable.Models
 {
-    public class ListPhanHoiModel 
+    public class ListPhanHoiModel
     {
         public string customerid { get; set; }
         public string _customerid_value { get; set; }
@@ -80,7 +73,24 @@ namespace ConasiCRM.Portable.Models
         public string case_nameaccount { get; set; }
         public string case_namecontact { get; set; }
         public string productname { get; set; }
-        public string contactname { get; set; }
+        public string contactname
+        {
+            get
+            {
+                if (this.case_nameaccount != null)
+                {
+                    return this.case_nameaccount;
+                }
+                else if (this.case_namecontact != null)
+                {
+                    return this.case_namecontact;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }
 

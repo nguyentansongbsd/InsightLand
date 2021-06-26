@@ -12,6 +12,7 @@ namespace ConasiCRM.Portable.ViewModels
 {
     public class AccountListViewModel : ListViewBaseViewModel2<AccountListModel>
     {
+        public string Keyword { get; set; }
         public AccountListViewModel()
         {
             PreLoadData = new Command(() =>
@@ -27,6 +28,9 @@ namespace ConasiCRM.Portable.ViewModels
                     <attribute name='bsd_registrationcode' />
                     <attribute name='bsd_vatregistrationnumber' />
                     <order attribute='createdon' descending='true' />
+                    <filter type='and'>
+                      <condition attribute='name' operator='like' value='%{Keyword}%' />
+                    </filter>
                     <link-entity name='contact' from='contactid' to='primarycontactid' visible='false' link-type='outer' alias='a'>
                          <attribute name='bsd_fullname' alias='primarycontact_name' />
                     </link-entity>

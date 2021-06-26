@@ -9,6 +9,7 @@ namespace ConasiCRM.Portable.ViewModels
 {
     public class EventListViewModel : ListViewBaseViewModel2<EventListModel>
     {
+        public string Keyword { get; set; }
         public EventListViewModel()
         {          
             PreLoadData = new Command(() =>
@@ -28,6 +29,9 @@ namespace ConasiCRM.Portable.ViewModels
                 <attribute name='bsd_projectname' />
                 <attribute name='bsd_eventid' />
                 <order attribute='createdon' descending='true' />
+                <filter type='and'>
+                   <condition attribute='bsd_name' operator='like' value='%{Keyword}%' />
+                </filter>
                 <link-entity name='bsd_phaseslaunch' from='bsd_phaseslaunchid' to='bsd_phaselaunch' visible='false' link-type='outer' alias='phaseslaunch'>
                     <attribute name='bsd_name' alias='bsd_phaseslaunch_name'/>
                 </link-entity>

@@ -20,82 +20,32 @@
     <ContentPage.Content>
         <StackLayout>
             <AbsoluteLayout>
-                <StackLayout Spacing=".5" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" Margin="0,0,0,0" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout Spacing=".5" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                     <ScrollView>
-                        <StackLayout Padding="5">
-                            <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
-                                <telerikPrimitives:RadExpander.Header>
-                                    <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
-                                        <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Chi Tiết"/>
-                                    </telerikPrimitives:ExpanderHeader>
-                                </telerikPrimitives:RadExpander.Header>
-                                <telerikPrimitives:RadExpander.Content>
-                                    <Grid Padding="10" RowSpacing="15">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="4*"/>
-                                            <ColumnDefinition Width="6*"/>
-                                        </Grid.ColumnDefinitions>
+                        <StackLayout>
+                            <Label Text="Thông Tin Chi Tiết" TextColor="Black" Padding="15,10" FontSize="16" FontAttributes="Bold" BackgroundColor="#F3F3F3"/>
+                            <StackLayout Padding="10" >
+                                <controls:FormLabelRequired Text="Chủ đề" />
+                                <Entry FontSize="16" Text="{Binding TaskFormModel.subject}" IsEnabled="{Binding TaskFormModel.editable}"/>
 
-                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="0">
-                                            <Label FontSize="16">Chủ đề</Label>
-                                            <Label TextColor="Red" FontSize="16">*</Label>
-                                        </StackLayout>
-                                        <Entry FontSize="16" Text="{Binding TaskFormModel.subject}" Grid.Row="0" Grid.Column="1" IsEnabled="{Binding TaskFormModel.editable}"/>
+                                <controls:FormLabelRequired Text="Liên quan đến"/>
+                                <controls:MyNewEntry IsEnabled="{Binding TaskFormModel.editable}"  Text="{Binding TaskFormModel.Customer.Name}" OnClicked="OpenModel_Clicked" HasClearButton="{Binding TaskFormModel.Customer,Converter={StaticResource ObjToBool}}" ClearClicked="ClearLookup_Clicked"/>
 
-                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="1">
-                                            <Label FontSize="16">Thời gian bắt đầu</Label>
-                                            <Label TextColor="Red" FontSize="16">*</Label>
-                                        </StackLayout>
-                                        <Grid Grid.Column="1" Grid.Row="1" >
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="7*"/>
-                                                <ColumnDefinition Width="3*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <controls:MyNewDatePicker IsEnabled="{Binding TaskFormModel.editable}" Grid.Column="0" Grid.Row="0" Focused="DatePicker_Focused" FontSize="16" NullableDate="{Binding TaskFormModel.scheduledstart}" x:Name="datePicker" DateSelected="DatePickerStart_DateSelected"/>
-                                            <TimePicker FontSize="16" IsEnabled="{Binding TaskFormModel.editable}" Grid.Column="1" Grid.Row="0" x:Name="timePickerStart" Time="{Binding TaskFormModel.timeStart}" PropertyChanged="TimePickerStart_PropertyChanged"/>
-                                        </Grid>
+                                <controls:FormLabelRequired Text="Thời gian bắt đầu"/>
+                                <Grid ColumnDefinitions="7*,3*">
+                                    <controls:MyNewDatePicker Grid.Column="0" IsEnabled="{Binding TaskFormModel.editable}" Focused="DatePicker_Focused" FontSize="16" NullableDate="{Binding TaskFormModel.scheduledstart}" x:Name="datePicker" DateSelected="DatePickerStart_DateSelected"/>
+                                    <TimePicker Grid.Column="1" FontSize="16" IsEnabled="{Binding TaskFormModel.editable}" x:Name="timePickerStart" Time="{Binding TaskFormModel.timeStart}" PropertyChanged="TimePickerStart_PropertyChanged"/>
+                                </Grid>
 
-                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="2">
-                                            <Label FontSize="16">Thời gian kết thúc</Label>
-                                            <Label TextColor="Red" FontSize="16">*</Label>
-                                        </StackLayout>
-                                        <Grid Grid.Column="1" Grid.Row="2" >
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="7*"/>
-                                                <ColumnDefinition Width="3*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <controls:MyNewDatePicker IsEnabled="{Binding TaskFormModel.editable}" Grid.Column="0" Grid.Row="0" FontSize="16" Focused="DatePickerEnd_Focused" NullableDate="{Binding TaskFormModel.scheduledend}" x:Name="datePickerEnd" DateSelected="DatePickerEnd_DateSelected"/>
-                                            <TimePicker FontSize="16" IsEnabled="{Binding TaskFormModel.editable}" Grid.Column="1" Grid.Row="0" x:Name="timePickerEnd" Time="{Binding TaskFormModel.timeEnd}" PropertyChanged="TimePickerEnd_PropertyChanged"/>
-                                        </Grid>
+                                <controls:FormLabelRequired Text="Thời gian kết thúc"/>
+                                <Grid ColumnDefinitions="7*,3*">
+                                    <controls:MyNewDatePicker Grid.Column="0" IsEnabled="{Binding TaskFormModel.editable}" FontSize="16" Focused="DatePickerEnd_Focused" NullableDate="{Binding TaskFormModel.scheduledend}" x:Name="datePickerEnd" DateSelected="DatePickerEnd_DateSelected"/>
+                                    <TimePicker Grid.Column="1" FontSize="16" IsEnabled="{Binding TaskFormModel.editable}" x:Name="timePickerEnd" Time="{Binding TaskFormModel.timeEnd}" PropertyChanged="TimePickerEnd_PropertyChanged"/>
+                                </Grid>
 
-                                        <controls:FormLabel Text="Mô tả nội dung" Grid.Row="3" Grid.Column="0"/>
-                                        <Entry FontSize="16" Text="{Binding TaskFormModel.description}" Grid.Row="3" Grid.Column="1" IsEnabled="{Binding TaskFormModel.editable}"/>
-
-                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="4">
-                                            <Label FontSize="16">Liên quan đến</Label>
-                                            <Label TextColor="Red" FontSize="16">*</Label>
-                                        </StackLayout>
-                                        <controls:MyNewEntry IsEnabled="{Binding TaskFormModel.editable}" Grid.Column="1" Grid.Row="4" Text="{Binding TaskFormModel.Customer.Name}" OnClicked="OpenModel_Clicked" HasClearButton="{Binding TaskFormModel.Customer,Converter={StaticResource ObjToBool}}" ClearClicked="ClearLookup_Clicked"/>
-
-                                        <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="5">
-                                            <Label VerticalOptions="Center" Text="Thời lượng" FontSize="16" />
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="5">
-                                            <Picker x:Name="actualduration_value" Title="Chọn thời lượng"
+                                <controls:FormLabel Text="Thời lượng"/>
+                                <StackLayout Orientation="Horizontal">
+                                    <Picker x:Name="actualduration_value" Title="Chọn thời lượng"
                                                     ItemsSource="{Binding list_picker_durations}"
                                                     VerticalOptions="CenterAndExpand"
                                                     IsEnabled="{Binding TaskFormModel.editable}"
@@ -104,73 +54,34 @@
                                                     ItemDisplayBinding="{Binding Label}"
                                                     SelectedIndexChanged="Actualduration_value_SelectedIndexChanged"
                                                     FontSize="16">
-                                            </Picker>
-                                            <!--<ImageButton x:Name="btn_actualduration" IsVisible="{Binding TaskFormModel.durationValue,Converter={StaticResource ObjToBool}}" Clicked="Btn_actualduration_Clicked" HorizontalOptions="Start" Source="clear.png" HeightRequest="20" WidthRequest="20"/>-->
-                                        </StackLayout>
-                                    </Grid>
-                                </telerikPrimitives:RadExpander.Content>
-                            </telerikPrimitives:RadExpander>
+                                    </Picker>
+
+                                </StackLayout>
+
+                                <controls:FormLabel Text="Mô tả nội dung" />
+                                <Entry FontSize="16" Text="{Binding TaskFormModel.description}"  IsEnabled="{Binding TaskFormModel.editable}"/>
+
+                            </StackLayout>
                         </StackLayout>
                     </ScrollView>
-                    <Grid BackgroundColor="#ffffff" VerticalOptions="EndAndExpand" x:Name="grid_updateTask">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="48"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button x:Name="updateTasks" Clicked="UpdateTask_Clicked" Text="Cập nhật" Grid.Column="0" Grid.Row="0" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
-                        <Button x:Name="completedTask" Clicked="CompletedTask_Clicked" Text="Hoàn thành" VerticalOptions="CenterAndExpand" Grid.Column="1" Grid.Row="0" HorizontalOptions="FillAndExpand"/>
-                        <Button x:Name="canceledTask" Clicked="CanceledTask_Clicked" Text="Huỷ" VerticalOptions="CenterAndExpand" Grid.Column="2" Grid.Row="0" HorizontalOptions="FillAndExpand"/>
+                    <Grid ColumnDefinitions="*,*,*" BackgroundColor="#ffffff" VerticalOptions="EndAndExpand" x:Name="grid_updateTask" Padding="10,5,10,10">
+                        <Button x:Name="updateTasks" Clicked="UpdateTask_Clicked" Text="Cập nhật" Grid.Column="0" Grid.Row="0" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" Padding="5"/>
+                        <Button x:Name="completedTask" Clicked="CompletedTask_Clicked" Text="Hoàn thành" VerticalOptions="CenterAndExpand" Grid.Column="1" Grid.Row="0" HorizontalOptions="FillAndExpand" Padding="5"/>
+                        <Button x:Name="canceledTask" Clicked="CanceledTask_Clicked" Text="Huỷ" VerticalOptions="CenterAndExpand" Grid.Column="2" Grid.Row="0" HorizontalOptions="FillAndExpand" Padding="5"/>
                     </Grid>
-                    <Grid BackgroundColor="#ffffff" VerticalOptions="EndAndExpand" x:Name="grid_create">
-                        <Grid.RowDefinitions >
-                            <RowDefinition Height="48"/>
-                        </Grid.RowDefinitions>
-                        <!--<Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>-->
-                        <Button x:Name="createNew" Clicked="CreateNew_Clicked" Text="Lưu" Grid.Row="0" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
-                    </Grid>
+                    <Button x:Name="grid_create" Clicked="CreateNew_Clicked" Text="Lưu" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" HeightRequest="40" Margin="10,5,10,10" Padding="10,5"/>
                 </StackLayout>
                 <controls:ModalContentView IsVisible="{Binding ShowLookUpModal}">
                     <StackLayout BackgroundColor="#ffffff" Padding="10">
-                        <Grid BackgroundColor="#ffffff" ColumnSpacing="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <!--<RowDefinition Height="Auto"/>-->
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3.1*"/>
-                                <ColumnDefinition Width="3.1*"/>
-                                <ColumnDefinition Width="3.1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Button Text="KH cá nhân" BackgroundColor="#eeeeee" Margin="0" Grid.Column="0" Grid.Row="0" x:Name="btnKHCN"  Clicked="BtnKHCN_Clicked" 
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="FillAndExpand"/>
-                            <Button Text="KH doanh nghiệp"
-                        VerticalOptions="CenterAndExpand" BackgroundColor="#eeeeee" Margin="0" Grid.Column="1" Grid.Row="0" x:Name="btnKHDN" Clicked="BtnKHDN_Clicked" 
-                        HorizontalOptions="FillAndExpand"/>
-                            <Button Text="KH tiềm năng"
-                        VerticalOptions="CenterAndExpand" BackgroundColor="#eeeeee" Margin="0" Grid.Column="2" Grid.Row="0" x:Name="btnKHTN" Clicked="BtnKHTN_Clicked" 
-                        HorizontalOptions="FillAndExpand"/>
-
-                            <!--<Frame CornerRadius="0" Padding="0" BorderColor="{StaticResource SearchBarBorderColor}" Grid.Row="1" >
-                                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="" Placeholder="Keyword..." />
-                            </Frame>-->
+                        <Grid ColumnDefinitions="*,*,*" BackgroundColor="#ffffff" ColumnSpacing="0">
+                            <Button Text="KH cá nhân" BackgroundColor="#eeeeee" Padding="5" Grid.Column="0" Grid.Row="0" x:Name="btnKHCN"  Clicked="BtnKHCN_Clicked"  VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
+                            <Button Text="KH doanh nghiệp" VerticalOptions="CenterAndExpand" Padding="5" BackgroundColor="#eeeeee" Margin="0" Grid.Column="1" Grid.Row="0" x:Name="btnKHDN" Clicked="BtnKHDN_Clicked"  HorizontalOptions="FillAndExpand"/>
+                            <Button Text="KH tiềm năng" VerticalOptions="CenterAndExpand" Padding="5" BackgroundColor="#eeeeee" Margin="0" Grid.Column="2" Grid.Row="0" x:Name="btnKHTN" Clicked="BtnKHTN_Clicked"  HorizontalOptions="FillAndExpand"/>
                         </Grid>
-                        <StackLayout>
-                            <Frame CornerRadius="0" Padding="0" BorderColor="{StaticResource SearchBarBorderColor}">
-                                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="" Placeholder="Keyword..." />
-                            </Frame>
-                        </StackLayout>
-                        <ListView x:Name="lvLookUp" ItemTapped="LvLookUp_ItemTapped"
-                              ItemsSource="{Binding LookUpData}"
-                              HasUnevenRows="False"
-                              ItemAppearing="LvLookUp_ItemAppearing"
-                              CachingStrategy="RecycleElement">
+                        <Frame CornerRadius="0" Padding="0" BorderColor="#eeeeee" HeightRequest="40">
+                            <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="" Placeholder="Keyword..." />
+                        </Frame>
+                        <ListView x:Name="lvLookUp" ItemTapped="LvLookUp_ItemTapped" ItemsSource="{Binding LookUpData}" HasUnevenRows="False" ItemAppearing="LvLookUp_ItemAppearing" CachingStrategy="RecycleElement">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>

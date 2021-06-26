@@ -12,7 +12,7 @@
     <ContentPage.Content>
         <AbsoluteLayout>
             <Grid RowDefinitions="Auto,*" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <SearchBar Grid.Row="0" Placeholder="Keyword"/>
+                <SearchBar Grid.Row="0" Text="{Binding Keyword}" Placeholder="Từ khoá" SearchButtonPressed="SearchBar_SearchButtonPressed" TextChanged="SearchBar_TextChanged"/>
                 <controls:BsdListView x:Name="listView" Grid.Row="1" ItemsSource="{Binding Data}" HasUnevenRows="True" ItemTapped="listView_ItemTapped">
                     <controls:BsdListView.ItemTemplate>
                         <DataTemplate>
@@ -50,53 +50,9 @@
                     </controls:BsdListView.ItemTemplate>
                 </controls:BsdListView>
             </Grid>
-            <ContentView x:Name="popup_loading"
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All"
-                IsVisible="{Binding IsBusy}"
-                BackgroundColor="#C0808080">
-
-                <ActivityIndicator
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    IsRunning="{Binding IsBusy}"
-                    IsVisible="{Binding IsBusy}" Color="#000000">
-                </ActivityIndicator>
+            <ContentView x:Name="popup_loading" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080">
+                <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True" Color="#000000"/>
             </ContentView>
         </AbsoluteLayout>
-        <!--<Grid Padding="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Frame CornerRadius="0" Padding="0" HasShadow="False" BorderColor="{StaticResource SearchBarBorderColor}" Grid.Row="0">
-                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="{Binding Keyword}" Placeholder="Keyword..." />
-            </Frame>
-            <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding Data}" LoadOnDemandMode="{Binding LoadOnDemandMode}">
-
-                <telerikDataGrid:RadDataGrid.LoadOnDemandRowStyle>
-                    <telerikDataGrid:DataGridLoadOnDemandRowStyle 
-                            TextColor="Transparent" 
-                            TextMargin="0"
-                            IndicatorAnimationColor="White" 
-                            Text="Load More"
-                            BackgroundColor="Transparent" 
-                            IndicatorAnimationType="Animation9" 
-                            OverlayOpacity="0.85">
-                    </telerikDataGrid:DataGridLoadOnDemandRowStyle>
-                </telerikDataGrid:RadDataGrid.LoadOnDemandRowStyle>
-
-                <telerikDataGrid:RadDataGrid.Columns>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_fullname" HeaderText="Họ tên"/>
-                    <telerikDataGrid:DataGridNumericalColumn PropertyName="mobilephone" HeaderText="Số điện thoại"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="emailaddress1" HeaderText="Email"/>
-                    <telerikDataGrid:DataGridDateColumn PropertyName="birthdate_format" HeaderText="Ngày sinh"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_diachithuongtru" HeaderText="Địa chỉ"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo"/>
-                </telerikDataGrid:RadDataGrid.Columns>
-
-            </bsdGrid:BsdRadDataGrid>
-            <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-        </Grid>-->
     </ContentPage.Content>
 </ContentPage>
