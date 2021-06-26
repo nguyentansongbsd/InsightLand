@@ -4,11 +4,13 @@
              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              x:Class="ConasiCRM.Portable.Controls.BsdLookUp">
     <ContentView.Content>
-        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
-            <controls:EntryUnfocused x:Name="entry" TextColor="Black" HorizontalOptions="FillAndExpand" FontSize="16" Focused="Entry_Focused" />
-            <ImageButton x:Name="btnClear" HorizontalOptions="End" Clicked="ClearLookUp_Clicked" BackgroundColor="Transparent" 
-                         IsVisible="{Binding HasClearButton}" Source="close.png" WidthRequest="20" 
-                         HeightRequest="20" VerticalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid ColumnDefinitions="*,15">
+            <controls:EntryUnfocused x:Name="entry" TextColor="Black" HorizontalOptions="FillAndExpand" FontSize="16" Focused="Entry_Focused" Grid.Column="0" Grid.ColumnSpan="2"/>
+            <ImageButton x:Name="btnClear" Clicked="ClearLookUp_Clicked" IsVisible="{Binding HasClearButton}" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="1" BackgroundColor="Transparent" HeightRequest="15" WidthRequest="15">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FontAwesomeSolid" Color="Gray" Glyph="&#xf00d;" Size="Large"/>
+                </ImageButton.Source>
+            </ImageButton>
+        </Grid>
     </ContentView.Content>
 </ContentView>
