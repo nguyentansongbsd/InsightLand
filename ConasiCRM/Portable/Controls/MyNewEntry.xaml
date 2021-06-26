@@ -4,11 +4,13 @@
              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              x:Class="ConasiCRM.Portable.Controls.MyNewEntry">
     <ContentView.Content>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-            <controls:EntryUnfocused x:Name="Text_entry" Text="{Binding Text}" FontSize="{Binding FontSize}" TextColor="{Binding TextColor}"
-                       Placeholder="{Binding PlaceHolder}" PlaceholderColor="#bababa" HorizontalOptions="FillAndExpand"/>
-            
-            <ImageButton x:Name="clear_entry_button" IsVisible="{Binding HasClearButton}" HorizontalOptions="Start" BackgroundColor="#ffffff" Source="clear.png" HeightRequest="20" WidthRequest="20"/>
-        </StackLayout>
+        <Grid ColumnDefinitions="*,17">
+            <controls:EntryUnfocused x:Name="Text_entry" Text="{Binding Text}" FontSize="{Binding FontSize}" TextColor="{Binding TextColor}" Placeholder="{Binding PlaceHolder}" PlaceholderColor="#bababa" Grid.Column="0" Grid.ColumnSpan="2"/>
+            <ImageButton x:Name="clear_entry_button" IsVisible="{Binding HasClearButton}" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="1" BackgroundColor="Transparent" HeightRequest="15" WidthRequest="15">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FontAwesomeSolid" Color="Gray" Glyph="&#xf00d;" Size="Large"/>
+                </ImageButton.Source>
+            </ImageButton>
+        </Grid>
     </ContentView.Content>
 </ContentView>
