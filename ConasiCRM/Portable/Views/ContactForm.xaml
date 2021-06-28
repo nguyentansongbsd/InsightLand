@@ -36,7 +36,7 @@
                 <ScrollView>
                     <StackLayout>
                         <StackLayout Padding="0,0,0,15">
-                            <Label Text="Thông Tin Cơ Bản" TextColor="Black" FontSize="18" BackgroundColor="#F3F3F3" Padding="10"/>
+                            <Label Text="Thông Tin Cơ Bản" TextColor="Black" FontSize="18" BackgroundColor="#F3F3F3" Padding="12"/>
                             <Grid BackgroundColor="#ffffff" Padding="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,6*">
 
                                 <local:FormLabelRequired Text="Họ Tên" Grid.Column="0" Grid.Row="0" />
