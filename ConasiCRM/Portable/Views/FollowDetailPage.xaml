@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConasiCRM.Portable.Views.FollowDetailPage"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              xmlns:converters="clr-namespace:ConasiCRM.Portable.Converters"
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives" 
              xmlns:viewmodels="clr-namespace:ConasiCRM.Portable.ViewModels" x:DataType="viewmodels:FollowDetailPageViewModel"
@@ -9,6 +10,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:GroupConverter x:Key="groupConverter"/>
+            <converters:NullToHideConverter x:Key="nullToHideConverter"/>
             <Color x:Key="MasterBackground">#039EBD</Color>
             <Style x:Key="FollowDetailExpanderHeaderStyle" TargetType="telerikPrimitives:ExpanderHeader">
                 <Setter Property="IndicatorText" Value="&#xf105;"/>
@@ -67,115 +69,80 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView BackgroundColor="White">
-            <StackLayout Padding="10,10,10,20">
-                <telerikPrimitives:RadExpander IsExpanded="True" BorderColor="Gray" BorderThickness="1,1,1,0">
+            <StackLayout>
+                <Label Text="Thông Tin Cơ Bản" TextColor="Black" Padding="15,10" FontSize="18" FontAttributes="Bold" BackgroundColor="#F3F3F3"/>
+                <StackLayout Padding="10,10,10,15">
+                    <Label FontSize="15" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Tiêu đề: " TextColor="#777777"/>
+                                <Span Text="{Binding FollowDetail.bsd_followuplistcode}" TextColor="#333333"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label FontSize="15" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Tên: " TextColor="#777777"/>
+                                <Span Text="{Binding FollowDetail.bsd_name}" TextColor="#333333"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label FontSize="15" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Ngày: " TextColor="#777777"/>
+                                <Span Text="{Binding FollowDetail.createdon,StringFormat='{0:dd/MM/yyyy}'}" TextColor="#333333"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label FontSize="15" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Loại: " TextColor="#777777"/>
+                                <Span Text="{Binding FollowDetail.type}" TextColor="#333333"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label FontSize="15" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Nhóm: " TextColor="#777777"/>
+                                <Span Text="{Binding FollowDetail.bsd_group,Converter={StaticResource groupConverter}}" TextColor="#333333"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label FontSize="15" IsVisible="{Binding FollowDetail.name_work, Converter={StaticResource nullToHideConverter}}" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span x:Name="nameWork" Text="Phiếu đặt cọc: " TextColor="#777777"/>
+                                <Span Text="{Binding FollowDetail.name_work}" TextColor="#333333"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label FontSize="15" IsVisible="{Binding FollowDetail.customer, Converter={StaticResource nullToHideConverter}}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Khách hàng: " TextColor="#777777"/>
+                                <Span Text="{Binding FollowDetail.customer}" TextColor="#333333"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+
+                <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                     <telerikPrimitives:RadExpander.Header>
-                        <telerikPrimitives:ExpanderHeader Style="{StaticResource FollowDetailExpanderHeaderStyle}">
-                            <Label Style="{StaticResource FollowDetailExpanderTextStyle}">Thông Tin Cơ Bản</Label>
+                        <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                            <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Chi Tiết"/>
                         </telerikPrimitives:ExpanderHeader>
                     </telerikPrimitives:RadExpander.Header>
-                    <telerikPrimitives:RadExpander.Content>
-                        <StackLayout Padding="10">
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Grid.Column="0">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Tiêu đề" Style="{StaticResource InforTitleTextStyle}"/>
-                                                <Span Text=" *" Style="{StaticResource InforTitleIconStyle}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_followuplistcode}" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Grid.Column="0">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Tên" Style="{StaticResource InforTitleTextStyle}"/>
-                                                <Span Text=" *" Style="{StaticResource InforTitleIconStyle}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_name}" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Grid.Column="0">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Ngày" Style="{StaticResource InforTitleTextStyle}"/>
-                                                <Span Text=" *" Style="{StaticResource InforTitleIconStyle}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.createdon,StringFormat='{0}dd/MM/yyyy'}" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Grid.Column="0">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Loại" Style="{StaticResource InforTitleTextStyle}"/>
-                                                <Span Text=" *" Style="{StaticResource InforTitleIconStyle}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Column="1" Text="" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Grid.Column="0">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Nhóm" Style="{StaticResource InforTitleTextStyle}"/>
-                                                <Span Text=" *" Style="{StaticResource InforTitleIconStyle}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_group,Converter={StaticResource groupConverter}}" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Grid.Column="0">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Phiếu đặt cọc" Style="{StaticResource InforTitleTextStyle}"/>
-                                                <Span Text=" *" Style="{StaticResource InforTitleIconStyle}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.name_quote}" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Padding="10">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Grid.Column="0">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Khách hàng" Style="{StaticResource InforTitleTextStyle}"/>
-                                                <Span Text=" *" Style="{StaticResource InforTitleIconStyle}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Column="1" Text="" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                        </StackLayout>
-                    </telerikPrimitives:RadExpander.Content>
-                </telerikPrimitives:RadExpander>
-                <telerikPrimitives:RadExpander BorderColor="Gray" BorderThickness="1,1,1,0" Margin="0,-7,0,0">
-                    <telerikPrimitives:RadExpander.Header>
-                        <telerikPrimitives:ExpanderHeader Style="{StaticResource FollowDetailExpanderHeaderStyle}">
-                            <Label Style="{StaticResource FollowDetailExpanderTextStyle}">Thông Tin Chi Tiết</Label>
-                        </telerikPrimitives:ExpanderHeader>
-                    </telerikPrimitives:RadExpander.Header>
+
                     <telerikPrimitives:RadExpander.Content>
                         <StackLayout Padding="10">
                             <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
@@ -251,10 +218,11 @@
                         </StackLayout>
                     </telerikPrimitives:RadExpander.Content>
                 </telerikPrimitives:RadExpander>
-                <telerikPrimitives:RadExpander BorderColor="Gray" BorderThickness="1,1,1,0" Margin="0,-7,0,0" AutomationId="masterCardExpander">
+
+                <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                     <telerikPrimitives:RadExpander.Header>
-                        <telerikPrimitives:ExpanderHeader Style="{StaticResource FollowDetailExpanderHeaderStyle}">
-                            <Label Style="{StaticResource FollowDetailExpanderTextStyle}">Giá Trị</Label>
+                        <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                            <Label Style="{StaticResource ExpanderHeadingText}" Text="Giá Trị"/>
                         </telerikPrimitives:ExpanderHeader>
                     </telerikPrimitives:RadExpander.Header>
                     <telerikPrimitives:RadExpander.Content>
@@ -298,10 +266,11 @@
                         </StackLayout>
                     </telerikPrimitives:RadExpander.Content>
                 </telerikPrimitives:RadExpander>
-                <telerikPrimitives:RadExpander BorderColor="Gray" BorderThickness="1" Margin="0,-7,0,0" >
+
+                <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                     <telerikPrimitives:RadExpander.Header>
-                        <telerikPrimitives:ExpanderHeader Style="{StaticResource FollowDetailExpanderHeaderStyle}">
-                            <Label Style="{StaticResource FollowDetailExpanderTextStyle}">Đã Thanh Lý</Label>
+                        <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                            <Label Style="{StaticResource ExpanderHeadingText}" Text="Đã Thanh Lý"/>
                         </telerikPrimitives:ExpanderHeader>
                     </telerikPrimitives:RadExpander.Header>
                     <telerikPrimitives:RadExpander.Content>

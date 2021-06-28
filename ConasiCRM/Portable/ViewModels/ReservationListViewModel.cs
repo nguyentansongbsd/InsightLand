@@ -8,6 +8,7 @@ namespace ConasiCRM.Portable.ViewModels
 {
     public class ReservationListViewModel : ListViewBaseViewModel2<ReservationListModel>
     {
+        public string Keyword { get; set; }
         public ReservationListViewModel()
         {            
             PreLoadData = new Command(() =>
@@ -29,6 +30,9 @@ namespace ConasiCRM.Portable.ViewModels
                 <order attribute='createdon' descending='true' />
                 <link-entity name='bsd_project' from='bsd_projectid' to='bsd_projectid' visible='false' link-type='outer' alias='a'>
                   <attribute name='bsd_name' alias='bsd_projectid_name' />
+                   <filter type='and'>
+                        <condition attribute='bsd_name' operator='like' value='%{Keyword}%' />
+                    </filter>
                 </link-entity>
                 <link-entity name='product' from='productid' to='bsd_unitno' visible='false' link-type='outer' alias='b'>
                   <attribute name='name' alias='bsd_unitno_name' />

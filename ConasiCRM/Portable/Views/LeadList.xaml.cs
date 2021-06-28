@@ -28,6 +28,7 @@ namespace ConasiCRM.Portable.Views
             this.BindingContext = viewModel = new LeadListViewModel();
             Init();
         }
+
         public async void Init()
         {
             await viewModel.LoadData();
@@ -62,6 +63,23 @@ namespace ConasiCRM.Portable.Views
                 }
                 viewModel.IsBusy = false;
             };                        
-        }      
+        }
+
+        private async void Search_Pressed(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            await viewModel.LoadOnRefreshCommandAsync();
+            viewModel.IsBusy = false;
+        }
+
+        private async void Search_TextChanged(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            if (string.IsNullOrEmpty(viewModel.Keyword))
+            {
+                await viewModel.LoadOnRefreshCommandAsync();
+            }
+            viewModel.IsBusy = false;
+        }
     }
 }

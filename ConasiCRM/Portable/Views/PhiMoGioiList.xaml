@@ -16,7 +16,7 @@
     <ContentPage.Content>
         <AbsoluteLayout>
             <Grid RowDefinitions="Auto,*" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <SearchBar Grid.Row="0" Placeholder="Keyword"/>
+                <SearchBar Grid.Row="0" Text="{Binding Keyword}" Placeholder="Từ khoá" SearchButtonPressed="SearchBar_SearchButtonPressed" TextChanged="SearchBar_TextChanged"/>
                 <controls:BsdListView x:Name="listView" Grid.Row="1" ItemsSource="{Binding Data}" HasUnevenRows="True" ItemTapped="listView_ItemTapped">
                     <controls:BsdListView.ItemTemplate>
                         <DataTemplate>
@@ -68,75 +68,9 @@
                     </controls:BsdListView.ItemTemplate>
                 </controls:BsdListView>
             </Grid>
-            <ContentView x:Name="popup_loading"
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All"
-                IsVisible="{Binding IsBusy}"
-                BackgroundColor="#C0808080">
-
-                <ActivityIndicator
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    IsRunning="{Binding IsBusy}"
-                    IsVisible="{Binding IsBusy}" Color="#000000">
-                </ActivityIndicator>
+            <ContentView x:Name="popup_loading" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080">
+                <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True" Color="#000000"/>
             </ContentView>
         </AbsoluteLayout>
-        <!--<Grid Padding="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackLayout Padding="0" Grid.Row="0">
-                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="{Binding Keyword}" Placeholder="Keyword..." />
-            </StackLayout>
-            <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding Data}" LoadOnDemandMode="{Binding LoadOnDemandMode}">
-                <telerikDataGrid:RadDataGrid.Columns>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Tên Phí"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="project_bsd_name" HeaderText="Dự Án"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_loaimoigioi_format" HeaderText="Loại Mô Giới"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_calculation_format" HeaderText="Cách Tính"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_method_format" HeaderText="Phương Thức"/>
-                    <telerikDataGrid:DataGridBooleanColumn PropertyName="bsd_progressive" HeaderText="Lũy Tiến"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_quantityfrom" HeaderText="Số Lượng(từ)">
-                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
-                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                    </telerikDataGrid:DataGridTextColumn>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_quantityto" HeaderText="Số Lượng(đến)" >
-                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
-                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                    </telerikDataGrid:DataGridTextColumn>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountfrom_format" HeaderText="Số Tiền(từ)" >
-                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
-                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                    </telerikDataGrid:DataGridTextColumn>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountto_format" HeaderText="Số Tiền(đến)" >
-                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
-                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                    </telerikDataGrid:DataGridTextColumn>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_feepercent_format" HeaderText="Phí(%)" >
-                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
-                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                    </telerikDataGrid:DataGridTextColumn>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_feeamount_format" HeaderText="Phí(số tiền)" >
-                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
-                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                    </telerikDataGrid:DataGridTextColumn>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="statuscode_format" HeaderText="Tình Trạng" />
-                    <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày Tạo" >
-                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
-                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                    </telerikDataGrid:DataGridTextColumn>
-                </telerikDataGrid:RadDataGrid.Columns>
-            </bsdGrid:BsdRadDataGrid>
-            <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-        </Grid>-->
     </ContentPage.Content>
 </ContentPage>

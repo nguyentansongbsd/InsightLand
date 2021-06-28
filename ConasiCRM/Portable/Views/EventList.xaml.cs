@@ -13,25 +13,25 @@ using Xamarin.Forms.Xaml;
 
 namespace ConasiCRM.Portable.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class EventList : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class EventList : ContentPage
+    {
         private readonly EventListViewModel viewModel;
-		public EventList ()
-		{
-			InitializeComponent ();
+        public EventList()
+        {
+            InitializeComponent();
             BindingContext = viewModel = new EventListViewModel();
-            Init();           
+            Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
-        }      
+        }
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             viewModel.IsBusy = true;
-            EventListModel val = e.Item as EventListModel;          
+            EventListModel val = e.Item as EventListModel;
             EventForm newPage = new EventForm(val.bsd_eventid);
             newPage.CheckEventData = async (CheckEventData) =>
             {
@@ -41,6 +41,21 @@ namespace ConasiCRM.Portable.Views
                 }
                 viewModel.IsBusy = false;
             };
+        }
+
+        private async void SearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            await viewModel.LoadOnRefreshCommandAsync();
+            viewModel.IsBusy = false;
+        }
+
+        private void SearchBar_TextChanged(System.Object sender, Xamarin.Forms.TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(viewModel.Keyword))
+            {
+                SearchBar_SearchButtonPressed(null, EventArgs.Empty);
+            }
         }
     }
 }

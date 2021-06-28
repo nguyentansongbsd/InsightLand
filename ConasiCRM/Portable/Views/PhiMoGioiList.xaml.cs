@@ -42,5 +42,20 @@ namespace ConasiCRM.Portable.Views
                 viewModel.IsBusy = false;
             };
         }
+
+        private async void SearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            await viewModel.LoadOnRefreshCommandAsync();
+            viewModel.IsBusy = false;
+        }
+
+        private void SearchBar_TextChanged(System.Object sender, Xamarin.Forms.TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(viewModel.Keyword))
+            {
+                SearchBar_SearchButtonPressed(null, EventArgs.Empty);
+            }
+        }
     }
 }

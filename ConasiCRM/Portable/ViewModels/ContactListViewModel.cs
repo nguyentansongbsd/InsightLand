@@ -14,6 +14,7 @@ namespace ConasiCRM.Portable.ViewModels
 {
     public class ContactListViewModel : ListViewBaseViewModel2<ContactListModel>
     {
+        public string Keyword { get; set; }
         public ContactListViewModel()
         {
             PreLoadData = new Command(() =>
@@ -29,6 +30,9 @@ namespace ConasiCRM.Portable.ViewModels
                     <attribute name='createdon' />
                     <attribute name='contactid' />
                     <order attribute='fullname' descending='false' />
+                    <filter type='and'>
+                      <condition attribute='bsd_fullname' operator='like' value='%{Keyword}%' />
+                    </filter>
                   </entity>
                 </fetch>";
             });

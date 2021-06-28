@@ -3,82 +3,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              Title="Phản Hồi"
              xmlns:controls="clr-namespace:ConasiCRM.Controls"
+             xmlns:converters="clr-namespace:ConasiCRM.Portable.Converters"
              x:Class="ConasiCRM.Portable.Views.ListPhanHoi">
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
         <ToolbarItem Name="NewMenu" Order="Primary" Clicked="NewMenu_Clicked" Icon="plus.png" Text="New Case" Priority="1"/>
     </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:NullToHideConverter x:Key="nullToHideConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <AbsoluteLayout>
             <Grid RowDefinitions="Auto,*" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <SearchBar Grid.Row="0" Placeholder="Keyword"/>
+                <SearchBar Grid.Row="0" Text="{Binding Keyword}" Placeholder="Từ khoá" SearchButtonPressed="SearchBar_SearchButtonPressed" TextChanged="SearchBar_TextChanged"/>
                 <controls:BsdListView x:Name="listView" Grid.Row="1" ItemsSource="{Binding Data}" HasUnevenRows="True" ItemTapped="listView_ItemTapped">
                     <controls:BsdListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding productname}" FontSize="18" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation"/>
-                                    <Label FontSize="16" Grid.Row="0" Grid.Column="1" Text="{Binding createdon_format}" LineBreakMode="TailTruncation" VerticalTextAlignment="Center"/>
-                                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="16" LineBreakMode="TailTruncation">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Tình Trạng: "/>
-                                                <Span Text="{Binding statuscodevalue}" TextColor="Black"/>
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label FontSize="16" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Nguồn: "/>
-                                                <Span Text="{Binding caseorigincodevalue}" TextColor="Black"/>
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                </Grid>
+                                <StackLayout BackgroundColor ="White" Padding="15,10" Margin="0,1">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Grid.Column="0" Text="{Binding title}" FontSize="18" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation"/>
+                                        <Label FontSize="16" Grid.Column="1" Text="{Binding createdon_format}" LineBreakMode="TailTruncation" VerticalTextAlignment="Center"/>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding productname,Converter={StaticResource nullToHideConverter}}">
+                                        <Label Grid.Column="0" Text="Căn hộ: " FontSize="16" TextColor="#555555"/>
+                                        <Label Grid.Column="1" Text="{Binding productname}" TextColor="#333333" FontSize="16"/>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="Auto,*">
+                                        <Label Grid.Column="0" Text="Tình Trạng: " FontSize="16" TextColor="#555555"/>
+                                        <Label Grid.Column="1" Text="{Binding statuscodevalue}" TextColor="#333333" FontSize="16"/>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding contactname,Converter={StaticResource nullToHideConverter}}">
+                                        <Label Grid.Column="0" Text="Khách hàng: " FontSize="16" TextColor="#555555"/>
+                                        <Label Grid.Column="1" Text="{Binding contactname}" TextColor="#333333" FontSize="16"/>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding caseorigincodevalue,Converter={StaticResource nullToHideConverter}}">
+                                        <Label Grid.Column="0" Text="Nguồn: " FontSize="16" TextColor="#555555"/>
+                                        <Label Grid.Column="1" Text="{Binding caseorigincodevalue}" TextColor="#333333" FontSize="16"/>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding description,Converter={StaticResource nullToHideConverter}}" >
+                                        <Label Grid.Column="0" Text="Nội dung: " FontSize="16" TextColor="#555555"/>
+                                        <Label Grid.Column="1" Text="{Binding description}" TextColor="#333333" FontSize="16"/>
+                                    </Grid>
+
+                                </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </controls:BsdListView.ItemTemplate>
                 </controls:BsdListView>
             </Grid>
-            <ContentView x:Name="popup_loading"
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All"
-                IsVisible="{Binding IsBusy}"
-                BackgroundColor="#C0808080">
-
-                <ActivityIndicator
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    IsRunning="{Binding IsBusy}"
-                    IsVisible="{Binding IsBusy}" Color="#000000">
-                </ActivityIndicator>
+            <ContentView x:Name="popup_loading" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080">
+                <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True" Color="#000000"/>
             </ContentView>
         </AbsoluteLayout>
-        <!--<Grid Padding="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackLayout Padding="0" Grid.Row="0">
-                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="{Binding Keyword}" Placeholder="Keyword..." />
-            </StackLayout>
-            <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding Data}" LoadOnDemandMode="{Binding LoadOnDemandMode}">
-                <telerikDataGrid:RadDataGrid.Columns>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="customerid" HeaderText="Khách Hàng"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="productname" HeaderText="Căn Hộ"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="caseorigincodevalue" HeaderText="Nguồn"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="title" HeaderText="Tiêu Đề"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="description" HeaderText="Nội Dung"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="statuscodevalue" HeaderText="Tình Trạng"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày Tạo" >
-                        <telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                            <telerikDataGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
-                        </telerikDataGrid:DataGridTextColumn.CellContentStyle>
-                    </telerikDataGrid:DataGridTextColumn>
-                </telerikDataGrid:RadDataGrid.Columns>
-            </bsdGrid:BsdRadDataGrid>
-            <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-        </Grid>-->
     </ContentPage.Content>
 </ContentPage>
