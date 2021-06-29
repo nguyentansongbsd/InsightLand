@@ -30,9 +30,6 @@ namespace ConasiCRM.Portable.ViewModels
                 <order attribute='createdon' descending='true' />
                 <link-entity name='bsd_project' from='bsd_projectid' to='bsd_projectid' visible='false' link-type='outer' alias='a'>
                   <attribute name='bsd_name' alias='bsd_projectid_name' />
-                   <filter type='and'>
-                        <condition attribute='bsd_name' operator='like' value='%{Keyword}%' />
-                    </filter>
                 </link-entity>
                 <link-entity name='product' from='productid' to='bsd_unitno' visible='false' link-type='outer' alias='b'>
                   <attribute name='name' alias='bsd_unitno_name' />
@@ -48,7 +45,10 @@ namespace ConasiCRM.Portable.ViewModels
                 </link-entity>
                 <link-entity name='bsd_paymentscheme' from='bsd_paymentschemeid' to='bsd_paymentscheme' visible='false' link-type='outer' alias='a_8524eae1b214e911a97f000d3aa04914'>
                       <attribute name='bsd_name'  alias='paymentscheme_name' />
-                    </link-entity>               
+                    </link-entity>
+                <filter type='and'>
+                   <condition attribute='customeridname' operator='like' value='%{Keyword}%' />
+                </filter>
               </entity>
             </fetch>";
             });
