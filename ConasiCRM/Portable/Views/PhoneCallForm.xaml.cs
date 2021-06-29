@@ -9,10 +9,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-
+using Telerik.XamarinForms.Primitives;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+[assembly: ExportFont("FontAwesome5Solid.otf", Alias = "FontAwesomeSolid")]
 namespace ConasiCRM.Portable.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
@@ -354,49 +355,71 @@ namespace ConasiCRM.Portable.Views
         }
 
         private StackLayout renderStack(string item, string check)
-        {
+        {           
             StackLayout stackLayout = new StackLayout
-            {
+            {                
                 Orientation = StackOrientation.Horizontal,
                 HorizontalOptions= LayoutOptions.Center,
+                BackgroundColor = Color.FromHex("#F3F3F3"),
                 Padding = 2,
-                Spacing = 2
+                Spacing = 6
             };
             var label = new Label()
             {
                 Text = item,
-                FontSize = 16,
-                BackgroundColor = Color.FromHex("#F3F3F3"),
+                FontSize = 16,               
                 TextColor = Color.Black,
-                HorizontalTextAlignment = TextAlignment.Center,
-                VerticalOptions = LayoutOptions.Center
-
+                VerticalTextAlignment = TextAlignment.Center
             };
 
-            var imageButton = new ImageButton
+            var clearButton = new Label
             {
-                BackgroundColor = Color.White,
-                Source = "clear.png",
                 HeightRequest = 20,
                 WidthRequest = 20,
+                Text = "\uf057",
+                FontFamily = "FontAwesomeSolid",
+                FontSize=16,
+                VerticalTextAlignment = TextAlignment.Center
+        };
+            //var imageButton = new ImageButton
+            //{
+            //    BackgroundColor = Color.White,
+            //   // Source = "clear.png",
+            //    HeightRequest = 20,
+            //    WidthRequest = 20,
+            //    Margin = 2
                 
-            };
+            //};
+            //imageButton.Source = new FontImageSource
+            //{
+            //    Glyph = "\uf30c",
+            //    FontFamily = "FontAwesomeSolid",
+            //    Size = 20
+            //};
+
             if (check == "ToCell")
             {
-                imageButton.Clicked += CleanClickToCell;
+                var tapGestureRecognizer = new TapGestureRecognizer();
+                tapGestureRecognizer.Tapped += CleanClickToCell;
+                clearButton.GestureRecognizers.Add(tapGestureRecognizer);
+                //imageButton.Clicked += CleanClickToCell;
             }
             else if(check == "FromCell")
             {
-                imageButton.Clicked += CleanClickFromCell;
+                var tapGestureRecognizer = new TapGestureRecognizer();
+                tapGestureRecognizer.Tapped += CleanClickFromCell;
+                clearButton.GestureRecognizers.Add(tapGestureRecognizer);
+                //imageButton.Clicked += CleanClickFromCell;
             }          
+
             stackLayout.Children.Add(label);
-            stackLayout.Children.Add(imageButton);
+            stackLayout.Children.Add(clearButton);
             return stackLayout;
         }
 
         private void CleanClickToCell(object sender, EventArgs e)
         {
-            var button = sender as ImageButton;
+            var button = sender as Label;
             int index = dataStackTo.IndexOf(dataStackTo.FirstOrDefault(x => x.Children.Last() == button));
             this.deleteItem(index, "ToCell");
 
@@ -404,7 +427,7 @@ namespace ConasiCRM.Portable.Views
 
         private void CleanClickFromCell(object sender, EventArgs e)
         {
-            var button = sender as ImageButton;
+            var button = sender as Label;
             int index = dataStackFrom.IndexOf(dataStackFrom.FirstOrDefault(x => x.Children.Last() == button));
             this.deleteItem(index, "FromCell");
 

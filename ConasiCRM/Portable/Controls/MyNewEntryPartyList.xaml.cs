@@ -8,6 +8,7 @@ using Telerik.XamarinForms.DataControls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+[assembly: ExportFont("FontAwesome5Solid.otf", Alias = "FontAwesomeSolid")]
 namespace ConasiCRM.Portable.Controls
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
