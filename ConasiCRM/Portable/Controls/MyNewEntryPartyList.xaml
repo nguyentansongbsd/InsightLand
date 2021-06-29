@@ -7,20 +7,16 @@
              BackgroundColor="White"
              x:Class="ConasiCRM.Portable.Controls.MyNewEntryPartyList">
     <ContentView.Content>
-        <AbsoluteLayout >
-            <Entry Focused="EntryUnfocused_Focused" x:Name="entryLine" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"/>
-            <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
-                <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                    <ScrollView Orientation="Horizontal">
-                        <StackLayout x:Name="stackLayout_Content" Orientation="Horizontal" VerticalOptions="EndAndExpand">
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer />
-                            </StackLayout.GestureRecognizers>
-                        </StackLayout>
-                    </ScrollView>
-                    <ImageButton Source="down_arrow.png" Clicked="Handle_Tapped" WidthRequest="24" HeightRequest="24" HorizontalOptions="EndAndExpand" BackgroundColor="White" VerticalOptions="Center"/>
-                </StackLayout>
-            </StackLayout>
-        </AbsoluteLayout>
+        <Grid ColumnDefinitions="*,16">
+            <Entry Focused="EntryUnfocused_Focused" x:Name="entryLine" Grid.Column="0" Grid.ColumnSpan="2"/>
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Grid.Column="0">
+                <StackLayout x:Name="stackLayout_Content" Orientation="Horizontal" VerticalOptions="CenterAndExpand"/>
+            </ScrollView>
+            <ImageButton Clicked="Handle_Tapped" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="1" BackgroundColor="Transparent" HeightRequest="16" WidthRequest="16">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FontAwesomeSolid" Color="Gray" Glyph="&#xf078;" Size="Large"/>
+                </ImageButton.Source>
+            </ImageButton>
+        </Grid>
     </ContentView.Content>
 </ContentView>

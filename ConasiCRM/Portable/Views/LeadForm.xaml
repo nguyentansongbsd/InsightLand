@@ -275,7 +275,7 @@
                                                         <Label FontSize="16" Grid.Row="1" Grid.Column="0" Text="{Binding createdon}" LineBreakMode="TailTruncation" VerticalTextAlignment="Center"/>
                                                         <Label FontSize="15" Grid.Row="0" Grid.Column="1" FontFamily="FontAwesomeSolid" TextColor="Gray" Text="&#xf00d;">
                                                         <Label.GestureRecognizers>
-                                                                <TapGestureRecognizer Tapped="DeleteNhuCauVeDiaDiem_Tapped" Command="{Binding Path= BindingContext.DeleteCommand, Source={x:Reference datagrid_nhucavediadiem}}" CommandParameter="{Binding .}"/>
+                                                                <TapGestureRecognizer Tapped="DeleteNhuCauVeDiaDiem_Tapped" CommandParameter="{Binding .}"/>
                                                             </Label.GestureRecognizers>
                                                         </Label>
                                                     </Grid>

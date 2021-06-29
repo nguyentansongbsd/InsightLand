@@ -23,12 +23,6 @@
                 <Setter Property="Padding" Value="5"/>
                 <Setter Property="IndicatorFontFamily" Value="FontAwesomeSolid"/>
             </Style>
-            <Style x:Key="ExpanderTextStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="18" />
-                <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="VerticalTextAlignment" Value="Center" />
-                <Setter Property="TextColor" Value="#1399D5" />
-            </Style>
             <local:NullToBooleanConvert x:Key="NullToBool" />
             <local:NotNullToBoolean x:Key="NotNullToBool" />
             <local:BoolToIntHideGrid x:Key="BoolToInt" />
@@ -42,7 +36,7 @@
                 <ScrollView>
                     <StackLayout>
                         <StackLayout Padding="0,0,0,15">
-                            <Label Text="Thông Tin Cơ Bản" TextColor="Black" FontSize="18" BackgroundColor="#F3F3F3" Padding="10"/>
+                            <Label Text="Thông Tin Cơ Bản" TextColor="Black" FontSize="18" BackgroundColor="#F3F3F3" Padding="12"/>
                             <Grid BackgroundColor="#ffffff" Padding="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,6*">
 
                                 <local:FormLabelRequired Text="Họ Tên" Grid.Column="0" Grid.Row="0" />
@@ -823,7 +817,7 @@
                     <Button Text="Cập Nhật" BackgroundColor="#1399D5" TextColor="White" FontAttributes="Bold" HeightRequest="40" Padding="10,5" FontSize="16" x:Name="btn_save_contact" BorderColor="#1399D5" BorderWidth="1" CornerRadius="5"/>
                 </telerikPrimitives:RadBorder>-->
                 <Frame HasShadow="True" x:Name="footer_form_lead" Padding="10,15,10,10" BackgroundColor="#F3F3F3">
-                    <Button Text="Cập Nhật" BackgroundColor="#1399D5" TextColor="White" FontAttributes="Bold" HeightRequest="40" Padding="10,5" FontSize="16" x:Name="btn_save_contact" BorderColor="#1399D5" BorderWidth="1" CornerRadius="5"/>
+                    <Button x:Name="btn_save_contact" BackgroundColor="#1399D5" TextColor="White" FontAttributes="Bold" HeightRequest="40" Padding="10,5" FontSize="16" BorderColor="#1399D5" BorderWidth="1" CornerRadius="5"/>
                 </Frame>
                 <!--<Grid x:Name="footer_form_lead" RowDefinitions="40" Padding="10,15,10,10" BackgroundColor="#F3F3F3">
                     <Button Text="Cập Nhật" BackgroundColor="#1399D5" TextColor="White" FontAttributes="Bold" HeightRequest="40" Padding="10,5" FontSize="16" x:Name="btn_save_contact" BorderColor="#1399D5" BorderWidth="1" CornerRadius="5"/>

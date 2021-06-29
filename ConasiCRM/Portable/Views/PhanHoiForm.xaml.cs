@@ -109,30 +109,26 @@ namespace ConasiCRM.Portable.Views
             await viewModel.LoadListLienHe(viewModel.singlePhanHoi._customerid_value);
 
 
-            if (viewModel.singlePhanHoi._customerid_value != null)
-            {
-                btn_customer.IsVisible = true;
-                bsd_customer_text.IsVisible = true;
-                bsd_customer_default.IsVisible = false;
-            }
-            if (viewModel.singlePhanHoi._subjectid_value != null)
-            {
-                btn_subject.IsVisible = true;
-                bsd_subject_text.IsVisible = true;
-                bsd_subject_default.IsVisible = false;
-            }
-            if (viewModel.singlePhanHoi._productid_value != null)
-            {
-                btn_unit.IsVisible = true;
-                bsd_unit_text.IsVisible = true;
-                bsd_unit_default.IsVisible = false;
-            }
-            if (viewModel.singlePhanHoi._primarycontactid_value != null)
-            {
-                btn_contact.IsVisible = true;
-                bsd_contact_text.IsVisible = true;
-                bsd_contact_default.IsVisible = false;
-            }
+            //if (viewModel.singlePhanHoi._customerid_value != null)
+            //{             
+            //    bsd_customer.IsVisible = true;              
+            //}
+            //if (viewModel.singlePhanHoi._subjectid_value != null)
+            //{              
+            //    bsd_subject.IsVisible = true;               
+            //}
+            //if (viewModel.singlePhanHoi._productid_value != null)
+            //{
+            //    btn_unit.IsVisible = true;
+            //    bsd_unit_text.IsVisible = true;
+            //    bsd_unit_default.IsVisible = false;
+            //}
+            //if (viewModel.singlePhanHoi._primarycontactid_value != null)
+            //{
+            //    btn_contact.IsVisible = true;
+            //    bsd_contact_text.IsVisible = true;
+            //    bsd_contact_default.IsVisible = false;
+            //}
 
             if (viewModel.singlePhanHoi.caseorigincode != null) { viewModel.getOrigin((viewModel.singlePhanHoi.caseorigincode).ToString()); }
 
@@ -198,26 +194,21 @@ namespace ConasiCRM.Portable.Views
         }
 
         void OnSelectItem_Subject(object sender, Xamarin.Forms.ItemTappedEventArgs e)
-        {
-            bsd_subject_text.IsVisible = true;
-            bsd_subject_default.IsVisible = false;
-            btn_subject.IsVisible = true;
-
+        {          
             viewModel.singlePhanHoi.subjecttitle = (e.Item as ListSubjectCase).Name;
             viewModel.singlePhanHoi._subjectid_value = (e.Item as ListSubjectCase).Id;
-            bsd_subject_text.Text = (e.Item as ListSubjectCase).Name;
-
-            //bsd_subject_text.Text = (e.Item as CustomerCase).Name;
+            //bsd_subject_text.text = (e.item as listsubjectcase).name;
+            //bsd_subject_text.text = (e.item as customercase).name;
             popup_list_viewSubject.IsVisible = false;
         }
 
         void Clearvalue_subject(object sender, System.EventArgs e)
         {
-            bsd_subject_text.IsVisible = false;
-            bsd_subject_default.IsVisible = true;
-            btn_subject.IsVisible = false;
+            //bsd_subject_text.IsVisible = false;
+            //bsd_subject_default.IsVisible = true;
+            //btn_subject.IsVisible = false;
 
-            bsd_subject_text.Text = "";
+            //bsd_subject_text.Text = "";
             viewModel.singlePhanHoi.subjecttitle = null;
             viewModel.singlePhanHoi._subjectid_value = null;
         }
@@ -371,12 +362,12 @@ namespace ConasiCRM.Portable.Views
             viewModel.pageLookup_lienhe = 1;
             viewModel.singlePhanHoi.contactname = null;
             viewModel.singlePhanHoi._primarycontactid_value = null;
-            bsd_contact_text.Text = null;
+            //bsd_contact_text.Text = null;
 
-            btn_customer.IsVisible = true;
-            bsd_customer_text.IsVisible = true;
-            bsd_customer_default.IsVisible = false;
-            bsd_customer_text.Text= (e.Item as PhanHoiFormModel).Name;
+            //btn_customer.IsVisible = true;
+            //bsd_customer_text.IsVisible = true;
+            //bsd_customer_default.IsVisible = false;
+            //bsd_customer_text.Text= (e.Item as PhanHoiFormModel).Name;
             viewModel.singlePhanHoi.customerid = (e.Item as PhanHoiFormModel).Name;
             viewModel.singlePhanHoi._customerid_value = (e.Item as PhanHoiFormModel).Id;
             await viewModel.LoadListLienHe((e.Item as PhanHoiFormModel).Id);
@@ -397,9 +388,9 @@ namespace ConasiCRM.Portable.Views
 
         void Clearvalue_customer(object sender, System.EventArgs e)
         {
-            bsd_customer_text.IsVisible = false;
-            bsd_customer_default.IsVisible = true;
-            btn_customer.IsVisible = false;
+            //bsd_customer_text.IsVisible = false;
+            //bsd_customer_default.IsVisible = true;
+            //btn_customer.IsVisible = false;
 
             //EntryMultiSelect_regarding.Children.Clear();
             Label label = new Label { Text = "", TextColor = Color.Black };
@@ -410,7 +401,7 @@ namespace ConasiCRM.Portable.Views
 
             viewModel.singlePhanHoi.contactname = null;
             viewModel.singlePhanHoi._primarycontactid_value = null;
-            bsd_contact_text.Text = null;
+            //bsd_contact_text.Text = null;
             //EntryMultiSelect_regarding.Children.Add(stacklayout);
 
             //viewModel.list_lookup_required = new ObservableCollection<PhanHoiFormModel>();
@@ -453,13 +444,13 @@ namespace ConasiCRM.Portable.Views
 
         void OnSelectItem_Unit(object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
-            bsd_unit_text.IsVisible = true;
-            bsd_unit_default.IsVisible = false;
-            btn_unit.IsVisible = true;
+            //bsd_unit_text.IsVisible = true;
+            //bsd_unit_default.IsVisible = false;
+            //btn_unit.IsVisible = true;
 
             viewModel.singlePhanHoi.productname = (e.Item as ListUnitCase).Name;
             viewModel.singlePhanHoi._productid_value = (e.Item as ListUnitCase).Id;
-            bsd_unit_text.Text = (e.Item as ListUnitCase).Name;
+            //bsd_unit_text.Text = (e.Item as ListUnitCase).Name;
 
             //bsd_unit_text.Text = (e.Item as CustomerCase).Name;
             popup_list_viewUnit.IsVisible = false;
@@ -467,11 +458,13 @@ namespace ConasiCRM.Portable.Views
 
         void Clearvalue_unit(object sender, System.EventArgs e)
         {
-            bsd_unit_text.IsVisible = false;
-            bsd_unit_default.IsVisible = true;
-            btn_unit.IsVisible = false;
+            //bsd_unit_text.IsVisible = false;
+            //bsd_unit_default.IsVisible = true;
+            //btn_unit.IsVisible = false;
 
-            bsd_unit_text.Text = "";
+            //bsd_unit_text.Text = "";
+            viewModel.singlePhanHoi.productname = null;
+            viewModel.singlePhanHoi._productid_value = null;
         }
 
         public async void ItemAppearingLienhe(object sender, Xamarin.Forms.ItemVisibilityEventArgs e)
@@ -492,13 +485,13 @@ namespace ConasiCRM.Portable.Views
 
         void OnSelectItem_Contact(object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
-            bsd_contact_text.IsVisible = true;
-            bsd_contact_default.IsVisible = false;
-            btn_contact.IsVisible = true;
+            //bsd_contact_text.IsVisible = true;
+            //bsd_contact_default.IsVisible = false;
+            //btn_contact.IsVisible = true;
 
             viewModel.singlePhanHoi.contactname = (e.Item as ListLienHeCase).Name;
             viewModel.singlePhanHoi._primarycontactid_value = (e.Item as ListLienHeCase).Id;
-            bsd_contact_text.Text = (e.Item as ListLienHeCase).Name;
+            //bsd_contact_text.Text = (e.Item as ListLienHeCase).Name;
 
             //bsd_contact_text.Text = (e.Item as CustomerCase).Name;
             popup_list_viewContact.IsVisible = false;
@@ -506,11 +499,11 @@ namespace ConasiCRM.Portable.Views
 
         void Clearvalue_contact(object sender, System.EventArgs e)
         {
-            bsd_contact_text.IsVisible = false;
-            bsd_contact_default.IsVisible = true;
-            btn_contact.IsVisible = false;
+            //bsd_contact_text.IsVisible = false;
+            //bsd_contact_default.IsVisible = true;
+            //btn_contact.IsVisible = false;
 
-            bsd_contact_text.Text = "";
+            //bsd_contact_text.Text = "";
             viewModel.singlePhanHoi.contactname = null;
             viewModel.singlePhanHoi._primarycontactid_value = null;
         }
