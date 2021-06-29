@@ -102,15 +102,7 @@
                             </telerikPrimitives:RadExpander>
                         </StackLayout>
                     </ScrollView>
-                    <Grid BackgroundColor="#ffffff" VerticalOptions="EndAndExpand" x:Name="grid_updatePhone">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid BackgroundColor="#F3F3F3" VerticalOptions="EndAndExpand" x:Name="grid_updatePhone" RowDefinitions="50" ColumnDefinitions="*,*,*">
                         <Button x:Name="updatePhone" Clicked="UpdatePhone_Clicked" Text="Cập nhật" Grid.Column="0" Grid.Row="0" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="#1399D5" TextColor="White" CornerRadius="5" Margin="5,5,0,5"/>
                         <Button x:Name="completedPhone" Clicked="CompletedPhone_Clicked" Text="Hoàn thành" VerticalOptions="CenterAndExpand" Grid.Column="1" Grid.Row="0" HorizontalOptions="FillAndExpand" BackgroundColor="#1399D5" TextColor="White" Margin="0,5,0,5" CornerRadius="5"/>
                         <Button x:Name="canceledPhone" Clicked="CanceledPhone_Clicked" Text="Huỷ" VerticalOptions="CenterAndExpand" Grid.Column="2" Grid.Row="0" HorizontalOptions="FillAndExpand" BackgroundColor="#1399D5" TextColor="White" Margin="0,5,5,5" CornerRadius="5"/>

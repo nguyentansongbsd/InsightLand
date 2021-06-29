@@ -363,12 +363,13 @@ namespace ConasiCRM.Portable.Views
                 BackgroundColor = Color.FromHex("#F3F3F3"),
                 Padding = 2,
                 Spacing = 6
-            };
+            };           
             var label = new Label()
             {
                 Text = item,
                 FontSize = 16,               
                 TextColor = Color.Black,
+                HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center
             };
 
@@ -380,7 +381,7 @@ namespace ConasiCRM.Portable.Views
                 FontFamily = "FontAwesomeSolid",
                 FontSize=16,
                 VerticalTextAlignment = TextAlignment.Center
-        };
+            };            
             //var imageButton = new ImageButton
             //{
             //    BackgroundColor = Color.White,
