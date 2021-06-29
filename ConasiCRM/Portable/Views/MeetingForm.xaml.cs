@@ -52,7 +52,7 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new MeetingViewModel();
-            viewModel.Title = "Tạo Mới Cuộc Hợp";
+            viewModel.Title = "Tạo Mới Cuộc Họp";
             viewModel.IsBusy = false;
             grid_createMeeting.IsVisible = true;
             grid_updateMeeting.IsVisible = false;
@@ -70,7 +70,7 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new MeetingViewModel();
-            viewModel.Title = "Tạo Mới Cuộc Hợp";
+            viewModel.Title = "Tạo Mới Cuộc Họp";
             viewModel.IsBusy = false;
             grid_createMeeting.IsVisible = true;
             grid_updateMeeting.IsVisible = false;
@@ -374,8 +374,9 @@ namespace ConasiCRM.Portable.Views
             {
                 Orientation = StackOrientation.Horizontal,
                 HorizontalOptions = LayoutOptions.Center,
+                BackgroundColor = Color.FromHex("#F3F3F3"),
                 Padding = 2,
-                Spacing = 2
+                Spacing = 6
             };
             var label = new Label()
             {
@@ -388,30 +389,38 @@ namespace ConasiCRM.Portable.Views
 
             };
 
-            var imageButton = new ImageButton
+            var clearButton = new Label
             {
-                BackgroundColor = Color.White,
-                Source = "clear.png",
                 HeightRequest = 20,
                 WidthRequest = 20,
-
+                Text = "\uf057",
+                FontFamily = "FontAwesomeSolid",
+                FontSize = 16,
+                VerticalTextAlignment = TextAlignment.Center
             };
+
             if (check == "Required")
             {
-                imageButton.Clicked += CleanClickRequired;
+                var tapGestureRecognizer = new TapGestureRecognizer();
+                tapGestureRecognizer.Tapped += CleanClickRequired;
+                clearButton.GestureRecognizers.Add(tapGestureRecognizer);
+             //   imageButton.Clicked += CleanClickRequired;
             }
             else if (check == "Optional")
             {
-                imageButton.Clicked += CleanClickOption;
+                var tapGestureRecognizer = new TapGestureRecognizer();
+                tapGestureRecognizer.Tapped += CleanClickOption;
+                clearButton.GestureRecognizers.Add(tapGestureRecognizer);
+                //imageButton.Clicked += CleanClickOption;
             }
             stackLayout.Children.Add(label);
-            stackLayout.Children.Add(imageButton);
+            stackLayout.Children.Add(clearButton);
             return stackLayout;
         }
 
         private void CleanClickRequired(object sender, EventArgs e)
         {
-            var button = sender as ImageButton;
+            var button = sender as Label;
             int index = dataRequired.IndexOf(dataRequired.FirstOrDefault(x => x.Children.Last() == button));
             this.deleteItem(index, "Required");
 
@@ -419,7 +428,7 @@ namespace ConasiCRM.Portable.Views
 
         private void CleanClickOption(object sender, EventArgs e)
         {
-            var button = sender as ImageButton;
+            var button = sender as Label;
             int index = dataOption.IndexOf(dataOption.FirstOrDefault(x => x.Children.Last() == button));
             this.deleteItem(index, "Optional");
 

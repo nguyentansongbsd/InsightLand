@@ -15,6 +15,7 @@ namespace ConasiCRM.Portable.ViewModels
 {
     public class QueuListViewModel : ListViewBaseViewModel2<QueueListModel>
     {
+        public string Keyword { get; set; }
         public ICommand PhoneCommand { get; }
         public QueuListViewModel()
         {
@@ -37,7 +38,10 @@ namespace ConasiCRM.Portable.ViewModels
                     <attribute name='bsd_queuingexpired' />
                     <attribute name='statuscode' />
                     <attribute name='opportunityid' />                    
-                    <order attribute='createdon' descending='true' />                    
+                    <order attribute='createdon' descending='true' />
+                    <filter type='and'>
+                      <condition attribute='name' operator='like' value='%{Keyword}%' />
+                    </filter>
                     <link-entity name='account' from='accountid' to='customerid' visible='false' link-type='outer' alias='a'>
                       <attribute name='bsd_name' alias='account_name' />
                       <attribute name='telephone1' alias='telephone' />

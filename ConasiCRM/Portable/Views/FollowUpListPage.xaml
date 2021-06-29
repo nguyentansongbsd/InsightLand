@@ -15,49 +15,39 @@
     <ContentPage.Content>
         <AbsoluteLayout>
             <Grid RowDefinitions="Auto,*">
-                <SearchBar Grid.Row="0" Placeholder="Keyword"/>
+                <SearchBar Grid.Row="0" Text="{Binding Keyword}" Placeholder="Từ khoá" SearchButtonPressed="Search_Pressed" TextChanged="Search_TextChanged"/>
                 <controls:BsdListView x:Name="listView" Grid.Row="1" ItemsSource="{Binding Data}" HasUnevenRows="True" ItemTapped="listView_ItemTapped">
                     <controls:BsdListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
-                                    <Label Grid.Row="0" Grid.Column="0" Text="Dự án: " FontSize="16" TextColor="#444444"/>
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding bsd_name_project}" FontSize="16" TextColor="#333333"/>
+                                    <Label Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding bsd_name}" IsVisible="{Binding bsd_name,Converter={StaticResource nullToHideConverter}}" FontSize="16" FontAttributes="Bold" TextColor="#333333"/>
 
-                                    <Label Grid.Row="1" Grid.Column="0" Text="Group: " FontSize="16" TextColor="#444444" />
-                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding bsd_group,Converter={StaticResource groupConverter}}" FontSize="16" TextColor="#333333"/>
+                                    <Label Grid.Row="1" Grid.Column="0" Text="Dự án: " FontSize="16" TextColor="#444444"/>
+                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding bsd_name_project}" FontSize="16" TextColor="#333333"/>
 
-                                    <Label Grid.Row="2" Grid.Column="0" Text="Căn hộ: " FontSize="16" TextColor="#444444"/>
-                                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding name_unit}" FontSize="16" TextColor="#333333"/>
+                                    <Label Grid.Row="2" Grid.Column="0" Text="Group: " FontSize="16" TextColor="#444444" />
+                                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding bsd_group,Converter={StaticResource groupConverter}}" FontSize="16" TextColor="#333333"/>
 
-                                    <Label Grid.Row="3" Grid.Column="0" Text="Tên: " FontSize="16" TextColor="#444444"/>
-                                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding bsd_name}" IsVisible="{Binding bsd_name,Converter={StaticResource nullToHideConverter}}" FontSize="16" TextColor="#333333"/>
+                                    <Label Grid.Row="3" Grid.Column="0" Text="Căn hộ: " FontSize="16" TextColor="#444444"/>
+                                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding name_unit}" FontSize="16" TextColor="#333333"/>
 
-                                    <Grid Grid.Row="4" Grid.ColumnSpan="2" ColumnDefinitions="*,*">
-                                        <Label Grid.Column="0" FontSize="15" TextColor="Gray" >
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Ngày: " />
-                                                    <Span Text="{Binding bsd_date,StringFormat='{0:dd/MM/yyyy}'}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <Label Grid.Column="1" FontSize="15" TextColor="Gray">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Ngày hết hạn: " />
-                                                    <Span Text="{Binding bsd_expiredate,StringFormat='{0:dd/MM/yyyy}'}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
+                                    <Grid Grid.Row="4" Grid.ColumnSpan="2" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="0" >
+                                        <Label Grid.Column="0" Text="Ngày: " FontSize="15" TextColor="Gray"/>
+                                        <Label Grid.Column="1" Text="{Binding bsd_date,StringFormat='{0:dd/MM/yyyy}'}" FontSize="15" TextColor="Gray"/>
+                                        <Label Grid.Column="2" Text=" - "/>
+                                        <Label Grid.Column="3" Text="Ngày hết hạn: " FontSize="15" TextColor="Gray"/>
+                                        <Label Grid.Column="4" Text="{Binding bsd_expiredate,StringFormat='{0:dd/MM/yyyy}'}" FontSize="15" TextColor="Gray"/>
                                     </Grid>
-
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </controls:BsdListView.ItemTemplate>
                 </controls:BsdListView>
             </Grid>
+            <ContentView x:Name="popup_loading" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080">
+                <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True" Color="#000000"/>
+            </ContentView>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

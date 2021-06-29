@@ -37,7 +37,7 @@ namespace ConasiCRM.Portable.Views
             {
                 viewModel.IsBusy = true;
                 viewModel.CoownerList.Clear();
-                await LoadCoOwners();
+                await viewModel.LoadCoOwners(ReservationId);
                 viewModel.IsBusy = false;
             });
             #endregion
@@ -46,7 +46,7 @@ namespace ConasiCRM.Portable.Views
             MessagingCenter.Subscribe<ReservationFormViewModel, bool>(this, "LoadHandoverConditions", async (s, arg) =>
             {
                 viewModel.HandoverConditionList.Clear();
-                await LoadhandoverConditions();
+                await viewModel.LoadhandoverConditions(ReservationId);
                 viewModel.IsBusy = false;
             });
             #endregion
@@ -55,7 +55,7 @@ namespace ConasiCRM.Portable.Views
             MessagingCenter.Subscribe<ReservationFormViewModel, bool>(this, "LoadPromotions", async (s, arg) =>
             {
                 viewModel.PromotionList.Clear();
-                await LoadPromotions();
+                await viewModel.LoadPromotions(ReservationId);
                 viewModel.IsBusy = false;
             });
             #endregion
@@ -64,7 +64,7 @@ namespace ConasiCRM.Portable.Views
             MessagingCenter.Subscribe<SpecialDiscountForm, bool>(this, "LoadSpecialDiscounts", async (s, arg) =>
             {
                 viewModel.SpecialDiscountList.Clear();
-                await LoadSpecialDiscounts();
+                await viewModel.LoadSpecialDiscounts(ReservationId);
                 viewModel.IsBusy = false;
             });
             #endregion            
@@ -203,11 +203,12 @@ namespace ConasiCRM.Portable.Views
 
                 var tasks = new Task[6]
                 {
-                    LoadCoOwners(),
-                    LoadhandoverConditions(),
-                    LoadPromotions(),
-                    LoadSpecialDiscounts(),
-                    LoadInstallments(),
+                    
+                    viewModel.LoadCoOwners(ReservationId),
+                    viewModel.LoadhandoverConditions(ReservationId),
+                    viewModel.LoadPromotions(ReservationId),
+                    viewModel.LoadSpecialDiscounts(ReservationId),
+                    viewModel.LoadInstallments(ReservationId),                    
                     LoadDiscounts()
                 };
                 await Task.WhenAll(tasks);           
@@ -230,10 +231,10 @@ namespace ConasiCRM.Portable.Views
             if (status != 100000007) // khác quotation.
             {
                 // ẩn mấy nút trên grid.
-                btnViewCoOwner.IsVisible = btnNewCoOwner.IsVisible = btnDeleteCoOwner.IsVisible = false;
-                btnNewHandoverCondition.IsVisible = btnDeleteHandoverCondition.IsVisible = false;
-                btnOpenNewPromotion.IsVisible = btnDeletePromotion.IsVisible = false;
-                btnViewSpecialDiscount.IsVisible = btnOpenNewSpecialDiscount.IsVisible = btnDeleteSpecicalDiscount.IsVisible = false;
+               btnNewCoOwner.IsVisible = false;
+                btnNewHandoverCondition.IsVisible = false;
+                btnOpenNewPromotion.IsVisible = false;
+                btnOpenNewSpecialDiscount.IsVisible = false;
 
                 // disabled lookup.
                 btnOpenLookUpCustomer.IsEnable = false; // khi chon lich thanh toan xong thi cung set lai thanh false.
@@ -262,217 +263,7 @@ namespace ConasiCRM.Portable.Views
                 });
                 Grid.SetColumn(buttons[i], i);
             }
-        }
-
-        public async Task LoadInstallments()
-        {
-            var installment_result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ReservationInstallmentModel>>("bsd_paymentschemedetails", @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-              <entity name='bsd_paymentschemedetail'>
-                <attribute name='bsd_paymentschemedetailid' />
-                <attribute name='bsd_ordernumber' />
-                <attribute name='bsd_name' />
-                <attribute name='bsd_duedate' />
-                <attribute name='statuscode' />
-                <attribute name='bsd_amountofthisphase' />
-                <attribute name='bsd_amountwaspaid' />
-                <attribute name='bsd_depositamount' />
-                <attribute name='bsd_waiveramount' />
-                <order attribute='bsd_ordernumber' descending='false' />
-                <filter type='and'>
-                  <condition attribute='bsd_reservation' operator='eq' uitype='quote' value='" + ReservationId + @"' />
-                </filter>
-              </entity>
-            </fetch>");
-            var installmentList = installment_result.value.OrderBy(x => x.bsd_ordernumber).ToList();
-            var installmentCount = installmentList.Count;
-            if (installmentCount > 0)
-            {
-                viewModel.DaTaoLichThanhToan = true;
-                btnOpenLookUpCustomer.IsEnable = false;
-                btnSaveForm.IsVisible = false;
-                for (int i = 0; i < installmentCount; i++)
-                {
-                    viewModel.InstallmentList.Add(installmentList[i]);
-                }
-            }
-            for (int i = installmentCount + 1; i < 4; i++)
-            {
-                viewModel.InstallmentList.Add(new ReservationInstallmentModel());
-            }
-        }
-
-        public async Task LoadCoOwners()
-        {
-            var coowner_result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ReservationCoowner>>("bsd_coowners", @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-              <entity name='bsd_coowner'>
-                <attribute name='bsd_coownerid' />
-                <attribute name='bsd_name' />
-                <attribute name='bsd_relationship' />
-                <attribute name='createdon' />
-                <order attribute='bsd_name' descending='false' />
-                <link-entity name='account' from='accountid' to='bsd_customer' visible='false' link-type='outer' alias='a_1324f6d5b214e911a97f000d3aa04914'>
-                  <attribute name='bsd_name' alias='account_name' />
-                </link-entity>
-                <link-entity name='contact' from='contactid' to='bsd_customer' visible='false' link-type='outer' alias='a_6b0d05eeb214e911a97f000d3aa04914'>
-                  <attribute name='bsd_fullname' alias='contact_name' />
-                </link-entity>
-                 <filter type='and'>
-                      <condition attribute='bsd_reservation' operator='eq' uitype='quote' value='" + ReservationId + @"' />
-                  </filter>
-              </entity>
-            </fetch>");
-            var coownerList = coowner_result.value;
-            var coownerCount = coownerList.Count;
-            if (coownerCount > 0)
-            {
-                for (int i = 0; i < coownerCount; i++)
-                {
-                    var item = coownerList[i];
-                    item.ReservationName = viewModel.Reservation.name;
-
-                    viewModel.CoownerList.Add(item);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    viewModel.CoownerList.Add(new ReservationCoowner());
-                }
-            }
-        }
-
-        public async Task LoadhandoverConditions()
-        {
-            var handoverConditionResult = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ReservationHandoverCondition>>("bsd_packagesellings", @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-              <entity name='bsd_packageselling'>
-                <attribute name='bsd_name' />
-                <attribute name='createdon' />
-                <attribute name='bsd_type' />
-                <attribute name='bsd_priceperm2' />
-                <attribute name='bsd_amount' />
-                <attribute name='bsd_percent' />
-                <attribute name='bsd_method' />
-                <attribute name='bsd_packagesellingid' />
-                <order attribute='createdon' descending='true' />
-                <link-entity name='bsd_quote_bsd_packageselling' from='bsd_packagesellingid' to='bsd_packagesellingid' visible='false' intersect='true'>
-                <link-entity name='quote' from='quoteid' to='quoteid' alias='ab'>
-                     <filter type='and'>
-                          <condition attribute='quoteid' operator='eq' uitype='quote' value='" + ReservationId + @"' />
-                     </filter>
-                </link-entity>
-            </link-entity>
-              </entity>
-            </fetch>");
-            var handoverConditionList = handoverConditionResult.value;
-            var handoverConditionCount = handoverConditionList.Count;
-            if (handoverConditionCount > 0)
-            {
-                for (int i = 0; i < handoverConditionCount; i++)
-                {
-                    viewModel.HandoverConditionList.Add(handoverConditionList[i]);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    viewModel.HandoverConditionList.Add(new ReservationHandoverCondition());
-                }
-            }
-        }
-
-        public async Task LoadPromotions()
-        {
-            string xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>
-              <entity name='bsd_promotion'>
-                <attribute name='bsd_name' />
-                <attribute name='createdon' />
-                <attribute name='bsd_values' />
-                <attribute name='statuscode' />
-                <attribute name='bsd_startdate' />
-                <attribute name='ownerid' />
-                <attribute name='bsd_enddate' />
-                <attribute name='bsd_description' />
-                <attribute name='bsd_promotionid' />
-                <order attribute='createdon' descending='true' />
-                <link-entity name='bsd_phaseslaunch' from='bsd_phaseslaunchid' to='bsd_phaselaunch' link-type='inner' alias='a_c72b74f6fa82e61180f23863bb367d40'>
-                      <attribute name='bsd_name' alias='phaseslaunch_name' />
-                      <link-entity name='bsd_project' from='bsd_projectid' to='bsd_projectid' link-type='inner' alias='ad'>
-                           <attribute name='bsd_name' alias='project_name' />                        
-                        </link-entity>
-                </link-entity>
-                <link-entity name='bsd_quote_bsd_promotion' from='bsd_promotionid' to='bsd_promotionid' visible='false' intersect='true'>
-                      <link-entity name='quote' from='quoteid' to='quoteid' alias='ae'>
-                             <filter type='and'>
-                                    <condition attribute='quoteid' operator='eq' uiname='A,20.10' uitype='quote' value='" + ReservationId + @"' />
-                              </filter>
-                      </link-entity>
-                </link-entity>
-              </entity>
-            </fetch>";
-            var promotionsResult = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ReservationPromotionModel>>("bsd_promotions", xml);
-            var promotionList = promotionsResult.value;
-            var promotionCount = promotionList.Count;
-            if (promotionCount > 0)
-            {
-                for (int i = 0; i < promotionCount; i++)
-                {
-                    viewModel.PromotionList.Add(promotionList[i]);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    viewModel.PromotionList.Add(new ReservationPromotionModel());
-                }
-            }
-
-        }
-
-        public async Task LoadSpecialDiscounts()
-        {
-            var xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-              <entity name='bsd_discountspecial'>
-                <attribute name='bsd_discountspecialid' />
-                <attribute name='bsd_name' />
-                <attribute name='createdon' />
-                <attribute name='bsd_reasons' />
-                <attribute name='statuscode' />
-                <attribute name='bsd_percentdiscount' />
-                <attribute name='bsd_amountdiscount' />
-                <order attribute='bsd_name' descending='false' />
-                <filter type='and'>
-                  <condition attribute='bsd_quote' operator='eq' uiname='A,20.10' uitype='quote' value='" + ReservationId + @"' />
-                </filter>
-                <link-entity name='systemuser' from='systemuserid' to='createdby' visible='false' link-type='outer' alias='a_769c3b2db214e911a97f000d3aa04914'>
-                  <attribute name='fullname' alias='createdby_name' />
-                </link-entity>
-              </entity>
-            </fetch>";
-
-            var discountSpecialsResult = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ReservationSpecialDiscountListModel>>("bsd_discountspecials", xml);
-            var discountSpecialList = discountSpecialsResult.value;
-            var discountSpecialListCount = discountSpecialList.Count;
-
-            if (discountSpecialListCount > 0)
-            {
-                for (int i = 0; i < discountSpecialListCount; i++)
-                {
-                    var item = discountSpecialList[i];
-                    item.reservation_name = viewModel.Reservation.name;
-                    viewModel.SpecialDiscountList.Add(item);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    viewModel.SpecialDiscountList.Add(new ReservationSpecialDiscountListModel());
-                }
-            }
-        }
+        }       
 
         public async Task LoadDiscounts()
         {
@@ -553,7 +344,7 @@ namespace ConasiCRM.Portable.Views
                 {
                     await DisplayAlert("Thông báo", "Tạo lịch thanh toán thành công.", "Đóng");
                     viewModel.InstallmentList.Clear();
-                    await LoadInstallments();
+                    await viewModel.LoadInstallments(ReservationId);
                     InitButtonGroup();
                 }
                 else
@@ -634,44 +425,75 @@ namespace ConasiCRM.Portable.Views
             }));
         }
 
-        private async void ViewCoOwner_Clicked(object sender, EventArgs e)
-        {
-            if (gridCoOwner.SelectedItem == null)
-            {
-                await DisplayAlert("Thông báo", "Vui lòng chọn Người đồng sở hữu muốn xóa", "Đóng");
-                return;
-            }
+        //private async void ViewCoOwner_Clicked(object sender, EventArgs e)
+        //{
+        //    if (gridCoOwner.SelectedItem == null)
+        //    {
+        //        await DisplayAlert("Thông báo", "Vui lòng chọn Người đồng sở hữu muốn xóa", "Đóng");
+        //        return;
+        //    }
 
-            var item = gridCoOwner.SelectedItem as ReservationCoowner;
+        //    var item = gridCoOwner.SelectedItem as ReservationCoowner;
 
-            await Navigation.PushAsync(new CoOwnerForm(item.bsd_coownerid));
-        }
+        //    await Navigation.PushAsync(new CoOwnerForm(item.bsd_coownerid));
+        //}
 
         // Xóa người đồng sở hữu
-        private async void BtnDeleteCoOwner_Clicked(object sender, EventArgs e)
-        {
-            if (gridCoOwner.SelectedItem == null)
-            {
-                await DisplayAlert("Thông báo", "Vui lòng chọn Người đồng sở hữu muốn xóa", "Đóng");
-                return;
-            }
+        //private async void BtnDeleteCoOwner_Clicked(object sender, EventArgs e)
+        //{
+        //    if (gridCoOwner.SelectedItem == null)
+        //    {
+        //        await DisplayAlert("Thông báo", "Vui lòng chọn Người đồng sở hữu muốn xóa", "Đóng");
+        //        return;
+        //    }
 
+        //    var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa người đồng sở hữu này không ?", "Đồng ý", "Hủy");
+        //    if (conform == false) return;
+        //    viewModel.IsBusy = true;
+        //    ReservationCoowner item = gridCoOwner.SelectedItem as ReservationCoowner;
+        //    var deleteResponse = await CrmHelper.DeleteRecord($"/bsd_coowners({item.bsd_coownerid})");
+        //    if (deleteResponse.IsSuccess)
+        //    {
+        //        // bỏ chọn vì đã xóa, ko là nó vẫn lưu
+        //        gridCoOwner.SelectedItem = null;
+        //        this.viewModel.CoownerList.Clear();
+        //        await viewModel.LoadCoOwners(ReservationId);
+        //    }
+        //    else
+        //    {
+        //        await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
+        //    }
+        //    viewModel.IsBusy = false;
+        //}
+
+        private async void DeleteNguoiDongSoHuu_Tapped(object sender, EventArgs e)
+        {
+            Label lblClicked = (Label)sender;
+            var a = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
+            ReservationCoowner item = a.CommandParameter as ReservationCoowner;
             var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa người đồng sở hữu này không ?", "Đồng ý", "Hủy");
             if (conform == false) return;
-            viewModel.IsBusy = true;
-            ReservationCoowner item = gridCoOwner.SelectedItem as ReservationCoowner;
+            viewModel.IsBusy = true;           
             var deleteResponse = await CrmHelper.DeleteRecord($"/bsd_coowners({item.bsd_coownerid})");
             if (deleteResponse.IsSuccess)
             {
                 // bỏ chọn vì đã xóa, ko là nó vẫn lưu
-                gridCoOwner.SelectedItem = null;
+               // gridCoOwner.SelectedItem = null;
                 this.viewModel.CoownerList.Clear();
-                await this.LoadCoOwners();
+                await viewModel.LoadCoOwners(ReservationId);
             }
             else
             {
                 await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
             }
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowMoreNguoiDongSoHuu_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageNguoiDongSoHuu++;
+            await viewModel.LoadCoOwners(ReservationId);
             viewModel.IsBusy = false;
         }
 
@@ -716,30 +538,60 @@ namespace ConasiCRM.Portable.Views
         }
 
         // Xóa điều kiện bàn giao
-        private async void BtnDeleteHandoverCondition_Clicked(object sender, EventArgs e)
-        {
-            if (gridHandoverCondition.SelectedItem == null)
-            {
-                await DisplayAlert("Thông báo", "Vui lòng chọn điều kiện bàn giao muốn xóa", "Đóng");
-                return;
-            }
+        //private async void BtnDeleteHandoverCondition_Clicked(object sender, EventArgs e)
+        //{
+        //    if (gridHandoverCondition.SelectedItem == null)
+        //    {
+        //        await DisplayAlert("Thông báo", "Vui lòng chọn điều kiện bàn giao muốn xóa", "Đóng");
+        //        return;
+        //    }
 
+        //    var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa điều kiện bàn giao này không ?", "Đồng ý", "Hủy");
+        //    if (conform == false) return;
+        //    viewModel.IsBusy = true;
+        //    ReservationHandoverCondition item = gridHandoverCondition.SelectedItem as ReservationHandoverCondition;
+        //    var deleteResponse = await CrmHelper.DeleteRecord($"/quotes({viewModel.Reservation.quoteid})/bsd_quote_bsd_packageselling({item.bsd_packagesellingid})/$ref");
+        //    if (deleteResponse.IsSuccess)
+        //    {
+        //        // bỏ chọn vì đã xóa, ko là nó vẫn lưu
+        //        gridHandoverCondition.SelectedItem = null;
+        //        this.viewModel.HandoverConditionList.Clear();
+        //        await this.LoadhandoverConditions();
+        //    }
+        //    else
+        //    {
+        //        await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
+        //    }
+        //    viewModel.IsBusy = false;
+        //}
+
+        private async void DeleteDieuKienBanGiao_Tapped(object sender, EventArgs e)
+        {
             var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa điều kiện bàn giao này không ?", "Đồng ý", "Hủy");
             if (conform == false) return;
-            viewModel.IsBusy = true;
-            ReservationHandoverCondition item = gridHandoverCondition.SelectedItem as ReservationHandoverCondition;
+            Label lblClicked = (Label)sender;
+            var a = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
+            ReservationHandoverCondition item = a.CommandParameter as ReservationHandoverCondition;            
+            viewModel.IsBusy = true;            
             var deleteResponse = await CrmHelper.DeleteRecord($"/quotes({viewModel.Reservation.quoteid})/bsd_quote_bsd_packageselling({item.bsd_packagesellingid})/$ref");
             if (deleteResponse.IsSuccess)
             {
-                // bỏ chọn vì đã xóa, ko là nó vẫn lưu
-                gridHandoverCondition.SelectedItem = null;
+                // bỏ chọn vì đã xóa, ko là nó vẫn lưu               
                 this.viewModel.HandoverConditionList.Clear();
-                await this.LoadhandoverConditions();
+                await viewModel.LoadhandoverConditions(ReservationId);
             }
             else
             {
                 await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
             }
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowMoreDieuKienBanGiao_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageDieuKienBanGiao++;
+            await viewModel.LoadhandoverConditions(ReservationId);
             viewModel.IsBusy = false;
         }
 
@@ -775,25 +627,119 @@ namespace ConasiCRM.Portable.Views
         }
 
         // Xóa khuyến mãi
-        private async void BtnDeletePromotion_Clicked(object sender, EventArgs e)
-        {
-            if (gridPromotions.SelectedItem == null)
-            {
-                await DisplayAlert("Thông báo", "Vui lòng chọn khuyến mại muốn xóa", "Đóng");
-                return;
-            }
+        //private async void BtnDeletePromotion_Clicked(object sender, EventArgs e)
+        //{
+        //    if (gridPromotions.SelectedItem == null)
+        //    {
+        //        await DisplayAlert("Thông báo", "Vui lòng chọn khuyến mại muốn xóa", "Đóng");
+        //        return;
+        //    }
 
+        //    var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa khuyến mại này không ?", "Đồng ý", "Hủy");
+        //    if (conform == false) return;
+        //    viewModel.IsBusy = true;
+        //    ReservationPromotionModel item = gridPromotions.SelectedItem as ReservationPromotionModel;
+        //    var deleteResponse = await CrmHelper.DeleteRecord($"/quotes({viewModel.Reservation.quoteid})/bsd_quote_bsd_promotion({item.bsd_promotionid})/$ref");
+        //    if (deleteResponse.IsSuccess)
+        //    {
+        //        // bỏ chọn vì đã xóa, ko là nó vẫn lưu
+        //        gridPromotions.SelectedItem = null;
+        //        this.viewModel.PromotionList.Clear();
+        //        await viewModel.LoadPromotions(ReservationId);
+        //    }
+        //    else
+        //    {
+        //        await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
+        //    }
+        //    viewModel.IsBusy = false;
+        //}
+        
+        private async void DeleteKhuyenMai_Tapped(object sender, EventArgs e)
+        {
             var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa khuyến mại này không ?", "Đồng ý", "Hủy");
             if (conform == false) return;
+            Label lblClicked = (Label)sender;
+            var a = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
+            ReservationPromotionModel item = a.CommandParameter as ReservationPromotionModel;
             viewModel.IsBusy = true;
-            ReservationPromotionModel item = gridPromotions.SelectedItem as ReservationPromotionModel;
             var deleteResponse = await CrmHelper.DeleteRecord($"/quotes({viewModel.Reservation.quoteid})/bsd_quote_bsd_promotion({item.bsd_promotionid})/$ref");
             if (deleteResponse.IsSuccess)
             {
                 // bỏ chọn vì đã xóa, ko là nó vẫn lưu
-                gridPromotions.SelectedItem = null;
+                //gridPromotions.SelectedItem = null;
                 this.viewModel.PromotionList.Clear();
-                await this.LoadPromotions();
+                await viewModel.LoadPromotions(ReservationId);
+            }
+            else
+            {
+                await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
+            }
+            viewModel.IsBusy = false;
+        }
+        private async void ShowMoreKhuyenMai_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageKhuyenMai++;
+            await viewModel.LoadPromotions(ReservationId);
+            viewModel.IsBusy = false;
+        }
+
+        // xóa chiết khấu đặc biệt
+        //private async void BtnDeleteSpecicalDiscount_Clicked(object sender, EventArgs e)
+        //{
+        //    if (gridSpecialDiscount.SelectedItem == null)
+        //    {
+        //        await DisplayAlert("Thông báo", "Vui lòng chọn chiết khấu muốn xóa", "Đóng");
+        //        return;
+        //    }
+
+        //    var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa chiết khấu này không ?", "Đồng ý", "Hủy");
+        //    if (conform == false) return;
+        //    viewModel.IsBusy = true;
+        //    ReservationSpecialDiscountListModel item = gridSpecialDiscount.SelectedItem as ReservationSpecialDiscountListModel;
+        //    var deleteResponse = await CrmHelper.DeleteRecord($"/bsd_discountspecials({item.bsd_discountspecialid})");
+        //    if (deleteResponse.IsSuccess)
+        //    {
+        //        // bỏ chọn vì đã xóa, ko là nó vẫn lưu
+        //        gridSpecialDiscount.SelectedItem = null;
+        //        this.viewModel.SpecialDiscountList.Clear();
+        //        await viewModel.LoadSpecialDiscounts(ReservationId);
+        //    }
+        //    else
+        //    {
+        //        await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
+        //    }
+        //    viewModel.IsBusy = false;
+        //}      
+
+        // xem chiết khấu đặc biệt
+        //private async void BtnViewSpecicalDiscount_Clicked(object sender, EventArgs e)
+        //{
+        //    if (gridSpecialDiscount.SelectedItem == null)
+        //    {
+        //        await DisplayAlert("Thông báo", "Chọn chiết khấu muốn xem", "Đóng");
+        //        return;
+        //    }
+
+        //    var selectedItem = gridSpecialDiscount.SelectedItem as ReservationSpecialDiscountListModel;
+        //    await Navigation.PushAsync(new SpecialDiscountForm(selectedItem.bsd_discountspecialid));
+        //}
+
+        private async void DeleteChietKhauDacBiet_Tapped(object sender, EventArgs e)
+        {
+            Label lblClicked = (Label)sender;
+            var a = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];          
+            ReservationSpecialDiscountListModel item = a.CommandParameter as ReservationSpecialDiscountListModel;
+            var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa chiết khấu này không ?", "Đồng ý", "Hủy");
+            if (conform == false) return;
+            viewModel.IsBusy = true;
+            var deleteResponse = await CrmHelper.DeleteRecord($"/bsd_discountspecials({item.bsd_discountspecialid})");
+            if (deleteResponse.IsSuccess)
+            {
+                // bỏ chọn vì đã xóa, ko là nó vẫn lưu
+                //gridSpecialDiscount.SelectedItem = null;
+                this.viewModel.SpecialDiscountList.Clear();
+                await viewModel.LoadSpecialDiscounts(ReservationId);
             }
             else
             {
@@ -802,31 +748,11 @@ namespace ConasiCRM.Portable.Views
             viewModel.IsBusy = false;
         }
 
-        // xóa chiết khấu đặc biệt
-        private async void BtnDeleteSpecicalDiscount_Clicked(object sender, EventArgs e)
+        private async void ShowMoreChietKhauDacBiet_Clicked(object sender, EventArgs e)
         {
-            if (gridSpecialDiscount.SelectedItem == null)
-            {
-                await DisplayAlert("Thông báo", "Vui lòng chọn chiết khấu muốn xóa", "Đóng");
-                return;
-            }
-
-            var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa chiết khấu này không ?", "Đồng ý", "Hủy");
-            if (conform == false) return;
             viewModel.IsBusy = true;
-            ReservationSpecialDiscountListModel item = gridSpecialDiscount.SelectedItem as ReservationSpecialDiscountListModel;
-            var deleteResponse = await CrmHelper.DeleteRecord($"/bsd_discountspecials({item.bsd_discountspecialid})");
-            if (deleteResponse.IsSuccess)
-            {
-                // bỏ chọn vì đã xóa, ko là nó vẫn lưu
-                gridSpecialDiscount.SelectedItem = null;
-                this.viewModel.SpecialDiscountList.Clear();
-                await this.LoadSpecialDiscounts();
-            }
-            else
-            {
-                await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
-            }
+            viewModel.PageChietKhauDacBiet++;
+            await viewModel.LoadSpecialDiscounts(ReservationId);
             viewModel.IsBusy = false;
         }
 
@@ -838,19 +764,6 @@ namespace ConasiCRM.Portable.Views
                 Id = ReservationId,
                 Name = viewModel.Reservation.name
             }));
-        }
-
-        // xem chiết khấu đặc biệt
-        private async void BtnViewSpecicalDiscount_Clicked(object sender, EventArgs e)
-        {
-            if (gridSpecialDiscount.SelectedItem == null)
-            {
-                await DisplayAlert("Thông báo", "Chọn chiết khấu muốn xem", "Đóng");
-                return;
-            }
-
-            var selectedItem = gridSpecialDiscount.SelectedItem as ReservationSpecialDiscountListModel;
-            await Navigation.PushAsync(new SpecialDiscountForm(selectedItem.bsd_discountspecialid));
         }
 
         // khi check chon discount trong thong tin chiet khau
@@ -994,5 +907,13 @@ namespace ConasiCRM.Portable.Views
             viewModel.BtnAccount.Clicked -= AccountOpen;
             viewModel.gridCustomer.IsVisible = false;
         }
+
+        private async void ShowMoreLichThanhToan_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageLichThanhToan++;
+            await viewModel.LoadInstallments(ReservationId);
+            viewModel.IsBusy = false;
+        }        
     }
 }

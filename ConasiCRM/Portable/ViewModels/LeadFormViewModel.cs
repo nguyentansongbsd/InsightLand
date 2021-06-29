@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using ConasiCRM.Portable.Config;
 using System.Net.Http.Headers;
 using System.Net;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace ConasiCRM.Portable.ViewModels
 {
@@ -68,10 +70,8 @@ namespace ConasiCRM.Portable.ViewModels
         public ObservableCollection<LookUp> list_district_lookup { get; set; }
 
         public ObservableCollection<OptionSet> list_gender_optionset { get; set; }
-        public ObservableCollection<OptionSet> list_industrycode_optionset { get; set; }
-
-        private ObservableCollection<Provinces> _list_nhucauvediadiem;
-        public ObservableCollection<Provinces> list_nhucauvediadiem { get { return _list_nhucauvediadiem; } set { _list_nhucauvediadiem = value; OnPropertyChanged(nameof(list_nhucauvediadiem)); } }
+        public ObservableCollection<OptionSet> list_industrycode_optionset { get; set; }       
+        public ObservableCollection<Provinces> list_nhucauvediadiem { get; set; }
 
         public ObservableCollection<LeadsRating> list_leadrating { get; set; }
 
@@ -90,6 +90,16 @@ namespace ConasiCRM.Portable.ViewModels
         public ObservableCollection<ProjectList> list_project_lookup { set; get; }
 
         public LeadCheckData single_Leadcheck;
+
+        private bool _showMoreNhuCauDiaDiem;
+        public bool ShowMoreNhuCauDiaDiem { get => _showMoreNhuCauDiaDiem; set { _showMoreNhuCauDiaDiem = value; OnPropertyChanged(nameof(ShowMoreNhuCauDiaDiem)); } }
+
+        public int PageNhuCauDiaDiem { get; set; } = 1;
+
+        private bool _showMoreDuAnQuanTam;
+        public bool ShowMoreDuAnQuanTam { get => _showMoreDuAnQuanTam; set { _showMoreDuAnQuanTam = value; OnPropertyChanged(nameof(ShowMoreDuAnQuanTam)); } }
+
+        public int PageDuAnQuanTam { get; set; } = 1;
 
         public LeadFormViewModel()
         {
@@ -128,7 +138,7 @@ namespace ConasiCRM.Portable.ViewModels
             Dudiemdanhgia = new Diemdanhgia();
             list_Duanquantam = new ObservableCollection<ProjectList>();
             list_project_lookup = new ObservableCollection<ProjectList>();
-            single_Leadcheck = new LeadCheckData();
+            single_Leadcheck = new LeadCheckData();         
 
             this.loadGender();
             this.loadIndustrycode();
@@ -591,7 +601,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task Load_NhuCauVeDiaDiem(string leadid)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageNhuCauDiaDiem}' output-format='xml-platform' mapping='logical' distinct='false'>
                                 <entity name='new_province'>
                                     <attribute name='new_name' />
                                     <attribute name='createdon' />
@@ -614,6 +624,17 @@ namespace ConasiCRM.Portable.ViewModels
             {
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
                 return;
+            }
+
+            var data = result.value;
+
+            if (data.Count < 3)
+            {
+                ShowMoreNhuCauDiaDiem = false;
+            }
+            else
+            {
+                ShowMoreNhuCauDiaDiem = true;
             }
 
             foreach (var x in result.value)
@@ -691,13 +712,11 @@ namespace ConasiCRM.Portable.ViewModels
                 return;
             }
             this.Dudiemdanhgia = tmp;
-
-
         }
 
         public async Task Load_DanhSachDuAn(string leadid)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageDuAnQuanTam}' output-format='xml-platform' mapping='logical' distinct='false'>
                               <entity name='bsd_project'>
                                 <attribute name='bsd_name' />
                                 <attribute name='bsd_projectcode' />
@@ -716,6 +735,17 @@ namespace ConasiCRM.Portable.ViewModels
             {
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
                 return;
+            }
+
+            var data = result.value;
+
+            if (data.Count <= 3)
+            {
+                ShowMoreDuAnQuanTam = false;
+            }
+            else
+            {
+                ShowMoreDuAnQuanTam = true;
             }
 
             foreach (var x in result.value)
@@ -936,6 +966,6 @@ namespace ConasiCRM.Portable.ViewModels
                 list_district_lookup.Add(x);
             }
 
-        }
+        }       
     }
 }

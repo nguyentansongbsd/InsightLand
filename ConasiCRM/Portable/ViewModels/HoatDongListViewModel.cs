@@ -8,6 +8,7 @@ namespace ConasiCRM.Portable.ViewModels
 {
     public class HoatDongListViewModel : ListViewBaseViewModel2<HoatDongListModel>
     {
+        public string Keyword { get; set; }
         public HoatDongListViewModel()
         {
             PreLoadData = new Command(() =>
@@ -37,6 +38,9 @@ namespace ConasiCRM.Portable.ViewModels
                     <value>2</value>
                   </condition>
                   <condition attribute='isregularactivity' operator='eq' value='1' />
+                </filter>
+                <filter type='and'>
+                   <condition attribute='subject' operator='like' value='%{Keyword}%' />
                 </filter>
                 <link-entity name='activityparty' from='activityid' to='activityid' link-type='inner' alias='aa'>
                   <filter type='and'>

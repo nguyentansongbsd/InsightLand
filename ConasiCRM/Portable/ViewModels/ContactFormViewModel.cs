@@ -84,6 +84,35 @@ namespace ConasiCRM.Portable.ViewModels
         public bool checkbirth;
         public bool checkbirthy;
 
+        private bool _showMoreNhuCauDiaDiem;
+        public bool ShowMoreNhuCauDiaDiem { get => _showMoreNhuCauDiaDiem; set { _showMoreNhuCauDiaDiem = value; OnPropertyChanged(nameof(ShowMoreNhuCauDiaDiem)); } }
+
+        public int PageNhuCauDiaDiem { get; set; } = 1;
+
+        private bool _showMoreDanhSachDatCho;
+        public bool ShowMoreDanhSachDatCho { get => _showMoreDanhSachDatCho; set { _showMoreDanhSachDatCho = value; OnPropertyChanged(nameof(ShowMoreDanhSachDatCho)); } }
+
+        public int PageDanhSachDatCho { get; set; } = 1;
+
+        private bool _showMoreDanhSachDatCoc;
+        public bool ShowMoreDanhSachDatCoc { get => _showMoreDanhSachDatCoc; set { _showMoreDanhSachDatCoc = value; OnPropertyChanged(nameof(ShowMoreDanhSachDatCoc)); } }
+
+        public int PageDanhSachDatCoc { get; set; } = 1;
+
+        private bool _showMoreDanhSachHopDong;
+        public bool ShowMoreDanhSachHopDong { get => _showMoreDanhSachHopDong; set { _showMoreDanhSachHopDong = value; OnPropertyChanged(nameof(ShowMoreDanhSachHopDong)); } }
+
+        public int PageDanhSachHopDong { get; set; } = 1;
+
+        private bool _showMoreChamSocKhachHang;
+        public bool ShowMoreChamSocKhachHang { get => _showMoreChamSocKhachHang; set { _showMoreChamSocKhachHang = value; OnPropertyChanged(nameof(ShowMoreChamSocKhachHang)); } }
+        public int PageChamSocKhachHang { get; set; } = 1;
+       
+        private bool _showMoreDuAnQuanTam;
+        public bool ShowMoreDuAnQuanTam { get => _showMoreDuAnQuanTam; set { _showMoreDuAnQuanTam = value; OnPropertyChanged(nameof(ShowMoreDuAnQuanTam)); } }
+
+        public int PageDuAnQuanTam { get; set; } = 1;
+
         public ContactFormViewModel()
         {
             singleContact = new ContactFormModel();
@@ -491,7 +520,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task Load_NhuCauVeDiaDiem(string contactid)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageNhuCauDiaDiem}' output-format='xml-platform' mapping='logical' distinct='false'>
                                 <entity name='new_province'>
                                     <attribute name='new_name' />
                                     <attribute name='createdon' />
@@ -515,6 +544,18 @@ namespace ConasiCRM.Portable.ViewModels
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
                 return;
             }
+
+            var data = result.value;
+
+            if (data.Count <= 3)
+            {
+                ShowMoreNhuCauDiaDiem = false;
+            }
+            else
+            {
+                ShowMoreNhuCauDiaDiem = true;
+            }
+
             foreach (var x in result.value)
             {
                 list_nhucauvediadiem.Add(x);
@@ -745,8 +786,6 @@ namespace ConasiCRM.Portable.ViewModels
             }
         }
 
-
-
         public void resetProvince()
         {
             list_province_lookup = new ObservableCollection<LookUp>();
@@ -821,10 +860,9 @@ namespace ConasiCRM.Portable.ViewModels
 
         ///////// DANH SACH DAT CHO AREA
         /// //////////////////
-
-        public async Task<ObservableCollection<QueueListModel>> LoadQueuesForContactForm(string customerId)
+        public async Task LoadQueuesForContactForm(string customerId)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageDanhSachDatCho}' output-format='xml-platform' mapping='logical' distinct='false'>
                               <entity name='opportunity'>
                                 <attribute name='opportunityid' />
                                 <attribute name='customerid' alias='customer_id' />
@@ -837,7 +875,7 @@ namespace ConasiCRM.Portable.ViewModels
                                 <attribute name='createdon' />
                                 <order attribute='actualclosedate' descending='true' />
                                 <filter type='and'>
-                                  <condition attribute='customerid' operator='eq' value='{" + customerId + @"}' />
+                                  <condition attribute='customerid' operator='eq' value='{customerId}' />
                                 </filter>
                                 <link-entity name='contact' from='contactid' to='customerid' visible='false' link-type='outer'>
                                     <attribute name='fullname'  alias='contact_name'/>
@@ -853,22 +891,32 @@ namespace ConasiCRM.Portable.ViewModels
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<QueueListModel>>("opportunities", fetch);
             if (result == null)
             {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return null;
+               // await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
+                return;
             }
-            foreach (var x in result.value)
+            var data = result.value;
+
+            if (data.Count < 3)
+            {
+                ShowMoreDanhSachDatCho = false;
+            }
+            else
+            {
+                ShowMoreDanhSachDatCho = true;
+            }
+
+            foreach (var x in data)
             {
                 list_danhsachdatcho.Add(x);
             }
-            return list_danhsachdatcho;
         }
+
 
         //////////// DANH SACH DAT COC AREA
         /// ////////////////////
-
-        public async Task<ObservableCollection<QuotationReseravtion>> LoadReservationForContactForm(string customerId)
+        public async Task LoadReservationForContactForm(string customerId)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageDanhSachDatCoc}' output-format='xml-platform' mapping='logical' distinct='false'>
                           <entity name='quote'>
                             <attribute name='quoteid' />
                             <attribute name='bsd_projectid' />
@@ -880,7 +928,7 @@ namespace ConasiCRM.Portable.ViewModels
                             <attribute name='createdon' />
                             <order attribute='createdon' descending='true' />
                             <filter type='and'>
-                              <condition attribute='customerid' operator='eq' value='{" + customerId + @"}' />
+                              <condition attribute='customerid' operator='eq' value='{customerId}' />
                             </filter>
                             <link-entity name='contact' from='contactid' to='customerid' visible='false' link-type='outer'>
                                 <attribute name='fullname'  alias='customerid_label_contact'/>
@@ -903,22 +951,32 @@ namespace ConasiCRM.Portable.ViewModels
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<QuotationReseravtion>>("quotes", fetch);
             if (result == null)
             {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return null;
+               // await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
+                return;
             }
-            foreach (var x in result.value)
+            var data = result.value;
+
+            if (data.Count < 3)
+            {
+                ShowMoreDanhSachDatCoc = false;
+            }
+            else
+            {
+                ShowMoreDanhSachDatCoc = true;
+            }
+
+            foreach (var x in data)
             {
                 list_danhsachdatcoc.Add(x);
             }
-            return list_danhsachdatcoc;
         }
 
         ////////// DANH SACH HOP DONG AREA
         /// /////////////////////////
 
-        public async Task<ObservableCollection<OptionEntry>> LoadOptoinEntryForContactForm(string customerId)
+        public async Task LoadOptoinEntryForContactForm(string customerId)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageDanhSachHopDong}' output-format='xml-platform' mapping='logical' distinct='false'>
                           <entity name='salesorder'>
                             <attribute name='salesorderid' />
                             <attribute name='bsd_optionno' />
@@ -928,7 +986,7 @@ namespace ConasiCRM.Portable.ViewModels
                             <attribute name='createdon' />
                             <order attribute='bsd_signingexpired' descending='true' />
                             <filter type='and'>
-                              <condition attribute='customerid' operator='eq' value='{" + customerId + @"}' />
+                              <condition attribute='customerid' operator='eq' value='{customerId}' />
                             </filter>
                             <link-entity name='contact' from='contactid' to='customerid' visible='false' link-type='outer'>
                                 <attribute name='fullname'  alias='customerid_label_contact'/>
@@ -950,24 +1008,34 @@ namespace ConasiCRM.Portable.ViewModels
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<OptionEntry>>("salesorders", fetch);
             if (result == null)
             {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return null;
+               // await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
+                return;
             }
-            foreach (var x in result.value)
+            var data = result.value;
+
+            if (data.Count < 3)
+            {
+                ShowMoreDanhSachHopDong = false;
+            }
+            else
+            {
+                ShowMoreDanhSachHopDong = true;
+            }
+
+            foreach (var x in data)
             {
                 if (x.statuscode != "100000006") { optionEntryHasOnlyTerminatedStatus = false; }
                 list_danhsachhopdong.Add(x);
             }
-            return list_danhsachhopdong;
         }
 
         ///////////// CHAM SOC KHACH HANG
         /// ////////////////////////
 
 
-        public async Task<ObservableCollection<Case>> LoadCaseForContactForm(string customerId)
+        public async Task LoadCaseForContactForm(string customerId)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageChamSocKhachHang}' output-format='xml-platform' mapping='logical' distinct='false'>
                           <entity name='incident'>
                             <attribute name='title' alias='title_label'/>
                             <attribute name='ticketnumber' />
@@ -978,7 +1046,7 @@ namespace ConasiCRM.Portable.ViewModels
                             <attribute name='prioritycode' />
                             <order attribute='title' descending='false' />
                             <filter type='and'>
-                              <condition attribute='customerid' operator='eq' value='{" + customerId + @"}' />
+                              <condition attribute='customerid' operator='eq' value='{customerId}' />
                             </filter>
                             <link-entity name='contact' from='contactid' to='customerid' visible='false' link-type='outer'>
                                 <attribute name='fullname'  alias='customerid_label_contact'/>
@@ -991,14 +1059,24 @@ namespace ConasiCRM.Portable.ViewModels
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Case>>("incidents", fetch);
             if (result == null)
             {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return null;
+                //await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
+                return;
             }
-            foreach (var x in result.value)
+            var data = result.value;
+
+            if (data.Count <= 3)
+            {
+                ShowMoreChamSocKhachHang = false;
+            }
+            else
+            {
+                ShowMoreChamSocKhachHang = true;
+            }
+
+            foreach (var x in data)
             {
                 list_chamsockhachhang.Add(x);
             }
-            return list_chamsockhachhang;
         }
 
         //////// HINH ANH CMND SHAREPOINT AREA
@@ -1163,7 +1241,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task Load_DanhSachDuAn(string contactid)
         {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' count='3' page='{PageDuAnQuanTam}' output-format='xml-platform' mapping='logical' distinct='false'>
                               <entity name='bsd_project'>
                                 <attribute name='bsd_name' />
                                 <attribute name='bsd_projectcode' />
@@ -1182,6 +1260,17 @@ namespace ConasiCRM.Portable.ViewModels
             {
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
                 return;
+            }
+
+            var data = result.value;
+
+            if (data.Count <= 3)
+            {
+                ShowMoreDuAnQuanTam = false;
+            }
+            else
+            {
+                ShowMoreDuAnQuanTam = true;
             }
 
             foreach (var x in result.value)

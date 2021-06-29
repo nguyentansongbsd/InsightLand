@@ -16,17 +16,37 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FollowDetailPage : ContentPage
     {
-        FollowDetailPageViewModel viewModel;
+        public FollowDetailPageViewModel viewModel;
+        public Action<bool> OnLoaded;
+
         public FollowDetailPage(string id)
         {
             InitializeComponent();
+            this.BindingContext = viewModel = new FollowDetailPageViewModel();
             Init(id);            
         }
 
         private async void Init(string id)
         {
-            this.BindingContext = viewModel = new FollowDetailPageViewModel();
-            await viewModel.Load(id);           
+            await viewModel.Load(id);
+
+            if (viewModel.FollowDetail.name_quote != null)
+            {
+                nameWork.Text = "Phiếu đặt cọc: ";
+            }
+            else if (viewModel.FollowDetail.name_salesorder != null)
+            {
+                nameWork.Text = "Hợp đồng: ";
+            }
+
+            if (viewModel.FollowDetail != null)
+            {
+                OnLoaded?.Invoke(true);
+            }
+            else
+            {
+                OnLoaded?.Invoke(false);
+            }
         }           
     }
 }

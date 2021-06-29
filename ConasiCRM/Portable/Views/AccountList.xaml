@@ -6,12 +6,16 @@
              xmlns:controls="clr-namespace:ConasiCRM.Controls"
              x:Class="ConasiCRM.Portable.Views.AccountList">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="NewMenu" Order="Primary" Clicked="NewMenu_Clicked" Icon="plus.png" Text="New Account" Priority="1"/>
+        <ToolbarItem Name="NewMenu" Order="Primary" Clicked="NewMenu_Clicked" Priority="1">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="FontAwesomeSolid" Color="White" Glyph="&#xf067;" Size="Large"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <AbsoluteLayout>
             <Grid RowDefinitions="Auto,*" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <SearchBar Grid.Row="0" Placeholder="Keyword"/>
+                <SearchBar Grid.Row="0" Text="{Binding Keyword}" Placeholder="Từ khoá" SearchButtonPressed="SearchBar_SearchButtonPressed" TextChanged="SearchBar_TextChanged"/>
                 <controls:BsdListView x:Name="listView" Grid.Row="1" ItemsSource="{Binding Data}" HasUnevenRows="True" ItemTapped="listView_ItemTapped">
                     <controls:BsdListView.ItemTemplate>
                         <DataTemplate>
@@ -56,40 +60,9 @@
                     </controls:BsdListView.ItemTemplate>
                 </controls:BsdListView>
             </Grid>
-            <ContentView x:Name="popup_loading"
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All"
-                IsVisible="{Binding IsBusy}"
-                BackgroundColor="#C0808080">
-
-                <ActivityIndicator
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    IsRunning="{Binding IsBusy}"
-                    IsVisible="{Binding IsBusy}" Color="#000000">
-                </ActivityIndicator>
+            <ContentView x:Name="popup_loading" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080">
+                <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True" Color="#000000"/> 
             </ContentView>
         </AbsoluteLayout>
-        <!--<Grid Padding="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Frame CornerRadius="0" Padding="0" HasShadow="False" BorderColor="{StaticResource SearchBarBorderColor}" Grid.Row="0">
-                <SearchBar x:Name="searchBar" BackgroundColor="{StaticResource SearchBarBG}" Text="{Binding Keyword}" Placeholder="Nhập từ khóa tìm kiếm..." />
-            </Frame>
-            <bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding Data}" LoadOnDemandMode="{Binding LoadOnDemandMode}" >
-                <telerikDataGrid:RadDataGrid.Columns>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="name" HeaderText="Tên công ty" />
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_companycode" HeaderText="Mã công ty"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="primarycontact_name" HeaderText="NĐDPL"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="telephone1" HeaderText="Số điện thoại" />
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_registrationcode" HeaderText="Số GPKD"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_vatregistrationnumber" HeaderText="Mã số thuế"/>
-                    <telerikDataGrid:DataGridTextColumn PropertyName="bsd_address" HeaderText="Địa chỉ"/>
-                </telerikDataGrid:RadDataGrid.Columns>
-            </bsdGrid:BsdRadDataGrid>
-            <ActivityIndicator IsRunning="{Binding IsBusy}" x:Name="activityIndicator" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-        </Grid>-->
     </ContentPage.Content>
 </ContentPage>
