@@ -5,9 +5,6 @@
              xmlns:controls="clr-namespace:ConasiCRM.Controls"
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
              x:Class="ConasiCRM.Portable.Views.ListTaiLieuKinhDoanh">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <AbsoluteLayout>
             <Grid RowDefinitions="Auto,*" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">

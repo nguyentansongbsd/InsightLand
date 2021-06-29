@@ -5,9 +5,6 @@
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
              xmlns:controls="clr-namespace:ConasiCRM.Controls"
              x:Class="ConasiCRM.Portable.Views.PhiMoGioiList">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:InformationLabelConverter x:Key="InformationLabelConverter"/>

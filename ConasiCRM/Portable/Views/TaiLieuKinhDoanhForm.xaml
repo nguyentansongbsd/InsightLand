@@ -16,180 +16,231 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-    <StackLayout>
         <AbsoluteLayout>
-            <StackLayout Spacing=".5" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Padding="5">
-            <ScrollView>
+            <ScrollView AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
                 <StackLayout>
-                    <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
+                    <Label Text="Thông Tin Tài Liệu Kinh Doanh" TextColor="Black" Padding="15,10" FontSize="16" FontAttributes="Bold" BackgroundColor="#F3F3F3"/>
+                    <StackLayout BackgroundColor="#dddddd" Spacing="1">
+                        <Grid ColumnDefinitions="Auto,*" BackgroundColor="White" Padding="10">
+                            <controls:FormLabel Grid.Column="0" Text="Tiêu đề: "/>
+                            <controls:FormLabelValue Grid.Column="1" Text="{Binding TaiLieuKinhDoanh.name}"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="Auto,*" BackgroundColor="White" Padding="10">
+                            <controls:FormLabel Grid.Column="0" Text="Dự án: "/>
+                            <controls:FormLabelValue Grid.Column="1" Text="{Binding TaiLieuKinhDoanh.subjecttitle}"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="Auto,*" BackgroundColor="White" Padding="10">
+                            <controls:FormLabel Grid.Column="0" Text="Loại: "/>
+                            <controls:FormLabelValue Grid.Column="1" Text="{Binding TaiLieuKinhDoanh.literaturetypecode_format}"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="Auto,*" BackgroundColor="White" Padding="10">
+                            <controls:FormLabel Grid.Column="0" Text="Mô tả: "/>
+                            <controls:FormLabelValue Grid.Column="1" Text="{Binding TaiLieuKinhDoanh.description}"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <!--DATAGRID THONG TIN UNIT   -->
+                    <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
                         <telerikPrimitives:RadExpander.Header>
                             <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
-                                <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Tài Liệu Kinh Doanh"/>
+                                <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Căn Hộ"/>
                             </telerikPrimitives:ExpanderHeader>
                         </telerikPrimitives:RadExpander.Header>
                         <telerikPrimitives:RadExpander.Content>
-                            <StackLayout BackgroundColor="#cecece" Padding=".8">
-                                <Grid BackgroundColor="#ffffff" Padding="10" RowSpacing="0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="48"/>
-                                        <RowDefinition Height="48"/>
-                                        <RowDefinition Height="48"/>
-                                        <RowDefinition Height="48"/>
-                                            
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="6*"/>
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="0">        
-                                        <Label  Text="Tiêu đề" Font="15" />
-                                        <Label HorizontalTextAlignment="End"  Text="*" TextColor="#fb0000" Font="15" />
-                                    </StackLayout>
-                                    <Label  Text="{Binding TaiLieuKinhDoanh.name}" FontSize="15"  Grid.Column="1" Grid.Row="0"/>
-                                    
-                                    <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="1"> 
-                                        <Label  Text="Dự án" Font="15" />
-                                        <Label HorizontalTextAlignment="End"  Text="*" TextColor="#fb0000" Font="15" />
-                                    </StackLayout>
-                                    <Label Text="{Binding TaiLieuKinhDoanh.subjecttitle}" FontSize="15"  Grid.Column="1" Grid.Row="1"/>
-                                    
-                                    <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="2"> 
-                                        <Label  Text="Loại" Font="15" />
-                                    </StackLayout>
-                                    <Label  Text="{Binding TaiLieuKinhDoanh.literaturetypecode_format}" FontSize="15"  Grid.Column="1" Grid.Row="2"/>
-                                    
-                                    <StackLayout Orientation="Horizontal" Spacing="2" Grid.Column="0" Grid.Row="3">     
-                                        <Label  Text="Mô tả" Font="15" />
-                                    </StackLayout>
-                                    <Label  Text="{Binding TaiLieuKinhDoanh.description}" FontSize="15"  Grid.Column="1" Grid.Row="3"/>                                    
-                                        
-                                </Grid>
+                            <StackLayout Spacing="0">
+                                <StackLayout BindableLayout.ItemsSource="{Binding list_thongtinunit}" BackgroundColor="#dddddd" Spacing="1">
+                                    <BindableLayout.EmptyViewTemplate>
+                                        <DataTemplate>
+                                            <Label Text="Không có dữ liệu" TextColor="Black" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
+                                        </DataTemplate>
+                                    </BindableLayout.EmptyViewTemplate>
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackLayout BackgroundColor="White" Padding="10,5">
+                                                <Grid ColumnDefinitions="*,Auto">
+                                                    <Label Grid.Column="0" Text="{Binding bsd_projectname}" TextColor="#333333" FontAttributes="Bold" FontSize="16"/>
+                                                    <Label Grid.Column="1" Text="{Binding createdonformat}" FontSize="15" TextColor="Gray"/>
+                                                </Grid>
+                                                <Label FontSize="16">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Mã Units: " TextColor="#555555"/>
+                                                            <Span Text="{Binding name}" TextColor="#333333"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label FontSize="16">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Mã Units(SAMS): " TextColor="#555555"/>
+                                                            <Span Text="{Binding bsd_unitscodesams}" TextColor="#333333"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label FontSize="16">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Trạng Thái: " TextColor="#555555"/>
+                                                            <Span Text="{Binding statuscodevalue}" TextColor="#333333"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label FontSize="16">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Mô Tả: " TextColor="#555555"/>
+                                                            <Span Text="{Binding description}" TextColor="#333333"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+                                <BoxView HeightRequest="1" BackgroundColor="LightGray"/>
+                                <Button Text="Xem thêm" Clicked="ShowMoreThongTinUnit_Clicked" IsVisible="{Binding ShowMoreThongTinUnit}" Margin="0,10" BorderWidth="1" BorderColor="#1399D5" TextColor="#1399D5" CornerRadius="10" BackgroundColor="White" HeightRequest="40" HorizontalOptions="Center"/>
                             </StackLayout>
                         </telerikPrimitives:RadExpander.Content>
-               </telerikPrimitives:RadExpander>   
-                        
-                        
-          <!--DATAGRID THONG TIN UNIT   -->            
-          <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
-            <telerikPrimitives:RadExpander.Header>
-                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
-                    <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Căn Hộ"/>
-                </telerikPrimitives:ExpanderHeader>
-            </telerikPrimitives:RadExpander.Header>
-            <telerikPrimitives:RadExpander.Content>
-                <StackLayout x:Name="stacklayout_thongtinunit">
-                    <bsdGrid:BsdRadDataGrid x:Name="datagrid_thongtinunit" ItemsSource="{Binding list_thongtinunit}">
-                        <telerikDataGrid:RadDataGrid.Columns>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="name" HeaderText="Mã Units"/>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="bsd_projectname" HeaderText="Dự Án"/>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="description" HeaderText="Mô Tả"/>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="bsd_unitscodesams" HeaderText="Mã Units(SAMS)"/>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="statuscodevalue" HeaderText="Trạng Thái"/>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="createdonformat" HeaderText="Ngày Tạo">
-                                <telerikGrid:DataGridTextColumn.CellContentStyle>
-                                    <telerikGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
-                                </telerikGrid:DataGridTextColumn.CellContentStyle>
-                            </telerikDataGrid:DataGridTextColumn>
-                        </telerikDataGrid:RadDataGrid.Columns>
-                    </bsdGrid:BsdRadDataGrid>
-               </StackLayout>
-            </telerikPrimitives:RadExpander.Content>
-       </telerikPrimitives:RadExpander>  
-                        
-       <!--DATAGRID THONG TIN DU AN CANH TRANH   -->            
-          <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
-            <telerikPrimitives:RadExpander.Header>
-                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
-                    <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Dự Án Cạnh Tranh"/>
-                </telerikPrimitives:ExpanderHeader>
-            </telerikPrimitives:RadExpander.Header>
-            <telerikPrimitives:RadExpander.Content>
-                <StackLayout x:Name="stacklayout_thongtinduancanhtranh">
-                    <bsdGrid:BsdRadDataGrid x:Name="datagrid_thongtinduancanhtranh" ItemsSource="{Binding list_thongtinduancanhtranh}">
-                        <telerikDataGrid:RadDataGrid.Columns>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="name" HeaderText="Tiêu Đề"/>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="websiteurl" HeaderText="Website"/>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="strengths" HeaderText="Điểm Mạnh"/>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="weaknesses" HeaderText="Điểm Yếu"/>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="createdonformat" HeaderText="Ngày Tạo">
-                                <telerikGrid:DataGridTextColumn.CellContentStyle>
-                                    <telerikGrid:DataGridTextCellStyle HorizontalTextAlignment="End"/>
-                                </telerikGrid:DataGridTextColumn.CellContentStyle>
-                            </telerikDataGrid:DataGridTextColumn>
-                        </telerikDataGrid:RadDataGrid.Columns>
-                    </bsdGrid:BsdRadDataGrid>
-                </StackLayout>
-            </telerikPrimitives:RadExpander.Content>
-         </telerikPrimitives:RadExpander>  
+                    </telerikPrimitives:RadExpander>
 
-        <!--DATAGRID SALES LITERATURE ITEM   -->            
-          <telerikPrimitives:RadExpander x:Name="expander_salesliteratureitem" IsExpanded="True" AutomationId="masterCardExpander">
-            <telerikPrimitives:RadExpander.Header>
-                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                        <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Tài Liệu" HorizontalOptions="FillAndExpand"/>
-                        <ImageButton Source="btn_download.png" IsVisible="{Binding Path=IsExpanded,Source={x:Reference expander_salesliteratureitem}}" Clicked="DownloadFileButton_Cliked" HorizontalOptions="EndAndExpand" VerticalOptions="Fill" BackgroundColor="Transparent"/>
-                    </StackLayout>
-                </telerikPrimitives:ExpanderHeader>
-            </telerikPrimitives:RadExpander.Header>
-            <telerikPrimitives:RadExpander.Content>
-                <StackLayout x:Name="stacklayout_salesliteratureitem">
-                    <bsdGrid:BsdRadDataGrid x:Name="datagrid_salesliteratureitem" ItemsSource="{Binding list_salesliteratureitem}" SelectionMode="Multiple">
-                        <telerikDataGrid:RadDataGrid.Columns>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="title_label" HeaderText="Tiêu Đề"/>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="filename" HeaderText="Tên Tệp"/>
-                            <telerikDataGrid:DataGridTextColumn PropertyName="modifiedon" HeaderText="Ngày Sửa Đổi"/>
-                        </telerikDataGrid:RadDataGrid.Columns>
-                    </bsdGrid:BsdRadDataGrid>
-                </StackLayout>
-            </telerikPrimitives:RadExpander.Content>
-         </telerikPrimitives:RadExpander>  
-                            
-            </StackLayout>  
-          </ScrollView>
-       </StackLayout>
-                
-        <!--<controls:ModalContentView Padding="40,0" IsVisible="false" x:Name="popup_dowload_file">
-            <StackLayout>
-                <ListView x:Name="listview_download_file" RowHeight="48" HasUnevenRows="true" BackgroundColor="White" ItemsSource="{Binding list_salesliteratureitem}" IsEnabled="false" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Padding="5,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                    <Label Text="{Binding filename}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"/>
-                                    <Image Source="{Binding statusImage}" HeightRequest="40" HorizontalOptions="End" VerticalOptions="Center"/>
+                    <!--DATAGRID THONG TIN DU AN CANH TRANH   -->
+                    <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Dự Án Cạnh Tranh"/>
+                            </telerikPrimitives:ExpanderHeader>
+                        </telerikPrimitives:RadExpander.Header>
+                        <telerikPrimitives:RadExpander.Content>
+                            <StackLayout Spacing="0">
+                                <StackLayout BindableLayout.ItemsSource="{Binding list_thongtinduancanhtranh}" BackgroundColor="#dddddd" Spacing="1">
+                                    <BindableLayout.EmptyViewTemplate>
+                                        <DataTemplate>
+                                            <Label Text="Không có dữ liệu" TextColor="Black" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
+                                        </DataTemplate>
+                                    </BindableLayout.EmptyViewTemplate>
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackLayout BackgroundColor="White" Padding="10,5">
+                                                <Grid ColumnDefinitions="*,Auto">
+                                                    <Label Grid.Column="0" Text="{Binding name}" TextColor="#333333" FontAttributes="Bold" FontSize="16"/>
+                                                    <Label Grid.Column="1" Text="{Binding createdonformat}" FontSize="15" TextColor="Gray"/>
+                                                </Grid>
+                                                <Label FontSize="16">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Website: " TextColor="#555555"/>
+                                                            <Span Text="{Binding websiteurl}" TextColor="#333333"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label FontSize="16">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Điểm Mạnh: " TextColor="#555555"/>
+                                                            <Span Text="{Binding strengths}" TextColor="#333333"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label FontSize="16">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Điểm Yếu: " TextColor="#555555"/>
+                                                            <Span Text="{Binding weaknesses}" TextColor="#333333"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
                                 </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackLayout>
-        </controls:ModalContentView>-->
-                
-        <controls:MyListViewMenu IsVisible="false" 
-                                 Title="Danh Sách Tệp Tải Xuống" 
-                                 isTapable="false" 
-                                 ItemSource="{Binding list_salesliteratureitem}" 
-                                 ItemTapped="ListViewFileDownloaded_Tapped"
-                                 x:Name="popup_dowload_file">
-            <controls:MyListViewMenu.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Padding="20,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Label Text="{Binding filename}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"/>
-                            <Label Text="{Binding statusLabel}" VerticalTextAlignment="Center" TextColor="{Binding statusColor}" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="50"/>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </controls:MyListViewMenu.ItemTemplate>
-        </controls:MyListViewMenu>
-                
-        <controls:ModalContentView IsVisible="{Binding IsBusy}">
-            <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-        </controls:ModalContentView>    
-                
+                                <BoxView HeightRequest="1" BackgroundColor="LightGray"/>
+                                <Button Text="Xem thêm" Clicked="ShowMoreDuAnCanhTranh_Clicked" IsVisible="{Binding ShowMoreDuAnCanhTranh}" Margin="0,10" BorderWidth="1" BorderColor="#1399D5" TextColor="#1399D5" CornerRadius="10" BackgroundColor="White" HeightRequest="40" HorizontalOptions="Center"/>
+                            </StackLayout>
+                        </telerikPrimitives:RadExpander.Content>
+                    </telerikPrimitives:RadExpander>
+
+                    <!--DATAGRID SALES LITERATURE ITEM   -->
+                    <telerikPrimitives:RadExpander x:Name="expander_salesliteratureitem" IsExpanded="False" AutomationId="masterCardExpander">
+                        <telerikPrimitives:RadExpander.Header>
+                            <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Tài Liệu" HorizontalOptions="FillAndExpand"/>
+                                    <Label Text="&#xf07c;" FontFamily="FontAwesomeSolid" FontSize="16" Padding="10,5" TextColor="Black" HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="ShowFileDownLoad_Tapped"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                                
+                            </telerikPrimitives:ExpanderHeader>
+                        </telerikPrimitives:RadExpander.Header>
+                        <telerikPrimitives:RadExpander.Content>
+                            <StackLayout Spacing="0">
+                                <StackLayout BindableLayout.ItemsSource="{Binding list_salesliteratureitem}" BackgroundColor="#dddddd" Spacing="1">
+                                    <BindableLayout.EmptyViewTemplate>
+                                        <DataTemplate>
+                                            <Label Text="Không có dữ liệu" TextColor="Black" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
+                                        </DataTemplate>
+                                    </BindableLayout.EmptyViewTemplate>
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackLayout BackgroundColor="White" Padding="10,5">
+                                                <Grid ColumnDefinitions="*,Auto">
+                                                    <Label Grid.Column="0" Text="{Binding title_label}" TextColor="#333333" FontAttributes="Bold" FontSize="16"/>
+                                                    <Label Grid.Column="1" Text="&#xf56d;" FontFamily="FontAwesomeSolid" FontSize="16" TextColor="#444444" Padding="5">
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="DownloadFileButton_Cliked" CommandParameter="{Binding .}"/>
+                                                        </Label.GestureRecognizers>
+                                                    </Label>
+                                                </Grid>
+                                                
+                                                <Label FontSize="16">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Tên Tệp: " TextColor="#555555"/>
+                                                            <Span Text="{Binding filename}" TextColor="#333333"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label FontSize="16">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Ngày Sửa Đổi: " TextColor="#555555"/>
+                                                            <Span Text="{Binding modifiedon}" TextColor="#333333"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+                                <BoxView HeightRequest="1" BackgroundColor="LightGray"/>
+                                <Button Text="Xem thêm" Clicked="ShowMoreTaiLieu_Clicked" IsVisible="{Binding ShowMoreTaiLieu}" Margin="0,10" BorderWidth="1" BorderColor="#1399D5" TextColor="#1399D5" CornerRadius="10" BackgroundColor="White" HeightRequest="40" HorizontalOptions="Center"/>
+                            </StackLayout>
+                        </telerikPrimitives:RadExpander.Content>
+                    </telerikPrimitives:RadExpander>
+
+                </StackLayout>
+            </ScrollView>
+
+            <controls:MyListViewMenu x:Name="popup_dowload_file" IsVisible="false" Title="Danh Sách Tệp Tải Xuống"  isTapable="false" ItemTapped="ListViewFileDownloaded_Tapped" >
+                <controls:MyListViewMenu.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="20,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Label Text="{Binding filename}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"/>
+                                <Label Text="{Binding statusLabel}" VerticalTextAlignment="Center" TextColor="{Binding statusColor}" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="50"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </controls:MyListViewMenu.ItemTemplate>
+            </controls:MyListViewMenu>
+
+            <controls:ModalContentView IsVisible="{Binding IsBusy}">
+                <ActivityIndicator IsRunning="True" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+            </controls:ModalContentView>
+
         </AbsoluteLayout>
-      </StackLayout>
     </ContentPage.Content>
 </ContentPage>

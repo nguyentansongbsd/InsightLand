@@ -283,16 +283,6 @@
                                             </BindableLayout.ItemTemplate>
                                         </StackLayout>
                                         <Button Clicked="ShowMoreNhuCauDiaDiem_Clicked" IsVisible="{Binding ShowMoreNhuCauDiaDiem}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
-                                        <!--<bsdGrid:BsdRadDataGrid ItemsSource="{Binding list_nhucauvediadiem}" x:Name="datagrid_nhucavediadiem">
-                                            <telerikGrid:RadDataGrid.Columns>
-                                                <telerikGrid:DataGridTextColumn PropertyName="bsd_priority" HeaderText="Priority"/>
-                                                <telerikGrid:DataGridTextColumn PropertyName="new_id" HeaderText="ID"/>
-                                                <telerikGrid:DataGridTextColumn PropertyName="bsd_provincename" HeaderText="Province Name"/>
-                                                <telerikGrid:DataGridTextColumn PropertyName="new_name" HeaderText="Name"/>
-                                                <telerikGrid:DataGridTextColumn PropertyName="bsd_countries" HeaderText="Country"/>
-                                                <telerikGrid:DataGridTextColumn PropertyName="createdon" HeaderText="Creted On"/>
-                                            </telerikGrid:RadDataGrid.Columns>
-                                        </bsdGrid:BsdRadDataGrid>-->
                                     </StackLayout>
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
@@ -334,18 +324,6 @@
                                         </BindableLayout.ItemTemplate>
                                     </StackLayout>
                                     <Button Clicked="ShowMoreDuAnQuanTam_Clicked" IsVisible="{Binding ShowMoreDuAnQuanTam}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
-                                    <!--<bsdGrid:BsdRadDataGrid ItemsSource="{Binding list_Duanquantam}" x:Name="datagrid_duanquantam">
-                                        <telerikGrid:RadDataGrid.Columns>
-                                            <telerikGrid:DataGridTextColumn PropertyName="bsd_projectcode" HeaderText="Project Code"/>
-                                            <telerikGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Name"/>
-                                            <telerikGrid:DataGridDateColumn PropertyName="bsd_acttopdate" HeaderText="Actual TOP Date"/>
-                                            <telerikGrid:DataGridDateColumn PropertyName="bsd_esttopdate" HeaderText="Estimate TOP Date"/>
-                                            <telerikGrid:DataGridNumericalColumn PropertyName="bsd_landvalueofproject" 
-                                                                                 CellContentFormat="{}{0,0:C0}" 
-                                                                                 HeaderText="Land Value of Project"/>
-
-                                        </telerikGrid:RadDataGrid.Columns>
-                                    </bsdGrid:BsdRadDataGrid>-->
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>

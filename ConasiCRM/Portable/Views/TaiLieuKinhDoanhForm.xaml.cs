@@ -25,23 +25,26 @@ namespace ConasiCRM.Portable.Views
     public partial class TaiLieuKinhDoanhForm : ContentPage
     {
         public Action<bool> CheckTaiLieuKinhDoanh;
-        private Guid salesliteratureid;
+        
         public TaiLieuKinhDoanhFormViewModel viewModel;
 
         public TaiLieuKinhDoanhForm(Guid literatureid)
         {
             InitializeComponent();
             BindingContext = viewModel = new TaiLieuKinhDoanhFormViewModel();
-
-            salesliteratureid = literatureid;
-            viewModel.IsBusy = true;
+            viewModel.salesliteratureid = literatureid;
             Init();          
         }
 
         private async void Init()
         {
-            await loadData();
-            if(viewModel.TaiLieuKinhDoanh != null)
+            await viewModel.loadData();
+            await viewModel.loadUnit();
+            await viewModel.loadDoiThuCanhTranh();
+            await viewModel.loadAllSalesLiteratureIten();
+            viewModel.IsBusy = false;
+
+            if (viewModel.TaiLieuKinhDoanh != null)
             {
                 CheckTaiLieuKinhDoanh(true);
             }
@@ -50,154 +53,7 @@ namespace ConasiCRM.Portable.Views
                 CheckTaiLieuKinhDoanh(false);
             }
         }
-        public async Task loadData()
-        {
-            string xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                            <entity name='salesliterature'>
-                                 <all-attributes/>
-                                 <order attribute='name' descending='false' />
-                                 <filter type='and'>
-                                    <condition attribute='salesliteratureid' operator='eq' value='" + salesliteratureid + @"' />
-                                 </filter>
-                                <link-entity name='subject' from='subjectid' to='subjectid' visible='false' link-type='outer' >
-                                  <attribute name='title' alias='subjecttitle'/>
-                                </link-entity>
-                              </entity>
-                          </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<TaiLieuKinhDoanhFormModel>>("salesliteratures", xml);
-            var data = result.value.FirstOrDefault();
-            if (data == null)
-            {              
-                await DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }            
-
-            viewModel.TaiLieuKinhDoanh = data;
-            await loadUnit(salesliteratureid);
-            await loadDoiThuCanhTranh(salesliteratureid);
-            await loadAllSalesLiteratureIten(salesliteratureid);
-
-            if (viewModel.list_thongtinunit.Count < 3)
-            {
-                for (int i = viewModel.list_thongtinunit.Count; i < 3; i++)
-                {
-                    viewModel.list_thongtinunit.Add(new ListInforUnitTLKD());
-                }
-            }
-
-            if (viewModel.list_thongtinduancanhtranh.Count < 3)
-            {
-                for (int i = viewModel.list_thongtinduancanhtranh.Count; i < 3; i++)
-                {
-                    viewModel.list_thongtinduancanhtranh.Add(new ListInforDoithucanhtranhTLKD());
-                }
-            }
-            
-            if (viewModel.list_salesliteratureitem.Count == 0)
-            {
-                for (int i = viewModel.list_salesliteratureitem.Count; i < 3; i++)
-                {
-                    viewModel.list_salesliteratureitem.Add(new SalesLiteratureItemListModel());
-                }
-            }
-
-            viewModel.IsBusy = false;
-        }
-
-        public async Task loadUnit(Guid salesliteratureid)
-        {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                            <entity name='product'>
-                                <all-attributes/>
-                                <link-entity name='productsalesliterature' intersect='true' visible='false' to='productid' from='productid'>
-                                    <link-entity name='salesliterature' to='salesliteratureid' from='salesliteratureid' alias='ab'>
-                                        <filter type='and'>
-                                            <condition attribute='salesliteratureid' value='" + salesliteratureid + @"' uitype='salesliterature' operator='eq'/>
-                                        </filter>
-                                    </link-entity>
-                                </link-entity>
-                                <link-entity name='bsd_project' from='bsd_projectid' to='bsd_projectcode' visible='false' link-type='outer' >
-                                  <attribute name='bsd_name' alias='bsd_projectname'/>
-                                </link-entity>
-                                </entity>
-                             </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ListInforUnitTLKD>>("products", fetch);
-            //if (result == null)
-            //{
-            //    await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-            //    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-            //}
-            var data = result.value;
-            if (data.Any())
-            {
-                foreach (var item in data)
-                {
-                    viewModel.list_thongtinunit.Add(item);
-                }
-            }
-        }
-
-        public async Task loadDoiThuCanhTranh(Guid salesliteratureid)
-        {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                                <entity name='competitor'>
-                                  <all-attributes/>
-                                  <link-entity name='competitorsalesliterature' intersect='true' visible='false' to='competitorid' from='competitorid'>
-                                      <link-entity name='salesliterature' to='salesliteratureid' from='salesliteratureid' alias='ab'>
-                                          <filter type='and'>
-                                              <condition attribute='salesliteratureid' value='" + salesliteratureid + @"' uitype='salesliterature' operator='eq'/>
-                                          </filter>
-                                      </link-entity>
-                                  </link-entity>
-                                </entity>
-                             </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ListInforDoithucanhtranhTLKD>>("competitors", fetch);
-            //if (result == null)
-            //{
-            //    await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-            //    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-            //}
-            var data = result.value;
-            if (data.Any())
-            {
-                foreach (var item in data)
-                {
-                    viewModel.list_thongtinduancanhtranh.Add(item);
-                }
-            }
-        }
-
-        public async Task loadAllSalesLiteratureIten(Guid salesliteratureid)
-        {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                                  <entity name='salesliteratureitem'>
-                                    <attribute name='title' alias='title_label' />
-                                    <attribute name='modifiedon' />
-                                    <attribute name='salesliteratureitemid' />
-                                    <attribute name='filename' />
-                                    <order attribute='modifiedon' descending='false' />
-                                    <filter type='and'>
-                                        <condition attribute='salesliteratureid' operator='eq' value='{" + salesliteratureid + @"}' />
-                                    </filter>
-                                  </entity>
-                                </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<SalesLiteratureItemListModel>>("salesliteratureitems", fetch);
-            //if (result == null)
-            //{
-            //    await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-            //    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-            //}
-
-            var data = result.value;
-            if (data.Any())
-            {
-                foreach (var item in data)
-                {
-                    viewModel.list_salesliteratureitem.Add(item);
-                }
-            }
-        }
-
+        
         public async Task<bool> downloadFile_salesliteratureitem(Guid salesliteratureitemid)
         {
             string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
@@ -215,58 +71,45 @@ namespace ConasiCRM.Portable.Views
             {
                 return false;
             }
-            //if (result == null)
-            //{
-            //    await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-            //    await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-            //}
+
             var data = result.value.FirstOrDefault();
 
             var fileName = data.filename;
+            if (data.documentbody == null)
+            {
+                return false;
+            }
             var body = data.documentbody;
 
             byte[] arr = Convert.FromBase64String(body);
             MemoryStream stream = new MemoryStream(arr);
-
-            //FileService.SaveFile(fileName, arr);
 
             DependencyService.Get<IFileService>().SaveFile(fileName, arr, "Download/Conasi");
 
             return true;
         }
 
-        async void DownloadFileButton_Cliked(object sender, System.EventArgs e)
+        private async void DownloadFileButton_Cliked(object sender, System.EventArgs e)
         {
-            if(datagrid_salesliteratureitem.SelectedItems.Count == 0)
+            if (await PermissionHelper.CheckPermissions(permissionType.Storage) == permissionStatus.Granted)
             {
-                await DisplayAlert("", "Chọn tệp để tải", "OK");
-            }
-            else
-            {
-                if (await PermissionHelper.CheckPermissions(permissionType.Storage) == permissionStatus.Granted)
+                viewModel.IsBusy = true;
+                var item = (SalesLiteratureItemListModel)((sender as Label).GestureRecognizers[0] as TapGestureRecognizer).CommandParameter;
+                
+                var res = await this.downloadFile_salesliteratureitem(item.salesliteratureitemid);
+                if (res)
                 {
+                    item.status = 1;
+                    viewModel.list_DownLoad.Add(item);
+                    popup_dowload_file.ItemSource = viewModel.list_DownLoad;
                     popup_dowload_file.focus();
-                    popup_dowload_file.ItemSource = datagrid_salesliteratureitem.SelectedItems;
-                    foreach (var t in datagrid_salesliteratureitem.SelectedItems)
-                    {
-                        var data = t as SalesLiteratureItemListModel;
-                        if (data.salesliteratureitemid != Guid.Empty && data.status != 1)
-                        {
-                            var res = await this.downloadFile_salesliteratureitem(data.salesliteratureitemid);
-                            if (res)
-                            {
-                                data.status = 1;
-                            }
-                            else
-                            {
-                                data.status = 2;
-                            }
-                        }
-                    }
-                    popup_dowload_file.isTapable = true;
-
                 }
-                    
+                else
+                {
+                    await DisplayAlert("", "Lỗi. Vui lòng thử lại", "Ok");
+                }
+                popup_dowload_file.isTapable = true;
+                viewModel.IsBusy = false;
             }
         }
 
@@ -275,7 +118,7 @@ namespace ConasiCRM.Portable.Views
             SalesLiteratureItemListModel item = e.Item as SalesLiteratureItemListModel;
             this.popup_dowload_file.SelectedItem = null;
             //DisplayAlert("", item.filename, "OK");
-            if(item.status == 1)
+            if (item.status == 1)
             {
                 try
                 {
@@ -283,21 +126,12 @@ namespace ConasiCRM.Portable.Views
                 }
                 catch
                 {
-                    DisplayAlert("","Ứng dụng không được hỗ trợ. Không thể mở file","OK");
+                    DisplayAlert("", "Ứng dụng không được hỗ trợ. Không thể mở file", "OK");
                 }
-                
             }
             else
             {
-                foreach (var t in datagrid_salesliteratureitem.SelectedItems)
-                {
-                    var data = t as SalesLiteratureItemListModel;
-                    if (data.salesliteratureitemid != Guid.Empty && data.status != 1)
-                    {
-                        data.status = 0;
-                    }
-                }
-                DownloadFileButton_Cliked(null, null);
+                
             }
         }
 
@@ -310,6 +144,46 @@ namespace ConasiCRM.Portable.Views
             }
 
             return base.OnBackButtonPressed();
+        }
+
+        private async void ShowMoreThongTinUnit_Clicked(object sender,EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageThongTinUnit++;
+            await viewModel.loadUnit();
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowMoreDuAnCanhTranh_Clicked(object sender,EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageDuAnCanhTranh++;
+            await viewModel.loadDoiThuCanhTranh();
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowMoreTaiLieu_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageTaiLieu++;
+            await viewModel.loadAllSalesLiteratureIten();
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowFileDownLoad_Tapped(object sender,EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            if (viewModel.list_DownLoad.Count ==0)
+            {
+                await DisplayAlert("", "Chưa có file nào đươc tải", "Ok");
+            }
+            else
+            {
+                popup_dowload_file.focus();
+                popup_dowload_file.isTapable = true;
+            }
+
+            viewModel.IsBusy = false;
         }
     }
 }
