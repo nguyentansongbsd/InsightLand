@@ -47,7 +47,7 @@
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="FontSize" Value="16"/>
-                <Setter Property="BackgroundColor" Value="#039EBD"/>
+                <Setter Property="BackgroundColor" Value="Gray"/>
                 <Setter Property="Padding" Value="10"/>
             </Style>
             <Style x:Key="TitleContentFormTextStyle" TargetType="Label">
@@ -71,69 +71,41 @@
         <ScrollView BackgroundColor="White">
             <StackLayout>
                 <Label Text="Thông Tin Cơ Bản" TextColor="Black" Padding="15,10" FontSize="18" FontAttributes="Bold" BackgroundColor="#F3F3F3"/>
-                <StackLayout Padding="10,10,10,15">
-                    <Label FontSize="15" >
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Tiêu đề: " TextColor="#777777"/>
-                                <Span Text="{Binding FollowDetail.bsd_followuplistcode}" TextColor="#333333"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                <StackLayout BackgroundColor="#dddddd" Spacing="1">
+                    <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                        <controls:FormLabel Grid.Column="0" Text="Tiêu đề: "/>
+                        <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.bsd_followuplistcode}" />
+                    </Grid>
 
-                    <Label FontSize="15" >
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Tên: " TextColor="#777777"/>
-                                <Span Text="{Binding FollowDetail.bsd_name}" TextColor="#333333"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                    <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                        <controls:FormLabel Grid.Column="0" Text="Tên: "/>
+                        <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.bsd_name}" />
+                    </Grid>
 
-                    <Label FontSize="15" >
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Ngày: " TextColor="#777777"/>
-                                <Span Text="{Binding FollowDetail.createdon,StringFormat='{0:dd/MM/yyyy}'}" TextColor="#333333"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                    <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                        <controls:FormLabel Grid.Column="0" Text="Ngày: "/>
+                        <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.createdon,StringFormat='{0:dd/MM/yyyy}'}" />
+                    </Grid>
 
-                    <Label FontSize="15" >
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Loại: " TextColor="#777777"/>
-                                <Span Text="{Binding FollowDetail.type}" TextColor="#333333"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                    <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                        <controls:FormLabel Grid.Column="0" Text="Loại: "/>
+                        <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.type}"/>
+                    </Grid>
 
-                    <Label FontSize="15" >
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Nhóm: " TextColor="#777777"/>
-                                <Span Text="{Binding FollowDetail.bsd_group,Converter={StaticResource groupConverter}}" TextColor="#333333"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                    <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                        <controls:FormLabel Grid.Column="0" Text="Nhóm: "/>
+                        <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.bsd_group,Converter={StaticResource groupConverter}}"/>
+                    </Grid>
 
-                    <Label FontSize="15" IsVisible="{Binding FollowDetail.name_work, Converter={StaticResource nullToHideConverter}}" >
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span x:Name="nameWork" Text="Phiếu đặt cọc: " TextColor="#777777"/>
-                                <Span Text="{Binding FollowDetail.name_work}" TextColor="#333333"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                    <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                        <controls:FormLabel x:Name="nameWork" Grid.Column="0"  Text="Phiếu đặt cọc: "/>
+                        <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.name_work}"/>
+                    </Grid>
 
-                    <Label FontSize="15" IsVisible="{Binding FollowDetail.customer, Converter={StaticResource nullToHideConverter}}">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Khách hàng: " TextColor="#777777"/>
-                                <Span Text="{Binding FollowDetail.customer}" TextColor="#333333"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                    <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                        <controls:FormLabel Grid.Column="0"  Text="Khách hàng: "/>
+                        <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.customer}"/>
+                    </Grid>
                 </StackLayout>
 
                 <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
@@ -142,79 +114,36 @@
                             <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Chi Tiết"/>
                         </telerikPrimitives:ExpanderHeader>
                     </telerikPrimitives:RadExpander.Header>
-
                     <telerikPrimitives:RadExpander.Content>
-                        <StackLayout Padding="10">
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Grid.Column="0">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Dự án" Style="{StaticResource InforTitleTextStyle}"/>
-                                                <Span Text="*" Style="{StaticResource InforTitleIconStyle}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_name_project}" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Grid.Column="0">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Toà nhà/Khu" Style="{StaticResource InforTitleTextStyle}"/>
-                                                <Span Text="*" Style="{StaticResource InforTitleIconStyle}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Column="1" Text="Toà nhà/Khu" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Grid.Column="0">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Tầng" Style="{StaticResource InforTitleTextStyle}"/>
-                                                <Span Text="*" Style="{StaticResource InforTitleIconStyle}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Column="1" Text="Tiêu đề" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Grid.Column="0">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Căn hộ" Style="{StaticResource InforTitleTextStyle}"/>
-                                                <Span Text="*" Style="{StaticResource InforTitleIconStyle}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Column="1" Text="Tiêu đề" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Text="Bảng giá" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.totallineitemamount_base_quote}" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Text="Biên độ chênh lệch diện tích (+/-)%" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="Tiêu đề" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Padding="10">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Text="Giá bán" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.totalamount_quote}" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
+                        <StackLayout BackgroundColor="#dddddd" Spacing="1">
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Grid.Column="0" Text="Dự án: "/>
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.bsd_name_project}" />
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Grid.Column="0" Text="Toà nhà/Khu: "/>
+                                <controls:FormLabelValue x:Name="lblToaNha" Grid.Column="1" Text="{Binding FollowDetail.block}"/>
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Grid.Column="0" Text="Tầng: " />
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.floor}" />
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Grid.Column="0" Text="Căn hộ: "/>
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.productnumber_unit}" />
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Text="Bảng giá: " Grid.Column="0" />
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.price_unit,StringFormat='{0:#,0.#0} đ'}" />
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Text="Biên độ chênh lệch diện tích (+/-)%: " Grid.Column="0" />
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.bsd_areavariance_unit,StringFormat='{0}%'}" />
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Text="Giá bán: " Grid.Column="0" />
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.bsd_sellingprice_base,StringFormat='{0:#,0.#0} đ'}" />
+                            </Grid>
                         </StackLayout>
                     </telerikPrimitives:RadExpander.Content>
                 </telerikPrimitives:RadExpander>
@@ -226,43 +155,36 @@
                         </telerikPrimitives:ExpanderHeader>
                     </telerikPrimitives:RadExpander.Header>
                     <telerikPrimitives:RadExpander.Content>
-                        <StackLayout  Padding="10">
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Text="Ngày hết hạn" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_expiredate,StringFormat='{0}dd/MM/yyyy'}" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Text="Tổng số tiền" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="Tiêu đề" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Text="Đã thanh lý" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="{Binding FollowDetail.bsd_bookingfee_project}" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Text="Phương thức đền bù" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="Tiêu đề" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Style="{StaticResource BorderItemStyle}">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Text="Giá trị đền bù" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="Tiêu đề" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder Padding="10">
-                                <Grid ColumnDefinitions="135,*">
-                                    <Label Text="Tổng giá trị đền bù" Grid.Column="0" Style="{StaticResource InforTitleTextStyle}"/>
-                                    <Label Grid.Column="1" Text="Tiêu đề" Style="{StaticResource InforContentTextStyle}"/>
-                                </Grid>
-                            </telerikPrimitives:RadBorder>
+                        <StackLayout BackgroundColor="#dddddd" Spacing="1">
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Grid.Column="0" Text="Ngày hết hạn: "/>
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.createdon,StringFormat='{0:dd/MM/yyyy}'}" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Grid.Column="0" Text="Tổng số tiền: "/>
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.bsd_totalamount_base,StringFormat='{0:#,#.0} đ'}" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Grid.Column="0" Text="Đã thanh lý: "/>
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.bsd_totalamountpaid_base,StringFormat='{0:#,0.#0} đ'}"/>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Grid.Column="0" Text="Phương thức đền bù: "/>
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.takeoutmoney}"/>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Grid.Column="0" Text="Giá trị đền bù: "/>
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.bsd_forfeitureamount_base,StringFormat='{0:#,0.#0} đ'}"/>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="Auto,*" Padding="10" BackgroundColor="White">
+                                <controls:FormLabel Grid.Column="0" Text="Tổng giá trị đền bù: "/>
+                                <controls:FormLabelValue Grid.Column="1" Text="{Binding FollowDetail.bsd_totalforfeitureamount_base,StringFormat='{0:#,0.#0} đ'}"/>
+                            </Grid>
                         </StackLayout>
                     </telerikPrimitives:RadExpander.Content>
                 </telerikPrimitives:RadExpander>
@@ -281,19 +203,19 @@
                                     <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
                                         <Label Text="Thông báo thanh lý" Grid.Row="0" Grid.Column="0" Style="{StaticResource TitleContentFormTextStyle}"/>
                                         <Label Text="Thanh lý" Grid.Row="1" Grid.Column="0" Style="{StaticResource TitleContentFormTextStyle}"/>
-                                        <CheckBox Color="Black" Grid.Row="0" Grid.Column="1"/>
-                                        <CheckBox Color="Black" IsChecked="True" Grid.Row="1" Grid.Column="1"/>
+                                        <CheckBox Color="Black" Grid.Row="0" Grid.Column="1" IsEnabled="False" IsChecked="{Binding FollowDetail.bsd_terminateletter}"/>
+                                        <CheckBox Color="Black" IsChecked="{Binding FollowDetail.bsd_termination}" IsEnabled="False" Grid.Row="1" Grid.Column="1"/>
                                     </Grid>
                                 </StackLayout>
                             </telerikPrimitives:RadBorder>
-                            <telerikPrimitives:RadBorder BorderThickness="1" BorderColor="Gray" Margin="0,5,0,5" BackgroundColor="White">
+                            <telerikPrimitives:RadBorder IsVisible="{Binding FollowDetail.resell,Converter={StaticResource nullToHideConverter}}" BorderThickness="1" BorderColor="Gray" Margin="0,5,0,5" BackgroundColor="White">
                                 <StackLayout>
                                     <Label Text="Bán lại" Style="{StaticResource TitleFormTextStyle}"/>
                                     <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
                                         <Label Text="Bán lại" Grid.Row="0" Grid.Column="0" Style="{StaticResource TitleContentFormTextStyle}"/>
                                         <Label Text="Đợt mở bán" Grid.Row="1" Grid.Column="0" Style="{StaticResource TitleContentFormTextStyle}"/>
-                                        <Label Text="Không" Grid.Row="0" Grid.Column="1" Style="{StaticResource ContentFormTextStyle}"/>
-                                        <Label  Grid.Row="1" Grid.Column="1" Style="{StaticResource ContentFormTextStyle}"/>
+                                        <Label Text="{Binding FollowDetail.resell}" Grid.Row="0" Grid.Column="1" Style="{StaticResource ContentFormTextStyle}"/>
+                                        <Label  Grid.Row="1" Grid.Column="1" Text="{Binding FollowDetail.bsd_name_dotmoban}" Style="{StaticResource ContentFormTextStyle}"/>
                                     </Grid>
                                 </StackLayout>
                             </telerikPrimitives:RadBorder>
@@ -303,8 +225,8 @@
                                     <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
                                         <Label Text="Họp xử lý" Grid.Row="0" Grid.Column="0" Style="{StaticResource TitleContentFormTextStyle}"/>
                                         <Label Text="Ý kiến và quyết định" Grid.Row="1" Grid.Column="0" Style="{StaticResource TitleContentFormTextStyle}"/>
-                                        <Entry Grid.Row="0" Grid.Column="1" FontSize="16"/>
-                                        <Entry Grid.Row="1" Grid.Column="1" FontSize="16"/>
+                                        <Entry Grid.Row="0" Grid.Column="1" FontSize="16" IsEnabled="False"/>
+                                        <Entry Grid.Row="1" Grid.Column="1" FontSize="16" IsEnabled="False"/>
                                     </Grid>
                                 </StackLayout>
                             </telerikPrimitives:RadBorder>

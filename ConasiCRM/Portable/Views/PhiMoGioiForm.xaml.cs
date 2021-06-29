@@ -17,51 +17,28 @@ namespace ConasiCRM.Portable.Views
 	public partial class PhiMoGioiForm : ContentPage
 	{
         public Action<bool> CheckPhiMoGioi;
-        private Guid idPhiMoGioi;
         public PhiMoGioiFormViewModel viewModel;
 		public PhiMoGioiForm (Guid idPMG)
 		{
 			InitializeComponent ();
             BindingContext = viewModel = new PhiMoGioiFormViewModel();
-            this.idPhiMoGioi = idPMG;
-            viewModel.IsBusy = true;
+            viewModel.idPhiMoGioi = idPMG;
             Init();
-           // Task.Run(loadData);
 		}
 
         private async void Init()
         {
-            await loadData();
+            await viewModel.loadData();
+
             if(viewModel.PhiMoGioi != null)
+            {
+                labelsoluong.IsVisible = txt_soluongtu.IsVisible = viewModel.PhiMoGioi.bsd_quantityfrom == 0 ? false : true;
+                labelsoluongden.IsVisible = txt_soluongden.IsVisible = viewModel.PhiMoGioi.bsd_quantityto == 0 ? false : true;
                 CheckPhiMoGioi(true);
+            }
+                
             else
                 CheckPhiMoGioi(false);
-        }
-
-        public async Task loadData()
-        {
-            string xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                              <entity name='bsd_brokeragefees'>
-                                  <all-attributes/>
-                                  <order attribute='bsd_name' descending='false' />
-                                  <filter type='and'>
-                                      <condition attribute='bsd_brokeragefeesid' operator='eq' value='" + idPhiMoGioi + @"' />
-                                  </filter>
-                                  <link-entity name='bsd_project' from='bsd_projectid' to='bsd_project' visible='false' link-type='outer' alias='project'>
-                                    <attribute name='bsd_name' alias='project_bsd_name'/>
-                                    <attribute name='bsd_projectid' />
-                                  </link-entity>
-                              </entity>
-                          </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<PhiMoGioiFormModel>>("bsd_brokeragefeeses", xml);
-            var data = result.value.FirstOrDefault();
-            if (data == null)
-            {               
-                await DisplayAlert("Thông báo", "Thông tin chi tiết của phí mô giới không tìm thấy !", "Đóng");
-                return;
-            }          
-            viewModel.PhiMoGioi = data;
-            viewModel.IsBusy = false;
         }
     }
 }

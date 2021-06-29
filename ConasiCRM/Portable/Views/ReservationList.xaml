@@ -7,9 +7,6 @@
              xmlns:reservationConverter="clr-namespace:ConasiCRM.Portable.Converters.Reservation"
              xmlns:controls="clr-namespace:ConasiCRM.Controls"     
              x:Class="ConasiCRM.Portable.Views.ReservationList">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:DateFormatConverter x:Key="DateFormatConverter" />
@@ -32,24 +29,24 @@
                                     <Label Grid.Row="0" Grid.Column="0" LineBreakMode="TailTruncation">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="{Binding bsd_projectid_name}" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                                                <Span Text="{Binding purchaser}" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
                                                 <Span Text="{Binding statuscode_format,Converter={StaticResource InformationLabelConverter}}" FontSize="18"/>
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Row="1" Grid.Column="0" FontSize="16" LineBreakMode="TailTruncation">
+                                    <Label FontSize="16" Grid.Row="1" Grid.Column="0" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Dự án: "/>
+                                                <Span Text="{Binding bsd_projectid_name}" TextColor="Black"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="2" Grid.Column="0" FontSize="16" LineBreakMode="TailTruncation">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Căn hộ: "/>
                                                 <Span Text="{Binding bsd_unitno_name}" TextColor="Black"/>
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label FontSize="16" Grid.Row="2" Grid.Column="0" LineBreakMode="TailTruncation">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Khách hàng: "/>
-                                                <Span Text="{Binding purchaser}" TextColor="Black"/>
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
