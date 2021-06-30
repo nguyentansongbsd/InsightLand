@@ -12,112 +12,63 @@
             <converter:DecimalToAreaConverter x:Key="DecimalToAreaConverter" />
             <converter:DecimalToPercentConverter x:Key="DecimalToPercentConverter" />
             <converter:DecimalToVndConverter x:Key="DecimalToVndConverter" />
+            <converter:NullToHideConverter x:Key="NullToHideConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
             <AbsoluteLayout>
-                <StackLayout Spacing=".5" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" Margin="0,0,0,0" AbsoluteLayout.LayoutFlags="All">
-                    <ScrollView>
-                        <StackLayout Padding="5">
-                            <telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander">
-                                <telerikPrimitives:RadExpander.Header>
-                                    <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
-                                        <Label Style="{StaticResource ExpanderHeadingText}" Text="Thông Tin Phí Mô Giới"/>
-                                    </telerikPrimitives:ExpanderHeader>
-                                </telerikPrimitives:RadExpander.Header>
-                                <telerikPrimitives:RadExpander.Content>
-                                    <Grid Padding="10" RowSpacing="0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="48"/>
-                                            <RowDefinition Height="48"/>
-                                            <RowDefinition Height="48"/>
-                                            <RowDefinition Height="48"/>
-                                            <RowDefinition Height="48"/>
-                                            <RowDefinition Height="48"/>
-                                            <RowDefinition Height="48"/>
-                                            <RowDefinition Height="48"/>
-                                            <RowDefinition Height="48"/>
+                <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                    <StackLayout BackgroundColor="White">
+                        <Label Text="Thông Tin Phí Mô Giới" TextColor="Black" Padding="15,10" FontSize="16" FontAttributes="Bold" BackgroundColor="#F3F3F3"/>
+                        <Grid RowSpacing="1" ColumnSpacing="-4" BackgroundColor="#dddddd" ColumnDefinitions="4*,6*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                            <local:FormLabel Grid.Column="0" Grid.Row="0" Text="Tên phí: " BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_name}" Grid.Row="0" Grid.Column="1" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                            <RowDefinition Height="{Binding PhiMoGioi.soluong}" />
-                                            <RowDefinition Height="{Binding PhiMoGioi.soluong}"/>
-                                            <RowDefinition Height="{Binding PhiMoGioi.sotien}"/>
-                                            <RowDefinition Height="{Binding PhiMoGioi.sotien}"/>
-                                            <RowDefinition Height="{Binding PhiMoGioi.phiPhanTram}"/>
-                                            <RowDefinition Height="{Binding PhiMoGioi.phiTien}"/>
+                            <local:FormLabel Grid.Column="0" Grid.Row="1" Text="Dự án: " BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue Text="{Binding PhiMoGioi.project_bsd_name}" Grid.Row="1" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="4*"/>
-                                            <ColumnDefinition Width="6*"/>
-                                        </Grid.ColumnDefinitions>
+                            <local:FormLabel Grid.Column="0" Grid.Row="2" Text="Loại mô giới:" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_loaimoigioi_format}" Grid.Row="2" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="0">
-                                            <Label FontSize="17">Tên phí</Label>
-                                            <Label TextColor="Red" FontSize="16">*</Label>
-                                        </StackLayout>
-                                        <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_name}" Grid.Row="0"/>
+                            <local:FormLabel Text="Ngày bắt đầu:" Grid.Row="3" Grid.Column="0" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_startdate_format}" Grid.Row="3" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="1">
-                                            <Label FontSize="17">Dự án</Label>
-                                            <Label TextColor="Red" FontSize="16">*</Label>
-                                        </StackLayout>
-                                        <local:FormLabelValue Text="{Binding PhiMoGioi.project_bsd_name}" Grid.Row="1"/>
+                            <local:FormLabel Text="Ngày kết thúc:" Grid.Row="4" Grid.Column="0" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_enddate_format}" Grid.Row="4" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="2">
-                                            <Label FontSize="17">Loại mô giới</Label>
-                                            <Label TextColor="Red" FontSize="16">*</Label>
-                                        </StackLayout>
-                                        <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_loaimoigioi_format}" Grid.Row="2"/>
+                            <local:FormLabel Text="Luỹ tiến:" Grid.Row="5" Grid.Column="0" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <StackLayout Grid.Row="5" Grid.Column="1" BackgroundColor="White" Padding="0,10,10,10">
+                                <telerikPrimitives:RadCheckBox CheckedColor="#333333" IsEnabled="False" IsChecked="{Binding PhiMoGioi.bsd_progressive}"  VerticalOptions="Center" />
+                            </StackLayout>
+                            
+                            <local:FormLabel Grid.Column="0" Grid.Row="6" Text="Cách tính:" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_calculation_format}" Grid.Row="6" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        <local:FormLabel Text="Ngày bắt đầu" Grid.Row="3" Grid.Column="0"/>
-                                        <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_startdate_format}" Grid.Row="3" />
+                            <local:FormLabel Grid.Column="0" Grid.Row="7" Text="Phương thức:" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_method_format}" Grid.Row="7" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        <local:FormLabel Text="Ngày kết thúc" Grid.Row="4" Grid.Column="0"/>
-                                        <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_enddate_format}" Grid.Row="4" />
+                            <local:FormLabel Text="Mức:" Grid.Row="8" Grid.Column="0" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_level_format}" Grid.Row="8" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        <local:FormLabel Text="Luỹ tiến" Grid.Row="5" Grid.Column="0"/>
-                                        <telerikPrimitives:RadCheckBox CheckedColor="#333333"  IsEnabled="False" IsChecked="{Binding PhiMoGioi.bsd_progressive}" Grid.Row="5" Grid.Column="1" VerticalOptions="Center"/>
+                            <local:FormLabel x:Name="labelsoluong" Text="Số lượng(từ):" Grid.Row="9" Grid.Column="0" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue x:Name="txt_soluongtu" Text="{Binding PhiMoGioi.bsd_quantityfrom}" Grid.Row="9" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="6">
-                                            <Label FontSize="17">Cách tính</Label>
-                                            <Label TextColor="Red" FontSize="16">*</Label>
-                                        </StackLayout>
-                                        <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_calculation_format}" Grid.Row="6"/>
+                            <local:FormLabel x:Name="labelsoluongden" Text="Số lượng(đến):" Grid.Row="10" Grid.Column="0" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue x:Name="txt_soluongden" Text="{Binding PhiMoGioi.bsd_quantityto}" Grid.Row="10" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="0" Grid.Row="7">
-                                            <Label FontSize="17">Phương thức</Label>
-                                            <Label TextColor="Red" FontSize="16">*</Label>
-                                        </StackLayout>
-                                        <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_method_format}" Grid.Row="7"/>
+                            <local:FormLabel x:Name="labelsotien" Text="Số tiền(từ):" Grid.Row="11" Grid.Column="0" IsVisible="{Binding PhiMoGioi.bsd_amountfrom_format,Converter={StaticResource NullToHideConverter}}" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue x:Name="txt_sotientu" Text="{Binding PhiMoGioi.bsd_amountfrom_format}" IsVisible="{Binding PhiMoGioi.bsd_amountfrom_format,Converter={StaticResource NullToHideConverter}}" Grid.Row="11" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        <local:FormLabel Text="Mức" Grid.Row="8" Grid.Column="0"/>
-                                        <local:FormLabelValue Text="{Binding PhiMoGioi.bsd_level_format}" Grid.Row="8" />
+                            <local:FormLabel x:Name="labelsotien3"  Text="Số tiền(đến):" Grid.Row="12" Grid.Column="0" IsVisible="{Binding PhiMoGioi.bsd_amountto_format,Converter={StaticResource NullToHideConverter}}" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue x:Name="txt_sotienden" Text="{Binding PhiMoGioi.bsd_amountto_format}" IsVisible="{Binding PhiMoGioi.bsd_amountto_format,Converter={StaticResource NullToHideConverter}}" Grid.Row="12" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        <local:FormLabel x:Name="labelsoluong" Text="Số lượng(từ)" Grid.Row="9" Grid.Column="0"/>
-                                        <local:FormLabelValue x:Name="txt_soluongtu" Text="{Binding PhiMoGioi.bsd_quantityfrom}" Grid.Row="9" />
+                            <local:FormLabel x:Name="labelphiphantram"  Text="Phí(%): " Grid.Row="13" Grid.Column="0" BackgroundColor="White" Padding="10,10,0,10"/>
+                            <local:FormLabelValue x:Name="txt_phiPT" Text="{Binding PhiMoGioi.bsd_feepercent_format}" Grid.Row="13" BackgroundColor="White" Padding="0,10,10,10"/>
 
-                                        <local:FormLabel x:Name="labelsoluongden" Text="Số lượng(đến)" Grid.Row="10" Grid.Column="0"/>
-                                        <local:FormLabelValue x:Name="txt_soluongden" Text="{Binding PhiMoGioi.bsd_quantityto}" Grid.Row="10" />
-
-                                        <local:FormLabel x:Name="labelsotien" Text="Số tiền(từ)" Grid.Row="11" Grid.Column="0"/>
-                                        <local:FormLabelValue x:Name="txt_sotientu" Text="{Binding PhiMoGioi.bsd_amountfrom_format}" Grid.Row="11" />
-
-                                        <local:FormLabel x:Name="labelsotien3"  Text="Số tiền(đến)" Grid.Row="12" Grid.Column="0"/>
-                                        <local:FormLabelValue x:Name="txt_sotienden" Text="{Binding PhiMoGioi.bsd_amountto_format}" Grid.Row="12" />
-
-                                        <local:FormLabel x:Name="labelphiphantram"  Text="Phí(%)" Grid.Row="13" Grid.Column="0"/>
-                                        <local:FormLabelValue x:Name="txt_phiPT" Text="{Binding PhiMoGioi.bsd_feepercent_format}" Grid.Row="13" />
-
-                                        <local:FormLabel x:Name="labelphisotien"  Text="Phí(số tiền)" Grid.Row="14" Grid.Column="0"/>
-                                        <local:FormLabelValue x:Name="txt_phi" Text="{Binding PhiMoGioi.bsd_feeamount_format}" Grid.Row="14" />
-
-                                    </Grid>
-                                </telerikPrimitives:RadExpander.Content>
-                            </telerikPrimitives:RadExpander>
-                        </StackLayout>
-                    </ScrollView>
-                </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
                 <local:ModalContentView IsVisible="{Binding IsBusy}">
                     <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
                 </local:ModalContentView>

@@ -11,6 +11,52 @@ namespace ConasiCRM.Portable.Models
         public string bsd_followuplistid { get; set; }
         public int statuscode { get; set; }
         public DateTime bsd_date { get; set; }
+        public double bsd_sellingprice_base { get; set; }
+        public double bsd_totalamount_base { get; set; }
+        public double bsd_totalamountpaid_base { get; set; }
+        public double bsd_forfeitureamount_base { get; set; }
+        public double bsd_totalforfeitureamount_base { get; set; }
+        public int bsd_takeoutmoney { get; set; }
+        public bool? bsd_terminateletter { get; set; }
+        public bool? bsd_termination { get; set; }
+        public bool? bsd_resell { get; set; }
+        public string bsd_name_dotmoban { get; set; }
+        public string resell
+        {
+            get
+            {
+                if (bsd_resell == true)
+                {
+                    return "Có";
+                }else if (bsd_resell == false)
+                {
+                    return "Không";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        public string takeoutmoney
+        {
+            get
+            {
+                if (bsd_takeoutmoney == 100000000)
+                {
+                    return "Hoàn tiền";
+                }
+                else if (bsd_takeoutmoney == 100000001)
+                {
+                    return "Tịch thu";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
 
         public int bsd_type { get; set; }
         public string type
@@ -19,35 +65,35 @@ namespace ConasiCRM.Portable.Models
             {
                 if (bsd_type == 100000007)
                 {
-                    return "Units";
+                    return "Sản phẩm";
                 }
                 else if (bsd_type == 100000000)
                 {
-                    return "Reservation - Sign off RF";
+                    return "Ký Phiếu đặt cọc";
                 }
                 else if (bsd_type == 100000001)
                 {
-                    return "Reservation - Deposited";
+                    return "Đặt cọc";
                 }
                 else if (bsd_type == 100000005)
                 {
-                    return "Reservation - Terminate";
+                    return "Thanh lý đặt cọc";
                 }
                 else if (bsd_type == 100000002)
                 {
-                    return "Option Entry - 1st installment";
+                    return "Thanh toán đợt 1";
                 }
                 else if (bsd_type == 100000003)
                 {
-                    return "Option Entry - Contract";
+                    return "Hợp đồng";
                 }
                 else if (bsd_type == 100000004)
                 {
-                    return "Option Entry - Installments";
+                    return "Đợt thanh toán";
                 }
                 else if (bsd_type == 100000006)
                 {
-                    return "Option Entry - Terminate";
+                    return "Thanh lý hợp đồng";
                 }
                 else { return null; }
             }
@@ -72,6 +118,8 @@ namespace ConasiCRM.Portable.Models
         public string customer_name_account_quote { get; set; }
 
         public string name_salesorder { get; set; }
+        public double bsd_totalpaidincludecoa_salesorder { get; set; }
+        public double bsd_totalamountlessfreight_salesorder { get; set; }
         public string customer_name_account { get; set; }
 
         public string name_work
@@ -115,6 +163,12 @@ namespace ConasiCRM.Portable.Models
                 }
             }
         }
+        public string name_unit { get; set; }
+        public string productnumber_unit { get; set; }
+        public string bsd_areavariance_unit { get; set; }
+        public double price_unit { get; set; }
+        public string block { get; set; }
+        public string floor { get; set; }
 
     }
 }

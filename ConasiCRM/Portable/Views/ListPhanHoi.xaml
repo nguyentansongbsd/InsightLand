@@ -6,7 +6,6 @@
              xmlns:converters="clr-namespace:ConasiCRM.Portable.Converters"
              x:Class="ConasiCRM.Portable.Views.ListPhanHoi">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="RefreshMenu" Order="Primary" Command="{Binding RefreshCommand}" Icon="refresh.png" Text="Refresh" Priority="0" />
         <ToolbarItem Name="NewMenu" Order="Primary" Clicked="NewMenu_Clicked" Icon="plus.png" Text="New Case" Priority="1"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Resources>
