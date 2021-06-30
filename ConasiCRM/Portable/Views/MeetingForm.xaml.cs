@@ -17,6 +17,7 @@ namespace ConasiCRM.Portable.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MeetingForm : ContentPage
 	{
+        private bool isInit = true;
         public Action<bool> CheckMeeting;
         private Guid _idActivity;
         public MeetingViewModel viewModel;
@@ -53,6 +54,7 @@ namespace ConasiCRM.Portable.Views
             InitializeComponent();
             BindingContext = viewModel = new MeetingViewModel();
             viewModel.Title = "Tạo Mới Cuộc Họp";
+            isInit = false;
             viewModel.IsBusy = false;
             grid_createMeeting.IsVisible = true;
             grid_updateMeeting.IsVisible = false;
@@ -71,6 +73,7 @@ namespace ConasiCRM.Portable.Views
             InitializeComponent();
             BindingContext = viewModel = new MeetingViewModel();
             viewModel.Title = "Tạo Mới Cuộc Họp";
+            isInit = false;
             viewModel.IsBusy = false;
             grid_createMeeting.IsVisible = true;
             grid_updateMeeting.IsVisible = false;
@@ -98,7 +101,10 @@ namespace ConasiCRM.Portable.Views
         {
             await loadDataForm(this._idActivity);
             if (viewModel.MeetingModel != null)
+            {
                 CheckMeeting(true);
+                isInit = false;
+            }
             else
                 CheckMeeting(false);
         }
@@ -566,14 +572,22 @@ namespace ConasiCRM.Portable.Views
             {
                 DateTime timeNew = e.NewDate;
                 TimeSpan _timeStart = viewModel.MeetingModel.timeStart;
-                viewModel.MeetingModel.scheduledstart = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, _timeStart.Hours, _timeStart.Minutes, _timeStart.Seconds);
+                var scheduledstart = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, _timeStart.Hours, _timeStart.Minutes, _timeStart.Seconds);
                 //viewModel.FocusTimePickerStart = true;
-                this.totalDuration();
                 // check thời gian gian kết thúc
-                if (this.compareDateTime(viewModel.MeetingModel.scheduledend, viewModel.MeetingModel.scheduledstart) != 1)
+                if (this.compareDateTime(viewModel.MeetingModel.scheduledend, scheduledstart) != 1)
                 {
-                    viewModel.MeetingModel.scheduledend = null;
+                    DisplayAlert("Thông Báo", "Vui lòng chọn thời gian bắt đầu nhỏ hơn thời gian kết thúc!", "Đồng ý");                 
+                    int valueDate = int.Parse(viewModel.MeetingModel.durationValue.Val);
+                    var time = viewModel.MeetingModel.scheduledend.Value.AddMinutes(-valueDate);
+                    viewModel.MeetingModel.scheduledstart = new DateTime(time.Year, time.Month, time.Day, _timeStart.Hours, _timeStart.Minutes, _timeStart.Seconds);
+                    viewModel.MeetingModel.timeStart = new TimeSpan(viewModel.MeetingModel.scheduledstart.Value.Hour, viewModel.MeetingModel.scheduledstart.Value.Minute, 0);
                 }
+                else
+                {
+                    viewModel.MeetingModel.scheduledstart = scheduledstart;
+                    this.totalDuration();
+                }    
             }
         }
         // option scheduledend
@@ -595,8 +609,14 @@ namespace ConasiCRM.Portable.Views
                     }
                     else
                     {
-                        DisplayAlert("Thông Báo", "Vui lòng chọn thời gian bắt đầu nhỏ hơn thời gian kết thúc!", "Đồng ý");
-                        viewModel.MeetingModel.scheduledstart = null;
+                        if (isInit != true)
+                        {
+                            DisplayAlert("Thông Báo", "Vui lòng chọn thời gian bắt đầu nhỏ hơn thời gian kết thúc!", "Đồng ý");
+                            var time1 = viewModel.MeetingModel.scheduledend.Value;
+                            int valueDate = int.Parse(viewModel.MeetingModel.durationValue.Val);
+                            viewModel.MeetingModel.scheduledstart = viewModel.MeetingModel.scheduledend.Value.AddMinutes(-valueDate);
+                            viewModel.MeetingModel.timeStart = new TimeSpan(viewModel.MeetingModel.scheduledstart.Value.Hour, viewModel.MeetingModel.scheduledstart.Value.Minute, 0);
+                        }
                     }
                 }
                 else
@@ -620,8 +640,7 @@ namespace ConasiCRM.Portable.Views
                 {
                     DateTime timeNew = e.NewDate;
                     TimeSpan time = viewModel.MeetingModel.timeEnd;
-                    DateTime _scheduledend = viewModel.MeetingModel.scheduledend.Value;
-                    _scheduledend = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, time.Hours, time.Minutes, time.Seconds);
+                    DateTime _scheduledend = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, time.Hours, time.Minutes, time.Seconds);
 
                     if (this.compareDateTime(_scheduledend, viewModel.MeetingModel.scheduledstart) == 1)
                     {
@@ -632,7 +651,9 @@ namespace ConasiCRM.Portable.Views
                     else
                     {
                         DisplayAlert("Thông Báo", "Vui lòng chọn thời gian kết thúc lớn hơn thời gian bắt đầu!", "Đồng ý");
-                        viewModel.MeetingModel.scheduledend = null;
+                        int valueDate = int.Parse(viewModel.MeetingModel.durationValue.Val);
+                        viewModel.MeetingModel.scheduledend = viewModel.MeetingModel.scheduledstart.Value.AddMinutes(valueDate);
+                        viewModel.MeetingModel.timeEnd = new TimeSpan(viewModel.MeetingModel.scheduledend.Value.Hour, viewModel.MeetingModel.scheduledend.Value.Minute, 0);
                     }
                 }
                 else
@@ -665,8 +686,13 @@ namespace ConasiCRM.Portable.Views
                     }
                     else
                     {
-                        DisplayAlert("Thông Báo", "Vui lòng chọn thời gian kết thúc lớn hơn thời gian bắt đầu!", "Đồng ý");
-                        viewModel.MeetingModel.scheduledend = null;
+                        if (isInit != true)
+                        {
+                            DisplayAlert("Thông Báo", "Vui lòng chọn thời gian kết thúc lớn hơn thời gian bắt đầu!", "Đồng ý");
+                            int valueDate = int.Parse(viewModel.MeetingModel.durationValue.Val);
+                            viewModel.MeetingModel.scheduledend = viewModel.MeetingModel.scheduledstart.Value.AddMinutes(valueDate);
+                            viewModel.MeetingModel.timeEnd = new TimeSpan(viewModel.MeetingModel.scheduledend.Value.Hour, viewModel.MeetingModel.scheduledend.Value.Minute, 0);
+                        }
                     }
                 }
                 else
@@ -677,13 +703,21 @@ namespace ConasiCRM.Portable.Views
         }
         private int compareDateTime(DateTime? date, DateTime? date1)
         {
-            int result = DateTime.Compare(date.Value, date1.Value);
-            if (result < 0)
+            if (date != null && date != null)
+            {
+                int result = DateTime.Compare(date.Value, date1.Value);
+                if (result < 0)
+                    return -1;
+                else if (result == 0)
+                    return 0;
+                else
+                    return 1;
+            }
+            if (date == null && date1 !=null)
                 return -1;
-            else if (result == 0)
-                return 0;
-            else
+            if (date1 == null && date != null)
                 return 1;
+            return 0;
         }
         private void totalDuration()
         {
@@ -891,14 +925,19 @@ namespace ConasiCRM.Portable.Views
         private async Task<bool> checkData()
         {
             var dataMeeting = viewModel.MeetingModel;
-            if (dataMeeting.subject != null && dataMeeting.scheduledstart != null && dataMeeting.scheduledend != null)
+            if (dataMeeting != null)
             {
-                return true;
+                var checkTime = compareDateTime(dataMeeting.scheduledend, dataMeeting.scheduledstart);
+                if (dataMeeting.subject != null && checkTime == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         private async Task<object> getContent(MeetingViewModel meeting, string value)
@@ -1042,12 +1081,14 @@ namespace ConasiCRM.Portable.Views
         // event update data
         private void UpdateMeeting_Clicked(object sender, EventArgs e)
         {
+            viewModel.IsBusy = true;
             this.saveMeeting();
+            viewModel.IsBusy = false;
         }
 
         private async void CompletedMeeting_Clicked(object sender, EventArgs e)
         {
-
+            viewModel.IsBusy = true;
             string action = await DisplayActionSheet("Vui lòng chọn trạng thái cuộc họp", "Đóng", null, "Hoàn Thành", "Hủy");
             if (action == "Hoàn Thành")
             {
@@ -1061,10 +1102,12 @@ namespace ConasiCRM.Portable.Views
                 viewModel.MeetingModel.statuscode = 4;
                 this.saveMeeting();
             }
+            viewModel.IsBusy = false;
         }
 
         private async void CanceledMeeting_Clicked(object sender, EventArgs e)
         {
+            viewModel.IsBusy = true;
             bool check = await DisplayAlert("Thông báo", "Bạn có muốn hủy cuộc họp này không ?", "Đồng Ý", "Không Đồng Ý");
             if (check == true)
             {
@@ -1072,6 +1115,7 @@ namespace ConasiCRM.Portable.Views
                 viewModel.MeetingModel.statuscode = 4;
                 this.saveMeeting(); ;
             }
+            viewModel.IsBusy = false;
         }
 
         private void CreateNew_Clicked(object sender, EventArgs e)
