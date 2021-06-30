@@ -119,20 +119,13 @@ namespace ConasiCRM.Portable.Views
             await viewModel.LoadListProvince();
             await viewModel.LoadListDistrict();
 
-            //if (viewModel.singleAccount.primarycontactname != null)
-            //{
-            //    btn_Mandatory.IsVisible = true;
-            //    primarycontactid_text.IsVisible = true;
-            //    primarycontactid_default.IsVisible = false;
-            //}
-
             if (!string.IsNullOrWhiteSpace(viewModel.singleAccount.bsd_businesstypevalue))
             {
                 var businesstype = viewModel.singleAccount.bsd_businesstypevalue.Split(',').ToList();
 
                 foreach (var item in businesstype)
                 {
-                    viewModel.SelectedLoaiHinh.Add(item);
+                    multipleSelectLoaiHinh.addSelectedItem(item);
                 }
             };
 
