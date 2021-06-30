@@ -100,7 +100,7 @@
 
                                 <local:FormLabel VerticalOptions="Center" Text="Tình trạng" FontSize="16" Grid.Column="0" Grid.Row="11"/>
                                 <Grid Grid.Column="1" Grid.Row="11">
-                                    <Entry Text="Mo"/>
+                                    <Entry Text="Mở"/>
                                 </Grid>
                             </Grid>
                         </StackLayout>
@@ -413,7 +413,7 @@
 
                     </StackLayout>
                 </ScrollView>
-                <Grid IsVisible="{Binding singleLead.statecode, Converter={StaticResource LeadStateCodeToBool}}" ColumnSpacing="0" VerticalOptions="EndAndExpand">
+                <Grid ColumnSpacing="0" VerticalOptions="EndAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
