@@ -21,7 +21,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto"  BackgroundColor ="White" Padding="15,10" Margin="0,1">
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding name}" FontSize="18" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation"/>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding bsd_name}" FontSize="18" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation"/>
                                     <Label Grid.Row="1" Grid.Column="0" FontSize="16" LineBreakMode="TailTruncation">
                                         <Label.FormattedText>
                                             <FormattedString>

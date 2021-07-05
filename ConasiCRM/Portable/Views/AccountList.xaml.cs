@@ -21,27 +21,42 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AccountList : ContentPage
     {
+        public static bool? NeedToRefresh = null;
         private readonly AccountListViewModel viewModel;
         public AccountList()
         {
             InitializeComponent();
             BindingContext = viewModel = new AccountListViewModel();
+            NeedToRefresh = false;
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
         }
+
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (NeedToRefresh == true)
+            {
+                viewModel.IsBusy = true;
+                await viewModel.LoadOnRefreshCommandAsync();
+                NeedToRefresh = false;
+                viewModel.IsBusy = false;
+            }
+        }
+
         private async void NewMenu_Clicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;   
+            viewModel.IsBusy = true;
             await Navigation.PushAsync(new AccountForm());
             viewModel.IsBusy = false;
         }
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            viewModel.IsBusy = true;           
+            viewModel.IsBusy = true;
             var item = e.Item as AccountListModel;
             AccountForm newPage = new AccountForm(item.accountid);
             newPage.CheckSingleAccount = async (CheckSingleAccount) =>

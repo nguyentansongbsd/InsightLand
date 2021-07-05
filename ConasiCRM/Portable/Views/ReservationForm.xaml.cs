@@ -74,9 +74,9 @@ namespace ConasiCRM.Portable.Views
         {
             await Load();
                 if (viewModel.Reservation != null)
-                    CheckReservation(true);
+                    CheckReservation?.Invoke(true);
                 else
-                    CheckReservation(false);
+                    CheckReservation?.Invoke(false);
         }
 
         public async Task Load()
@@ -311,7 +311,8 @@ namespace ConasiCRM.Portable.Views
                         }
                         viewModel.Discounts.Add(item);
                     }
-                    listView.ItemsSource = viewModel.Discounts;
+
+                    BindableLayout.SetItemsSource(listView,viewModel.Discounts);
                 }
             }
         }

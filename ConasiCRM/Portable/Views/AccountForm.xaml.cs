@@ -678,9 +678,11 @@ namespace ConasiCRM.Portable.Views
 
                     if (created != new Guid())
                     {
+                        if (AccountList.NeedToRefresh.HasValue) AccountList.NeedToRefresh = true;
+                        await Navigation.PopAsync();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Tạo khách hàng doanh nghiệp thành công!", "OK");
-                        Xamarin.Forms.Application.Current.Properties["update"] = "1";
-                        this.Start(viewModel.singleAccount.accountid);
+                        //Xamarin.Forms.Application.Current.Properties["update"] = "1";
+                        //this.Start(viewModel.singleAccount.accountid);
                     }
                     else
                     {
@@ -700,9 +702,11 @@ namespace ConasiCRM.Portable.Views
                     var updated = await updateAccount(viewModel);
                     if (updated)
                     {
+                        if (AccountList.NeedToRefresh.HasValue) AccountList.NeedToRefresh = true;
+                        await Navigation.PopAsync();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thành công!", "OK");
-                        Xamarin.Forms.Application.Current.Properties["update"] = "1";
-                        this.Start(viewModel.singleAccount.accountid);
+                        //Xamarin.Forms.Application.Current.Properties["update"] = "1";
+                        //this.Start(viewModel.singleAccount.accountid);
                     }
                     else
                     {

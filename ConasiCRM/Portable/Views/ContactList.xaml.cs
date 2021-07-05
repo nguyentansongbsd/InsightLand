@@ -21,6 +21,20 @@ namespace ConasiCRM.Portable.Views
             await viewModel.LoadData();
         }
 
+        protected override bool OnBackButtonPressed()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var result = await this.DisplayAlert("Thông báo!", "Bạn có thực sự muốn thoát?", "Đồng ý", "Huỹ");
+
+                if (result)
+                {
+                    System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow(); 
+                }
+            });
+            return true;
+        }
+
         private async void NewMenu_Clicked(object sender, EventArgs e)
         {
             viewModel.IsBusy = true;            

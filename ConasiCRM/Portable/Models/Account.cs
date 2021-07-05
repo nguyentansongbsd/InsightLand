@@ -22,6 +22,7 @@ namespace ConasiCRM.Portable.Models
         public string bsd_district_label { get; set; }
         public string bsd_district_labelen { get; set; }
         public string _bsd_district_value { get; set; }
+        public double bsd_businesstype { get; set; }
 
         public string bsd_permanentaddress { get; set; }
         public string bsd_permanenthousenumber { get; set; }

@@ -19,6 +19,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UnitImageGallery : ContentPage
     {
+        public Action<bool> OnCompleted;
         public UnitImageGalleryViewModel viewModel;
         public string Folder { get; set; }
         public string Category { get; set; }
@@ -88,6 +89,11 @@ namespace ConasiCRM.Portable.Views
                         }
                     }
                 }
+                OnCompleted?.Invoke(true);
+            }
+            else
+            {
+                OnCompleted?.Invoke(false);
             }
             if(viewModel.ImageList.Count == 0) { EmptyText.IsVisible = true; }
             viewModel.IsBusy = false;

@@ -650,49 +650,6 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
-                        <!--DANH SACH DU AN QUAN TAM ==> CHƯA CÓ -->
-                        <!--<telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander" x:Name="label_du_an_quan_tam">
-                            <telerikPrimitives:RadExpander.Header>
-                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
-                                    <StackLayout Orientation="Horizontal">
-                                        -->
-                        <!---<RelativeLayout Style="{StaticResource ExpanderHeadingText}" Padding="25,3,10,3">-->
-                        <!--
-                                        <Label Text="Danh sách dự án quan tâm"
-                                                Style="{StaticResource ExpanderHeadingText}"/>
-
-                                        <ImageButton x:Name="btnRemoveDuanquantam" HeightRequest="25" 
-                                            WidthRequest="22"
-                                            Source="btnDelete.png" Margin="0,0,5,0"
-                                            BackgroundColor="Transparent"     
-                                            IsVisible="{Binding bsd_projectid,Converter={StaticResource NotNullToBool}}"
-                                            Clicked="BtnRemoveDuanquantam_Clicked" HorizontalOptions="End"/>
-                                        <ImageButton x:Name="btnAddDuanquantam" HeightRequest="25" 
-                                            WidthRequest="22" Margin="5,0,10,0"
-                                            Source="plus_black.png" 
-                                            BackgroundColor="Transparent"                                            
-                                            Clicked="BtnAddDuanquantam_Clicked" HorizontalOptions="End"/>
-                                    </StackLayout>
-                                </telerikPrimitives:ExpanderHeader>
-                            </telerikPrimitives:RadExpander.Header>
-
-                            <telerikPrimitives:RadExpander.Content>
-                                <StackLayout x:Name="stacklayout_duanquantam">
-                                    <bsdGrid:BsdRadDataGrid ItemsSource="{Binding list_Duanquantam}" x:Name="datagrid_duanquantam">
-                                        <telerikGrid:RadDataGrid.Columns>
-                                            <telerikGrid:DataGridTextColumn PropertyName="bsd_projectcode" HeaderText="Project Code"/>
-                                            <telerikGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Name"/>
-                                            <telerikGrid:DataGridDateColumn PropertyName="bsd_acttopdate" HeaderText="Actual TOP Date"/>
-                                            <telerikGrid:DataGridDateColumn PropertyName="bsd_esttopdate" HeaderText="Estimate TOP Date"/>
-                                            <telerikGrid:DataGridNumericalColumn PropertyName="bsd_landvalueofproject" 
-                                                                                 CellContentFormat="{}{0,0:C0}" 
-                                                                                 HeaderText="Land Value of Project"/>
-
-                                        </telerikGrid:RadDataGrid.Columns>
-                                    </bsdGrid:BsdRadDataGrid>
-                                </StackLayout>
-                            </telerikPrimitives:RadExpander.Content>
-                        </telerikPrimitives:RadExpander>-->
                     </StackLayout>
                 </ScrollView>
                 <Button x:Name="btnSave" Margin="10,5,10,10" Padding="10,5" HeightRequest="40" TextColor="Black" FontAttributes="Bold" CornerRadius="10" FontSize="16" BackgroundColor="LightGray" BorderWidth="1" BorderColor="LightGray" Clicked="SaveMenu_Clicked"/>
