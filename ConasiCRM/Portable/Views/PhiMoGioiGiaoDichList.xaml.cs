@@ -21,6 +21,7 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new PhiMoGioiGiaoDichListViewModel();
+            viewModel.IsBusy = true;
             Init();
         }
         public async void Init()
@@ -28,6 +29,7 @@ namespace ConasiCRM.Portable.Views
             await viewModel.LoadData();
             await loadTotalAmount();
             await loadTotalAmountReceived();
+            viewModel.IsBusy = false;
         }             
         public async Task loadTotalAmount()
         {

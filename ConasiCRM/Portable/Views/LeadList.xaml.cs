@@ -21,17 +21,25 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LeadList : ContentPage
     {
+        public Action<bool> Action { get; set; }
         private readonly LeadListViewModel viewModel;
         public LeadList()
         {
-            InitializeComponent();
+            InitializeComponent();           
             this.BindingContext = viewModel = new LeadListViewModel();
+            viewModel.IsBusy = true;
             Init();
+            //viewModel.IsBusy = false;
         }
 
         public async void Init()
         {
             await viewModel.LoadData();
+            if (viewModel.Data != null && viewModel.Data.Count > 0)
+                Action?.Invoke(true);
+            else
+                Action?.Invoke(false);
+            viewModel.IsBusy = false;
         }       
 
         private async void NewMenu_Clicked(object sender, EventArgs e)

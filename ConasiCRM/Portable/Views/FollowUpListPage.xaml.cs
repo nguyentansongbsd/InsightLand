@@ -13,12 +13,14 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             this.BindingContext = viewModel = new FollowUpListPageViewModel();
+            viewModel.IsBusy = true;
             Init();
         }
 
         public async void Init()
         {
             await viewModel.LoadData();
+            viewModel.IsBusy = false;
         }
 
         private void listView_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)

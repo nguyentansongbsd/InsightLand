@@ -14,11 +14,13 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new ContactListViewModel();
+            viewModel.IsBusy = true;
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
+            viewModel.IsBusy = false;
         }
 
         protected override bool OnBackButtonPressed()

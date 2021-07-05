@@ -21,6 +21,7 @@ namespace ConasiCRM.Portable.Views
         public ListPhanHoi()
         {
             InitializeComponent();
+            viewModel.IsBusy = true;
             BindingContext = viewModel = new ListPhanHoiViewModel();
             NeedToRefresh = false;
             Init();
@@ -28,6 +29,7 @@ namespace ConasiCRM.Portable.Views
         public async void Init()
         {
             await viewModel.LoadData();
+            viewModel.IsBusy = false;
         }
 
         protected async override void OnAppearing()

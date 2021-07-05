@@ -112,7 +112,7 @@
     <MasterDetailPage.Detail>
         <NavigationPage>
             <x:Arguments>
-                <views:DirectSale />
+                <views:DirectSale/>
             </x:Arguments>
         </NavigationPage>
     </MasterDetailPage.Detail>

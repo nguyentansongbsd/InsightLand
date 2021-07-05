@@ -18,20 +18,37 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DirectSaleDetail : ContentPage
     {
+        public event EventHandler checkBlock = delegate { };
+        public Action<bool> Action { get; set; }
         private readonly DirectSaleSearchModel directSaleSearchModel;
         private DirectSaleDetailViewModel viewModel;
         public Unit CurrentUnit;
-        public DirectSaleDetail(DirectSaleSearchModel model)
+
+        public DirectSaleDetail()
         {
             InitializeComponent();
+        }
+            public DirectSaleDetail(DirectSaleSearchModel model)
+        {
+            InitializeComponent();
+            BindingContext = viewModel = new DirectSaleDetailViewModel(model);
             QueueListGrid.Commands.Add(new GridCellTapCommand<QueueListModel_DirectSale, QueueForm>("opportunityid"));
-            directSaleSearchModel = model;
-            this.BindingContext = viewModel = new DirectSaleDetailViewModel(model);
+            directSaleSearchModel = model;           
             if (model.IsCollapse)
             {
                 this.CollapseAll_Clicked(null, EventArgs.Empty);
             }
+            Init();
             viewModel.IsBusy = false;
+        }
+
+        public async void Init()
+        {
+            await viewModel.LoadBlocks();
+            if (viewModel.Blocks != null && viewModel.Blocks.Count > 0)
+                MessagingCenter.Send<DirectSaleDetail, bool>(this, "check", true);
+            else
+                MessagingCenter.Send<DirectSaleDetail, bool>(this, "check", false);
         }
 
         private void ExpandAll_Clicked(object sender, EventArgs e)

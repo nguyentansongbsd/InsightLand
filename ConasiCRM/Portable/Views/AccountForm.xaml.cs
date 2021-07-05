@@ -658,7 +658,10 @@ namespace ConasiCRM.Portable.Views
                     if (!match1.Success) { viewModel.IsBusy = false; return "Địa chỉ mail sai. Vui lòng thử lại!"; }
                 }
                 //MailAddress m = new MailAddress(viewModel.singleAccount.emailaddress1);
-
+                if(!PhoneNumberFormatVNHelper.CheckValidate(viewModel.singleAccount.telephone1))
+                {
+                    return "Số điện thoại sai địng dạng. Vui lòng thử lại!";
+                }
                 return "Sucesses";
             }
         }

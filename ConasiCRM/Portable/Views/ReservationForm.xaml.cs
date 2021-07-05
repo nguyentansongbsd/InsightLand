@@ -404,8 +404,10 @@ namespace ConasiCRM.Portable.Views
             var cancleQuotationResponse = await CrmHelper.PostData($"/quotes({ReservationId})/Microsoft.Dynamics.CRM.bsd_Action_Reservation_Cancel");
             if (cancleQuotationResponse.IsSuccess)
             {
-                await Navigation.PushAsync(new ReservationForm(ReservationId));
-                Navigation.RemovePage(this);
+                // await Navigation.PushAsync(new ReservationForm(ReservationId));
+                // Navigation.RemovePage(this);
+                Load();
+                // note test . update cùng lúc 2 item
             }
             else
             {

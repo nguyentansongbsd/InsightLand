@@ -233,21 +233,36 @@ namespace ConasiCRM.Portable.Views
             isShowingPopup = false;
         }
 
-        private void save_fullname(object sender, EventArgs e)
+        private async void save_fullname(object sender, EventArgs e)
         {
-            viewModel.singleContact.bsd_firstname = popupfullname_firstname.Text;
-            viewModel.singleContact.firstname = popupfullname_firstname.Text;
-            viewModel.singleContact.bsd_lastname = popupfullname_lastname.Text;
-            viewModel.singleContact.lastname = popupfullname_lastname.Text;
+            if (!string.IsNullOrWhiteSpace(popupfullname_lastname.Text))
+            {
+                if (!string.IsNullOrWhiteSpace(popupfullname_firstname.Text))
+                {
+                    viewModel.singleContact.bsd_firstname = "";
+                    viewModel.singleContact.firstname = "";
+                }
+                else
+                {
+                    viewModel.singleContact.bsd_firstname = popupfullname_firstname.Text.Trim();
+                    viewModel.singleContact.firstname = popupfullname_firstname.Text.Trim();
+                }
+                viewModel.singleContact.bsd_lastname = popupfullname_lastname.Text.Trim();
+                viewModel.singleContact.lastname = popupfullname_lastname.Text.Trim();
 
-            var tmp = new List<String>();
-
+                var tmp = new List<String>();
             if (viewModel.singleContact.bsd_firstname != null) { tmp.Add(viewModel.singleContact.bsd_firstname); }
             if (viewModel.singleContact.bsd_lastname != null) { tmp.Add(viewModel.singleContact.bsd_lastname); }
 
-            viewModel.singleContact.bsd_fullname = string.Join(" ", tmp);
-            //viewModel.singleContact.bsd_fullname = viewModel.singleContact.fullname;
-            this.hide_popup_fullname(null, null);
+
+                viewModel.singleContact.bsd_fullname = string.Join(" ", tmp);
+                //viewModel.singleContact.bsd_fullname = viewModel.singleContact.fullname;
+                this.hide_popup_fullname(null, null);
+            }
+            else
+            {
+                await DisplayAlert("", "Vui lòng nhập các trường bắt buộc (trường có gắn dấu *)", "OK");
+            }
         }
 
         /// GENDER PICKER
@@ -862,41 +877,55 @@ namespace ConasiCRM.Portable.Views
             popup_contact_address.IsVisible = false;
         }
 
-        void save_popup_contacaddress(object sender, System.EventArgs e)
+        async void save_popup_contacaddress(object sender, System.EventArgs e)
         {
-            viewModel.singleContact.bsd_housenumber = popupcontactaddress_housenumber.Text;
-            viewModel.singleContact.bsd_housenumberstreet = popupcontactaddress_housenumberstreet.Text;
+            if (!string.IsNullOrWhiteSpace(popupcontactaddress_housenumberstreet.Text))
+            {
+                if (string.IsNullOrWhiteSpace(popupcontactaddress_housenumber.Text))
+                {
+                    viewModel.singleContact.bsd_housenumber = "";
+                }
+                else
+                {
+                    viewModel.singleContact.bsd_housenumber = popupcontactaddress_housenumber.Text.Trim();
+                }                  
+                viewModel.singleContact.bsd_housenumberstreet = popupcontactaddress_housenumberstreet.Text.Trim();
 
-            viewModel.singleContact.bsd_country_label = popupcontactaddress_country.Text;
-            viewModel.singleContact._bsd_country_value = popupcontactaddress_country_id.Text;
-            viewModel.singleContact.bsd_country_en = popupcontactaddress_country_en.Text;
+                viewModel.singleContact.bsd_country_label = popupcontactaddress_country.Text;
+                viewModel.singleContact._bsd_country_value = popupcontactaddress_country_id.Text;
+                viewModel.singleContact.bsd_country_en = popupcontactaddress_country_en.Text;
 
-            viewModel.singleContact.bsd_province_label = popupcontactaddress_province.Text;
-            viewModel.singleContact._bsd_province_value = popupcontactaddress_province_id.Text;
-            viewModel.singleContact.bsd_province_en = popupcontactaddress_province_en.Text;
+                viewModel.singleContact.bsd_province_label = popupcontactaddress_province.Text;
+                viewModel.singleContact._bsd_province_value = popupcontactaddress_province_id.Text;
+                viewModel.singleContact.bsd_province_en = popupcontactaddress_province_en.Text;
 
-            viewModel.singleContact.bsd_district_label = popupcontactaddress_district.Text;
-            viewModel.singleContact._bsd_district_value = popupcontactaddress_district_id.Text;
-            viewModel.singleContact.bsd_district_en = popupcontactaddress_district_en.Text;
+                viewModel.singleContact.bsd_district_label = popupcontactaddress_district.Text;
+                viewModel.singleContact._bsd_district_value = popupcontactaddress_district_id.Text;
+                viewModel.singleContact.bsd_district_en = popupcontactaddress_district_en.Text;
 
-            var tmp = new List<string>();
-            if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_housenumberstreet)) { tmp.Add(viewModel.singleContact.bsd_housenumberstreet); }
-            if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_district_label)) { tmp.Add(viewModel.singleContact.bsd_district_label); }
-            if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_province_label)) { tmp.Add(viewModel.singleContact.bsd_province_label); }
-            if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_country_label)) { tmp.Add(viewModel.singleContact.bsd_country_label); }
+                var tmp = new List<string>();
+                if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_housenumberstreet)) { tmp.Add(viewModel.singleContact.bsd_housenumberstreet); }
+                if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_district_label)) { tmp.Add(viewModel.singleContact.bsd_district_label); }
+                if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_province_label)) { tmp.Add(viewModel.singleContact.bsd_province_label); }
+                if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_country_label)) { tmp.Add(viewModel.singleContact.bsd_country_label); }
 
-            viewModel.singleContact.bsd_contactaddress = string.Join(", ", tmp);
+                viewModel.singleContact.bsd_contactaddress = string.Join(", ", tmp);
 
-            var tmpEN = new List<string>();
+                var tmpEN = new List<string>();
 
-            if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_housenumber)) { tmpEN.Add(viewModel.singleContact.bsd_housenumber); }
-            if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_district_en)) { tmpEN.Add(viewModel.singleContact.bsd_district_en); }
-            if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_province_en)) { tmpEN.Add(viewModel.singleContact.bsd_province_en); }
-            if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_country_en)) { tmpEN.Add(viewModel.singleContact.bsd_country_en); }
+                if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_housenumber)) { tmpEN.Add(viewModel.singleContact.bsd_housenumber); }
+                if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_district_en)) { tmpEN.Add(viewModel.singleContact.bsd_district_en); }
+                if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_province_en)) { tmpEN.Add(viewModel.singleContact.bsd_province_en); }
+                if (!string.IsNullOrEmpty(viewModel.singleContact.bsd_country_en)) { tmpEN.Add(viewModel.singleContact.bsd_country_en); }
 
-            viewModel.singleContact.bsd_diachi = string.Join(", ", tmpEN);
+                viewModel.singleContact.bsd_diachi = string.Join(", ", tmpEN);
 
-            this.hide_popup_contactaddress(null, null);
+                this.hide_popup_contactaddress(null, null);
+            }
+            else
+            {
+                await DisplayAlert("", "Vui lòng nhập các trường bắt buộc (trường có gắn dấu *)", "OK");
+            }
         }
 
         /// POPUP PERMANENT CONTACTADDRESS
@@ -1248,8 +1277,8 @@ namespace ConasiCRM.Portable.Views
 
         private async Task<String> checkData()
         {
-            if (string.IsNullOrEmpty(viewModel.singleContact.bsd_lastname) || string.IsNullOrEmpty(viewModel.singleContact.mobilephone) ||
-                string.IsNullOrEmpty(viewModel.singleContact.gendercode) || string.IsNullOrEmpty(viewModel.singleContact.bsd_localization) ||
+            if (string.IsNullOrWhiteSpace(viewModel.singleContact.bsd_lastname) || string.IsNullOrWhiteSpace(viewModel.singleContact.mobilephone) ||
+                string.IsNullOrEmpty(viewModel.singleContact.gendercode) || string.IsNullOrEmpty(viewModel.singleContact.bsd_localization) || 
                 (!viewModel.singleContact.bsd_loingysinh && viewModel.singleContact.birthdate == null) ||
                 string.IsNullOrEmpty(viewModel.singleContact.bsd_identitycardnumber) ||
                 string.IsNullOrEmpty(viewModel.singleContact.emailaddress1) || string.IsNullOrEmpty(viewModel.singleContact.bsd_housenumberstreet) ||
@@ -1268,6 +1297,9 @@ namespace ConasiCRM.Portable.Views
             {
                 return "Khách hàng phải từ 18 tuổi";
             }
+            if(!PhoneNumberFormatVNHelper.CheckValidate(viewModel.singleContact.mobilephone))
+                return "Số điện thoại sai định dạng";
+
             Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             if (!string.IsNullOrEmpty(viewModel.singleContact.emailaddress1) && !string.IsNullOrWhiteSpace(viewModel.singleContact.emailaddress1))
             {
@@ -1495,17 +1527,20 @@ namespace ConasiCRM.Portable.Views
 
         private void check_year(object sender, TextChangedEventArgs e)
         {
-            try
+            if (e.NewTextValue != null)
             {
-                var yeartmp = int.Parse(e.NewTextValue);
-                if (yeartmp > DateTime.Now.Year)
+                try
                 {
-                    (sender as Entry).Text = e.OldTextValue;
+                    var yeartmp = int.Parse(e.NewTextValue);
+                    if (yeartmp > DateTime.Now.Year)
+                    {
+                        (sender as Entry).Text = e.OldTextValue;
+                    }
                 }
-            }
-            catch
-            {
-                (sender as Entry).Text = "";
+                catch
+                {
+                    (sender as Entry).Text = "";
+                }
             }
         }
 

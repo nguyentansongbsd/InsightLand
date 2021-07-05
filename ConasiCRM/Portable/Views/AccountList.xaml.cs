@@ -26,6 +26,7 @@ namespace ConasiCRM.Portable.Views
         public AccountList()
         {
             InitializeComponent();
+            viewModel.IsBusy = true;
             BindingContext = viewModel = new AccountListViewModel();
             NeedToRefresh = false;
             Init();
@@ -33,6 +34,7 @@ namespace ConasiCRM.Portable.Views
         public async void Init()
         {
             await viewModel.LoadData();
+            viewModel.IsBusy = false;
         }
 
         protected async override void OnAppearing()

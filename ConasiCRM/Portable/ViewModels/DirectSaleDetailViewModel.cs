@@ -48,13 +48,10 @@ namespace ConasiCRM.Portable.ViewModels
             this.maxNetArea = model.maxNetArea;
             this.minPrice = model.minPrice;
             this.maxPrice = model.maxPrice;
-            Blocks = new ObservableCollection<Block>();
-
-            AsyncHelper.RunSync(() => this.LoadBlocks());
+            Blocks = new ObservableCollection<Block>();           
+          //  AsyncHelper.RunSync(() => this.LoadBlocks());
             //this.LoadOnDemandCommand = new Command(async (p) => await this.LoadOnDemandExecute(p), (p) => this.IsLoadOnDemandEnabled(p));
-        }
-
-
+        }     
         /// <summary>
         ///  tesst
         /// </summary>

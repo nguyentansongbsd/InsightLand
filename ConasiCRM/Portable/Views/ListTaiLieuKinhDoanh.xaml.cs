@@ -21,11 +21,13 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new ListTaiLieuKinhDoanhViewModel();
+            viewModel.IsBusy = true;
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
+            viewModel.IsBusy = false;
         }
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {

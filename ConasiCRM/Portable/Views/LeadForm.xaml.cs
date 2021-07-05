@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using ConasiCRM.Portable.Controls;
+using ConasiCRM.Portable.Helper;
 using ConasiCRM.Portable.Models;
 using ConasiCRM.Portable.ViewModels;
 using Xamarin.Forms;
@@ -249,9 +250,9 @@ namespace ConasiCRM.Portable.Views
 
         //////////////////// GENDER Picker
         private void New_gender_picker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            viewModel.singleLead.new_gender = viewModel.singleGender == null ? null : viewModel.singleGender.Val;
-            if (viewModel.singleGender.Val != null)
+        {          
+           // viewModel.singleLead.new_gender = viewModel.singleGender == null ? null : viewModel.singleGender.Val;
+            if (viewModel.singleGender != null && viewModel.singleGender.Val != null)
             {
                 viewModel.singleLead.new_gender = viewModel.singleGender.Val;
                 viewModel.PhongThuy.gioi_tinh = Int32.Parse(viewModel.singleLead.new_gender);
@@ -272,12 +273,23 @@ namespace ConasiCRM.Portable.Views
         }
 
         //////////////////// FULLNAME Popup
-        private void save_fullname(object sender, EventArgs e)
+        private async void save_fullname(object sender, EventArgs e)
         {
-            viewModel.singleLead.firstname = popupfullname_firstname.Text;
-            viewModel.singleLead.lastname = popupfullname_lastname.Text;
-            viewModel.singleLead.fullname = string.IsNullOrWhiteSpace(viewModel.singleLead.firstname) ? "" : (viewModel.singleLead.firstname + " ") + viewModel.singleLead.lastname;
-            this.hide_popup_fullname(null, null);
+            if (!string.IsNullOrWhiteSpace(popupfullname_firstname.Text))
+            {
+                if (!string.IsNullOrWhiteSpace(popupfullname_lastname.Text))
+                    viewModel.singleLead.lastname = popupfullname_lastname.Text.Trim();
+                else
+                    viewModel.singleLead.lastname = popupfullname_lastname.Text;
+
+                viewModel.singleLead.firstname = popupfullname_firstname.Text.Trim();
+                viewModel.singleLead.fullname = viewModel.singleLead.firstname + " " + viewModel.singleLead.lastname;
+                this.hide_popup_fullname(null, null);
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("", "Vui lòng nhập các trường bắt buộc", "OK");
+            }
         }
 
         private void hide_popup_fullname(object sender, EventArgs e)
@@ -719,9 +731,14 @@ namespace ConasiCRM.Portable.Views
 
         private async Task<String> checkData()
         {
-            if (viewModel.singleLead._bsd_topic_value == null || viewModel.singleLead.fullname == null || viewModel.singleLead.mobilephone == null)
+            if (viewModel.singleLead._bsd_topic_value == null || string.IsNullOrWhiteSpace(viewModel.singleLead.fullname) || string.IsNullOrWhiteSpace(viewModel.singleLead.mobilephone))
             {
                 return "Vui lòng nhập các trường bắt buộc";
+            }
+
+            if(!PhoneNumberFormatVNHelper.CheckValidate(viewModel.singleLead.mobilephone))
+            {
+                return "Số điện thoại sai định dạng";
             }
 
             if (viewModel.singleLead.new_birthday != null && (DateTime.Now.Year - DateTime.Parse(viewModel.singleLead.new_birthday.ToString()).Year < 18))

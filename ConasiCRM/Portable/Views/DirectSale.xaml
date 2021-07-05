@@ -67,17 +67,17 @@
                         <controls:FormLabel Text="Diện tích sử dụng (m2)" Margin="10,5,10,0" VerticalOptions="Start"/>
                         <Grid Margin="10,0,10,5" ColumnDefinitions="Auto,*,Auto,*">
                             <Label Text="Từ" VerticalTextAlignment="Center" Grid.Column="0"/>
-                            <controls:EntryNumericFormat NumericText="{Binding minNetArea}" Grid.Column="1" MaxValue="99999" IsNotNegative="true" Placeholder="50"/>
+                            <controls:EntryNumericFormat NumericText="{Binding minNetArea}" Grid.Column="1" MaxValue="99999" IsNotNegative="true" Placeholder="50" Unfocused="MinNetArea_Unfocused"/>
                             <Label Text="Đến" VerticalTextAlignment="Center" Grid.Column="2"/>
-                            <controls:EntryNumericFormat NumericText="{Binding maxNetArea}" Grid.Column="3" MaxValue="99999" IsNotNegative="true" Placeholder="90"/>
+                            <controls:EntryNumericFormat NumericText="{Binding maxNetArea}" Grid.Column="3" MaxValue="99999" IsNotNegative="true" Placeholder="90" Unfocused="MaxNetArea_Unfocused"/>
                         </Grid>
 
                         <controls:FormLabel Text="Giá bán (vnđ)" Margin="10,5,10,0" VerticalOptions="Start"/>
                         <Grid Margin="10,0,10,5" ColumnDefinitions="Auto,*,Auto,*">
                             <Label Text="Từ" VerticalTextAlignment="Center" Grid.Column="0"/>
-                            <controls:EntryNumericFormat NumericText="{Binding minPrice}" Grid.Column="1" MaxValue="9999999999999" IsNotNegative="true" Placeholder="1.000.000.000"/>
+                            <controls:EntryNumericFormat NumericText="{Binding minPrice}" Grid.Column="1" MaxValue="9999999999999" IsNotNegative="true" Placeholder="1.000.000.000" Unfocused="MinPrice_Unfocused"/>
                             <Label Text="Đến" VerticalTextAlignment="Center" Grid.Column="2"/>
-                            <controls:EntryNumericFormat NumericText="{Binding maxPrice}" Grid.Column="3" MaxValue="9999999999999" IsNotNegative="true" Placeholder="4.000.000.000"/>
+                            <controls:EntryNumericFormat NumericText="{Binding maxPrice}" Grid.Column="3" MaxValue="9999999999999" IsNotNegative="true" Placeholder="4.000.000.000" Unfocused="MaxPrice_Unfocused"/>
                         </Grid>
 
                         <StackLayout Margin="10,5" Orientation="Horizontal">
