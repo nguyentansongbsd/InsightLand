@@ -18,19 +18,19 @@
     <ContentPage.Content>
         <AbsoluteLayout>
             <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <Grid RowDefinitions="Auto,10" BackgroundColor="White">
+                <Grid RowDefinitions="Auto,20" BackgroundColor="White">
                     <telerikPrimitives:RadBorder Grid.Row="0" BorderThickness="1" CornerRadius="0, 0, 10, 10" BackgroundColor="#039EBD">
                     </telerikPrimitives:RadBorder>
-                    <telerikPrimitives:RadBorder Grid.Row="0" Grid.RowSpan="2" BorderThickness="1" CornerRadius="10, 10, 10, 10" BorderColor="Gray" BackgroundColor="White" Margin="10,10,10,0">
-                        <Grid Padding="15" ColumnDefinitions="7*,4*" RowDefinitions="Auto,Auto,Auto">
+                    <telerikPrimitives:RadBorder Grid.Row="0" Grid.RowSpan="2" BorderThickness="1" CornerRadius="10, 10, 10, 10" BorderColor="Gray" BackgroundColor="White" Margin="10,20,10,0">
+                        <Grid Padding="15" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
                             <Label Text="Tổng tiền phí mô giới" FontSize="18" Grid.Row="0" Grid.Column="0" TextColor="Black"/>
-                            <Label Text="{Binding totalPMG, Converter={StaticResource DecimalToVndConverter}}"  HorizontalOptions="EndAndExpand" FontSize="18" Grid.Row="0" Grid.Column="1" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding totalPMG, Converter={StaticResource DecimalToVndConverter}}" VerticalOptions="Start"  HorizontalOptions="EndAndExpand" FontSize="18" Grid.Row="0" Grid.Column="1" TextColor="Black" FontAttributes="Bold"/>
 
                             <Label Text="Tổng tiền phí mô giới đã nhận" FontSize="18" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
-                            <Label Text="{Binding totalPMGNhan, Converter={StaticResource DecimalToVndConverter}}" HorizontalOptions="EndAndExpand" FontSize="18" Grid.Row="1" Grid.Column="1" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding totalPMGNhan, Converter={StaticResource DecimalToVndConverter}}" VerticalOptions="Start" HorizontalOptions="EndAndExpand" FontSize="18" Grid.Row="1" Grid.Column="1" TextColor="Black" FontAttributes="Bold"/>
 
-                            <Label Text="Tổng tiền phí mô giới còn lại" FontSize="18" Grid.Row="2" Grid.Column="0" TextColor="Black"/>
-                            <Label Text="{Binding totalPMGConLai, Converter={StaticResource DecimalToVndConverter}}"  HorizontalOptions="EndAndExpand" FontSize="18" Grid.Row="2" Grid.Column="1" TextColor="Black" FontAttributes="Bold" Margin="0,0,0,5" />
+                            <Label Text="Tổng tiền phí mô giới còn lại" FontSize="18" Grid.Row="2" Grid.Column="0" TextColor="Black" Margin="0,0,0,5"/>
+                            <Label Text="{Binding totalPMGConLai, Converter={StaticResource DecimalToVndConverter}}" VerticalOptions="Start"  HorizontalOptions="EndAndExpand" FontSize="18" Grid.Row="2" Grid.Column="1" TextColor="Black" FontAttributes="Bold" />
                         </Grid>
                     </telerikPrimitives:RadBorder>
                 </Grid>

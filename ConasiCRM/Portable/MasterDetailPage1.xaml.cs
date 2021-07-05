@@ -21,8 +21,17 @@ namespace ConasiCRM.Portable
 
         public void LeadList_Clicked(object sender, EventArgs e)
         {
+          //  popup_loading.IsVisible = true;
+            //LeadList leadList = new LeadList();
+            //leadList.Action = (check) =>
+            //{
+            //    if(check==true)
+            //        Detail = new NavigationPage(leadList);               
+
+            //};
             Detail = new NavigationPage(new LeadList());
             IsPresented = false;
+           // popup_loading.IsVisible = false;
         }
 
         public void AccountList_Clicked(object sender, EventArgs e)
