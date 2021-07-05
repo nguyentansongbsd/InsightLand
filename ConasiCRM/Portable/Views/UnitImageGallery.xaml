@@ -13,12 +13,7 @@
             <Label x:Name="EmptyText" Text="Không có hình ảnh để hiển thị" TextColor="Gray" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" IsVisible="false"/>
             <telerikDataControls:RadListView x:Name="listView" SelectionMode="None" ItemsSource="{Binding ImageList}" WidthRequest="{Binding widthListView}" MinimumHeightRequest="{Binding heightListView}">
                 <telerikDataControls:RadListView.LayoutDefinition>
-                    <telerikListView:ListViewGridLayout GroupHeaderLength="34"
-                                                        HorizontalItemSpacing="3"
-                                                        VerticalItemSpacing="3"
-                                                        SpanCount="{Binding noOfColumns}"
-                                                        ItemLength="120"
-                                                        Orientation="Vertical"/>
+                    <telerikListView:ListViewGridLayout GroupHeaderLength="34" HorizontalItemSpacing="3" VerticalItemSpacing="3" SpanCount="{Binding noOfColumns}" ItemLength="120" Orientation="Vertical"/>
                 </telerikDataControls:RadListView.LayoutDefinition>
                 <telerikDataControls:RadListView.ItemTemplate>
                     <DataTemplate>

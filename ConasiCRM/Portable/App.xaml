@@ -5,6 +5,20 @@
              x:Class="ConasiCRM.Portable.App">
     <Application.Resources>
         <ResourceDictionary>
+            <!--CLEAR DATA BUTTON-->
+            <Style x:Key="ClearButtonStyle" TargetType="Button">
+                <Setter Property="Text" Value="&#xf057;" />
+                <Setter Property="TextColor" Value="LightGray" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BackgroundColor" Value="transparent" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="WidthRequest" Value="34" />
+                <Setter Property="HorizontalOptions" Value="End" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="Padding" Value="0" />
+            </Style>
+
             <Color x:Key="IndicatorColor">#000000</Color>
             <Color x:Key="GridHeadingBG">#8ba3d3</Color>
             <Color x:Key="GridHeadingTextColor">#FFFFFF</Color>

@@ -15,6 +15,7 @@ namespace ConasiCRM.Portable.Views
 {
     public partial class UnitVideoGallery : ContentPage
     {
+        public Action<bool> OnCompleted;
         public UnitVideoGalleryViewModel viewModel;
         public string Category { get; set; }
         public string Folder { get; set; }
@@ -54,6 +55,11 @@ namespace ConasiCRM.Portable.Views
                         this.viewModel.VideoList.Add(item);
                     }
                 }
+                OnCompleted?.Invoke(true);
+            }
+            else
+            {
+                OnCompleted?.Invoke(false);
             }
             if (viewModel.VideoList.Count == 0) { EmptyText.IsVisible = true; listview.IsVisible = false; }
             viewModel.IsBusy = false;
