@@ -18,24 +18,38 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DirectSale : ContentPage
     {
+        private DirectSaleDetail directSaleDetail;
         private DirectSaleViewModel viewModel;
         public DirectSale()
         {
             InitializeComponent();
             BindingContext = viewModel = new DirectSaleViewModel();
             viewModel.IsCollapse = true;
+            viewModel.IsBusy = true;
             viewModel.ModalLookUp = modalLookUp;
-            viewModel.InitializeModal();
+            viewModel.InitializeModal();           
+            MessagingCenter.Unsubscribe<DirectSaleDetail, bool>(this, "check");
+            MessagingCenter.Subscribe<DirectSaleDetail, bool>(this, "check", async (p, check) =>
+            {
+                if (check == true)
+                {
+                    await Navigation.PushAsync(directSaleDetail);
+                }
+                else
+                {
+                    await DisplayAlert("Thông Báo", "Không tìm thấy thông tin", "Đồng ý");
+                }
+            });
             viewModel.IsBusy = false;
         }
 
-        private void SearchClicked(object sender, EventArgs e)
+        private async void SearchClicked(object sender, EventArgs e)
         {
             viewModel.IsBusy = true;
 
             if (viewModel.Project == null || viewModel.Project.Id == Guid.Empty)
             {
-                DisplayAlert("Thông báo", "Vui lòng chọn Dự án", "Đóng");
+              await  DisplayAlert("Thông báo", "Vui lòng chọn Dự án", "Đóng");
             }
             else
             {
@@ -48,7 +62,8 @@ namespace ConasiCRM.Portable.Views
                     viewModel.SelectedUnitStatus, 
                     viewModel.minNetArea, viewModel.maxNetArea,
                     viewModel.minPrice, viewModel.maxPrice);
-                Application.Current.MainPage.Navigation.PushAsync(new DirectSaleDetail(model));
+                directSaleDetail = new DirectSaleDetail(model);              
+                await Task.Delay(100);                             
             }
             viewModel.IsBusy = false;
         }
@@ -132,6 +147,78 @@ namespace ConasiCRM.Portable.Views
             //viewModel.maxPrice = null;
             //viewModel.IsCollapse = false;
             viewModel.IsBusy = false;
+        }       
+        private int CompareInt(string a, string b)
+        {
+            if (a != string.Empty && b != string.Empty)
+            {
+                if (Int32.TryParse(a, out int value1) && Int32.TryParse(b, out int value2))
+                {
+                    if (value1 > value2)
+                        return 1;
+                    if (value2 == value1)
+                        return 0;
+                    if (value1 < value2)
+                        return -1;
+                }
+                if (!Int32.TryParse(a,out int i) || !Int32.TryParse(b, out int j))
+                {
+                    if (!Int32.TryParse(a, out int c))
+                        return -1;
+                    if (!Int32.TryParse(b, out int d))
+                        return 1;
+                    return 0;
+                }
+            }
+            return 0;
+        }
+
+        private void MinPrice_Unfocused(object sender, FocusEventArgs e)
+        {
+            if (e.IsFocused == false)
+            {
+                if (CompareInt(viewModel.minPrice.ToString(), viewModel.maxPrice.ToString()) == 1)
+                {
+                    DisplayAlert("Thông Báo", "Giá trị không hợp lệ. Vui lòng thử lại!", "Đồng ý");
+                  //  viewModel.minPrice = viewModel.maxPrice;
+                }
+            }
+        }
+
+        private void MaxPrice_Unfocused(object sender, FocusEventArgs e)
+        {
+            if (e.IsFocused == false)
+            {
+                if (CompareInt(viewModel.maxPrice.ToString(), viewModel.minPrice.ToString()) == -1)
+                {
+                    DisplayAlert("Thông Báo", "Giá trị không hợp lệ. Vui lòng thử lại!", "Đồng ý");
+                  //  viewModel.maxPrice = viewModel.minPrice;
+                }
+            }
+        }
+
+        private void MinNetArea_Unfocused(object sender, FocusEventArgs e)
+        {
+            if (e.IsFocused == false)
+            {
+                if (CompareInt(viewModel.minNetArea.ToString(), viewModel.maxNetArea.ToString()) == 1)
+                {
+                    DisplayAlert("Thông Báo", "Giá trị không hợp lệ. Vui lòng thử lại!", "Đồng ý");
+                   // viewModel.minNetArea = viewModel.maxNetArea;
+                }
+            }
+        }
+
+        private void MaxNetArea_Unfocused(object sender, FocusEventArgs e)
+        {
+            if (e.IsFocused == false)
+            {
+                if (CompareInt(viewModel.maxNetArea.ToString(), viewModel.minNetArea.ToString()) == -1)
+                {
+                    DisplayAlert("Thông Báo", "Giá trị không hợp lệ. Vui lòng thử lại!", "Đồng ý");
+                   // viewModel.maxNetArea = viewModel.minNetArea;
+                }
+            }
         }
     }
 }

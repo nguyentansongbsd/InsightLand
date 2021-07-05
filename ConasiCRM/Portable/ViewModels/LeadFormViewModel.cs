@@ -739,7 +739,7 @@ namespace ConasiCRM.Portable.ViewModels
 
             var data = result.value;
 
-            if (data.Count <= 3)
+            if (data.Count < 3)
             {
                 ShowMoreDuAnQuanTam = false;
             }

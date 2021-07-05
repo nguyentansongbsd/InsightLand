@@ -21,7 +21,7 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             this.BindingContext = viewModel = new DanhBaViewModel();
-
+            viewModel.IsBusy = true;
             viewModel.isCheckedAll = false;
             viewModel.total = 0;
             viewModel.numberChecked = 0;
@@ -32,6 +32,7 @@ namespace ConasiCRM.Portable.Views
             };
 
             LoadContacts().GetAwaiter();
+            viewModel.IsBusy = false;
         }
 
         public void reset()

@@ -545,8 +545,8 @@ namespace ConasiCRM.Portable.Views
         private async Task<String> checkData()
         {
 
-            if (viewModel.singlePhanHoi.title == null || viewModel.singlePhanHoi.customerid == null 
-                || viewModel.singlePhanHoi.title == "" || viewModel.singlePhanHoi.customerid == "" )
+            if (string.IsNullOrWhiteSpace(viewModel.singlePhanHoi.title)|| viewModel.singlePhanHoi.customerid == null 
+             || viewModel.singlePhanHoi.customerid == "" )
             {
                 return "Vui lòng nhập các thông tin bắt buộc!";
             }

@@ -24,11 +24,13 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             this.BindingContext = viewModel = new HoatDongListViewModel();
+            viewModel.IsBusy = true;
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
+            viewModel.IsBusy = false;
         }
         protected override void OnAppearing()
         {

@@ -190,6 +190,7 @@ namespace ConasiCRM.Portable.ViewModels
             list_danhsachdatcoc.Clear();
             list_danhsachhopdong.Clear();
             list_chamsockhachhang.Clear();
+            list_Duanquantam.Clear();
 
             optionEntryHasOnlyTerminatedStatus = true;
 
@@ -547,7 +548,7 @@ namespace ConasiCRM.Portable.ViewModels
 
             var data = result.value;
 
-            if (data.Count <= 3)
+            if (data.Count < 3)
             {
                 ShowMoreNhuCauDiaDiem = false;
             }
@@ -829,9 +830,6 @@ namespace ConasiCRM.Portable.ViewModels
                 }
             }
         }
-
-
-
         public void resetDistrict()
         {
             list_district_lookup = new ObservableCollection<LookUp>();
@@ -1064,7 +1062,7 @@ namespace ConasiCRM.Portable.ViewModels
             }
             var data = result.value;
 
-            if (data.Count <= 3)
+            if (data.Count < 3)
             {
                 ShowMoreChamSocKhachHang = false;
             }
@@ -1264,7 +1262,7 @@ namespace ConasiCRM.Portable.ViewModels
 
             var data = result.value;
 
-            if (data.Count <= 3)
+            if (data.Count < 3)
             {
                 ShowMoreDuAnQuanTam = false;
             }

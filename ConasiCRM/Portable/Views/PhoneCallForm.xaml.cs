@@ -19,6 +19,7 @@ namespace ConasiCRM.Portable.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PhoneCallForm : ContentPage
 	{
+        private bool isInit = true;
         public Action<bool> CheckPhoneCell;
         private Guid _idActivity;
         public PhoneCellViewModel viewModel;
@@ -58,6 +59,7 @@ namespace ConasiCRM.Portable.Views
             BindingContext = viewModel = new PhoneCellViewModel();
             viewModel.Title = "Tạo mới cuộc gọi";
             viewModel.IsBusy = false;
+            isInit = false;
             grid_createPhone.IsVisible = true;
             grid_updatePhone.IsVisible = false;
             dataStackTo = new List<StackLayout>();
@@ -75,6 +77,7 @@ namespace ConasiCRM.Portable.Views
             InitializeComponent();
             BindingContext = viewModel = new PhoneCellViewModel();
             viewModel.Title = "Tạo mới cuộc gọi";
+            isInit = false;
             viewModel.IsBusy = false;
             grid_createPhone.IsVisible = true;
             grid_updatePhone.IsVisible = false;
@@ -102,7 +105,10 @@ namespace ConasiCRM.Portable.Views
         {
             await loadDataForm(this._idActivity);
             if (viewModel.PhoneCellModel != null)
+            {
                 CheckPhoneCell(true);
+                isInit = false;
+            }
             else
                 CheckPhoneCell(false);
         }
@@ -450,13 +456,21 @@ namespace ConasiCRM.Portable.Views
         }
         private int compareDateTime(DateTime? date, DateTime? date1)
         {
-            int result = DateTime.Compare(date.Value, date1.Value);
-            if (result < 0)
+            if (date != null && date != null)
+            {
+                int result = DateTime.Compare(date.Value, date1.Value);
+                if (result < 0)
+                    return -1;
+                else if (result == 0)
+                    return 0;
+                else
+                    return 1;
+            }
+            if (date == null && date1 != null)
                 return -1;
-            else if (result == 0)
-                return 0;
-            else
+            if (date1 == null && date != null)
                 return 1;
+            return 0;
         }
 
         private void DatePicker_Focused(object sender, FocusEventArgs e)
@@ -470,13 +484,22 @@ namespace ConasiCRM.Portable.Views
             {
                 DateTime timeNew = e.NewDate;
                 TimeSpan _timeStart = viewModel.PhoneCellModel.timeStart;
-                viewModel.PhoneCellModel.scheduledstart = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, _timeStart.Hours, _timeStart.Minutes, _timeStart.Seconds);
+                var scheduledstart = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, _timeStart.Hours, _timeStart.Minutes, _timeStart.Seconds);
                 //viewModel.FocusTimePickerStart = true;
-                this.totalDuration();
+                
                 // check thời gian gian kết thúc
                 if (this.compareDateTime(viewModel.PhoneCellModel.scheduledend, viewModel.PhoneCellModel.scheduledstart) != 1)
                 {
-                    viewModel.PhoneCellModel.scheduledend = null;
+                    DisplayAlert("Thông Báo", "Vui lòng chọn thời gian bắt đầu nhỏ hơn thời gian kết thúc!", "Đồng ý");
+                    int valueDate = int.Parse(viewModel.PhoneCellModel.durationValue.Val);
+                    var time = viewModel.PhoneCellModel.scheduledend.Value.AddMinutes(-valueDate);
+                    viewModel.PhoneCellModel.scheduledstart = new DateTime(time.Year, time.Month, time.Day, _timeStart.Hours, _timeStart.Minutes, _timeStart.Seconds);
+                    viewModel.PhoneCellModel.timeStart = new TimeSpan(viewModel.PhoneCellModel.scheduledstart.Value.Hour, viewModel.PhoneCellModel.scheduledstart.Value.Minute, 0);
+                }
+                else
+                {
+                    viewModel.PhoneCellModel.scheduledstart = scheduledstart;
+                    this.totalDuration();
                 }
             }
         }
@@ -499,8 +522,14 @@ namespace ConasiCRM.Portable.Views
                     }
                     else
                     {
-                        DisplayAlert("Thông Báo", "Vui lòng chọn thời gian bắt đầu nhỏ hơn thời gian kết thúc!", "Đồng ý");
-                        viewModel.PhoneCellModel.scheduledstart = null;
+                        if (isInit != true)
+                        {
+                            DisplayAlert("Thông Báo", "Vui lòng chọn thời gian bắt đầu nhỏ hơn thời gian kết thúc!", "Đồng ý");
+                            var time1 = viewModel.PhoneCellModel.scheduledend.Value;
+                            int valueDate = int.Parse(viewModel.PhoneCellModel.durationValue.Val);
+                            viewModel.PhoneCellModel.scheduledstart = viewModel.PhoneCellModel.scheduledend.Value.AddMinutes(-valueDate);
+                            viewModel.PhoneCellModel.timeStart = new TimeSpan(viewModel.PhoneCellModel.scheduledstart.Value.Hour, viewModel.PhoneCellModel.scheduledstart.Value.Minute, 0);
+                        }
                     }
                 }
                 else
@@ -536,7 +565,9 @@ namespace ConasiCRM.Portable.Views
                     else
                     {
                         DisplayAlert("Thông Báo", "Vui lòng chọn thời gian kết thúc lớn hơn thời gian bắt đầu!", "Đồng ý");
-                        viewModel.PhoneCellModel.scheduledend = null;
+                        int valueDate = int.Parse(viewModel.PhoneCellModel.durationValue.Val);
+                        viewModel.PhoneCellModel.scheduledend = viewModel.PhoneCellModel.scheduledstart.Value.AddMinutes(valueDate);
+                        viewModel.PhoneCellModel.timeEnd = new TimeSpan(viewModel.PhoneCellModel.scheduledend.Value.Hour, viewModel.PhoneCellModel.scheduledend.Value.Minute, 0);
                     }
                 }
                 else
@@ -564,8 +595,13 @@ namespace ConasiCRM.Portable.Views
                     }
                     else
                     {
-                        DisplayAlert("Thông Báo", "Vui lòng chọn thời gian kết thúc lớn hơn thời gian bắt đầu!", "Đồng ý");
-                        viewModel.PhoneCellModel.scheduledend = null;
+                        if (isInit != true)
+                        {
+                            DisplayAlert("Thông Báo", "Vui lòng chọn thời gian kết thúc lớn hơn thời gian bắt đầu!", "Đồng ý");
+                            int valueDate = int.Parse(viewModel.PhoneCellModel.durationValue.Val);
+                            viewModel.PhoneCellModel.scheduledend = viewModel.PhoneCellModel.scheduledstart.Value.AddMinutes(valueDate);
+                            viewModel.PhoneCellModel.timeEnd = new TimeSpan(viewModel.PhoneCellModel.scheduledend.Value.Hour, viewModel.PhoneCellModel.scheduledend.Value.Minute, 0);
+                        }
                     }
                 }
                 else
@@ -837,7 +873,7 @@ namespace ConasiCRM.Portable.Views
                     if (created != new Guid())
                     {
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Tạo cuộc gọi thành công", "OK");
-                        this.loadDataForm(created); // load data according to new id
+                       await this.loadDataForm(created); // load data according to new id
                     }
                     else
                     {
@@ -850,30 +886,35 @@ namespace ConasiCRM.Portable.Views
                     if (update)
                     {
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thành công!", "OK");
-                        this.loadDataForm(viewModel.PhoneCellModel.activityid); // loading data after update
+                       await this.loadDataForm(viewModel.PhoneCellModel.activityid); // loading data after update
                     }
                     else
                     {
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thất bại!", "OK");
                     }
                 }
-            }
-            else
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Vui lòng nhập các thông tin bắt buộc!", "OK");
-            }
+            }           
         }
 
         // Check the required information (scheduledstart, scheduledend, )
         private async Task<bool> checkData()
         {
             var dataPhone = viewModel.PhoneCellModel;
-            if (dataPhone.subject != null && viewModel.listFromCell.Count > 0 && viewModel.listToCell.Count > 0 && dataPhone.scheduledstart != null && dataPhone.scheduledend != null)
+            if (!string.IsNullOrWhiteSpace(dataPhone.subject) && viewModel.listFromCell.Count > 0 && viewModel.listToCell.Count > 0 && dataPhone.scheduledstart != null && dataPhone.scheduledend != null)
             {
+                if(!string.IsNullOrWhiteSpace(dataPhone.phonenumber))
+                {
+                    if(!PhoneNumberFormatVNHelper.CheckValidate(dataPhone.phonenumber))
+                    {
+                        await DisplayAlert("Thông Báo", "Số điện thoại sai định dạng!", "Đồng ý");
+                        return false;
+                    }
+                }
                 return true;
             }
             else
             {
+                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Vui lòng nhập các thông tin bắt buộc!", "OK");
                 return false;
             }
         }
@@ -1037,9 +1078,11 @@ namespace ConasiCRM.Portable.Views
         private async void CanceledPhone_Clicked(object sender, EventArgs e)
         {
             bool check = await DisplayAlert("Thông báo", "Bạn có muốn hủy cuộc gọi này không ?", "Đồng Ý", "Không Đồng Ý");
+            int a = 0;
             if (check == true)
             {
                 viewModel.PhoneCellModel.statecode = 2; // update statecode canceled
+                viewModel.PhoneCellModel.statuscode = 3;
                 this.savePhone();
             }
         }
