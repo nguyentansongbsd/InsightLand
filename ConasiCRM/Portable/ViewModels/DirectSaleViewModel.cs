@@ -42,8 +42,8 @@ namespace ConasiCRM.Portable.ViewModels
         private decimal? _maxPrice;
         public decimal? maxPrice { get => _maxPrice; set { _maxPrice = value; OnPropertyChanged(nameof(maxPrice)); } }
 
-        private LookUp _project;
-        public LookUp Project
+        private ConasiCRM.Portable.Models.LookUp _project;
+        public Models.LookUp Project
         {
             get => _project;
             set
@@ -91,8 +91,8 @@ namespace ConasiCRM.Portable.ViewModels
             }
         }
 
-        private LookUp _phasesLanch;
-        public LookUp PhasesLanch
+        private Models.LookUp _phasesLanch;
+        public Models.LookUp PhasesLanch
         {
             get
             {

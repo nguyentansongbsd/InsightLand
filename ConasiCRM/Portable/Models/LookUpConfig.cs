@@ -29,7 +29,6 @@ namespace ConasiCRM.Portable.Models
 
         public async Task FetchData()
         {
-            await Task.Delay(1000);
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>(EntityName, string.Format(FetchXml, LookUpPage, Keyword ?? ""));
             var data = result.value;
             var count = data.Count;

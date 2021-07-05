@@ -8,10 +8,9 @@
              x:Class="ConasiCRM.Portable.Login">
     <ContentPage.Content>
         <AbsoluteLayout>
-            <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
-                <StackLayout Margin="20,50"
-                 Spacing="10" VerticalOptions="Center">
-                    <Image Source="insightland_logo" Margin="0,15,0,15" />
+            <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="0,0,0,20">
+                <StackLayout Margin="20,0" Spacing="10" VerticalOptions="Center">
+                    <Image Source="insightland_logo" Margin="0,15" />
                     <controls:BorderEntry BackgroundColor="#ffffff" Text="" x:Name="txtUsername" Placeholder="Tên đăng nhập"/>
                     <controls:BorderEntry BackgroundColor="#ffffff" Text="" IsPassword="True" x:Name="txtPassword" Placeholder="Mật khẩu" />
                     <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" Margin="0,10">

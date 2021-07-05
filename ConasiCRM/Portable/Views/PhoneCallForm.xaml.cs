@@ -733,7 +733,7 @@ namespace ConasiCRM.Portable.Views
 
         private void LvLookUp_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var item = e.Item as LookUp;
+            var item = e.Item as Models.LookUp;
             if (viewModel.check_open == "Lookup")
             {
                 var model = viewModel.PhoneCellModel;

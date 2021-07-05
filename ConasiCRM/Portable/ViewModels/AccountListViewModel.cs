@@ -20,7 +20,7 @@ namespace ConasiCRM.Portable.ViewModels
                 EntityName = "accounts";
                 FetchXml = $@"<fetch version='1.0' count='15' page='{Page}' output-format='xml-platform' mapping='logical' distinct='false'>
                   <entity name='account'>
-                    <attribute name='name' />
+                    <attribute name='bsd_name' />
                     <attribute name='telephone1' />
                     <attribute name='accountid' />
                     <attribute name='bsd_address' />

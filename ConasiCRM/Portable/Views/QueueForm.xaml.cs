@@ -27,6 +27,7 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             this.BindingContext = viewModel = new QueueFormViewModel();
+
             QueueNumberLabel.IsVisible = false;
             QueueNumberValue.IsVisible = false;
             btnDatCho.IsVisible = true;
@@ -35,7 +36,7 @@ namespace ConasiCRM.Portable.Views
             viewModel.ModalLookUp = modalLookUp;
             viewModel.InitializeModal();
             viewModel.AfterLookUpClose += AfterLookUpClose;
-
+            Init();
             LoadFromUnit();
         }
 
@@ -54,9 +55,18 @@ namespace ConasiCRM.Portable.Views
             viewModel.InitializeModal();
             viewModel.AfterLookUpClose += AfterLookUpClose;
             Init();
+            InitUpdate();
         }
 
         public async void Init()
+        {
+            lookUpDaiLy.PreOpenAsync = viewModel.LoadSalesAgent;
+            lookUpCollaborator.PreOpenAsync = viewModel.LoadCollaborator;
+            lookUpCustomerReferral.PreOpenAsync = viewModel.LoadCustomerReferral;
+        }
+
+
+        public async void InitUpdate()
         {
             await Load();
             if (viewModel.QueueFormModel != null)
@@ -229,6 +239,9 @@ namespace ConasiCRM.Portable.Views
                     <attribute name='bsd_queuingexpired' />
                     <attribute name='statuscode' />
                     <attribute name='opportunityid' />
+                    <attribute name='bsd_customerreferral' />
+                    <attribute name='bsd_salesagentcompany' />
+                    <attribute name='bsd_collaborator' />
                     <order attribute='createdon' descending='true' />
                    <link-entity name='contact' from='contactid' to='parentcontactid' visible='false' link-type='outer' alias='a_7eff24578704e911a98b000d3aa2e890'>
                          <attribute name='contactid' alias='contact_id' />
@@ -263,19 +276,56 @@ namespace ConasiCRM.Portable.Views
                           </link-entity>
                     </link-entity>
                     <filter type='and'>
-                       <condition attribute='opportunityid' operator='eq' uitype='opportunity' value='"+ QueueId.ToString() +@"' />
+                       <condition attribute='opportunityid' operator='eq' uitype='opportunity' value='" + QueueId.ToString() + @"' />
                     </filter>
               </entity>
             </fetch>";
+
+
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<QueueFormModel>>("opportunities", fetchXml);
             var queueInfo = result.value.FirstOrDefault();
 
-            if (queueInfo != null)
+            //vi gioi han toi da chi duoc 10 entity. nen lay 2 laan api
+            string fetchXml2 = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+              <entity name='opportunity'>
+                    <attribute name='opportunityid' />
+                    <order attribute='createdon' descending='true' />
+                    <link-entity name='contact' from='contactid' to='bsd_collaborator' visible='false' link-type='outer' alias='a_4913879edf72e911a83a000d3a80e651'>
+                        <attribute name='contactid' alias='bsd_collaborator_contact_id' />
+                        <attribute name='bsd_fullname' alias='bsd_collaborator_name'/>
+                    </link-entity>
+                    <link-entity name='account' from='accountid' to='bsd_salesagentcompany' visible='false' link-type='outer' alias='a_d6e4a386df72e911a83a000d3a80e651'>
+                        <attribute name='accountid' alias='bsd_salesagentcompany_account_id' />
+                        <attribute name='bsd_name' alias='bsd_salesagentcompany_name'/>
+                    </link-entity>
+                    <link-entity name='account' from='accountid' to='bsd_customerreferral' visible='false' link-type='outer' alias='a_cee4a386df72e911a83a000d3a80e651'>
+                        <attribute name='accountid' alias='bsd_customerreferral_account_id' />
+                        <attribute name='bsd_name' alias='bsd_customerreferral_name'/>
+                    </link-entity>
+                    <filter type='and'>
+                       <condition attribute='opportunityid' operator='eq' uitype='opportunity' value='" + QueueId.ToString() + @"' />
+                    </filter>
+              </entity>
+            </fetch>";
+            var result2 = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<QueueFormModel>>("opportunities", fetchXml2);
+            var queueInfo2 = result2.value.FirstOrDefault();
+
+            if (queueInfo != null && queueInfo2 != null)
             {
                 QueueFormModel queueFormModel = new QueueFormModel();
                 queueFormModel.bsd_queuenumber = queueInfo.bsd_queuenumber;
                 queueFormModel.name = queueInfo.name;
                 queueFormModel.statuscode = queueInfo.statuscode;
+
+                Contact contactCollaborator = new Contact() { contactid = queueInfo2.bsd_collaborator_contact_id, bsd_fullname = queueInfo2.bsd_collaborator_name };
+                viewModel.CollaboratorOption = contactCollaborator;
+
+                Account accountsalesagentcompany = new Account() { accountid = queueInfo2.bsd_salesagentcompany_account_id, name = queueInfo2.bsd_salesagentcompany_name };
+                viewModel.DailyOption = accountsalesagentcompany;
+
+                Account accountcustomerreferral = new Account() { accountid = queueInfo2.bsd_customerreferral_account_id, Name = queueInfo2.bsd_customerreferral_name };
+                viewModel.CustomerReferralOption = accountcustomerreferral;
+
                 if (queueInfo.contact_id != Guid.Empty)
                 {
                     viewModel.Customer = new CustomerLookUp()
@@ -324,10 +374,10 @@ namespace ConasiCRM.Portable.Views
                 queueFormModel.bsd_collectedqueuingfee = queueInfo.bsd_collectedqueuingfee;// đa nhan tien
                 queueFormModel.landvalue = queueInfo.landvalue;
                 queueFormModel.unit_price = queueInfo.unit_price;
-                viewModel.QueueFormModel = queueFormModel;               
-                InitBtn();                
-            }           
-            
+                viewModel.QueueFormModel = queueFormModel;
+                InitBtn();
+            }
+
             viewModel.Title = "Thông tin đặt chỗ";
             viewModel.IsBusy = false;
         }
@@ -342,19 +392,27 @@ namespace ConasiCRM.Portable.Views
             }
             else
             {
-                btnHuyDatCho.IsVisible = true;
+                gridBtnGroup.IsVisible = btnHuyDatCho.IsVisible = true;
             }
 
 
             if (status == 1) // draft van cho datcho.
             {
-                btnDatCho.IsVisible = true;
+                gridBtnGroup.IsVisible = btnDatCho.IsVisible = true;
+            }
+            else
+            {
+                btnDatCho.IsVisible = false;
             }
 
             // trang thai la queuing va phi dat cho = 0 hoac da tra tien phi dat cho.
             if ((status == 100000000) && (viewModel.QueueFormModel.bsd_queuingfee == 0 || viewModel.QueueFormModel.bsd_collectedqueuingfee))
             {
-                btnDatCoc.IsVisible = true;
+                gridBtnGroup.IsVisible = btnDatCoc.IsVisible = true;
+            }
+            else
+            {
+                btnDatCoc.IsVisible = false;
             }
             InitButtonGroup();
         }
@@ -430,12 +488,40 @@ namespace ConasiCRM.Portable.Views
                     clearLookupResponse = await CrmHelper.SetNullLookupField("opportunities", this.QueueId, "customerid_contact");
                 }
 
+                if (viewModel.DailyOption == null || viewModel.DailyOption.accountid == Guid.Empty)
+                {
+                    clearLookupResponse = await CrmHelper.SetNullLookupField("opportunities", this.QueueId, "bsd_salesagentcompany");
+                }
+                else
+                {
+                    data["bsd_salesagentcompany@odata.bind"] = $"/accounts({viewModel.DailyOption.accountid})";
+                }
+
+                if (viewModel.CollaboratorOption == null || viewModel.CollaboratorOption.contactid == Guid.Empty)
+                {
+                    clearLookupResponse = await CrmHelper.SetNullLookupField("opportunities", this.QueueId, "bsd_collaborator");
+                }
+                else
+                {
+                    data["bsd_collaborator@odata.bind"] = $"/contacts({viewModel.CollaboratorOption.contactid})";
+                }
+
+                if (viewModel.CustomerReferralOption == null || viewModel.CustomerReferralOption.accountid == Guid.Empty)
+                {
+                    clearLookupResponse = await CrmHelper.SetNullLookupField("opportunities", this.QueueId, "bsd_customerreferral_account");
+                }
+                else
+                {
+                    data["bsd_customerreferral_account@odata.bind"] = $"/accounts({viewModel.CustomerReferralOption.accountid})";
+                }
+
                 if (clearLookupResponse.IsSuccess)
                 {
                     CrmApiResponse res = await CrmHelper.PatchData($"/opportunities({this.QueueId})", data);
                     if (res.IsSuccess)
                     {
                         await DisplayAlert("Thông báo", "Cập nhật thành công", "Đóng");
+                        await Load();
                     }
                     else
                     {
@@ -529,16 +615,6 @@ namespace ConasiCRM.Portable.Views
             viewModel.IsBusy = false;
         }
 
-        private async void DaiLyLookUp_OpenClicked(object sender, EventArgs e)
-        {
-
-        }
-
-        private async void CongTacVienLookUp_OpenClicked(object sender,EventArgs e)
-        {
-
-        }
-
         private async void KhachHangGioiThieuLookUp_OpenClicked(object sender, EventArgs e)
         {
             viewModel.IsBusy = true;
@@ -546,6 +622,16 @@ namespace ConasiCRM.Portable.Views
             viewModel.BtnContact.Clicked += ContactOpen;
             viewModel.BtnAccount.Clicked += AccountOpen;
             ContactOpen(viewModel.BtnContact, EventArgs.Empty);
+        }
+
+        private void lookUpDaiLy_SelectedItemChange(System.Object sender, ConasiCRM.Portable.Models.LookUpChangeEvent e)
+        {
+            viewModel.CollaboratorOption = null;
+        }
+
+        private void lookUpCollaborator_SelectedItemChange(System.Object sender, ConasiCRM.Portable.Models.LookUpChangeEvent e)
+        {
+            viewModel.DailyOption = null;
         }
     }
 

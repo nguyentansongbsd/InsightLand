@@ -247,7 +247,9 @@
                                     <Grid ColumnDefinitions="*,Auto">
                                         <Label Style="{StaticResource ExpanderHeadingText}" Text="Chiết khấu đặc biệt"/>
                                         <!--<Button x:Name="btnViewSpecialDiscount" Text="Xem" HeightRequest="20" FontSize="Small"  Clicked="BtnViewSpecicalDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" />
-                                        --><!--<ImageButton x:Name="btnViewSpecicalDiscount" Clicked="BtnViewSpecicalDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>--><!--
+                                        -->
+                                        <!--<ImageButton x:Name="btnViewSpecicalDiscount" Clicked="BtnViewSpecicalDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>-->
+                                        <!--
                                         <ImageButton x:Name="btnDeleteSpecicalDiscount" Clicked="BtnDeleteSpecicalDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>-->
                                         <ImageButton x:Name="btnOpenNewSpecialDiscount" Clicked="BtnOpenNewSpecialDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" Grid.Column="1" WidthRequest="17" HeightRequest="17" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="Transparent" Margin="0,0,5,0">
                                             <ImageButton.Source>
@@ -365,22 +367,18 @@
                                         <controls:FormLabelValue Text="{Binding Reservation.discountlist_name}" />
                                     </StackLayout>
 
-                                    <telerikDataControls:RadListView x:Name="listView" SelectionMode="None" Grid.Row="1">
-                                        <telerikDataControls:RadListView.ItemTemplate>
+                                    <StackLayout x:Name="listView" Grid.Row="1">
+                                        <BindableLayout.ItemTemplate>
                                             <DataTemplate>
-                                                <telerikListView:ListViewTemplateCell>
-                                                    <telerikListView:ListViewTemplateCell.View>
-                                                        <StackLayout Orientation="Horizontal" Padding="5">
-                                                            <StackLayout.GestureRecognizers>
-                                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="DiscountsListView_ItemTapped" CommandParameter="{Binding}" />
-                                                            </StackLayout.GestureRecognizers>
-                                                            <controls:MyNewCheckBox CheckedColor="#666666" Spacing="5" Title="{Binding Label}" TitleColor="{Binding IsExpired,Converter={StaticResource DiscountsIsExpiredToColorConverter}}" IsEnabled="False" IsChecked="{Binding Selected,Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" />
-                                                        </StackLayout>
-                                                    </telerikListView:ListViewTemplateCell.View>
-                                                </telerikListView:ListViewTemplateCell>
+                                                <StackLayout Orientation="Horizontal" Padding="5">
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="DiscountsListView_ItemTapped" CommandParameter="{Binding}" />
+                                                    </StackLayout.GestureRecognizers>
+                                                    <controls:MyNewCheckBox CheckedColor="#666666" Spacing="5" Title="{Binding Label}" TitleColor="{Binding IsExpired,Converter={StaticResource DiscountsIsExpiredToColorConverter}}" IsEnabled="False" IsChecked="{Binding Selected,Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" />
+                                                </StackLayout>
                                             </DataTemplate>
-                                        </telerikDataControls:RadListView.ItemTemplate>
-                                    </telerikDataControls:RadListView>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
                                     <Button Grid.Row="2" Text="Cập nhật chiết khấu" FontSize="15" x:Name="btnUpdateDiscounts" Clicked="BtnUpdateDiscounts_Clicked" IsVisible="False" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
                                 </Grid>
                             </telerikPrimitives:RadExpander.Content>
@@ -607,7 +605,7 @@
                                         <StackLayout>
                                             <Label Text="Thông tin phí quản lý" Style="{StaticResource TitleFormStyle}"/>
                                             <Grid Padding="10" RowSpacing="15" ColumnDefinitions="4*,6*" RowDefinitions="Auto,Auto">
-                                                
+
                                                 <controls:FormLabel Text="Số tháng trả phí quản lý" Grid.Row="0" Grid.Column="0" VerticalOptions="Start"/>
                                                 <controls:FormLabelValue Text="{Binding Reservation.bsd_numberofmonthspaidmf}" HorizontalTextAlignment="End" Grid.Row="0" Grid.Column="1" VerticalOptions="Start"/>
 

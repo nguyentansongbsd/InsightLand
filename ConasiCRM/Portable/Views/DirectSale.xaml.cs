@@ -75,19 +75,49 @@ namespace ConasiCRM.Portable.Views
             viewModel.IsBusy = false;
         }
 
-        private async void VideoList_Clicked(object sender, EventArgs e)
+        private void VideoList_Clicked(object sender, EventArgs e)
         {
             if (viewModel.Project != null)
             {
-                await Navigation.PushAsync(new UnitVideoGallery("Project", viewModel.Project.Id.ToString(), viewModel.Project.Name, "Video dự án"));
+                viewModel.IsBusy = true;
+                UnitVideoGallery unitVideoGallery = new UnitVideoGallery("Project", viewModel.Project.Id.ToString(), viewModel.Project.Name, "Video dự án");
+                unitVideoGallery.OnCompleted =  async(IsSuccess) =>
+                {
+                    if (IsSuccess)
+                    {
+                        await Navigation.PushAsync(unitVideoGallery);
+                        viewModel.IsBusy = false;
+                    }
+                    else
+                    {
+                        await DisplayAlert("", "Không có video để hiển thị.", "Đóng");
+                        viewModel.IsBusy = false;
+                    }
+                };
+                
             }
         }
 
-        private async void ImageList_Clicked(object sender, EventArgs e)
+        private void ImageList_Clicked(object sender, EventArgs e)
         {
             if (viewModel.Project != null)
             {
-                await Navigation.PushAsync(new UnitImageGallery("Project", viewModel.Project.Id.ToString(), viewModel.Project.Name, "Hình ảnh dự án"));
+                viewModel.IsBusy = true;
+                UnitImageGallery unitImageGallery = new UnitImageGallery("Project", viewModel.Project.Id.ToString(), viewModel.Project.Name, "Hình ảnh dự án");
+                unitImageGallery.OnCompleted = async (IsSuccess) =>
+                {
+                    if (IsSuccess)
+                    {
+                        await Navigation.PushAsync(unitImageGallery);
+                        viewModel.IsBusy = false;
+                    }
+                    else
+                    {
+                        await DisplayAlert("", "Không có image để hiển thị.", "Đóng");
+                        viewModel.IsBusy = false;
+                    }
+                };
+                
             }
         }
 

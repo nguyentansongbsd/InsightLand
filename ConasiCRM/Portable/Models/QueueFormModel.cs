@@ -21,6 +21,13 @@ namespace ConasiCRM.Portable.Models
         public Guid account_id { get; set; }
         public string account_name { get; set; }
 
+        public Guid bsd_customerreferral_account_id { get; set; }
+        public string bsd_customerreferral_name { get; set; }
+        public Guid bsd_salesagentcompany_account_id { get; set; }
+        public string bsd_salesagentcompany_name { get; set; }
+        public Guid bsd_collaborator_contact_id { get; set; }
+        public string bsd_collaborator_name { get; set; }
+
         public int statuscode { get; set; } // chi su dung trong form update.
 
         public DateTime createdon { get; set; } // Thời gian đặt chỗ 
