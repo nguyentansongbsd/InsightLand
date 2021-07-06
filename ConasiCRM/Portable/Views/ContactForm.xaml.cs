@@ -31,7 +31,8 @@ namespace ConasiCRM.Portable.Views
 
         TapGestureRecognizer tab_tapped;
 
-        Label required_field = new Label() {
+        Label required_field = new Label()
+        {
             HorizontalTextAlignment = TextAlignment.End,
             VerticalOptions = LayoutOptions.Center,
             TextColor = Color.FromHex("#fb0000"),
@@ -54,20 +55,20 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             this.BindingContext = viewModel = new ContactFormViewModel();
-            this.constructor();                  
+            this.constructor();
             Init(contactId);
-    }
+        }
 
-    public async void Init(Guid Id)
-    {
-        await loadData(Id.ToString());
-        if (viewModel.singleContact != null)
-           CheckSingleContact(true);
-        else
-           CheckSingleContact(false);
-    }
+        public async void Init(Guid Id)
+        {
+            await loadData(Id.ToString());
+            if (viewModel.singleContact != null)
+                CheckSingleContact(true);
+            else
+                CheckSingleContact(false);
+        }
 
-    public void constructor()
+        public void constructor()
         {
             viewModel.singleContact = new ContactFormModel();
             tab_tapped = new TapGestureRecognizer();
@@ -143,15 +144,15 @@ namespace ConasiCRM.Portable.Views
                         multipleSelectView.addSelectedItem(x);
                     }
                 }
-                await viewModel.GetImageCMND();  
-            }            
+                await viewModel.GetImageCMND();
+            }
             this.render(contactId);
             viewModel.IsBusy = false;
         }
 
         public void render(string id)
         {
-            if(id != null)
+            if (id != null)
             {
                 this.Title = "Cập Nhật Khách Hàng Cá Nhân";
                 btn_save_contact.Text = "Cập Nhật";
@@ -250,8 +251,9 @@ namespace ConasiCRM.Portable.Views
                 viewModel.singleContact.lastname = popupfullname_lastname.Text.Trim();
 
                 var tmp = new List<String>();
-                tmp.Add(viewModel.singleContact.bsd_firstname);
-                tmp.Add(viewModel.singleContact.bsd_lastname);
+            if (viewModel.singleContact.bsd_firstname != null) { tmp.Add(viewModel.singleContact.bsd_firstname); }
+            if (viewModel.singleContact.bsd_lastname != null) { tmp.Add(viewModel.singleContact.bsd_lastname); }
+
 
                 viewModel.singleContact.bsd_fullname = string.Join(" ", tmp);
                 //viewModel.singleContact.bsd_fullname = viewModel.singleContact.fullname;
@@ -263,10 +265,10 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-/// GENDER PICKER
+        /// GENDER PICKER
         private void gendercode_picker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(viewModel.singleGender.Val != null)
+            if (viewModel.singleGender.Val != null)
             {
                 viewModel.singleContact.gendercode = viewModel.singleGender.Val;
                 viewModel.PhongThuy.gioi_tinh = Int32.Parse(viewModel.singleContact.gendercode);
@@ -280,24 +282,24 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-/// CONTACTGROUP PICKER
+        /// CONTACTGROUP PICKER
 
         private void contact_group_picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             viewModel.singleContact.bsd_customergroup = viewModel.singleContactgroup == null ? null : viewModel.singleContactgroup.Val;
         }
 
-/// LOCALIZATION PICKER
+        /// LOCALIZATION PICKER
         private void bsd_localization_picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             viewModel.singleContact.bsd_localization = viewModel.singleLocalization == null ? null : viewModel.singleLocalization.Val;
         }
 
-//////////////////////////////////////////////////////////// <summary>
-///
-///        LISTVIEW POPUP (All POPUP USE LISTVIEW AND SEARCHBAR VIEW)
-///
-//////////////////////////////////////////////////////////// </summary>
+        //////////////////////////////////////////////////////////// <summary>
+        ///
+        ///        LISTVIEW POPUP (All POPUP USE LISTVIEW AND SEARCHBAR VIEW)
+        ///
+        //////////////////////////////////////////////////////////// </summary>
 
         private void hide_listview_popup(object sender, EventArgs e)
         {
@@ -314,11 +316,11 @@ namespace ConasiCRM.Portable.Views
                     (source_listviewpopup.Children.FirstOrDefault() as ListView).ItemsSource = viewModel.list_lookup;
                     return;
                 }
-               (source_listviewpopup.Children.FirstOrDefault() as ListView).ItemsSource = viewModel.list_lookup.Where(x => x.Name.IndexOf(e.NewTextValue, StringComparison.OrdinalIgnoreCase)>= 0);
+               (source_listviewpopup.Children.FirstOrDefault() as ListView).ItemsSource = viewModel.list_lookup.Where(x => x.Name.IndexOf(e.NewTextValue, StringComparison.OrdinalIgnoreCase) >= 0);
             }
         }
 
-/// POPUPLISTVIEW PROTECTOR
+        /// POPUPLISTVIEW PROTECTOR
         private async void show_popup_listview_protector(object sender, EventArgs e)
         {
             isShowingPopup = true;
@@ -348,7 +350,8 @@ namespace ConasiCRM.Portable.Views
             ///// Render List Topic to Popup
             tmp.SetBinding(ListView.ItemsSourceProperty, new Binding("list_lookup", source: viewModel));
             tmp.ItemTemplate = null;
-            tmp.ItemTemplate = new DataTemplate(() => {
+            tmp.ItemTemplate = new DataTemplate(() =>
+            {
                 // Create views with bindings for displaying each property.
                 Label nameLabel = new Label();
                 nameLabel.SetBinding(Label.TextProperty, "Name");
@@ -376,7 +379,7 @@ namespace ConasiCRM.Portable.Views
 
         private void popupProtector_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var selected = e.Item as LookUp;
+            var selected = e.Item as Models.LookUp;
 
             viewModel.singleContact._bsd_protecter_value = selected.Id.ToString();
             viewModel.singleContact.bsd_protecter_label = selected.Name;
@@ -384,7 +387,7 @@ namespace ConasiCRM.Portable.Views
             this.hide_listview_popup(null, null);
         }
 
-/// POPUPLISTVIEW PARENTCUSTOMERID ------ POPUP HAVE 2 TABS -------
+        /// POPUPLISTVIEW PARENTCUSTOMERID ------ POPUP HAVE 2 TABS -------
         private void show_popup_listview_parentcustomerid(object sender, EventArgs e)
         {
             isShowingPopup = true;
@@ -407,7 +410,7 @@ namespace ConasiCRM.Portable.Views
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 BackgroundColor = Color.LightSlateGray,
                 Margin = new Thickness(0, 5, 0, 0),
-        };
+            };
             tab_Contact.GestureRecognizers.Add(tab_tapped);
             tab_Contact.Children.Add(new Label() { Text = "KH Cá Nhân", FontAttributes = FontAttributes.Bold, FontSize = 15, HorizontalTextAlignment = TextAlignment.Center, VerticalTextAlignment = TextAlignment.Center, HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand });
 
@@ -462,7 +465,8 @@ namespace ConasiCRM.Portable.Views
             ///// Render List Topic to Popup
             tmp.SetBinding(ListView.ItemsSourceProperty, new Binding("list_lookup", source: viewModel));
             tmp.ItemTemplate = null;
-            tmp.ItemTemplate = new DataTemplate(() => {
+            tmp.ItemTemplate = new DataTemplate(() =>
+            {
                 // Create views with bindings for displaying each property.
                 Label nameLabel = new Label();
                 nameLabel.SetBinding(Label.TextProperty, "Name");
@@ -495,14 +499,15 @@ namespace ConasiCRM.Portable.Views
 
         private void popup_parentcustomerid_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var selected = e.Item as LookUp;
+            var selected = e.Item as Models.LookUp;
             viewModel.singleContact._parentcustomerid_value = selected.Id.ToString();
             viewModel.singleContact.parentcustomerid_label = selected.Name;
 
-            if(selected.Detail == "Contact")
+            if (selected.Detail == "Contact")
             {
                 viewModel.singleContact.parentcustomerid_label_contact = selected.Name;
-            }else if(selected.Detail == "Account")
+            }
+            else if (selected.Detail == "Account")
             {
                 viewModel.singleContact.parentcustomerid_label_account = selected.Name;
             }
@@ -521,9 +526,9 @@ namespace ConasiCRM.Portable.Views
         {
             //var bottom = e.Item as Option;
             ListView listview = source_listviewpopup.Children.LastOrDefault() as ListView;
-            var bottom = listview != null ? listview.ItemsSource.Cast<LookUp>().Last() : null;
+            var bottom = listview != null ? listview.ItemsSource.Cast<Models.LookUp>().Last() : null;
 
-            if (viewModel.moreLookup_contact && (listview.ItemsSource.Cast<LookUp>().Count() == 0 || (e.Item as LookUp) == bottom))
+            if (viewModel.moreLookup_contact && (listview.ItemsSource.Cast<Models.LookUp>().Count() == 0 || (e.Item as Models.LookUp) == bottom))
             {
                 viewModel.looking_up = true;
                 viewModel.pageLookup_contact++;
@@ -538,9 +543,9 @@ namespace ConasiCRM.Portable.Views
         {
             //var bottom = e.Item as Option;
             ListView listview = source_listviewpopup.Children.LastOrDefault() as ListView;
-            var bottom = listview != null ? listview.ItemsSource.Cast<LookUp>().Last() : null;
+            var bottom = listview != null ? listview.ItemsSource.Cast<Models.LookUp>().Last() : null;
 
-            if (viewModel.moreLooup_account && (listview.ItemsSource.Cast<LookUp>().Count() == 0 || (e.Item as LookUp) == bottom))
+            if (viewModel.moreLooup_account && (listview.ItemsSource.Cast<Models.LookUp>().Count() == 0 || (e.Item as Models.LookUp) == bottom))
             {
                 viewModel.looking_up = true;
                 viewModel.pageLookup_account++;
@@ -551,7 +556,7 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-//// POPUPLISTVIEW COUNTRY
+        //// POPUPLISTVIEW COUNTRY
 
         private async void show_popup_listview_country(object sender, EventArgs e)
         {
@@ -580,7 +585,8 @@ namespace ConasiCRM.Portable.Views
             ///// Render List Topic to Popup
             tmp.SetBinding(ListView.ItemsSourceProperty, new Binding("list_lookup", source: viewModel));
             tmp.ItemTemplate = null;
-            tmp.ItemTemplate = new DataTemplate(() => {
+            tmp.ItemTemplate = new DataTemplate(() =>
+            {
                 // Create views with bindings for displaying each property.
                 Label nameLabel = new Label();
                 nameLabel.SetBinding(Label.TextProperty, "Name");
@@ -607,7 +613,7 @@ namespace ConasiCRM.Portable.Views
 
         private void popupCountry_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var selected = e.Item as LookUp;
+            var selected = e.Item as Models.LookUp;
 
             viewModel.resetProvince();
             this.clear_entry_province(null, null);
@@ -625,9 +631,9 @@ namespace ConasiCRM.Portable.Views
         private async void loadMoreCountryLookup(object sender, ItemVisibilityEventArgs e)
         {
             ListView listview = source_listviewpopup.Children.LastOrDefault() as ListView;
-            var bottom = listview != null ? listview.ItemsSource.Cast<LookUp>().Last() : null;
+            var bottom = listview != null ? listview.ItemsSource.Cast<Models.LookUp>().Last() : null;
 
-            if (viewModel.morelookup_country && (listview.ItemsSource.Cast<LookUp>().Count() == 0 || (e.Item as LookUp) == bottom))
+            if (viewModel.morelookup_country && (listview.ItemsSource.Cast<Models.LookUp>().Count() == 0 || (e.Item as Models.LookUp) == bottom))
             {
                 viewModel.looking_up = true;
                 viewModel.pageLookup_country++;
@@ -639,7 +645,7 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-//// POPUPLISTVIEW PROVINCE
+        //// POPUPLISTVIEW PROVINCE
 
         private async void show_popup_listview_province(object sender, EventArgs e)
         {
@@ -673,7 +679,8 @@ namespace ConasiCRM.Portable.Views
             ///// Render List Topic to Popup
             tmp.SetBinding(ListView.ItemsSourceProperty, new Binding("list_lookup", source: viewModel));
             tmp.ItemTemplate = null;
-            tmp.ItemTemplate = new DataTemplate(() => {
+            tmp.ItemTemplate = new DataTemplate(() =>
+            {
                 // Create views with bindings for displaying each property.
                 Label nameLabel = new Label();
                 nameLabel.SetBinding(Label.TextProperty, "Name");
@@ -700,7 +707,7 @@ namespace ConasiCRM.Portable.Views
 
         private void popupProvince_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var selected = e.Item as LookUp;
+            var selected = e.Item as Models.LookUp;
 
             viewModel.resetDistrict();
             this.clear_entry_district(null, null);
@@ -716,9 +723,9 @@ namespace ConasiCRM.Portable.Views
         private async void loadMoreProvinceLookup(object sender, ItemVisibilityEventArgs e)
         {
             ListView listview = source_listviewpopup.Children.LastOrDefault() as ListView;
-            var bottom = listview != null ? listview.ItemsSource.Cast<LookUp>().Last() : null;
+            var bottom = listview != null ? listview.ItemsSource.Cast<Models.LookUp>().Last() : null;
 
-            if (viewModel.morelookup_province && (listview.ItemsSource.Cast<LookUp>().Count() == 0 || (e.Item as LookUp) == bottom))
+            if (viewModel.morelookup_province && (listview.ItemsSource.Cast<Models.LookUp>().Count() == 0 || (e.Item as Models.LookUp) == bottom))
             {
                 viewModel.looking_up = true;
                 viewModel.pageLookup_province++;
@@ -730,7 +737,7 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-//// POPUPLISTVIEW DISTRIC
+        //// POPUPLISTVIEW DISTRIC
 
         private async void show_popup_listview_district(object sender, EventArgs e)
         {
@@ -764,7 +771,8 @@ namespace ConasiCRM.Portable.Views
             ///// Render List Topic to Popup
             tmp.SetBinding(ListView.ItemsSourceProperty, new Binding("list_lookup", source: viewModel));
             tmp.ItemTemplate = null;
-            tmp.ItemTemplate = new DataTemplate(() => {
+            tmp.ItemTemplate = new DataTemplate(() =>
+            {
                 // Create views with bindings for displaying each property.
                 Label nameLabel = new Label();
                 nameLabel.SetBinding(Label.TextProperty, "Name");
@@ -791,7 +799,7 @@ namespace ConasiCRM.Portable.Views
 
         private void popupDistrict_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var selected = e.Item as LookUp;
+            var selected = e.Item as Models.LookUp;
 
             popupcontactaddress_district.Text = selected.Name;
             popupcontactaddress_district_id.Text = selected.Id.ToString();
@@ -804,9 +812,9 @@ namespace ConasiCRM.Portable.Views
         private async void loadMoreDistrictLookup(object sender, ItemVisibilityEventArgs e)
         {
             ListView listview = source_listviewpopup.Children.LastOrDefault() as ListView;
-            var bottom = listview != null ? listview.ItemsSource.Cast<LookUp>().Last() : null;
+            var bottom = listview != null ? listview.ItemsSource.Cast<Models.LookUp>().Last() : null;
 
-            if (viewModel.morelookup_district && (listview.ItemsSource.Cast<LookUp>().Count() == 0 || (e.Item as LookUp) == bottom))
+            if (viewModel.morelookup_district && (listview.ItemsSource.Cast<Models.LookUp>().Count() == 0 || (e.Item as Models.LookUp) == bottom))
             {
                 viewModel.looking_up = true;
                 viewModel.pageLookup_district++;
@@ -817,11 +825,11 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-//////////////////////////////////////////////////////////// <summary>
-//////////////////////////////////////////////////////////// </summary>
+        //////////////////////////////////////////////////////////// <summary>
+        //////////////////////////////////////////////////////////// </summary>
 
 
-/// POPUP CONTACADRESS
+        /// POPUP CONTACADRESS
         void show_popup_contactaddress(object sender, System.EventArgs e)
         {
             isShowingPopup = true;
@@ -839,7 +847,7 @@ namespace ConasiCRM.Portable.Views
                 BackgroundColor = Color.Silver,
             };
             button.Clicked += save_popup_contacaddress;
-            popupcontact_footer.Children.Add(button,1,0);
+            popupcontact_footer.Children.Add(button, 1, 0);
 
             popupcontactaddress_housenumberstreet.Text = viewModel.singleContact.bsd_housenumberstreet;
             popupcontactaddress_housenumber.Text = viewModel.singleContact.bsd_housenumber;
@@ -920,7 +928,7 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-/// POPUP PERMANENT CONTACTADDRESS
+        /// POPUP PERMANENT CONTACTADDRESS
         void show_popup_permanent_contactaddress(object sender, System.EventArgs e)
         {
             isShowingPopup = true;
@@ -936,7 +944,7 @@ namespace ConasiCRM.Portable.Views
                 BackgroundColor = Color.Silver,
             };
             button.Clicked += save_popup_permanent_contacaddress;
-            popupcontact_footer.Children.Add(button,1,0);
+            popupcontact_footer.Children.Add(button, 1, 0);
 
             popupcontactaddress_housenumberstreet.Text = viewModel.singleContact.bsd_permanentaddress;
             popupcontactaddress_housenumber.Text = viewModel.singleContact.bsd_permanenthousenumber;
@@ -998,7 +1006,7 @@ namespace ConasiCRM.Portable.Views
 
             this.hide_popup_contactaddress(null, null);
         }
-       
+
         #region Nhu cau dia diem
         private async void BtnAddNhuCauDiaDiem_Clicked(object sender, EventArgs e)
         {
@@ -1099,7 +1107,7 @@ namespace ConasiCRM.Portable.Views
 
         private void SearchBarProvince_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(e.NewTextValue == null)
+            if (e.NewTextValue == null)
             {
                 listviewProvinces.ItemsSource = viewModel.list_provinceefornhucaudiadiem;
                 return;
@@ -1203,7 +1211,7 @@ namespace ConasiCRM.Portable.Views
             viewModel.singleContactgroup = null;
         }
 
-////////////////////////////// SEND FORM TO CRM
+        ////////////////////////////// SEND FORM TO CRM
         private async void AddContact_Clicked(object sender, EventArgs e)
         {
             viewModel.IsBusy = true;
@@ -1274,14 +1282,14 @@ namespace ConasiCRM.Portable.Views
                 (!viewModel.singleContact.bsd_loingysinh && viewModel.singleContact.birthdate == null) ||
                 string.IsNullOrEmpty(viewModel.singleContact.bsd_identitycardnumber) ||
                 string.IsNullOrEmpty(viewModel.singleContact.emailaddress1) || string.IsNullOrEmpty(viewModel.singleContact.bsd_housenumberstreet) ||
-                viewModel.SelectedTypes.Count == 0 || 
+                viewModel.SelectedTypes.Count == 0 ||
                 (viewModel.singleContact.bsd_loingysinh && string.IsNullOrEmpty(viewModel.singleContact.bsd_nmsinh)))
             {
-                
-                 return "Vui lòng nhập các trường bắt buộc (trường có gắn dấu *)";
-                
+
+                return "Vui lòng nhập các trường bắt buộc (trường có gắn dấu *)";
+
             }
-            if(viewModel.singleContact.bsd_haveprotector && viewModel.singleContact._bsd_protecter_value == null)
+            if (viewModel.singleContact.bsd_haveprotector && viewModel.singleContact._bsd_protecter_value == null)
             {
                 return "Vui lòng chọn người bảo hộ";
             }
@@ -1310,7 +1318,7 @@ namespace ConasiCRM.Portable.Views
                 if (!viewModel.singleContact.bsd_haveprotector)
                 {
                     //if(DateTime.Now.Year - DateTime.Parse(viewModel.singleContact.birthdate.ToString()).Year < 18)
-                      
+
                     Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Lỗi", "Khách hàng phải từ 18 tuổi", "OK");
                     viewModel.singleContact.birthdate = null;
                     viewModel.singleContact.bsd_nmsinh = null;
@@ -1342,13 +1350,13 @@ namespace ConasiCRM.Portable.Views
             }
             return base.OnBackButtonPressed();
         }
-        
+
         void MatTruocCMND_Tapped(object sender, System.EventArgs e)
         {
             List<OptionSet> menuItem = new List<OptionSet>();
-            if(viewModel.singleContact.bsd_mattruoccmnd_base64 != null)
+            if (viewModel.singleContact.bsd_mattruoccmnd_base64 != null)
             {
-                menuItem.Add(new OptionSet {Label = "Xem ảnh mặt trước cmnd", Val = "Front" });
+                menuItem.Add(new OptionSet { Label = "Xem ảnh mặt trước cmnd", Val = "Front" });
             }
             menuItem.Add(new OptionSet { Label = "Chụp ảnh", Val = "Front" });
             menuItem.Add(new OptionSet { Label = "Chọn ảnh từ thư viện", Val = "Front" });
@@ -1391,7 +1399,7 @@ namespace ConasiCRM.Portable.Views
                         await DisplayAlert("No Camera", ":( No camera available.", "OK");
                         return;
                     }
-                    if((await PermissionHelper.CheckPermissions(permissionType.Camera)) == permissionStatus.Granted
+                    if ((await PermissionHelper.CheckPermissions(permissionType.Camera)) == permissionStatus.Granted
                         && await PermissionHelper.CheckPermissions(permissionType.Storage) == permissionStatus.Granted)
                     {
                         var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
@@ -1501,7 +1509,7 @@ namespace ConasiCRM.Portable.Views
             if (!string.IsNullOrEmpty(yeartxt))
             {
 
-                    DateTime yeartmp = new DateTime(int.Parse(yeartxt), 1, 1);
+                DateTime yeartmp = new DateTime(int.Parse(yeartxt), 1, 1);
 
                 viewModel.singleContact.birthdate = yeartmp;
                 //if (!viewModel.singleContact.bsd_haveprotector)
@@ -1539,7 +1547,7 @@ namespace ConasiCRM.Portable.Views
         #region Du an quan tam
         private async void BtnAddDuanquantam_Clicked(object sender, EventArgs e)
         {
-            
+
             isShowingPopup = true;
 
             viewModel.IsBusy = true;

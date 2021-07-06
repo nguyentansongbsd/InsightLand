@@ -354,7 +354,7 @@ namespace ConasiCRM.Portable.ViewModels
 
             if (lead._bsd_country_value == null)
             {
-                await DeletLookup("bsd_country", lead.leadid);
+                await DeletLookup("bsd_Country", lead.leadid);
             }
             else
             {
@@ -372,7 +372,7 @@ namespace ConasiCRM.Portable.ViewModels
 
             if (lead._bsd_district_value == null)
             {
-                await DeletLookup("bsd_district", lead.leadid);
+                await DeletLookup("bsd_District", lead.leadid);
             }
             else
             {
@@ -389,7 +389,13 @@ namespace ConasiCRM.Portable.ViewModels
         public async Task LoadTopicsForLookup()
         {
             string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                     </fetch>";
+                      <entity name='bsd_topic'>
+                        <attribute name='bsd_topicid' alias='Id'/>
+                        <attribute name='bsd_name' alias='Name'/>
+                        <attribute name='createdon' />
+                        <order attribute='bsd_name' descending='false' />
+                      </entity>
+                    </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("bsd_topics", fetch);
             if (result == null)
             {

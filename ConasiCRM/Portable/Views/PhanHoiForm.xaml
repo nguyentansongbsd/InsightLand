@@ -60,7 +60,7 @@
                     <controls:FormLabel x:Name="bsd_status_label" Text="Trạng thái" Grid.Row="7" Grid.Column="0" VerticalOptions="Center"/>
                     <controls:MyNewEntry x:Name="bsd_status_text" Text="{Binding  singlePhanHoi.statuscodevalue}" FontSize="16"  Grid.Row="7" Grid.Column="1" VerticalOptions="Center" OnClicked="Show_popup_status" HasClearButton="False"/>
                 </Grid>
-                <Grid Padding="10,15,10,5" BackgroundColor="#F3F3F3" VerticalOptions="EndAndExpand" RowDefinitions="Auto">
+                <Grid Padding="10,5,10,10" BackgroundColor="#F3F3F3" VerticalOptions="EndAndExpand" RowDefinitions="Auto">
                     <Button x:Name="buttonUpdate" Text="Cập nhật phản hồi" Grid.Column="0" Grid.Row="0" IsVisible="true" Clicked="BtnUpdate" BackgroundColor="#1399D5" TextColor="White" FontAttributes="Bold" HeightRequest="40" Padding="10,5" FontSize="16" BorderColor="#1399D5" BorderWidth="1" CornerRadius="5" TextTransform="None"/>
                     <Button x:Name="buttonCreate" Text="Thêm phản hồi" Grid.Column="0" Grid.Row="0" IsVisible="false" Clicked="BtnUpdate" BackgroundColor="#1399D5" TextColor="White" FontAttributes="Bold" HeightRequest="40" Padding="10,5" FontSize="16" BorderColor="#1399D5" BorderWidth="1" CornerRadius="5" TextTransform="None"/>
                 </Grid>

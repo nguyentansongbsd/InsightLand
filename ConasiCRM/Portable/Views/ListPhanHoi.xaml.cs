@@ -16,18 +16,32 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ListPhanHoi : ContentPage
     {
+        public static bool? NeedToRefresh = null;
         private readonly ListPhanHoiViewModel viewModel;
         public ListPhanHoi()
         {
             InitializeComponent();
             BindingContext = viewModel = new ListPhanHoiViewModel();
             viewModel.IsBusy = true;
+            NeedToRefresh = false;
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
             viewModel.IsBusy = false;
+        }
+
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (NeedToRefresh == true)
+            {
+                viewModel.IsBusy = true;
+                await viewModel.LoadOnRefreshCommandAsync();
+                NeedToRefresh = false;
+                viewModel.IsBusy = false;
+            }
         }
 
         private async void NewMenu_Clicked(object sender, EventArgs e)
