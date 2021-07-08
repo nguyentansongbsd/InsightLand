@@ -26,8 +26,8 @@ namespace ConasiCRM.Portable.Views
         public AccountList()
         {
             InitializeComponent();
-            viewModel.IsBusy = true;
             BindingContext = viewModel = new AccountListViewModel();
+            viewModel.IsBusy = true;
             NeedToRefresh = false;
             Init();
         }

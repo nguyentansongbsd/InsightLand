@@ -58,7 +58,7 @@ namespace ConasiCRM.Portable.ViewModels
         public StackLayout ModalContent { get; set; }
         public StackLayout stackLayoutModalLookUp { get; set; }
         public Label ModalTitle { get; set; }
-        public SearchBar searchBar { get; set; }
+        public Xamarin.Forms.SearchBar searchBar { get; set; }
 
         public StackLayout CustomerLookUpHeader { get; set; }
 
@@ -112,12 +112,12 @@ namespace ConasiCRM.Portable.ViewModels
             #endregion
 
             #region Search bar
-            searchBar = new SearchBar()
+            searchBar = new Xamarin.Forms.SearchBar()
             {
                 FontSize = 16,
                 Placeholder = "Nhập từ khóa tìm kiếm..."
             };
-            searchBar.SetBinding(SearchBar.IsEnabledProperty, new Binding("LookUpLoading")
+            searchBar.SetBinding(Xamarin.Forms.SearchBar.IsEnabledProperty, new Binding("LookUpLoading")
             {
                 Converter = new Converters.BoolToBoolConverter()
             });

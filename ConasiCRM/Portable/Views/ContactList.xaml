@@ -3,7 +3,7 @@
              BackgroundColor="White"
              Title="Khách hàng cá nhân"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:ConasiCRM.Controls"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              x:Class="ConasiCRM.Portable.Views.ContactList">
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="NewMenu" Order="Primary" Clicked="NewMenu_Clicked" Priority="1">

@@ -107,6 +107,8 @@ namespace ConasiCRM.Portable.Views
                     <attribute name='bsd_numberofmonthspaidmf' />
                     <attribute name='bsd_managementfee' />
                     <attribute name='bsd_discounts' />
+                    <attribute name='bsd_interneldiscount' />
+
                     <order attribute='createdon' descending='true' />
                     <filter type='and'>
                       <condition attribute='quoteid' operator='eq' uitype='quote' value='" + ReservationId + @"' />
@@ -120,8 +122,8 @@ namespace ConasiCRM.Portable.Views
                     <link-entity name='contact' from='contactid' to='customerid' visible='false' link-type='outer' alias='a_f6c625518704e911a98b000d3aa2e890'>
                           <attribute name='contactid' alias='contact_id' />
                           <attribute name='bsd_fullname' alias='contact_name' />
-                        </link-entity>
-                        <link-entity name='account' from='accountid' to='customerid' visible='false' link-type='outer' alias='a_b1c625518704e911a98b000d3aa2e890'>
+                    </link-entity>
+                    <link-entity name='account' from='accountid' to='customerid' visible='false' link-type='outer' alias='a_b1c625518704e911a98b000d3aa2e890'>
                           <attribute name='accountid' alias='account_id' />
                           <attribute name='bsd_name' alias='account_name' />
                     </link-entity>
