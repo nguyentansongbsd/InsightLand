@@ -61,9 +61,24 @@ namespace ConasiCRM.Portable.Views
 
         private async void ShowInfo(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
-            await Navigation.PushAsync(new ProjectInfo(viewModel.Project.Id));
-            viewModel.IsBusy = false;
+            if (viewModel.Project != null)
+            {
+                viewModel.IsBusy = true;
+                ProjectInfo projectInfo = new ProjectInfo(viewModel.Project.Id);
+                projectInfo.OnCompleted = async (IsSuccess) =>
+                {
+                    if (IsSuccess == true)
+                    {
+                        await Navigation.PushAsync(projectInfo);
+                        viewModel.IsBusy = false;
+                    }
+                    else
+                    {
+                        await DisplayAlert("", "Không tìm thấy thông tin.", "Đóng");
+                        viewModel.IsBusy = false;
+                    }
+                };                              
+            }
         }
 
         private void VideoList_Clicked(object sender, EventArgs e)
