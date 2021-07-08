@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Extended;
 
-namespace ConasiCRM.Controls
+namespace ConasiCRM.Portable.Controls
 {
     public class BsdListView : ListView
     {

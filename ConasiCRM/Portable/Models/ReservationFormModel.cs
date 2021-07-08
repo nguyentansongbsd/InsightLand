@@ -84,5 +84,10 @@ namespace ConasiCRM.Portable.Models
                 OnPropertyChanged(nameof(bsd_discounts));
             }
         }
+
+
+        public string bsd_interneldiscount { get; set; }
+        public string bsd_chietkhaumausiid { get; set; }
+
     }
 }

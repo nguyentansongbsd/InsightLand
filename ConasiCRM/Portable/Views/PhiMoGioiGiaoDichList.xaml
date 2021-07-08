@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Phí Mô Giới Giao Dịch"
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
-             xmlns:controls="clr-namespace:ConasiCRM.Controls"   
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"   
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
              x:Class="ConasiCRM.Portable.Views.PhiMoGioiGiaoDichList">
     <ContentPage.Resources>

@@ -1,15 +1,6 @@
 ﻿using ConasiCRM.Portable.Models;
 using ConasiCRM.Portable.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Telerik.XamarinForms.Primitives;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,7 +9,6 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DirectSale : ContentPage
     {
-        private DirectSaleDetail directSaleDetail;
         private DirectSaleViewModel viewModel;
         public DirectSale()
         {
@@ -27,19 +17,7 @@ namespace ConasiCRM.Portable.Views
             viewModel.IsCollapse = true;
             viewModel.IsBusy = true;
             viewModel.ModalLookUp = modalLookUp;
-            viewModel.InitializeModal();           
-            MessagingCenter.Unsubscribe<DirectSaleDetail, bool>(this, "check");
-            MessagingCenter.Subscribe<DirectSaleDetail, bool>(this, "check", async (p, check) =>
-            {
-                if (check == true)
-                {
-                    await Navigation.PushAsync(directSaleDetail);
-                }
-                else
-                {
-                    await DisplayAlert("Thông Báo", "Không tìm thấy thông tin", "Đồng ý");
-                }
-            });
+            viewModel.InitializeModal();
             viewModel.IsBusy = false;
         }
 
@@ -49,23 +27,36 @@ namespace ConasiCRM.Portable.Views
 
             if (viewModel.Project == null || viewModel.Project.Id == Guid.Empty)
             {
-              await  DisplayAlert("Thông báo", "Vui lòng chọn Dự án", "Đóng");
+                await DisplayAlert("Thông báo", "Vui lòng chọn Dự án", "Đóng");
+                viewModel.IsBusy = false;
             }
             else
             {
-                var model = new DirectSaleSearchModel(viewModel.Project.Id, viewModel.PhasesLanch?.Id ?? Guid.Empty, 
-                    viewModel.IsEvent, 
-                    viewModel.IsCollapse, "", 
+                var model = new DirectSaleSearchModel(viewModel.Project.Id, viewModel.PhasesLanch?.Id ?? Guid.Empty,
+                    viewModel.IsEvent,
+                    viewModel.IsCollapse, "",
                     viewModel.UnitCode,
-                    viewModel.SelectedDirections, 
-                    viewModel.SelectedViews, 
-                    viewModel.SelectedUnitStatus, 
+                    viewModel.SelectedDirections,
+                    viewModel.SelectedViews,
+                    viewModel.SelectedUnitStatus,
                     viewModel.minNetArea, viewModel.maxNetArea,
                     viewModel.minPrice, viewModel.maxPrice);
-                directSaleDetail = new DirectSaleDetail(model);              
-               // await Task.Delay(100);                             
+                DirectSaleDetail directSaleDetail = new DirectSaleDetail(model);
+                directSaleDetail.OnComplete = async (IsSuccess) =>
+                {
+                    if (IsSuccess)
+                    {
+                        await Navigation.PushAsync(directSaleDetail);
+                        viewModel.IsBusy = false;
+                    }
+                    else
+                    {
+                        viewModel.IsBusy = false;
+                        await DisplayAlert("Thông Báo", "Không tìm thấy thông tin", "Đồng ý");
+                    }
+                };
             }
-            viewModel.IsBusy = false;
+
         }
 
         private async void ShowInfo(object sender, EventArgs e)
@@ -96,20 +87,20 @@ namespace ConasiCRM.Portable.Views
             {
                 viewModel.IsBusy = true;
                 UnitVideoGallery unitVideoGallery = new UnitVideoGallery("Project", viewModel.Project.Id.ToString(), viewModel.Project.Name, "Video dự án");
-                unitVideoGallery.OnCompleted =  async(IsSuccess) =>
-                {
-                    if (IsSuccess)
-                    {
-                        await Navigation.PushAsync(unitVideoGallery);
-                        viewModel.IsBusy = false;
-                    }
-                    else
-                    {
-                        await DisplayAlert("", "Không có video để hiển thị.", "Đóng");
-                        viewModel.IsBusy = false;
-                    }
-                };
-                
+                unitVideoGallery.OnCompleted = async (IsSuccess) =>
+               {
+                   if (IsSuccess)
+                   {
+                       await Navigation.PushAsync(unitVideoGallery);
+                       viewModel.IsBusy = false;
+                   }
+                   else
+                   {
+                       await DisplayAlert("", "Không có video để hiển thị.", "Đóng");
+                       viewModel.IsBusy = false;
+                   }
+               };
+
             }
         }
 
@@ -132,7 +123,7 @@ namespace ConasiCRM.Portable.Views
                         viewModel.IsBusy = false;
                     }
                 };
-                
+
             }
         }
 
@@ -192,7 +183,7 @@ namespace ConasiCRM.Portable.Views
             //viewModel.maxPrice = null;
             //viewModel.IsCollapse = false;
             viewModel.IsBusy = false;
-        }       
+        }
         private int CompareInt(string a, string b)
         {
             if (a != string.Empty && b != string.Empty)
@@ -206,7 +197,7 @@ namespace ConasiCRM.Portable.Views
                     if (value1 < value2)
                         return -1;
                 }
-                if (!Int32.TryParse(a,out int i) || !Int32.TryParse(b, out int j))
+                if (!Int32.TryParse(a, out int i) || !Int32.TryParse(b, out int j))
                 {
                     if (!Int32.TryParse(a, out int c))
                         return -1;
@@ -225,7 +216,7 @@ namespace ConasiCRM.Portable.Views
                 if (CompareInt(viewModel.minPrice.ToString(), viewModel.maxPrice.ToString()) == 1)
                 {
                     DisplayAlert("Thông Báo", "Giá trị không hợp lệ. Vui lòng thử lại!", "Đồng ý");
-                  //  viewModel.minPrice = viewModel.maxPrice;
+                    //  viewModel.minPrice = viewModel.maxPrice;
                 }
             }
         }
@@ -237,7 +228,7 @@ namespace ConasiCRM.Portable.Views
                 if (CompareInt(viewModel.maxPrice.ToString(), viewModel.minPrice.ToString()) == -1)
                 {
                     DisplayAlert("Thông Báo", "Giá trị không hợp lệ. Vui lòng thử lại!", "Đồng ý");
-                  //  viewModel.maxPrice = viewModel.minPrice;
+                    //  viewModel.maxPrice = viewModel.minPrice;
                 }
             }
         }
@@ -249,7 +240,7 @@ namespace ConasiCRM.Portable.Views
                 if (CompareInt(viewModel.minNetArea.ToString(), viewModel.maxNetArea.ToString()) == 1)
                 {
                     DisplayAlert("Thông Báo", "Giá trị không hợp lệ. Vui lòng thử lại!", "Đồng ý");
-                   // viewModel.minNetArea = viewModel.maxNetArea;
+                    // viewModel.minNetArea = viewModel.maxNetArea;
                 }
             }
         }
@@ -261,7 +252,7 @@ namespace ConasiCRM.Portable.Views
                 if (CompareInt(viewModel.maxNetArea.ToString(), viewModel.minNetArea.ToString()) == -1)
                 {
                     DisplayAlert("Thông Báo", "Giá trị không hợp lệ. Vui lòng thử lại!", "Đồng ý");
-                   // viewModel.maxNetArea = viewModel.minNetArea;
+                    // viewModel.maxNetArea = viewModel.minNetArea;
                 }
             }
         }

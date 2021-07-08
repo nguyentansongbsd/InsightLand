@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Phí Mô Giới"
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
-             xmlns:controls="clr-namespace:ConasiCRM.Controls"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              x:Class="ConasiCRM.Portable.Views.PhiMoGioiList">
     <ContentPage.Resources>
         <ResourceDictionary>
