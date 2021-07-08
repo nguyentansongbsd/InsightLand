@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:ConasiCRM.Portable.Views"
+       xmlns:control="clr-namespace:ConasiCRM.Portable.Controls"
+       x:Class="ConasiCRM.Portable.AppShell"
+       FlyoutVerticalScrollMode="Enabled"
+       FlyoutBackdrop="#C0808080"
+      ForegroundColor="White">
+    <Shell.Resources>
+        <Style TargetType="Label" Class="MenuItem">
+            <Setter Property="TextColor"
+            Value="Black" />
+            <Setter Property="FontSize"
+            Value="18" />
+        </Style>
+    </Shell.Resources>
+    <Shell.MenuItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="2*,8*" HeightRequest="40">
+                <Image Source="{Binding Icon}" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <Label Text="{Binding Text}" TextColor="Black" FontSize="18" Grid.Column="1" VerticalTextAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.MenuItemTemplate>
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="2*,8*" HeightRequest="40">
+                <Image Source="{Binding Icon}" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <Label Text="{Binding Title}" TextColor="Black" FontSize="18" Grid.Column="1" VerticalTextAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <StackLayout BackgroundColor="White">
+                <Image Margin="20" x:Name="profileImage" Source="insightland_logo" Aspect="AspectFit"></Image>
+                <BoxView HeightRequest="1.5" BackgroundColor="#f3f3f3"/>
+            </StackLayout>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Khách hàng tiềm năng" ContentTemplate="{DataTemplate views:LeadList}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf2c1;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Khách hàng cá nhân" ContentTemplate="{DataTemplate views:ContactList}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf007;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Khách hàng doanh nghiệp" ContentTemplate="{DataTemplate views:AccountList}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf1ad;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Danh bạ" ContentTemplate="{DataTemplate views:DanhBa}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf2b9;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+    </FlyoutItem>
+    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Bán hàng" ContentTemplate="{DataTemplate views:DirectSale}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf2b5;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Đặt chỗ và giữ chỗ" ContentTemplate="{DataTemplate views:QueueList}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf3d1;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Đặt cọc" ContentTemplate="{DataTemplate views:ReservationList}" >
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeSolid" Color="Black" Glyph="&#xf51e;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Sự kiện" ContentTemplate="{DataTemplate views:EventList}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf274;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Phí môi giới" ContentTemplate="{DataTemplate views:PhiMoGioiList}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeSolid" Color="Black" Glyph="&#xf155;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Tài liệu kinh doanh" ContentTemplate="{DataTemplate views:ListTaiLieuKinhDoanh}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf15b;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Danh sách theo dõi" ContentTemplate="{DataTemplate views:FollowUpListPage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf022;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+    </FlyoutItem>
+    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Phản hồi" ContentTemplate="{DataTemplate views:ListPhanHoi}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf086;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Lịch làm việc" ContentTemplate="{DataTemplate views:LichLamViec}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf328;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Thông báo">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf0f3;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Hoạt động" ContentTemplate="{DataTemplate views:HoatDongList}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeSolid" Color="Black" Glyph="&#xf0ae;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+    </FlyoutItem>
+    <MenuItem Text="Dashboard" Command="{Binding Develop}">
+        <MenuItem.IconImageSource>
+            <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf11c;" Size="Title"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
+    <MenuItem Text="Báo cáo" Command="{Binding Develop}">
+        <MenuItem.IconImageSource>
+            <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf080;" Size="Title"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
+    <!--<FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Dashboard">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf11c;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent>
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf080;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>-->
+    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Phí mô giới giao dịch" ContentTemplate="{DataTemplate views:PhiMoGioiGiaoDichList}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeSolid" Color="Black" Glyph="&#xf155;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Hoa hồng giao dịch" ContentTemplate="{DataTemplate views:HoaHongGiaoDichList}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontAwesomeSolid" Color="Black" Glyph="&#xf4c0;" Size="Title"/>
+            </ShellContent.Icon>
+        </ShellContent>
+    </FlyoutItem>
+    <MenuItem Text="Đăng xuất" Command="{Binding LogoutCommand}">
+        <MenuItem.IconImageSource>
+            <FontImageSource FontFamily="FontAwesomeSolid" Color="Black" Glyph="&#xf2f5;" Size="Title"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
+</Shell>

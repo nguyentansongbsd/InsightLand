@@ -38,6 +38,9 @@
       <EmbeddedResource Include="Fonts\FontAwesome5Solid.otf" />
     </ItemGroup>
     <ItemGroup>
+      <EmbeddedResource Update="AppShell.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
       <EmbeddedResource Update="Login.xaml">
         <Generator>MSBuild:Compile</Generator>
       </EmbeddedResource>
