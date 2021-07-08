@@ -217,7 +217,7 @@ namespace ConasiCRM.Portable.Views
             queueFormModel.unit_price = unitInfo.price;
 
             viewModel.QueueFormModel = queueFormModel;
-
+            gridBtnGroup.IsVisible = btnDatCho.IsVisible = true;
             viewModel.Title = "Tạo đặt chỗ";
             viewModel.IsBusy = false;
         }

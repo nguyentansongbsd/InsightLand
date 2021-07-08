@@ -98,8 +98,9 @@ namespace ConasiCRM.Portable
                         UserLogged.IsLogged = false;
                     }
                     App.Current.Properties["Token"] = tokenData.access_token;
-                    await Navigation.PushAsync(new MasterDetailPage1());
-                    Navigation.RemovePage(this);
+                    //await Navigation.PushAsync(new AppShell());
+                     App.Current.MainPage = new AppShell();
+                  //  Navigation.RemovePage(this);
                 }
                 else
                 {

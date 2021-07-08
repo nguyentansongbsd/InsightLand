@@ -17,16 +17,17 @@ namespace ConasiCRM.Portable.Views
     {
         public ProjectInfoViewModel viewModel;
         private Guid ProjectId;
+        public Action<bool> OnCompleted;
         public ProjectInfo(Guid Id)
         {
             InitializeComponent();
             labeDuAnNghienCu.Text = "Dự án nghiên cứu (R&D)";
             ProjectId = Id;
             this.BindingContext = viewModel = new ProjectInfoViewModel();
+            viewModel.IsBusy = true;         
             LoadData();
-
         }
-
+        
         public async Task LoadData()
         {
             string FetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
@@ -65,6 +66,11 @@ namespace ConasiCRM.Portable.Views
 
             var project = result.value.FirstOrDefault();
             viewModel.Project = project;
+
+            if (viewModel.Project != null)
+                OnCompleted?.Invoke(true);
+            else
+                OnCompleted?.Invoke(false);
 
 
             var tasks = new Task[2]

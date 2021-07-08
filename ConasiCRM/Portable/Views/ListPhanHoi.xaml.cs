@@ -21,8 +21,8 @@ namespace ConasiCRM.Portable.Views
         public ListPhanHoi()
         {
             InitializeComponent();
-            viewModel.IsBusy = true;
             BindingContext = viewModel = new ListPhanHoiViewModel();
+            viewModel.IsBusy = true;
             NeedToRefresh = false;
             Init();
         }
