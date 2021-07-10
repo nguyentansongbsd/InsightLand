@@ -137,7 +137,57 @@
                                 </telerikPrimitives:ExpanderHeader>
                             </telerikPrimitives:RadExpander.Header>
                             <telerikPrimitives:RadExpander.Content>
-                                <Grid Padding="5">
+                                <StackLayout>
+                                    <StackLayout BindableLayout.ItemsSource="{Binding DuAnCanhTranh_List}" BindableLayout.EmptyView="Không có dữ liệu" BackgroundColor="#eeeeee" Spacing="1">
+                                        <BindableLayout.EmptyViewTemplate>
+                                            <DataTemplate>
+                                                <Label Text="Không có dữ liệu" TextColor="Black" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
+                                            </DataTemplate>
+                                        </BindableLayout.EmptyViewTemplate>
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
+                                                    <Label Text="{Binding bsd_name}" FontSize="16" FontAttributes="Bold" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
+                                                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" FontSize="16">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Mã dự án: "/>
+                                                                <Span Text="{Binding bsd_projectcode}" TextColor="Black"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" FontSize="16">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Chủ đầu tư: "/>
+                                                                <Span Text="{Binding bsd_investor_name}" TextColor="Black"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" FontSize="16">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Điểm mạnh: "/>
+                                                                <Span Text="{Binding bsd_strength}" TextColor="Black"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" FontSize="16">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Điểm yếu: "/>
+                                                                <Span Text="{Binding bsd_weakness}" TextColor="Black"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="16" Grid.Row="0" Grid.Column="1" Text="{Binding createdon_format}" VerticalOptions="Start"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
+                                    <Button Clicked="ShowMoreDuAnCanhTranh_Clicked" IsVisible="{Binding ShowMoreDuAnCanhTranh}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
+                                </StackLayout>
+                                <!--<Grid Padding="5">
                                     <bsdGrid:BsdRadDataGrid ItemsSource="{Binding DuAnCanhTranh_List}">
                                         <telerikDataGrid:RadDataGrid.Columns>
                                             <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Tên dự án"/>
@@ -148,7 +198,7 @@
                                             <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo"/>
                                         </telerikDataGrid:RadDataGrid.Columns>
                                     </bsdGrid:BsdRadDataGrid>
-                                </Grid>
+                                </Grid>-->
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
@@ -160,7 +210,49 @@
                                 </telerikPrimitives:ExpanderHeader>
                             </telerikPrimitives:RadExpander.Header>
                             <telerikPrimitives:RadExpander.Content>
-                                <Grid Padding="5">
+                                <StackLayout>
+                                    <StackLayout BindableLayout.ItemsSource="{Binding DoiThuCanhTranh_List}" BindableLayout.EmptyView="Không có dữ liệu" BackgroundColor="#eeeeee" Spacing="1">
+                                        <BindableLayout.EmptyViewTemplate>
+                                            <DataTemplate>
+                                                <Label Text="Không có dữ liệu" TextColor="Black" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
+                                            </DataTemplate>
+                                        </BindableLayout.EmptyViewTemplate>
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
+                                                    <Label Text="{Binding name}" FontSize="16" FontAttributes="Bold" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
+                                                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" FontSize="16">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Website: "/>
+                                                                <Span Text="{Binding websiteurl}" TextColor="Black"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" FontSize="16">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Điểm mạnh: "/>
+                                                                <Span Text="{Binding strengths}" TextColor="Black"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" FontSize="16">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Điểm yếu: "/>
+                                                                <Span Text="{Binding weaknesses}" TextColor="Black"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="16" Grid.Row="0" Grid.Column="1" Text="{Binding createdon_format}" VerticalOptions="Start"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
+                                    <Button Clicked="ShowMoreDoiThuCanhTranh_Clicked" IsVisible="{Binding ShowMoreDoiThuCanhTranh}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
+                                </StackLayout>
+                                <!--<Grid Padding="5">
                                     <bsdGrid:BsdRadDataGrid ItemsSource="{Binding DoiThuCanhTranh_List}">
                                         <telerikDataGrid:RadDataGrid.Columns>
                                             <telerikDataGrid:DataGridTextColumn PropertyName="name" HeaderText="Tên dự án"/>
@@ -170,7 +262,7 @@
                                             <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo"/>
                                         </telerikDataGrid:RadDataGrid.Columns>
                                     </bsdGrid:BsdRadDataGrid>
-                                </Grid>
+                                </Grid>-->
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
                     </StackLayout>

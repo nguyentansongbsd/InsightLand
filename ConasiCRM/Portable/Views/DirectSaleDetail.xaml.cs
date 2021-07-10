@@ -147,9 +147,13 @@ namespace ConasiCRM.Portable.Views
                       </link-entity>
                   </entity>
                 </fetch>");
+                viewModel.QueueList.Clear();
                 if (QueueList_Result != null && QueueList_Result.value.Any())
-                {
-                    QueueListGrid.ItemsSource = QueueList_Result.value;
+                {                  
+                    foreach (var x in QueueList_Result.value)
+                    {
+                        viewModel.QueueList.Add(x);
+                    }
                 }
                 else
                 {
@@ -192,7 +196,10 @@ namespace ConasiCRM.Portable.Views
 
         private async void ViewQueue_Clicked(object sender, EventArgs e)
         {
-            var model = QueueListGrid.SelectedItem as QueueListModel_DirectSale;
+            Grid grid = (Grid)sender;
+            var a = (TapGestureRecognizer)grid.GestureRecognizers[0];
+            QueueListModel_DirectSale model = a.CommandParameter as QueueListModel_DirectSale;
+           // var model = QueueListGrid.SelectedItem as QueueListModel_DirectSale;
             if (model == null || model.opportunityid == Guid.Empty)
             {
                 await DisplayAlert("Thông báo", "Chọn Đặt chỗ muốn xem", "Đóng");
@@ -243,9 +250,14 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.StatusReason.Val == "-1")
             {
                 viewModel.StatusReason = null;
+                BtnClear.IsVisible = false;
             }
+            else
+            {
+                BtnClear.IsVisible = true;
+            }              
             viewModel.ResetXml();
-            await viewModel.LoadOnRefreshCommandAsync();
+            await viewModel.LoadOnRefreshCommandAsync();           
             viewModel.IsBusy = false;
         }
 
@@ -255,9 +267,14 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.Block.Val == "-1")
             {
                 viewModel.Block = null;
+                BtnClear.IsVisible = false;
             }
+            else
+            {
+                BtnClear.IsVisible = true;
+            }             
             viewModel.ResetXml();
-            await viewModel.LoadOnRefreshCommandAsync();
+            await viewModel.LoadOnRefreshCommandAsync();           
             viewModel.IsBusy = false;
         }
 
@@ -267,9 +284,26 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.Floor.Val =="-1")
             {
                 viewModel.Floor = null;
+                BtnClear.IsVisible = false;
+            }
+            else
+            {
+                BtnClear.IsVisible = true;
             }
             viewModel.ResetXml();
+            await viewModel.LoadOnRefreshCommandAsync();          
+            viewModel.IsBusy = false;
+        }
+
+        private async void Clear_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.Block = null;
+            viewModel.StatusReason = null;
+            viewModel.Floor = null;
+            viewModel.ResetXml();
             await viewModel.LoadOnRefreshCommandAsync();
+            BtnClear.IsVisible = false;
             viewModel.IsBusy = false;
         }
     }

@@ -81,87 +81,33 @@ namespace ConasiCRM.Portable.Views
             await Task.WhenAll(tasks);
             viewModel.IsBusy = false;
         }
-
         public async Task LoadDuAnCanhTranh()
         {
-            string FetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>
-              <entity name='bsd_competitiveproject'>
-                <attribute name='bsd_competitiveprojectid' />
-                <attribute name='bsd_name' />
-                <attribute name='createdon' />
-                <attribute name='bsd_projectcode' />
-                <attribute name='bsd_weakness' />
-                <attribute name='bsd_strength' />
-                <order attribute='bsd_name' descending='false' />
-                <link-entity name='bsd_bsd_competitiveproject_bsd_project' from='bsd_competitiveprojectid' to='bsd_competitiveprojectid' visible='false' intersect='true'>
-                  <link-entity name='bsd_project' from='bsd_projectid' to='bsd_projectid' alias='ab'>
-                    <filter type='and'>
-                      <condition attribute='bsd_projectid' operator='eq' uitype='bsd_project' value='" + ProjectId.ToString() + @"' />
-                    </filter>
-                  </link-entity>
-                </link-entity>
-                <link-entity name='account' from='accountid' to='bsd_investor' visible='false' link-type='outer' alias='a_0a24f6d5b214e911a97f000d3aa04914'>
-                  <attribute name='bsd_name' alias='bsd_investor_name' />
-                </link-entity>
-              </entity>
-            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Project_DuAnCanhTranhModel>>("bsd_competitiveprojects", FetchXml);
-            if (result == null)
-            {
-                await DisplayAlert("Lỗi", "Không load được danh sách dự án cạnh tranh", "Đóng");
-            }
-            var list = result.value;
-            var count = list.Count;
-            if (count > 0)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    viewModel.DuAnCanhTranh_List.Add(list[i]);
-                }
-            }
-            for (int i = count + 1; i < 4; i++)
-            {
-                viewModel.DuAnCanhTranh_List.Add(new Project_DuAnCanhTranhModel());
-            }
+            viewModel.IsBusy = true;
+            await viewModel.LoadDuAnCanhTranh(ProjectId);           
+            viewModel.IsBusy = false;
         }
         public async Task LoadDoiThuCanhTrang()
         {
-            string FetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>
-              <entity name='competitor'>
-                <attribute name='name' />
-                <attribute name='websiteurl' />
-                <attribute name='competitorid' />
-                <attribute name='weaknesses' />
-                <attribute name='strengths' />
-                <attribute name='createdon' />
-                <order attribute='name' descending='false' />
-                <link-entity name='bsd_competitor_bsd_project' from='competitorid' to='competitorid' visible='false' intersect='true'>
-                  <link-entity name='bsd_project' from='bsd_projectid' to='bsd_projectid' alias='ac'>
-                    <filter type='and'>
-                      <condition attribute='bsd_projectid' operator='eq' uiname='ARIYANA' uitype='bsd_project' value='" + ProjectId.ToString() + @"' />
-                    </filter>
-                  </link-entity>
-                </link-entity>
-              </entity>
-            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Project_DoiThuCanhTranhModel>>("competitors", FetchXml);
-            if (result == null)
-            {
-                await DisplayAlert("Lỗi", "Không load được đối thủ cạnh tranh.", "Đóng");
-            }
-            var list = result.value;
-            var count = list.Count;
-            if (count > 0)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    viewModel.DoiThuCanhTranh_List.Add(list[i]);
-                }
-            }
-            for (int i = count + 1; i < 4; i++)
-            {
-                viewModel.DoiThuCanhTranh_List.Add(new Project_DoiThuCanhTranhModel());
-            }
+            viewModel.IsBusy = true;
+            await viewModel.LoadDoiThuCanhTrang(ProjectId);          
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowMoreDuAnCanhTranh_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageDuAnCanhTranh++;
+            await viewModel.LoadDuAnCanhTranh(ProjectId);
+            viewModel.IsBusy = false;
+        }
+
+        private async void ShowMoreDoiThuCanhTranh_Clicked(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = true;
+            viewModel.PageDoiThuCanhTranh++;
+            await viewModel.LoadDoiThuCanhTrang(ProjectId);
+            viewModel.IsBusy = false;
         }
     }
 }

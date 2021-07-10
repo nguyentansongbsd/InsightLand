@@ -6,7 +6,8 @@
        x:Class="ConasiCRM.Portable.AppShell"
        FlyoutVerticalScrollMode="Enabled"
        FlyoutBackdrop="#C0808080"
-      ForegroundColor="White">
+       ForegroundColor="White"      
+       x:Name="appShell">
     <Shell.Resources>
         <Style TargetType="Label" Class="MenuItem">
             <Setter Property="TextColor"
@@ -62,7 +63,7 @@
         </ShellContent>
     </FlyoutItem>
     <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Bán hàng" ContentTemplate="{DataTemplate views:DirectSale}">
+        <ShellContent x:Name="BanHang" Title="Bán hàng" ContentTemplate="{DataTemplate views:DirectSale}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf2b5;" Size="Title"/>
             </ShellContent.Icon>
@@ -109,16 +110,18 @@
                 <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf328;" Size="Title"/>
             </ShellContent.Icon>
         </ShellContent>
-        <ShellContent Title="Thông báo">
-            <ShellContent.Icon>
-                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf0f3;" Size="Title"/>
-            </ShellContent.Icon>
-        </ShellContent>
+    </FlyoutItem>
+    <MenuItem Text="Thông báo" Command="{Binding Develop}">
+            <MenuItem.IconImageSource>
+            <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf0f3;" Size="Title"/>
+            </MenuItem.IconImageSource>
+        </MenuItem>
+    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="Hoạt động" ContentTemplate="{DataTemplate views:HoatDongList}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Color="Black" Glyph="&#xf0ae;" Size="Title"/>
             </ShellContent.Icon>
-        </ShellContent>
+    </ShellContent>
     </FlyoutItem>
     <MenuItem Text="Dashboard" Command="{Binding Develop}">
         <MenuItem.IconImageSource>

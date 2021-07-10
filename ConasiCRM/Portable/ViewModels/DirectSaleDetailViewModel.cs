@@ -45,6 +45,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         private List<OptionSet> _floors;
         public List<OptionSet> Floors { get => _floors; set { _floors = value; OnPropertyChanged(nameof(Floors)); } }
+        public ObservableCollection<QueueListModel_DirectSale> QueueList { get; set; }
 
         public string fetchXml { get; set; }
 
@@ -62,6 +63,7 @@ namespace ConasiCRM.Portable.ViewModels
             this.maxNetArea = model.maxNetArea;
             this.minPrice = model.minPrice;
             this.maxPrice = model.maxPrice;
+            QueueList = new ObservableCollection<QueueListModel_DirectSale>();
             ResetXml();
 
             PreLoadData = new Command(() =>
