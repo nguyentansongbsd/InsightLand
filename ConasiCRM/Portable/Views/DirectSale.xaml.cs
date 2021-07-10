@@ -40,7 +40,7 @@ namespace ConasiCRM.Portable.Views
                     viewModel.SelectedViews,
                     viewModel.SelectedUnitStatus,
                     viewModel.minNetArea, viewModel.maxNetArea,
-                    viewModel.minPrice, viewModel.maxPrice);
+                    viewModel.minPrice, viewModel.maxPrice);              
                 DirectSaleDetail directSaleDetail = new DirectSaleDetail(model);
                 directSaleDetail.OnComplete = async (IsSuccess) =>
                 {
@@ -169,19 +169,19 @@ namespace ConasiCRM.Portable.Views
         private async void Refresh_CLicked(object sender, EventArgs e)
         {
             viewModel.IsBusy = true;
-            await Navigation.PushAsync(new MasterDetailPage1());
-            //viewModel.Project = null;
-            //viewModel.PhasesLanch = null;
-            //viewModel.IsEvent = false;
-            //viewModel.UnitCode = null;
-            //viewModel.SelectedViews = null;
-            //viewModel.SelectedDirections.Clear();
-            //viewModel.SelectedUnitStatus.Clear();
-            //viewModel.minNetArea = null;
-            //viewModel.maxNetArea = null;
-            //viewModel.minPrice = null;
-            //viewModel.maxPrice = null;
-            //viewModel.IsCollapse = false;
+            // await Navigation.PushAsync(new MasterDetailPage1());
+            viewModel.Project = null;
+            viewModel.PhasesLanch = null;
+            viewModel.IsEvent = false;
+            viewModel.UnitCode = null;
+            viewModel.SelectedViews.Clear();
+            viewModel.SelectedDirections.Clear();
+            viewModel.SelectedUnitStatus.Clear();
+            viewModel.minNetArea = null;
+            viewModel.maxNetArea = null;
+            viewModel.minPrice = null;
+            viewModel.maxPrice = null;
+           // viewModel.IsCollapse = false;
             viewModel.IsBusy = false;
         }
         private int CompareInt(string a, string b)
