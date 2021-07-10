@@ -25,7 +25,7 @@ namespace ConasiCRM.Android
             //intent.AddFlags(ActivityFlags.ClearTop);
             //intent.AddFlags(ActivityFlags.SingleTop);
             StartActivity(typeof(MainActivity));
-            //Finish();
+           // Finish();
 
             App.ScreenHeight = (int)(Resources.DisplayMetrics.HeightPixels / Resources.DisplayMetrics.Density);
             App.ScreenWidth = (int)(Resources.DisplayMetrics.WidthPixels / Resources.DisplayMetrics.Density);

@@ -80,7 +80,7 @@
                                         </BindableLayout.EmptyViewTemplate>
                                         <BindableLayout.ItemTemplate>
                                             <DataTemplate>
-                                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
+                                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
                                                     <Label Text="{Binding bsd_name}" FontSize="16" FontAttributes="Bold" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
                                                     <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" FontSize="16">
                                                         <Label.FormattedText>
