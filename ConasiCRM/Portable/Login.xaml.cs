@@ -25,7 +25,7 @@ namespace ConasiCRM.Portable
         public Login()
         {
             InitializeComponent();
-            
+
             if (UserLogged.IsLogged)
             {
                 checkboxRememberAcc.IsChecked = true;
@@ -36,7 +36,7 @@ namespace ConasiCRM.Portable
             {
                 checkboxRememberAcc.IsChecked = false;
             }
-            
+
         }
         protected override void OnAppearing()
         {
@@ -49,7 +49,7 @@ namespace ConasiCRM.Portable
             App.Current.On<Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Pan);
         }
 
-       private void IsRemember_Tapped(object sender, EventArgs e)
+        private void IsRemember_Tapped(object sender, EventArgs e)
         {
             checkboxRememberAcc.IsChecked = !checkboxRememberAcc.IsChecked;
         }
@@ -68,7 +68,7 @@ namespace ConasiCRM.Portable
             }
             try
             {
-                this.Loading.IsVisible = true;
+                LoadingHelper.Show();
                 var client = BsdHttpClient.Instance();
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://login.microsoftonline.com/common/oauth2/token");
                 var formContent = new FormUrlEncodedContent(new[]
@@ -98,20 +98,21 @@ namespace ConasiCRM.Portable
                         UserLogged.IsLogged = false;
                     }
                     App.Current.Properties["Token"] = tokenData.access_token;
-                    //await Navigation.PushAsync(new AppShell());
-                     App.Current.MainPage = new AppShell();
-                  //  Navigation.RemovePage(this);
+                    App.Current.MainPage = new AppShell();
+                    LoadingHelper.Hide();
                 }
                 else
                 {
+                    LoadingHelper.Hide();
                     await DisplayAlert("", "Thông tin đăng nhập không đúng. Vui lòng thử lại", "Đóng");
                 }
             }
             catch (Exception ex)
             {
+                LoadingHelper.Hide();
                 await DisplayAlert("Thông báo", "Lỗi kết nối đến Server. \n" + ex.Message, "Đóng");
             }
-            this.Loading.IsVisible = false;
+            LoadingHelper.Hide();
         }
 
     }

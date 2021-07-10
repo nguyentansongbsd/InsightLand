@@ -21,7 +21,7 @@ namespace ConasiCRM.Droid.Renderers
             if (e.OldElement == null && Control != null)
             {
                 FormsEditText editText = Control;
-                //editText.SetBackgroundResource(Resource.Drawable);
+                editText.SetBackgroundResource(Resource.Drawable.bg_main_entry);
                 editText.SetPadding(20, 0, 15, 0);
             }
         }

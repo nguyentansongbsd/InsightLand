@@ -245,7 +245,7 @@ namespace ConasiCRM.Portable.ViewModels
             CurrentLookUpConfig.ListView.ScrollTo(CurrentLookUpConfig.LookUpData.FirstOrDefault(), ScrollToPosition.Start, false);
             ModalTitle.Text = CurrentLookUpConfig.LookUpTitle;
             ShowLookUpModal = true;
-            IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         public async void Search(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using ConasiCRM.Portable.Models;
+﻿using ConasiCRM.Portable.Helper;
+using ConasiCRM.Portable.Models;
 using ConasiCRM.Portable.ViewModels;
 using System;
 using Xamarin.Forms;
@@ -15,20 +16,20 @@ namespace ConasiCRM.Portable.Views
             InitializeComponent();
             BindingContext = viewModel = new DirectSaleViewModel();
             viewModel.IsCollapse = true;
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             viewModel.ModalLookUp = modalLookUp;
             viewModel.InitializeModal();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private async void SearchClicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
 
             if (viewModel.Project == null || viewModel.Project.Id == Guid.Empty)
             {
                 await DisplayAlert("Thông báo", "Vui lòng chọn Dự án", "Đóng");
-                viewModel.IsBusy = false;
+                LoadingHelper.Hide();
             }
             else
             {
@@ -47,11 +48,11 @@ namespace ConasiCRM.Portable.Views
                     if (IsSuccess)
                     {
                         await Navigation.PushAsync(directSaleDetail);
-                        viewModel.IsBusy = false;
+                        LoadingHelper.Hide();
                     }
                     else
                     {
-                        viewModel.IsBusy = false;
+                        LoadingHelper.Hide();
                         await DisplayAlert("Thông Báo", "Không tìm thấy thông tin", "Đồng ý");
                     }
                 };
@@ -63,19 +64,19 @@ namespace ConasiCRM.Portable.Views
         {
             if (viewModel.Project != null)
             {
-                viewModel.IsBusy = true;
+                LoadingHelper.Show();
                 ProjectInfo projectInfo = new ProjectInfo(viewModel.Project.Id);
                 projectInfo.OnCompleted = async (IsSuccess) =>
                 {
                     if (IsSuccess == true)
                     {
                         await Navigation.PushAsync(projectInfo);
-                        viewModel.IsBusy = false;
+                        LoadingHelper.Hide();
                     }
                     else
                     {
                         await DisplayAlert("", "Không tìm thấy thông tin.", "Đóng");
-                        viewModel.IsBusy = false;
+                        LoadingHelper.Hide();
                     }
                 };                              
             }
@@ -85,19 +86,19 @@ namespace ConasiCRM.Portable.Views
         {
             if (viewModel.Project != null)
             {
-                viewModel.IsBusy = true;
+                LoadingHelper.Show();
                 UnitVideoGallery unitVideoGallery = new UnitVideoGallery("Project", viewModel.Project.Id.ToString(), viewModel.Project.Name, "Video dự án");
                 unitVideoGallery.OnCompleted = async (IsSuccess) =>
                {
                    if (IsSuccess)
                    {
                        await Navigation.PushAsync(unitVideoGallery);
-                       viewModel.IsBusy = false;
+                       LoadingHelper.Hide();
                    }
                    else
                    {
                        await DisplayAlert("", "Không có video để hiển thị.", "Đóng");
-                       viewModel.IsBusy = false;
+                       LoadingHelper.Hide();
                    }
                };
 
@@ -108,19 +109,19 @@ namespace ConasiCRM.Portable.Views
         {
             if (viewModel.Project != null)
             {
-                viewModel.IsBusy = true;
+                LoadingHelper.Show();
                 UnitImageGallery unitImageGallery = new UnitImageGallery("Project", viewModel.Project.Id.ToString(), viewModel.Project.Name, "Hình ảnh dự án");
                 unitImageGallery.OnCompleted = async (IsSuccess) =>
                 {
                     if (IsSuccess)
                     {
                         await Navigation.PushAsync(unitImageGallery);
-                        viewModel.IsBusy = false;
+                        LoadingHelper.Hide();
                     }
                     else
                     {
                         await DisplayAlert("", "Không có image để hiển thị.", "Đóng");
-                        viewModel.IsBusy = false;
+                        LoadingHelper.Hide();
                     }
                 };
 
@@ -129,7 +130,7 @@ namespace ConasiCRM.Portable.Views
 
         private void Project_Focused(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             viewModel.CurrentLookUpConfig = viewModel.ProjectConfig;
             viewModel.ProcessLookup(nameof(viewModel.ProjectConfig));
         }
@@ -143,7 +144,7 @@ namespace ConasiCRM.Portable.Views
             }
             else
             {
-                viewModel.IsBusy = true;
+                LoadingHelper.Show();
                 viewModel.CurrentLookUpConfig.FetchXml = @"<fetch version='1.0' count='20' page='{0}' output-format='xml-platform' mapping='logical' distinct='false'>
                         <entity name='bsd_phaseslaunch'>
                         <attribute name='bsd_name' alias='Name' />
