@@ -67,21 +67,21 @@ namespace ConasiCRM.Portable.Views
                 await viewModel.LoadSpecialDiscounts(ReservationId);
                 viewModel.IsBusy = false;
             });
-            #endregion            
-    }
+            #endregion
+        }
 
         private async void Init()
         {
             await Load();
-                if (viewModel.Reservation != null)
-                    CheckReservation?.Invoke(true);
-                else
-                    CheckReservation?.Invoke(false);
+            if (viewModel.Reservation != null)
+                CheckReservation?.Invoke(true);
+            else
+                CheckReservation?.Invoke(false);
         }
 
         public async Task Load()
-            {
-                string fetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+        {
+            string fetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                   <entity name='quote'>
                     <attribute name='name' />
                     <attribute name='quoteid' />
@@ -108,7 +108,7 @@ namespace ConasiCRM.Portable.Views
                     <attribute name='bsd_managementfee' />
                     <attribute name='bsd_discounts' />
                     <attribute name='bsd_interneldiscount' />
-
+                    <attribute name='bsd_interneldiscountlist' />
                     <order attribute='createdon' descending='true' />
                     <filter type='and'>
                       <condition attribute='quoteid' operator='eq' uitype='quote' value='" + ReservationId + @"' />
@@ -136,6 +136,9 @@ namespace ConasiCRM.Portable.Views
                     <link-entity name='bsd_phaseslaunch' from='bsd_phaseslaunchid' to='bsd_phaseslaunchid' visible='false' link-type='outer' alias='a_dab1e1e7b214e911a97f000d3aa04914'>
                          <attribute name='bsd_phaseslaunchid' alias='phaseslaunch_id' />
                          <attribute name='bsd_name' alias='phaseslaunch_name' />
+                         <attribute name='bsd_internaldiscountlist' alias='internaldiscountlist'/>
+                          <attribute name='bsd_discountswholesalelist' alias='discountswholesalelist'/>
+                          <attribute name='bsd_discountlist' alias='discountlist'/>
                     </link-entity>
                     <link-entity name='pricelevel' from='pricelevelid' to='pricelevelid' visible='false' link-type='outer' alias='a_060025578704e911a98b000d3aa2e890'>
                           <attribute name='name' alias='pricelevel_name' />
@@ -147,78 +150,74 @@ namespace ConasiCRM.Portable.Views
                     <link-entity name='bsd_taxcode' from='bsd_taxcodeid' to='bsd_taxcode' visible='false' link-type='outer' alias='a_120c05eeb214e911a97f000d3aa04914'>
                            <attribute name='bsd_value' alias='tax' />
                      </link-entity>
-                    <link-entity name='bsd_discounttype' from='bsd_discounttypeid' to='bsd_discountlist' visible='false' link-type='outer' alias='a_f577eedbb214e911a97f000d3aa04914'>
-                         <attribute name='bsd_discounttypeid' alias='discountlist_id'  />
-                         <attribute name='bsd_name' alias='discountlist_name' />
-                    </link-entity>
                   </entity>
                 </fetch>";
-                // join với contact + account de lấy name.
-                // join với product để lấy unit name, unit status có sẵn trên quote.
-                // join với queue để lấy mã phiếu đặt chô
-                // joi project, dot mo ban, bang gia, lich thanh toan
-                // join voi bsd_taxcode de lay phan tram thue.
-                // join voi discount list dể lấy tên chiết khấu và mã, dugnf để lấy danh sách discounts..
+            // join với contact + account de lấy name.
+            // join với product để lấy unit name, unit status có sẵn trên quote.
+            // join với queue để lấy mã phiếu đặt chô
+            // joi project, dot mo ban, bang gia, lich thanh toan
+            // join voi bsd_taxcode de lay phan tram thue.
+            // join voi discount list dể lấy tên chiết khấu và mã, dugnf để lấy danh sách discounts..
 
-                var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ReservationFormModel>>("quotes", fetchXml);
-                var reservation = result.value.SingleOrDefault();
+            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ReservationFormModel>>("quotes", fetchXml);
+            var reservation = result.value.SingleOrDefault();
 
-                if (reservation == null)
-                {
-                    await DisplayAlert("", "Lỗi, không tìm thấy Reservation", "Đóng");
-                    return;
-                }
+            if (reservation == null)
+            {
+                await DisplayAlert("", "Lỗi, không tìm thấy Reservation", "Đóng");
+                return;
+            }
 
-                if (reservation.paymentscheme_id != Guid.Empty)
+            if (reservation.paymentscheme_id != Guid.Empty)
+            {
+                viewModel.PaymentScheme = new LookUp()
                 {
-                    viewModel.PaymentScheme = new LookUp()
-                    {
-                        Id = reservation.paymentscheme_id,
-                        Name = reservation.paymentscheme_name
-                    };
-                }
-                if (reservation.discountlist_id == Guid.Empty)
-                {
-                    ExpanderThongTinChietKhau.IsVisible = false;
-                }
+                    Id = reservation.paymentscheme_id,
+                    Name = reservation.paymentscheme_name
+                };
+            }
+            if (reservation.discountlist == Guid.Empty)
+            {
+                ExpanderThongTinChietKhau.IsVisible = false;
+            }
 
-                if (reservation.contact_id != Guid.Empty)
+            if (reservation.contact_id != Guid.Empty)
+            {
+                viewModel.Customer = new CustomerLookUp()
                 {
-                    viewModel.Customer = new CustomerLookUp()
-                    {
-                        Id = reservation.contact_id,
-                        Name = reservation.contact_name,
-                        Type = 1
-                    };
-                }
-                else if (reservation.account_id != Guid.Empty)
+                    Id = reservation.contact_id,
+                    Name = reservation.contact_name,
+                    Type = 1
+                };
+            }
+            else if (reservation.account_id != Guid.Empty)
+            {
+                viewModel.Customer = new CustomerLookUp()
                 {
-                    viewModel.Customer = new CustomerLookUp()
-                    {
-                        Id = reservation.account_id,
-                        Name = reservation.account_name,
-                        Type = 2
-                    };
-                }
+                    Id = reservation.account_id,
+                    Name = reservation.account_name,
+                    Type = 2
+                };
+            }
 
-                viewModel.Reservation = reservation;
+            viewModel.Reservation = reservation;
 
-                var tasks = new Task[6]
-                {
-                    
+            var tasks = new Task[6]
+            {
+
                     viewModel.LoadCoOwners(ReservationId),
                     viewModel.LoadhandoverConditions(ReservationId),
                     viewModel.LoadPromotions(ReservationId),
                     viewModel.LoadSpecialDiscounts(ReservationId),
-                    viewModel.LoadInstallments(ReservationId),                    
+                    viewModel.LoadInstallments(ReservationId),
                     LoadDiscounts()
-                };
-                await Task.WhenAll(tasks);           
-                //await mainScrollView.ScrollToAsync(DiscountInfoExp, ScrollToPosition.Start, false);
-                VisibleControls();
-                InitButtonGroup();
-                viewModel.IsBusy = false;
-            }
+            };
+            await Task.WhenAll(tasks);
+            //await mainScrollView.ScrollToAsync(DiscountInfoExp, ScrollToPosition.Start, false);
+            VisibleControls();
+            InitButtonGroup();
+            viewModel.IsBusy = false;
+        }
 
         private void VisibleControls()
         {
@@ -233,7 +232,7 @@ namespace ConasiCRM.Portable.Views
             if (status != 100000007) // khác quotation.
             {
                 // ẩn mấy nút trên grid.
-               btnNewCoOwner.IsVisible = false;
+                btnNewCoOwner.IsVisible = false;
                 btnNewHandoverCondition.IsVisible = false;
                 btnOpenNewPromotion.IsVisible = false;
                 btnOpenNewSpecialDiscount.IsVisible = false;
@@ -265,11 +264,11 @@ namespace ConasiCRM.Portable.Views
                 });
                 Grid.SetColumn(buttons[i], i);
             }
-        }       
+        }
 
         public async Task LoadDiscounts()
         {
-            if (viewModel.Reservation.discountlist_id != Guid.Empty)
+            if (viewModel.Reservation.discountlist != Guid.Empty)
             {
                 string fetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>
                   <entity name='bsd_discount'>
@@ -282,7 +281,7 @@ namespace ConasiCRM.Portable.Views
                     <link-entity name='bsd_bsd_discounttype_bsd_discount' from='bsd_discountid' to='bsd_discountid' visible='false' intersect='true'>
                       <link-entity name='bsd_discounttype' from='bsd_discounttypeid' to='bsd_discounttypeid' alias='ab'>
                         <filter type='and'>
-                          <condition attribute='bsd_discounttypeid' operator='eq' uitype='bsd_discounttype' value='" + viewModel.Reservation.discountlist_id + @"' />
+                          <condition attribute='bsd_discounttypeid' operator='eq' uitype='bsd_discounttype' value='" + viewModel.Reservation.discountlist + @"' />
                         </filter>
                       </link-entity>
                     </link-entity>
@@ -314,7 +313,97 @@ namespace ConasiCRM.Portable.Views
                         viewModel.Discounts.Add(item);
                     }
 
-                    BindableLayout.SetItemsSource(listView,viewModel.Discounts);
+                    BindableLayout.SetItemsSource(listView, viewModel.Discounts);
+                }
+            }
+
+            if (viewModel.Reservation.internaldiscountlist != Guid.Empty)
+            {
+                string fetchXml = $@"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>
+                  <entity name='bsd_discount'>
+                    <attribute name='bsd_discountid' alias='Val' />
+                    <attribute name='bsd_name' alias='Label' />
+                    <attribute name='createdon' />
+                    <attribute name='bsd_startdate' />
+                    <attribute name='bsd_enddate' />
+                    <order attribute='bsd_name' descending='false' />
+                    <link-entity name='bsd_bsd_interneldiscount_bsd_discount' from='bsd_discountid' to='bsd_discountid' visible='false' intersect='true'>
+                      <link-entity name='bsd_interneldiscount' from='bsd_interneldiscountid' to='bsd_interneldiscountid' alias='ab'>
+                        <filter type='and'>
+                          <condition attribute='bsd_interneldiscountid' operator='eq' uitype='bsd_interneldiscount' value='{viewModel.Reservation.internaldiscountlist}' />
+                        </filter>
+                      </link-entity>
+                    </link-entity>
+                  </entity>
+                </fetch>";
+                var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ReservationDiscountOptionSet>>("bsd_discounts", fetchXml);
+                if (result != null && result.value.Count > 0)
+                {
+                    string[] checkedList = new string[] { };
+                    if (!string.IsNullOrWhiteSpace(viewModel.Reservation.bsd_interneldiscount))
+                    {
+                        checkedList = viewModel.Reservation.bsd_interneldiscount.Split(',');
+                    }
+
+                    foreach (var item in result.value)
+                    {
+                        if (DateTime.Now < item.bsd_startdate || DateTime.Now > item.bsd_enddate)
+                        {
+                            item.IsExpired = true;
+                        }
+                        if (checkedList.Any(x => x == item.Val))
+                        {
+                            item.Selected = true;
+                        }
+                        viewModel.InternelDiscounts.Add(item);
+                    }
+
+                    BindableLayout.SetItemsSource(listViewNoiBo, viewModel.InternelDiscounts);
+                }
+            }
+
+            if (viewModel.Reservation.discountswholesalelist != Guid.Empty)
+            {
+                string fetchXml = $@"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>
+                  <entity name='bsd_discount'>
+                    <attribute name='bsd_discountid' alias='Val' />
+                    <attribute name='bsd_name' alias='Label' />
+                    <attribute name='createdon' />
+                    <attribute name='bsd_startdate' />
+                    <attribute name='bsd_enddate' />
+                    <order attribute='bsd_name' descending='false' />
+                    <link-entity name='bsd_bsd_discountswholesalelist_bsd_discount' from='bsd_discountid' to='bsd_discountid' visible='false' intersect='true'>
+                      <link-entity name='bsd_discountswholesalelist' from='bsd_discountswholesalelistid' to='bsd_discountswholesalelistid' alias='ab'>
+                        <filter type='and'>
+                          <condition attribute='bsd_discountswholesalelistid' operator='eq' uitype='bsd_discountswholesalelist' value='{viewModel.Reservation.discountswholesalelist}' />
+                        </filter>
+                      </link-entity>
+                    </link-entity>
+                  </entity>
+                </fetch>";
+                var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ReservationDiscountOptionSet>>("bsd_discounts", fetchXml);
+                if (result != null && result.value.Count > 0)
+                {
+                    string[] checkedList = new string[] { };
+                    if (!string.IsNullOrWhiteSpace(viewModel.Reservation.bsd_chietkhaumausiid))
+                    {
+                        checkedList = viewModel.Reservation.bsd_chietkhaumausiid.Split(',');
+                    }
+
+                    foreach (var item in result.value)
+                    {
+                        if (DateTime.Now < item.bsd_startdate || DateTime.Now > item.bsd_enddate)
+                        {
+                            item.IsExpired = true;
+                        }
+                        if (checkedList.Any(x => x == item.Val))
+                        {
+                            item.Selected = true;
+                        }
+                        viewModel.WholesaleDiscounts.Add(item);
+                    }
+
+                    BindableLayout.SetItemsSource(listViewChietKhauSi, viewModel.WholesaleDiscounts);
                 }
             }
         }
@@ -478,12 +567,12 @@ namespace ConasiCRM.Portable.Views
             ReservationCoowner item = a.CommandParameter as ReservationCoowner;
             var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa người đồng sở hữu này không ?", "Đồng ý", "Hủy");
             if (conform == false) return;
-            viewModel.IsBusy = true;           
+            viewModel.IsBusy = true;
             var deleteResponse = await CrmHelper.DeleteRecord($"/bsd_coowners({item.bsd_coownerid})");
             if (deleteResponse.IsSuccess)
             {
                 // bỏ chọn vì đã xóa, ko là nó vẫn lưu
-               // gridCoOwner.SelectedItem = null;
+                // gridCoOwner.SelectedItem = null;
                 this.viewModel.CoownerList.Clear();
                 await viewModel.LoadCoOwners(ReservationId);
             }
@@ -576,8 +665,8 @@ namespace ConasiCRM.Portable.Views
             if (conform == false) return;
             Label lblClicked = (Label)sender;
             var a = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
-            ReservationHandoverCondition item = a.CommandParameter as ReservationHandoverCondition;            
-            viewModel.IsBusy = true;            
+            ReservationHandoverCondition item = a.CommandParameter as ReservationHandoverCondition;
+            viewModel.IsBusy = true;
             var deleteResponse = await CrmHelper.DeleteRecord($"/quotes({viewModel.Reservation.quoteid})/bsd_quote_bsd_packageselling({item.bsd_packagesellingid})/$ref");
             if (deleteResponse.IsSuccess)
             {
@@ -658,7 +747,7 @@ namespace ConasiCRM.Portable.Views
         //    }
         //    viewModel.IsBusy = false;
         //}
-        
+
         private async void DeleteKhuyenMai_Tapped(object sender, EventArgs e)
         {
             var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa khuyến mại này không ?", "Đồng ý", "Hủy");
@@ -733,7 +822,7 @@ namespace ConasiCRM.Portable.Views
         private async void DeleteChietKhauDacBiet_Tapped(object sender, EventArgs e)
         {
             Label lblClicked = (Label)sender;
-            var a = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];          
+            var a = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
             ReservationSpecialDiscountListModel item = a.CommandParameter as ReservationSpecialDiscountListModel;
             var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa chiết khấu này không ?", "Đồng ý", "Hủy");
             if (conform == false) return;
@@ -919,6 +1008,6 @@ namespace ConasiCRM.Portable.Views
             viewModel.PageLichThanhToan++;
             await viewModel.LoadInstallments(ReservationId);
             viewModel.IsBusy = false;
-        }        
+        }
     }
 }

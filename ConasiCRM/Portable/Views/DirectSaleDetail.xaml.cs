@@ -84,7 +84,6 @@ namespace ConasiCRM.Portable.Views
                 {
                     action = await DisplayActionSheet("", "Đóng", null, "Xem thông tin căn hộ", "Tạo giữ chỗ");
                 }
-
             }
             else if (CurrentUnit.statuscode == 100000005)
             {

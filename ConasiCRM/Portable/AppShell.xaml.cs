@@ -18,7 +18,8 @@ namespace ConasiCRM.Portable
         public AppShell()
         {
             InitializeComponent();       
-            this.BindingContext = viewModel = new AppShellViewModel();          
+            this.BindingContext = viewModel = new AppShellViewModel();
+            this.CurrentItem = Banhang;
         }       
     }
 }

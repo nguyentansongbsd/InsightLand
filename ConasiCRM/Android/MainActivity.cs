@@ -8,6 +8,9 @@ using Android.OS;
 using System.Threading.Tasks;
 using Android.Content;
 using System.IO;
+using ConasiCRM.Droid;
+using Xamarin.Forms;
+using ConasiCRM.Portable.IServices;
 
 namespace ConasiCRM.Android
 {
@@ -25,6 +28,7 @@ namespace ConasiCRM.Android
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new Portable.App());
+            DependencyService.Get<ILoadingService>().Initilize();
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, global::Android.Content.PM.Permission[] grantResults)

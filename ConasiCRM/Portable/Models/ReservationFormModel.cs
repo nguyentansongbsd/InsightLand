@@ -71,9 +71,7 @@ namespace ConasiCRM.Portable.Models
         public decimal bsd_managementfee { get; set; }// phi quan ly
 
         // thong tin chiet khau
-        public Guid discountlist_id { get; set; }
-        public string discountlist_name { get; set; }
-
+        public Guid discountlist { get; set; }
         private string _bsd_discounts; // property nay duoc dung de luu lai thong tin khi chon discounts,cach nhau dau phay. luu ID. Id nao co thi checked.
         public string bsd_discounts
         {
@@ -85,8 +83,10 @@ namespace ConasiCRM.Portable.Models
             }
         }
 
-
+        public Guid internaldiscountlist { get; set; }
         public string bsd_interneldiscount { get; set; }
+
+        public Guid discountswholesalelist { get; set; }
         public string bsd_chietkhaumausiid { get; set; }
 
     }

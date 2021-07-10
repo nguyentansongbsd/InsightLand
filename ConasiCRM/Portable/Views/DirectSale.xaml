@@ -38,7 +38,7 @@
                         </StackLayout>
 
                         <controls:FormLabel Text="Mã sản phẩm" Margin="10,5,10,0"/>
-                        <Entry Text="{Binding UnitCode}" Placeholder="Mã sản phẩm" Margin="10,0,10,5"/>
+                        <controls:MainEntry Text="{Binding UnitCode}" Placeholder="Mã sản phẩm" Margin="10,0,10,5"/>
 
                         <controls:FormLabel Text="Hướng nhìn" Margin="10,5,10,0" VerticalOptions="Start"/>
                         <controls:MultipleSelect x:Name="multipleSelectView" 
@@ -98,53 +98,7 @@
                 </StackLayout>
             </StackLayout>
             <controls:ModalContentView x:Name="modalLookUp" />
-            <!--<controls:ModalContentView x:Name="modalLookUp" IsVisible="{Binding ShowLookUpModal}">
-                    <StackLayout x:Name="ModalWrap" BackgroundColor="#ffffff">
-                    <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource ExpanderHeaderBackground}" Padding="10">
-                        <Label x:Name="ModalTitle" TextColor="{StaticResource ExpanderHeaderTextColor}" HorizontalOptions="StartAndExpand" VerticalOptions="Center" FontSize="18" />
-                        <ImageButton Source="close.png" Padding="5" BackgroundColor="White" Command="{Binding CloseLookUpModal}" HeightRequest="32" WidthRequest="32" Aspect="AspectFit" />
-                    </StackLayout>
-                    <telerikPrimitives:RadBorder Margin="5">
-                        <telerikPrimitives:RadBorder.BorderColor>
-                            <OnPlatform x:TypeArguments="Color">
-                                <On Platform="iOS" Value="Transparent" />
-                                <On Platform="Android" Value="#eeeeee" />
-                            </OnPlatform>
-                        </telerikPrimitives:RadBorder.BorderColor>
-                        <SearchBar IsEnabled="{Binding LookUpLoading,Converter={StaticResource BoolToBool}}" x:Name="searchBarModalLookUp" Text="" FontSize="16" />
-                    </telerikPrimitives:RadBorder>
-                    <StackLayout>
-                        <ListView>
-
-                        </ListView>
-                    </StackLayout>
-                </StackLayout>
-                </controls:ModalContentView>-->
             <ContentView x:Name="modalMultipleSelect" IsVisible="False" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="40" BackgroundColor="Red"/>
-            <!--<controls:BsdModal x:Name="bsdModal" IsLoading="True" HeaderText="Tiêu đề của modal" IsVisible="False">
-                <controls:BsdModal.ModalContent>
-                    <StackLayout Padding="10">
-                        <Label Text="test" />
-                        <ListView ItemsSource="{Binding test}" HasUnevenRows="True" CachingStrategy="RecycleElement">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout Padding="0,10,0,10">
-                                            <Label Text="{Binding}" TextColor="#333333" FontSize="16"  />
-                                        </StackLayout>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListView.Footer>
-                                <ActivityIndicator IsRunning="{Binding LookUpLoading}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-                            </ListView.Footer>
-                        </ListView>
-                    </StackLayout>
-                </controls:BsdModal.ModalContent>
-            </controls:BsdModal>-->
-            <controls:ModalContentView IsVisible="{Binding IsBusy}">
-                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-            </controls:ModalContentView>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>
