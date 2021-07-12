@@ -6,12 +6,13 @@
              x:Name="root"
              x:Class="ConasiCRM.Portable.Controls.MultipleSelect">
     <ContentView.Content>
-        <StackLayout>
-            <StackLayout.GestureRecognizers>
-                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Entry_Focus"/>
-            </StackLayout.GestureRecognizers>
-            <controls:EntryUnfocused x:Name="entry" Placeholder="{Binding Placeholder}" Focused="Entry_Focus" FontSize="16"/>
-            <FlexLayout Wrap="Wrap" x:Name="FlexLayout"/>
-        </StackLayout>
+        <Grid>
+            <controls:MainEntry x:Name="entry" Focused="Entry_Focus" TextColor="Black" HorizontalOptions="FillAndExpand" FontSize="16"/>
+            <FlexLayout Wrap="Wrap" x:Name="FlexLayout" BackgroundColor="Transparent">
+                <FlexLayout.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Entry_Focus"/>
+                </FlexLayout.GestureRecognizers>
+            </FlexLayout>
+        </Grid>
     </ContentView.Content>
 </ContentView>

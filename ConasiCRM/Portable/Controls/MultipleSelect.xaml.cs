@@ -48,6 +48,7 @@ namespace ConasiCRM.Portable.Controls
             InitializeComponent();
             this.BindingContext = this;
             this.SelectedItems = new ObservableCollection<string>();
+            entry.SetBinding(Entry.PlaceholderProperty, new Binding("Placeholder") { Source = this });
             //entry.SetBinding(Entry.TextProperty, new Binding("SelectedItems")
             //{
             //    Source = this,
@@ -272,6 +273,17 @@ namespace ConasiCRM.Portable.Controls
        
 
         public void addSelectedItem(string ItemId)        {            var tmplst = new ObservableCollection<OptionSet>();            foreach (var i in ItemsSource)            {                if (i.Val == ItemId)                {                    i.Selected = true;                }                tmplst.Add(i);            }            this.ItemsSource = tmplst;        }        public void removeSelectedItem(string ItemId)        {            var tmplst = new ObservableCollection<OptionSet>();            foreach (var i in ItemsSource)            {                if (i.Val == ItemId)                {                    i.Selected = false;                }                tmplst.Add(i);            }            this.ItemsSource = tmplst;        }
+
+        public void Clear()
+        {
+            FlexLayout.Children.Clear();     
+            foreach(var i in ItemsSource)
+            {
+                i.Selected = false;
+            }
+            SelectedItems.Clear();
+            entry.IsVisible = true;           
+        }
     }
 
     public class OnCloseEventArgs : EventArgs

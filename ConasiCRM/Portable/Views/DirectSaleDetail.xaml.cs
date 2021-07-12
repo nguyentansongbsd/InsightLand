@@ -249,7 +249,9 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.StatusReason.Val == "-1")
             {
                 viewModel.StatusReason = null;
-                BtnClear.IsVisible = false;
+                if(viewModel.Block == null && viewModel.Floor == null 
+                    || viewModel.Block != null && viewModel.Floor != null && viewModel.Block.Val == "-1" && viewModel.Floor.Val == "-1")
+                    BtnClear.IsVisible = false;
             }
             else
             {
@@ -266,7 +268,9 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.Block.Val == "-1")
             {
                 viewModel.Block = null;
-                BtnClear.IsVisible = false;
+                if(viewModel.StatusReason == null && viewModel.Floor == null 
+                    || viewModel.StatusReason != null && viewModel.Floor != null && viewModel.StatusReason.Val == "-1" && viewModel.Floor.Val == "-1")
+                    BtnClear.IsVisible = false;
             }
             else
             {
@@ -283,7 +287,9 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.Floor.Val =="-1")
             {
                 viewModel.Floor = null;
-                BtnClear.IsVisible = false;
+                if (viewModel.StatusReason == null && viewModel.Block == null 
+                    || viewModel.StatusReason != null && viewModel.Block != null && viewModel.StatusReason.Val== "-1" && viewModel.Block.Val == "-1")                 
+                    BtnClear.IsVisible = false;
             }
             else
             {

@@ -62,7 +62,7 @@
             </ShellContent.Icon>
         </ShellContent>
     </FlyoutItem>
-    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems"
+    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent x:Name="BanHang" Title="Bán hàng" ContentTemplate="{DataTemplate views:DirectSale}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf2b5;" Size="Title"/>

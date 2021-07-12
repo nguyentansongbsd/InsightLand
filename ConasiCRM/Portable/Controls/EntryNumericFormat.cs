@@ -187,7 +187,6 @@ namespace ConasiCRM.Portable.Controls
             {
                 NumericText = null;
             }
-        }
-
+        }    
     }
 }
