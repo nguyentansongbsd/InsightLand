@@ -22,8 +22,9 @@ namespace ConasiCRM.Portable.ViewModels
         public ObservableCollection<OptionSet> ViewOptions { get; set; }
         public ObservableCollection<OptionSet> UnitStatusOptions { get; set; }
 
+        private ObservableCollection<string> _selectedDirections;
 
-        public ObservableCollection<string> SelectedDirections { get; set; }
+        public ObservableCollection<string> SelectedDirections { get => _selectedDirections; set { _selectedDirections = value; OnPropertyChanged(nameof(SelectedDirections)); } }
         public ObservableCollection<string> SelectedViews { get; set; }
         public ObservableCollection<string> SelectedUnitStatus { get; set; }
 

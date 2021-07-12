@@ -176,13 +176,20 @@ namespace ConasiCRM.Portable.Views
             viewModel.IsEvent = false;
             viewModel.UnitCode = null;
             viewModel.SelectedViews.Clear();
+            multipleSelectView.Clear();
             viewModel.SelectedDirections.Clear();
+            multipleSelectDirection.Clear();
             viewModel.SelectedUnitStatus.Clear();
+            multipleSelectUnitStatus.Clear();
             viewModel.minNetArea = null;
+            minNetArea.Text = string.Empty;          
             viewModel.maxNetArea = null;
-            viewModel.minPrice = null;
-            viewModel.maxPrice = null;
-           // viewModel.IsCollapse = false;
+            maxNetArea.Text = string.Empty;         
+            viewModel.minPrice = null;          
+            minPrice.Text = string.Empty;
+            viewModel.maxPrice = null;          
+            maxPrice.Text = string.Empty;
+            // viewModel.IsCollapse = false;
             viewModel.IsBusy = false;
         }
         private int CompareInt(string a, string b)
