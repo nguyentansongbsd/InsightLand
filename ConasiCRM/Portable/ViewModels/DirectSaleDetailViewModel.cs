@@ -236,6 +236,12 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task LoadFloors()
         {
+            string filter_byblock = Block != null ? $@"<link-entity name='bsd_block' from='bsd_blockid' to='bsd_block' link-type='inner' alias='a_69e6a386df72e911a83a000d3a80e651'>
+                                  <filter type='and'>
+                                    <condition attribute='bsd_blockid' operator='eq' value='{Block.Val}'/>
+                                  </filter>
+                                </link-entity>" : "";
+
             string fetchXml = $@"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                       <entity name='bsd_floor'>
                         <attribute name='bsd_name' />
@@ -246,6 +252,7 @@ namespace ConasiCRM.Portable.ViewModels
                             <condition attribute='bsd_projectid' operator='eq' value='{this.ProjectId}'/>
                           </filter>
                         </link-entity>
+                        {filter_byblock}
                       </entity>
                     </fetch>";
             var floor_result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Floor>>("bsd_floors", fetchXml);
