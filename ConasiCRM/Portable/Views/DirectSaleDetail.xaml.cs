@@ -41,6 +41,7 @@ namespace ConasiCRM.Portable.Views
             fillterStatus.PreOpenAsync = viewModel.LoadStatusReason;
             fillterBlock.PreOpenAsync = LoadBlockAsync;
             fillterFloor.PreOpenAsync = LoadFloorAsync;
+            fillterFloor.PreOpenOneTime = false;
             if (viewModel.Data != null && viewModel.Data.Count > 0)
             {
                 OnComplete?.Invoke(true);
