@@ -2,13 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
-             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
-            xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
-              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
-             xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
-             xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
-             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
              xmlns:reservationConverter="clr-namespace:ConasiCRM.Portable.Converters.Reservation"
              xmlns:unitConverter="clr-namespace:ConasiCRM.Portable.Converters.Unit"
              Title="Báo giá"
@@ -362,7 +358,7 @@
                                                     <DataTemplate>
                                                         <StackLayout Orientation="Horizontal" Padding="5">
                                                             <StackLayout.GestureRecognizers>
-                                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="DiscountsListView_ItemTapped" CommandParameter="{Binding}" />
+                                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="InternalDiscountListView_ItemTapped" CommandParameter="{Binding}" />
                                                             </StackLayout.GestureRecognizers>
                                                             <controls:MyNewCheckBox CheckedColor="#666666" Spacing="5" Title="{Binding Label}" TitleColor="{Binding IsExpired,Converter={StaticResource DiscountsIsExpiredToColorConverter}}" IsEnabled="False" IsChecked="{Binding Selected,Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" />
                                                         </StackLayout>
@@ -384,7 +380,7 @@
                                                     <DataTemplate>
                                                         <StackLayout Orientation="Horizontal" Padding="5">
                                                             <StackLayout.GestureRecognizers>
-                                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="DiscountsListView_ItemTapped" CommandParameter="{Binding}" />
+                                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="WholeSaleDiscountsListView_ItemTapped" CommandParameter="{Binding}" />
                                                             </StackLayout.GestureRecognizers>
                                                             <controls:MyNewCheckBox CheckedColor="#666666" Spacing="5" Title="{Binding Label}" TitleColor="{Binding IsExpired,Converter={StaticResource DiscountsIsExpiredToColorConverter}}" IsEnabled="False" IsChecked="{Binding Selected,Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" />
                                                         </StackLayout>
