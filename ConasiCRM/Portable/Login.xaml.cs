@@ -19,7 +19,7 @@ using Xamarin.Forms.Xaml;
 
 namespace ConasiCRM.Portable
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    //[XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Login : ContentPage
     {
         public Login()
@@ -98,8 +98,9 @@ namespace ConasiCRM.Portable
                         UserLogged.IsLogged = false;
                     }
                     App.Current.Properties["Token"] = tokenData.access_token;
+
                     App.Current.MainPage = new AppShell();
-                    LoadingHelper.Hide();
+                    
                 }
                 else
                 {
@@ -112,7 +113,6 @@ namespace ConasiCRM.Portable
                 LoadingHelper.Hide();
                 await DisplayAlert("Thông báo", "Lỗi kết nối đến Server. \n" + ex.Message, "Đóng");
             }
-            LoadingHelper.Hide();
         }
 
     }

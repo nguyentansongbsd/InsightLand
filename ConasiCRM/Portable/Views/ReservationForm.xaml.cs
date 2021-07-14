@@ -881,12 +881,52 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
+        private void InternalDiscountListView_ItemTapped(object sender, EventArgs e)
+        {
+            var stacklayout = (StackLayout)sender;
+            var tapGes = stacklayout.GestureRecognizers[0] as TapGestureRecognizer;
+            var item = (ReservationDiscountOptionSet)tapGes.CommandParameter;
+            if (item.IsExpired || viewModel.Reservation.statuscode != 100000007) return; // hết hạn, hoặc là quote không phải trạng thái quotation.
+
+            // Toggle lại giá trị true/false
+            item.Selected = !item.Selected;
+
+            viewModel.Reservation.bsd_interneldiscount = string.Join(",", viewModel.InternelDiscounts.Where(x => x.Selected).Select(x => x.Val).ToArray());
+
+            // hiển nút lưu.
+            if (btnUpdateDiscounts.IsVisible == false)
+            {
+                btnUpdateDiscounts.IsVisible = true;
+            }
+        }
+
+        private void WholeSaleDiscountsListView_ItemTapped(object sender, EventArgs e)
+        {
+            var stacklayout = (StackLayout)sender;
+            var tapGes = stacklayout.GestureRecognizers[0] as TapGestureRecognizer;
+            var item = (ReservationDiscountOptionSet)tapGes.CommandParameter;
+            if (item.IsExpired || viewModel.Reservation.statuscode != 100000007) return; // hết hạn, hoặc là quote không phải trạng thái quotation.
+
+            // Toggle lại giá trị true/false
+            item.Selected = !item.Selected;
+
+            viewModel.Reservation.bsd_chietkhaumausiid = string.Join(",", viewModel.WholesaleDiscounts.Where(x => x.Selected).Select(x => x.Val).ToArray());
+
+            // hiển nút lưu.
+            if (btnUpdateDiscounts.IsVisible == false)
+            {
+                btnUpdateDiscounts.IsVisible = true;
+            }
+        }
+
         // Cập nhật lại check khấu khi check chọn.
         private async void BtnUpdateDiscounts_Clicked(object sender, EventArgs e)
         {
             viewModel.IsBusy = true;
             var data = new Dictionary<string, object>();
             data["bsd_discounts"] = viewModel.Reservation.bsd_discounts ?? "";
+            data["bsd_interneldiscount"] = viewModel.Reservation.bsd_interneldiscount ?? "";
+            data["bsd_chietkhaumausiid"] = viewModel.Reservation.bsd_chietkhaumausiid ?? "";
 
             var response = await CrmHelper.PatchData($"/quotes({ReservationId})", data);
             if (response.IsSuccess)

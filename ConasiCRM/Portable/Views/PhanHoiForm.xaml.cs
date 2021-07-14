@@ -779,7 +779,7 @@ namespace ConasiCRM.Portable.Views
             popup_list_viewStatus.IsVisible = true;
         }
 
-        public int valueid { get; set; }
+        public int? valueid { get; set; }
         public string valuename { get; set; }
 
         void OnSelectItem_Status(object sender, Xamarin.Forms.ItemTappedEventArgs e)
@@ -790,9 +790,12 @@ namespace ConasiCRM.Portable.Views
 
         void Accept_Status(object sender, System.EventArgs e)
         {
-            viewModel.singlePhanHoi.statuscode = valueid;
-            bsd_status_text.Text = valuename;
-
+            if (valueid.HasValue && !string.IsNullOrWhiteSpace(valuename))
+            {
+                viewModel.singlePhanHoi.statuscode = valueid.Value;
+                bsd_status_text.Text = valuename;
+            }
+            
             popup_list_viewStatus.IsVisible = false;
         }
 
