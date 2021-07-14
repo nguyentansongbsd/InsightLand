@@ -18,8 +18,8 @@ namespace ConasiCRM.Portable.ViewModels
         }
 
         private void Logout()
-        {
-            Application.Current.MainPage = new NavigationPage(new Login());
+        {            
+            App.Current.MainPage.Navigation.PushModalAsync(new Login(),false);          
         }
 
         private async void Developing()

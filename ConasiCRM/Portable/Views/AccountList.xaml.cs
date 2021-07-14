@@ -27,14 +27,14 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new AccountListViewModel();
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             NeedToRefresh = false;
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         protected async override void OnAppearing()
@@ -42,40 +42,40 @@ namespace ConasiCRM.Portable.Views
             base.OnAppearing();
             if (NeedToRefresh == true)
             {
-                viewModel.IsBusy = true;
+                LoadingHelper.Show();
                 await viewModel.LoadOnRefreshCommandAsync();
                 NeedToRefresh = false;
-                viewModel.IsBusy = false;
+                LoadingHelper.Hide();
             }
         }
 
         private async void NewMenu_Clicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             await Navigation.PushAsync(new AccountForm());
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             var item = e.Item as AccountListModel;
             AccountForm newPage = new AccountForm(item.accountid);
             newPage.CheckSingleAccount = async (CheckSingleAccount) =>
             {
                 if (CheckSingleAccount == true)
                 {
-                    await Navigation.PushAsync(newPage);
+                    await Navigation.PushAsync(newPage);                 
                 }
-                viewModel.IsBusy = false;
+                LoadingHelper.Hide();
             };
         }
 
         private async void SearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             await viewModel.LoadOnRefreshCommandAsync();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void SearchBar_TextChanged(System.Object sender, Xamarin.Forms.TextChangedEventArgs e)

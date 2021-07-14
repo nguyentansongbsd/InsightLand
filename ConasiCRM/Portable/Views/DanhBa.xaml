@@ -85,21 +85,8 @@
                                             BackgroundColor="#646566"/>
                 </StackLayout>-->
             </StackLayout>
-            
+
             <local:MyButtonPopup x:Name="button_toLead" OnClicked="ConvertToLead_Clicked" SourceImage="btn_send.png" BackgroundContentColor="#7898ce"/>
-            
-            <!--Popup Loading-->
-            <local:ModalContentView x:Name="popup_loading"
-                IsVisible="{Binding IsBusy}">
-                
-                <ActivityIndicator
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    IsRunning="{Binding IsBusy}"
-                    IsVisible="{Binding IsBusy}" Color="#000000">
-                </ActivityIndicator>
-            </local:ModalContentView>
-            <!--End Popup-->
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

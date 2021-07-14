@@ -26,16 +26,16 @@
                         <Label Text="Thông Tin Cơ Bản" TextColor="Black" Padding="15,10" FontSize="16" FontAttributes="Bold" BackgroundColor="#F3F3F3"/>
                         <Grid BackgroundColor="#ffffff" Padding="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,6*" >
                             <controls:FormLabelRequired VerticalOptions="Center" Text="Tên công ty"  Grid.Column="0" Grid.Row="0"/>
-                            <Entry x:Name="Entry_nameacc" Text="{Binding singleAccount.bsd_name}" 
+                            <controls:MainEntry x:Name="Entry_nameacc" Text="{Binding singleAccount.bsd_name}" 
                                                FontSize="15" TextColor="Black" 
                                                IsEnabled="{Binding optionEntryHasOnlyTerminatedStatus}"
                                                Grid.Column="1" Grid.Row="0"/>
 
                             <controls:FormLabel VerticalOptions="Center" Text="Tên công ty (khác)"  Grid.Column="0" Grid.Row="1"/>
-                            <Entry Text="{Binding singleAccount.bsd_accountnameother}" FontSize="15" Grid.Column="1" Grid.Row="1"/>
+                            <controls:MainEntry Text="{Binding singleAccount.bsd_accountnameother}" FontSize="15" Grid.Column="1" Grid.Row="1"/>
 
                             <controls:FormLabel VerticalOptions="Center" Text="Tên viết tắt"  Grid.Column="0" Grid.Row="2"/>
-                            <Entry Text="{Binding singleAccount.bsd_companycode}" FontSize="15" Grid.Column="1" Grid.Row="2"/>
+                            <controls:MainEntry Text="{Binding singleAccount.bsd_companycode}" FontSize="15" Grid.Column="1" Grid.Row="2"/>
 
                             <controls:FormLabelRequired VerticalOptions="Center" Text="Người đại diện pháp luật"  Grid.Column="0" Grid.Row="3"/>
                             <controls:BsdLookUp Placeholder="Chọn người đại diện" 
@@ -82,7 +82,7 @@
 
                             <controls:FormLabel Text="Người uỷ quyền" Grid.Column="0" Grid.Row="6" />
                             <Grid Grid.Column="1" Grid.Row="6">
-                                <Entry Text="Không"/>
+                                <controls:MainEntry Text="Không"/>
                                 <StackLayout/>
                             </Grid>
 

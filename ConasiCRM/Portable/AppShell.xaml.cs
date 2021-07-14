@@ -1,4 +1,5 @@
-﻿using ConasiCRM.Portable.ViewModels;
+﻿using ConasiCRM.Portable.Settings;
+using ConasiCRM.Portable.ViewModels;
 using ConasiCRM.Portable.Views;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,18 @@ namespace ConasiCRM.Portable
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AppShell : Shell
     {     
-        private AppShellViewModel viewModel;
+        private AppShellViewModel viewModel;     
         public AppShell()
         {
             InitializeComponent();
+            this.BindingContext = viewModel = new AppShellViewModel();
             appShell.CurrentItem = BanHang;
-            this.BindingContext = viewModel = new AppShellViewModel();   
-        }       
-    }
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            appShell.CurrentItem = BanHang;
+            Shell.Current.FlyoutIsPresented = false;
+        }         
+    }           
 }

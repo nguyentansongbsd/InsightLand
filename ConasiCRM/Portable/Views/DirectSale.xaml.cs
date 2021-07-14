@@ -135,12 +135,13 @@ namespace ConasiCRM.Portable.Views
             viewModel.ProcessLookup(nameof(viewModel.ProjectConfig));
         }
 
-        public void EntryPhasesLaunch_Focused(object sender, EventArgs e)
+        public async void EntryPhasesLaunch_Focused(object sender, EventArgs e)
         {
             viewModel.CurrentLookUpConfig = viewModel.PhasesLanchConfig;
             if (viewModel.Project == null)
             {
-                viewModel.ShowLookUpModal = true; ;
+                // viewModel.ShowLookUpModal = true; ;
+                await DisplayAlert("Thông báo", "Vui lòng chọn Dự án", "Đóng");
             }
             else
             {
@@ -169,7 +170,7 @@ namespace ConasiCRM.Portable.Views
 
         private async void Refresh_CLicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             // await Navigation.PushAsync(new MasterDetailPage1());
             viewModel.Project = null;
             viewModel.PhasesLanch = null;
@@ -190,7 +191,7 @@ namespace ConasiCRM.Portable.Views
             viewModel.maxPrice = null;          
             maxPrice.Text = string.Empty;
             // viewModel.IsCollapse = false;
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
         private int CompareInt(string a, string b)
         {
