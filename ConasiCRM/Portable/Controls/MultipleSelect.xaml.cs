@@ -1,4 +1,5 @@
 ﻿using ConasiCRM.Portable.Converters;
+using ConasiCRM.Portable.Helper;
 using ConasiCRM.Portable.Models;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -45,7 +46,7 @@ namespace ConasiCRM.Portable.Controls
 
         public MultipleSelect()
         {
-            InitializeComponent();
+            InitializeComponent();           
             this.BindingContext = this;
             this.SelectedItems = new ObservableCollection<string>();
             entry.SetBinding(Entry.PlaceholderProperty, new Binding("Placeholder") { Source = this });
@@ -59,7 +60,7 @@ namespace ConasiCRM.Portable.Controls
 
             listviewPopup.OnConfirmClicked += ListviewPopup_OnConfirmClicked;
             listviewPopup.OnCloseClicked += ListviewPopup_OnCloseClicked;
-            listviewPopup.OnTappedItem += ListviewPopup_OnTappedItem;
+            listviewPopup.OnTappedItem += ListviewPopup_OnTappedItem;          
         }
 
         void ListviewPopup_OnConfirmClicked(object sender, EventArgs e)
@@ -129,7 +130,7 @@ namespace ConasiCRM.Portable.Controls
         private async void Entry_Focus(object sender, EventArgs e)
         {
             entry.Unfocus();
-
+            LoadingHelper.Show();
             /////// ****** ANH PHONG comment ************
             /// 
             /////// using tmp to copy ONLY VALUE of itemsource into listviewPopup ItemsSource
@@ -142,7 +143,9 @@ namespace ConasiCRM.Portable.Controls
             }
             listviewPopup.ItemsSource = tmp;
             listviewPopup.Placeholder = Placeholder;
-            await PopupNavigation.Instance.PushAsync(listviewPopup); //using Rg.Plugins.Popup
+            await PopupNavigation.Instance.PushAsync(listviewPopup);
+            LoadingHelper.Hide();
+            //using Rg.Plugins.Popup
             //ModalContentView.IsVisible = true;
             ////stack.IsVisible = true;
 

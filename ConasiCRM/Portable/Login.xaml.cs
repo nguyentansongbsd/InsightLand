@@ -41,19 +41,19 @@ namespace ConasiCRM.Portable
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            App.Current.On<Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+           // App.Current.On<Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+            Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
         }
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            App.Current.On<Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Pan);
+            // App.Current.On<Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Pan);
+            Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Pan);
         }
-
         private void IsRemember_Tapped(object sender, EventArgs e)
         {
             checkboxRememberAcc.IsChecked = !checkboxRememberAcc.IsChecked;
         }
-
         private async void Button_Clicked(object sender, EventArgs e)
         {
             if (txtUsername.Text.Trim() == "")
@@ -98,9 +98,7 @@ namespace ConasiCRM.Portable
                         UserLogged.IsLogged = false;
                     }
                     App.Current.Properties["Token"] = tokenData.access_token;
-
-                    App.Current.MainPage = new AppShell();
-                    
+                    await Navigation.PopModalAsync(false);                   
                 }
                 else
                 {
@@ -112,8 +110,14 @@ namespace ConasiCRM.Portable
             {
                 LoadingHelper.Hide();
                 await DisplayAlert("Thông báo", "Lỗi kết nối đến Server. \n" + ex.Message, "Đóng");
-            }
+            }           
+            LoadingHelper.Hide();
         }
 
+        protected override bool OnBackButtonPressed()
+        {
+            System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();            
+            return true;
+        }
     }
 }

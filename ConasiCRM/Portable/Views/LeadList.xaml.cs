@@ -27,7 +27,7 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();           
             this.BindingContext = viewModel = new LeadListViewModel();
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             Init();
             //viewModel.IsBusy = false;
         }
@@ -39,14 +39,14 @@ namespace ConasiCRM.Portable.Views
                 Action?.Invoke(true);
             else
                 Action?.Invoke(false);
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }       
 
         private async void NewMenu_Clicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;           
+            LoadingHelper.Show();
             await Navigation.PushAsync(new LeadForm());
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         protected override void OnAppearing()
@@ -60,34 +60,34 @@ namespace ConasiCRM.Portable.Views
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            viewModel.IsBusy = true;           
+            LoadingHelper.Show();
             var item = e.Item as LeadListModel;
             LeadForm newPage = new LeadForm(item.leadid);
             newPage.CheckSingleLead = async (checkSingleLead) =>
             {
                 if (checkSingleLead == true)
                 {
-                    await Navigation.PushAsync(newPage);
+                    await Navigation.PushAsync(newPage);                  
                 }
-                viewModel.IsBusy = false;
+                LoadingHelper.Hide();
             };                        
         }
 
         private async void Search_Pressed(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             await viewModel.LoadOnRefreshCommandAsync();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private async void Search_TextChanged(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             if (string.IsNullOrEmpty(viewModel.Keyword))
             {
-                await viewModel.LoadOnRefreshCommandAsync();
+                await viewModel.LoadOnRefreshCommandAsync();              
             }
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
     }
 }

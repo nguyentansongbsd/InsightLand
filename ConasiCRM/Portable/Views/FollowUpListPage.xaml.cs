@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ConasiCRM.Portable.Helper;
 using ConasiCRM.Portable.Models;
 using ConasiCRM.Portable.ViewModels;
 using Xamarin.Forms;
@@ -13,19 +14,19 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             this.BindingContext = viewModel = new FollowUpListPageViewModel();
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             Init();
         }
 
         public async void Init()
         {
             await viewModel.LoadData();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void listView_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             var item = e.Item as FollowUpListPageModel;
             FollowDetailPage followDetailPage = new FollowDetailPage(item.bsd_followuplistid);
             followDetailPage.OnLoaded = async(isSuccess) =>
@@ -33,12 +34,12 @@ namespace ConasiCRM.Portable.Views
                 if (isSuccess)
                 {
                     await Navigation.PushAsync(followDetailPage);
-                    viewModel.IsBusy = false;
+                    LoadingHelper.Hide();
                 }
                 else
                 {
                     await DisplayAlert("", "Không tìm thấy dữ liệu", "Đóng");
-                    viewModel.IsBusy = false;
+                    LoadingHelper.Hide();
                 }
             };
             
@@ -46,9 +47,9 @@ namespace ConasiCRM.Portable.Views
 
         private async void Search_Pressed(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             await viewModel.LoadOnRefreshCommandAsync();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void Search_TextChanged(object sender, EventArgs e)

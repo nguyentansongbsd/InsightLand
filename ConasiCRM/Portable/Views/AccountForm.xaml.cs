@@ -63,7 +63,7 @@ namespace ConasiCRM.Portable.Views
             viewModel.ModalLookUp = PrimaryContactLoopkup;
             viewModel.InitializeModal();
 
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             if (AccountId != Guid.Empty)
             {
                 viewModel.Title = "Cập Nhật Khách Hàng Doanh Nghiệp";
@@ -90,14 +90,14 @@ namespace ConasiCRM.Portable.Views
                 datagridCase.IsVisible = false;
                 datagridActivities.IsVisible = false;
                 datagridMandatorySecondary.IsVisible = false;
-                viewModel.IsBusy = false;
+                LoadingHelper.Hide();
             }
 
         }
 
         public async Task Start(Guid AccountId)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             viewModel.Title = "Cập Nhật Khách Hàng Doanh Nghiệp";
 
             datagridQueuing.IsVisible = true;
@@ -165,7 +165,7 @@ namespace ConasiCRM.Portable.Views
                 }
             }
 
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         //async void show_popup_Mandatory(object sender, EventArgs e)
@@ -668,7 +668,7 @@ namespace ConasiCRM.Portable.Views
 
         private async void SaveMenu_Clicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             int Mode = 1;
             var check = await checkData();
             if (viewModel.singleAccount.accountid == Guid.Empty)
@@ -721,6 +721,7 @@ namespace ConasiCRM.Portable.Views
                     await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", check, "OK");
                 }
             }
+            LoadingHelper.Hide();
             //viewModel.IsBusy = false;
         }
 
