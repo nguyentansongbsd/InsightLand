@@ -507,18 +507,6 @@ namespace ConasiCRM.Portable.Views
             viewModel.IsBusy = false;
         }
 
-        // Mở form tạo Người đồng sở hữu
-        private async void BtnNewCoOwner_Clicked(object sender, EventArgs e)
-        {
-            //var test = await DisplayActionSheet("Cawn ho", "Đóng", null, "Xem thông tin căn hộ", "Tạo giữ chỗ", "Tạo đặt cọc");
-            //await DisplayAlert("", test, "Dong");
-            await Navigation.PushAsync(new CoOwnerForm(new LookUp()
-            {
-                Id = ReservationId,
-                Name = viewModel.Reservation.name
-            }));
-        }
-
         //private async void ViewCoOwner_Clicked(object sender, EventArgs e)
         //{
         //    if (gridCoOwner.SelectedItem == null)
@@ -532,34 +520,19 @@ namespace ConasiCRM.Portable.Views
         //    await Navigation.PushAsync(new CoOwnerForm(item.bsd_coownerid));
         //}
 
+        // Mở form tạo Người đồng sở hữu
+        private async void BtnNewCoOwner_Clicked(object sender, EventArgs e)
+        {
+            //var test = await DisplayActionSheet("Cawn ho", "Đóng", null, "Xem thông tin căn hộ", "Tạo giữ chỗ", "Tạo đặt cọc");
+            //await DisplayAlert("", test, "Dong");
+            await Navigation.PushAsync(new CoOwnerForm(new LookUp()
+            {
+                Id = ReservationId,
+                Name = viewModel.Reservation.name
+            }));
+        }
+
         // Xóa người đồng sở hữu
-        //private async void BtnDeleteCoOwner_Clicked(object sender, EventArgs e)
-        //{
-        //    if (gridCoOwner.SelectedItem == null)
-        //    {
-        //        await DisplayAlert("Thông báo", "Vui lòng chọn Người đồng sở hữu muốn xóa", "Đóng");
-        //        return;
-        //    }
-
-        //    var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa người đồng sở hữu này không ?", "Đồng ý", "Hủy");
-        //    if (conform == false) return;
-        //    viewModel.IsBusy = true;
-        //    ReservationCoowner item = gridCoOwner.SelectedItem as ReservationCoowner;
-        //    var deleteResponse = await CrmHelper.DeleteRecord($"/bsd_coowners({item.bsd_coownerid})");
-        //    if (deleteResponse.IsSuccess)
-        //    {
-        //        // bỏ chọn vì đã xóa, ko là nó vẫn lưu
-        //        gridCoOwner.SelectedItem = null;
-        //        this.viewModel.CoownerList.Clear();
-        //        await viewModel.LoadCoOwners(ReservationId);
-        //    }
-        //    else
-        //    {
-        //        await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
-        //    }
-        //    viewModel.IsBusy = false;
-        //}
-
         private async void DeleteNguoiDongSoHuu_Tapped(object sender, EventArgs e)
         {
             Label lblClicked = (Label)sender;
@@ -604,8 +577,6 @@ namespace ConasiCRM.Portable.Views
                     <attribute name='bsd_packagesellingid' alias='Id' />
                     <order attribute='createdon' descending='true' />
                     <filter type='and'>
-                          <condition attribute='statuscode' operator='eq' value='1' />
-                          <condition attribute='statecode' operator='eq' value='0' />
                           <condition attribute='bsd_name' operator='like' value='%{1}%' />
                      </filter>
                     <link-entity name='bsd_bsd_phaseslaunch_bsd_packageselling' from='bsd_packagesellingid' to='bsd_packagesellingid' visible='false' intersect='true'>
@@ -630,34 +601,6 @@ namespace ConasiCRM.Portable.Views
             viewModel.CurrentLookUpConfig = viewModel.PaymentschemeConfig;
             viewModel.ProcessLookup(nameof(viewModel.PaymentschemeConfig));
         }
-
-        // Xóa điều kiện bàn giao
-        //private async void BtnDeleteHandoverCondition_Clicked(object sender, EventArgs e)
-        //{
-        //    if (gridHandoverCondition.SelectedItem == null)
-        //    {
-        //        await DisplayAlert("Thông báo", "Vui lòng chọn điều kiện bàn giao muốn xóa", "Đóng");
-        //        return;
-        //    }
-
-        //    var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa điều kiện bàn giao này không ?", "Đồng ý", "Hủy");
-        //    if (conform == false) return;
-        //    viewModel.IsBusy = true;
-        //    ReservationHandoverCondition item = gridHandoverCondition.SelectedItem as ReservationHandoverCondition;
-        //    var deleteResponse = await CrmHelper.DeleteRecord($"/quotes({viewModel.Reservation.quoteid})/bsd_quote_bsd_packageselling({item.bsd_packagesellingid})/$ref");
-        //    if (deleteResponse.IsSuccess)
-        //    {
-        //        // bỏ chọn vì đã xóa, ko là nó vẫn lưu
-        //        gridHandoverCondition.SelectedItem = null;
-        //        this.viewModel.HandoverConditionList.Clear();
-        //        await this.LoadhandoverConditions();
-        //    }
-        //    else
-        //    {
-        //        await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
-        //    }
-        //    viewModel.IsBusy = false;
-        //}
 
         private async void DeleteDieuKienBanGiao_Tapped(object sender, EventArgs e)
         {
@@ -721,33 +664,6 @@ namespace ConasiCRM.Portable.Views
         }
 
         // Xóa khuyến mãi
-        //private async void BtnDeletePromotion_Clicked(object sender, EventArgs e)
-        //{
-        //    if (gridPromotions.SelectedItem == null)
-        //    {
-        //        await DisplayAlert("Thông báo", "Vui lòng chọn khuyến mại muốn xóa", "Đóng");
-        //        return;
-        //    }
-
-        //    var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa khuyến mại này không ?", "Đồng ý", "Hủy");
-        //    if (conform == false) return;
-        //    viewModel.IsBusy = true;
-        //    ReservationPromotionModel item = gridPromotions.SelectedItem as ReservationPromotionModel;
-        //    var deleteResponse = await CrmHelper.DeleteRecord($"/quotes({viewModel.Reservation.quoteid})/bsd_quote_bsd_promotion({item.bsd_promotionid})/$ref");
-        //    if (deleteResponse.IsSuccess)
-        //    {
-        //        // bỏ chọn vì đã xóa, ko là nó vẫn lưu
-        //        gridPromotions.SelectedItem = null;
-        //        this.viewModel.PromotionList.Clear();
-        //        await viewModel.LoadPromotions(ReservationId);
-        //    }
-        //    else
-        //    {
-        //        await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
-        //    }
-        //    viewModel.IsBusy = false;
-        //}
-
         private async void DeleteKhuyenMai_Tapped(object sender, EventArgs e)
         {
             var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa khuyến mại này không ?", "Đồng ý", "Hủy");
@@ -778,34 +694,6 @@ namespace ConasiCRM.Portable.Views
             viewModel.IsBusy = false;
         }
 
-        // xóa chiết khấu đặc biệt
-        //private async void BtnDeleteSpecicalDiscount_Clicked(object sender, EventArgs e)
-        //{
-        //    if (gridSpecialDiscount.SelectedItem == null)
-        //    {
-        //        await DisplayAlert("Thông báo", "Vui lòng chọn chiết khấu muốn xóa", "Đóng");
-        //        return;
-        //    }
-
-        //    var conform = await DisplayAlert("Xác nhận", "Bạn có muốn xóa chiết khấu này không ?", "Đồng ý", "Hủy");
-        //    if (conform == false) return;
-        //    viewModel.IsBusy = true;
-        //    ReservationSpecialDiscountListModel item = gridSpecialDiscount.SelectedItem as ReservationSpecialDiscountListModel;
-        //    var deleteResponse = await CrmHelper.DeleteRecord($"/bsd_discountspecials({item.bsd_discountspecialid})");
-        //    if (deleteResponse.IsSuccess)
-        //    {
-        //        // bỏ chọn vì đã xóa, ko là nó vẫn lưu
-        //        gridSpecialDiscount.SelectedItem = null;
-        //        this.viewModel.SpecialDiscountList.Clear();
-        //        await viewModel.LoadSpecialDiscounts(ReservationId);
-        //    }
-        //    else
-        //    {
-        //        await DisplayAlert("Thông báo", deleteResponse.GetErrorMessage(), "Đóng");
-        //    }
-        //    viewModel.IsBusy = false;
-        //}      
-
         // xem chiết khấu đặc biệt
         //private async void BtnViewSpecicalDiscount_Clicked(object sender, EventArgs e)
         //{
@@ -819,6 +707,7 @@ namespace ConasiCRM.Portable.Views
         //    await Navigation.PushAsync(new SpecialDiscountForm(selectedItem.bsd_discountspecialid));
         //}
 
+        // xóa chiết khấu đặc biệt
         private async void DeleteChietKhauDacBiet_Tapped(object sender, EventArgs e)
         {
             Label lblClicked = (Label)sender;

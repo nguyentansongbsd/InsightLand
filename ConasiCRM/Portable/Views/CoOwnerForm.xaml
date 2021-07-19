@@ -61,9 +61,9 @@
                 </StackLayout>
             </StackLayout>
             <controls:ModalContentView x:Name="modalLookUp" />
-            <controls:ModalContentView IsVisible="{Binding IsBusy}">
+            <!--<controls:ModalContentView IsVisible="{Binding IsBusy}">
                 <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-            </controls:ModalContentView>
+            </controls:ModalContentView>-->
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

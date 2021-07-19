@@ -464,15 +464,6 @@
                                     </StackLayout>
                                     <Button Clicked="ShowMoreNguoiDongSoHuu_Clicked" IsVisible="{Binding ShowMoreNguoiDongSoHuu}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
                                 </StackLayout>
-                                <!--<bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="gridCoOwner" ItemsSource="{Binding CoownerList}">
-                                    <telerikDataGrid:RadDataGrid.Columns>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Mô tả"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="customer"  HeaderText="Tên"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="ReservationName"  HeaderText="Báo giá"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_relationship_format" HeaderText="Mối quan hệ"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo"/>
-                                    </telerikDataGrid:RadDataGrid.Columns>
-                                </bsdGrid:BsdRadDataGrid>-->
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
@@ -669,29 +660,12 @@
                                     </StackLayout>
                                     <Button Clicked="ShowMoreLichThanhToan_Clicked" IsVisible="{Binding ShowMoreLichThanhToan}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
                                 </StackLayout>
-                                <!--<bsdGrid:BsdRadDataGrid ItemsSource="{Binding InstallmentList}">
-                                    <telerikDataGrid:RadDataGrid.Columns>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_ordernumber" HeaderText="STT"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Đợt thanh toán"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_duedate_format" HeaderText="Ngày đến hạn"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="statuscode_format" HeaderText="Tình trạng"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountofthisphase_format" HeaderText="Số tiền đợt thanh toán"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountwaspaid_format" HeaderText="Số tiền đã thanh toán"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_depositamount_format" HeaderText="Số tiền đặt cọc"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_waiveramount_format" HeaderText="Số tiền còn lại"/>
-                                    </telerikDataGrid:RadDataGrid.Columns>
-                                </bsdGrid:BsdRadDataGrid>-->
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
                     </StackLayout>
                 </ScrollView>
 
                 <Grid x:Name="gridBtnGroup" VerticalOptions="EndAndExpand">
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
                     <telerikInput:RadButton BorderRadius="0" Grid.Row="0" VerticalOptions="FillAndExpand" x:Name="btnSaveForm" Clicked="BtnSaveForm_Clicked" BackgroundColor="#eeeeee" HorizontalOptions="FillAndExpand" Text="Lưu" TextColor="Black" />
                     <telerikInput:RadButton BorderRadius="0" Grid.Row="0" VerticalOptions="FillAndExpand" x:Name="btnPaymentSchemeGenerate" Clicked="PaymentSchemeGenerate_Clicked" BackgroundColor="#eeeeee" HorizontalOptions="FillAndExpand" Text="Tạo lịch thanh toán" TextColor="Black" />
                     <telerikInput:RadButton BorderRadius="0" Grid.Row="0" VerticalOptions="FillAndExpand" x:Name="btnSignQuotation" Clicked="SignQuotation_Clicked" BackgroundColor="#eeeeee" HorizontalOptions="FillAndExpand" Text="Xác nhận đặt cọc" TextColor="Black" />
@@ -699,9 +673,6 @@
                 </Grid>
             </StackLayout>
             <controls:ModalContentView x:Name="modalLookUp" />
-            <controls:ModalContentView IsVisible="{Binding IsBusy}">
-                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-            </controls:ModalContentView>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

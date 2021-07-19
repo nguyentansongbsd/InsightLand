@@ -519,7 +519,7 @@ namespace ConasiCRM.Portable.ViewModels
             if (result != null)
             {
                 var data = result.value.OrderBy(x => x.bsd_ordernumber).ToList();
-                if (data.Count <= 3)
+                if (data.Count < 3)
                 {
                     ShowMoreLichThanhToan = false;
                 }

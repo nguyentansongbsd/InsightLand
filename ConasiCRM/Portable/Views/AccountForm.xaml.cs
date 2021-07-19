@@ -800,6 +800,11 @@ namespace ConasiCRM.Portable.Views
             {
                 data["bsd_customergroup"] = int.Parse(account.singleAccount.bsd_customergroup);
             }
+            else
+            {
+                data["bsd_customergroup"] = null;
+            }
+
             //data["bsd_diemdanhgia"] = account.singleAccount.bsd_diemdanhgia_format ?? null;
             data["emailaddress1"] = account.singleAccount.emailaddress1 ?? "";
             data["bsd_email2"] = account.singleAccount.bsd_email2 ?? "";

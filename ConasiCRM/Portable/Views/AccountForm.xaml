@@ -47,27 +47,13 @@
                             <controls:FormLabelRequired VerticalOptions="Center" Text="Loại hình kinh doanh"  Grid.Column="0" Grid.Row="4"/>
                             <controls:MultipleSelect x:Name="multipleSelectLoaiHinh" Grid.Column="1" Grid.Row="4"
                                                              VerticalOptions="Center"
-                                                             Placeholder="Chọn View"
+                                                             Placeholder="Chọn loại hình kinh doanh"
                                                              ItemsSource="{Binding BindingContext.LoaiHinhOptions,Source={x:Reference rootPage}}"
                                                              SelectedItems="{Binding BindingContext.SelectedLoaiHinh,Source={x:Reference rootPage}}"
                                                              Margin="10,0,10,5"/>
 
-                            <!--<StackLayout Orientation="Horizontal" Spacing="10" Grid.Column="0" Grid.Row="5">
-                                            <controls:MyNewCheckBox IsChecked="{Binding singleAccount.bsd_businesstype_customer}" Spacing="15" Title="Khách hàng"/>
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal" Spacing="10" Grid.Column="1" Grid.Row="5">
-                                            <controls:MyNewCheckBox IsChecked="{Binding singleAccount.bsd_businesstype_partner}" Spacing="15" Title="Đối tác"/>
-                                        </StackLayout>
-
-                                        <StackLayout Orientation="Horizontal" Spacing="10" Grid.Column="0" Grid.Row="6">
-                                            <controls:MyNewCheckBox IsChecked="{Binding singleAccount.bsd_businesstype_saleagents}" Spacing="15" Title="Đại lý"/>
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal" Spacing="10" Grid.Column="1" Grid.Row="6">
-                                            <controls:MyNewCheckBox IsChecked="{Binding singleAccount.bsd_businesstype_deverloper}" Spacing="15" Title="Chủ đầu tư"/>
-                                        </StackLayout>-->
-
                             <controls:FormLabelRequired VerticalOptions="Center" Text="Loại doanh nghiệp" Grid.Column="0" Grid.Row="5" />
-                            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="5">
+                            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="5" HeightRequest="40" >
                                 <Picker x:Name="localization_value" Title="Chọn loại doanh nghiệp"
                                         ItemsSource="{Binding list_picker_bsd_localization}"
                                         VerticalOptions="CenterAndExpand"

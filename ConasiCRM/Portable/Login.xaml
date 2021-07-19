@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              BackgroundColor="#eeeeee"
-             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
              x:Class="ConasiCRM.Portable.Login">
     <ContentPage.Content>
         <AbsoluteLayout>
@@ -22,6 +21,7 @@
                         </Label>
                     </StackLayout>
                     <Button Text="Đăng nhập" BackgroundColor="#1399D5" TextColor="White" FontAttributes="Bold" HeightRequest="40" Padding="10,5" FontSize="18" Clicked="Button_Clicked" x:Name="btnLogin" />
+                    <!--<Button Text="Click" Clicked="Button_Clicked_1"/>-->
                 </StackLayout>
             </ScrollView>
         </AbsoluteLayout>
