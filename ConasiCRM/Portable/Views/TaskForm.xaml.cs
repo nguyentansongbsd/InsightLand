@@ -627,7 +627,7 @@ namespace ConasiCRM.Portable.Views
             }
             else
             {
-                data["regardingobjectid_leads_task@odata.bind"] = "/leads(" + dataTask.Customer.Id.ToString() + ")";
+                data["regardingobjectid_lead_task@odata.bind"] = "/leads(" + dataTask.Customer.Id.ToString() + ")";
             }
             return data;
         }

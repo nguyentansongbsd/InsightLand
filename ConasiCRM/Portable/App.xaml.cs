@@ -17,10 +17,9 @@ namespace ConasiCRM.Portable
         public App()
         {
             InitializeComponent();
+            //MainPage = new Login();
             MainPage = new AppShell();
             App.Current.MainPage.Navigation.PushModalAsync(new Login());
-            //MainPage = new NavigationPage(new FollowDetailPage());
-            //MainPage = new NavigationPage(new UnitImageGallery("123", "04d1867a-1d1e-e911-a98e-000d3aa30add"));
         }
 
         protected override void OnStart()

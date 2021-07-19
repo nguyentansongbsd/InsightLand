@@ -46,7 +46,7 @@
                                 <Entry Text="{Binding singleContact.mobilephone}" Keyboard="Telephone" FontSize="16"  Grid.Column="1" Grid.Row="1"/>
 
                                 <local:FormLabelRequired Text="Type" Grid.Column="0" Grid.Row="2" VerticalOptions="Start" />
-                                <local:MultipleSelect x:Name="multipleSelectView" 
+                                <local:MultipleSelect x:Name="multipleSelectView" HeightRequest="40"
                                                              VerticalOptions="Center"
                                                              Placeholder="Chọn loại"
                                                              ItemsSource="{Binding BindingContext.TypeOptions,Source={x:Reference rootPage}}"
@@ -66,7 +66,7 @@
                                             SelectedIndexChanged="gendercode_picker_SelectedIndexChanged"/>
 
                                 <local:FormLabelRequired VerticalOptions="Center" Text="Quốc Tịch" Grid.Column="0" Grid.Row="4" />
-                                <Picker x:Name="bsd_localization_picker" Title="Chọn quốc tịch"
+                                <Picker x:Name="bsd_localization_picker" Title="Chọn quốc tịch" 
                                             ItemsSource="{Binding list_localization_optionset}"
                                             ItemDisplayBinding="{Binding Label}"
                                             SelectedItem="{Binding singleLocalization}"

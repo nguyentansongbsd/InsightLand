@@ -136,9 +136,6 @@
             </Grid>
             <controls:BottomModal x:Name="LookUpModal"/>
             <controls:ModalContentView x:Name="modalLookUp" />
-            <controls:ModalContentView IsVisible="{Binding IsBusy}">
-                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-            </controls:ModalContentView>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>
