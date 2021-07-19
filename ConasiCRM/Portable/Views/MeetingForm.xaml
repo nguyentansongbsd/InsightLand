@@ -37,19 +37,19 @@
                             <Grid Padding="10,0,10,10"  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,6*">
                                 
                                 <controls:FormLabel Text="Người tham dự bắt buộc" Grid.Row="0" Grid.Column="0" Padding="0,15,0,0"/>
-                                <controls:MyNewEntryPartyList x:Name="required" OnClicked="Required_OnClicked" Data="{Binding dataRequired}" Grid.Row="0" Grid.Column="1" IsEnabled="{Binding MeetingModel.editable}"/>
+                                <controls:MyNewEntryPartyList x:Name="required" OnClicked="Required_OnClicked" Grid.Row="0" Grid.Column="1" IsEnabled="{Binding MeetingModel.editable}"/>
                                
                                 <controls:FormLabel Text="Người tham dự không bắt buộc" Grid.Row="1" Grid.Column="0" Padding="0,15,0,0"/>
-                                <controls:MyNewEntryPartyList x:Name="optional" OnClicked="Optional_OnClicked" Data="{Binding dataOption}" Grid.Row="1" Grid.Column="1" IsEnabled="{Binding MeetingModel.editable}"/>
+                                <controls:MyNewEntryPartyList x:Name="optional" OnClicked="Optional_OnClicked" Grid.Row="1" Grid.Column="1" IsEnabled="{Binding MeetingModel.editable}"/>
 
                                 <controls:FormLabelRequired Text="Chủ đề" VerticalOptions="Center" Grid.Row="2" Grid.Column="0"/>
-                                <Entry Grid.Row="2" Grid.Column="1" Text="{Binding MeetingModel.subject}" IsEnabled="{Binding MeetingModel.editable}" FontSize="16" TextColor="Black"/>
+                                <controls:MainEntry Grid.Row="2" Grid.Column="1" Text="{Binding MeetingModel.subject}" IsEnabled="{Binding MeetingModel.editable}" FontSize="16" TextColor="Black"/>
 
                                 <controls:FormLabel Text="Địa điểm" Grid.Column="0" Grid.Row="3" VerticalOptions="Center"/>
-                                <Entry Text="{Binding MeetingModel.location}" FontSize="16" IsEnabled="{Binding MeetingModel.editable}" TextColor="Black" Grid.Column="1" Grid.Row="3"/>
+                                <controls:MainEntry Text="{Binding MeetingModel.location}" FontSize="16" IsEnabled="{Binding MeetingModel.editable}" TextColor="Black" Grid.Column="1" Grid.Row="3"/>
 
                                 <controls:FormLabel Text="Mô tả" Grid.Row="4" Grid.Column="0" VerticalOptions="Center"/>
-                                <Entry Text="{Binding MeetingModel.description}" FontSize="16" Grid.Row="4" Grid.Column="1" IsEnabled="{Binding MeetingModel.editable}"/>
+                                <controls:MainEntry Text="{Binding MeetingModel.description}" FontSize="16" Grid.Row="4" Grid.Column="1" IsEnabled="{Binding MeetingModel.editable}"/>
 
                                 <controls:FormLabel Text="Liên quan đến" Grid.Row="5" Grid.Column="0" VerticalOptions="Center"/>
                                 <controls:MyNewEntry IsEnabled="{Binding MeetingModel.editable}" Grid.Column="1" Grid.Row="5" Text="{Binding MeetingModel.Customer.Name}" OnClicked="OpenModel_Clicked" HasClearButton="{Binding MeetingModel.Customer,Converter={StaticResource ObjToBool}}" ClearClicked="ClearLookup_Clicked"/>

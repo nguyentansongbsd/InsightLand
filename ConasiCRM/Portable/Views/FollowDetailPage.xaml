@@ -225,8 +225,8 @@
                                     <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
                                         <Label Text="Họp xử lý" Grid.Row="0" Grid.Column="0" Style="{StaticResource TitleContentFormTextStyle}"/>
                                         <Label Text="Ý kiến và quyết định" Grid.Row="1" Grid.Column="0" Style="{StaticResource TitleContentFormTextStyle}"/>
-                                        <Entry Grid.Row="0" Grid.Column="1" FontSize="16" IsEnabled="False"/>
-                                        <Entry Grid.Row="1" Grid.Column="1" FontSize="16" IsEnabled="False"/>
+                                        <controls:MainEntry Grid.Row="0" Grid.Column="1" FontSize="16" IsEnabled="False"/>
+                                        <controls:MainEntry Grid.Row="1" Grid.Column="1" FontSize="16" IsEnabled="False"/>
                                     </Grid>
                                 </StackLayout>
                             </telerikPrimitives:RadBorder>

@@ -106,11 +106,11 @@ namespace ConasiCRM.Portable.Views
             await loadDataForm(this._idActivity);
             if (viewModel.PhoneCellModel != null)
             {
-                CheckPhoneCell(true);
+                CheckPhoneCell?.Invoke(true);
                 isInit = false;
             }
             else
-                CheckPhoneCell(false);
+                CheckPhoneCell?.Invoke(false); 
         }
         public async Task loadDataForm(Guid id)
         {
@@ -863,6 +863,7 @@ namespace ConasiCRM.Portable.Views
         // check data
         private async void savePhone()
         {
+            LoadingHelper.Show();
             var check = await checkData(); // kiểm tra dư liệu
             // check create or update
             if (check)
@@ -871,26 +872,30 @@ namespace ConasiCRM.Portable.Views
                 {
                     var created = await createPhoneCell(viewModel, "create");
                     if (created != new Guid())
-                    {
+                    {                       
+                       await this.loadDataForm(created);
+                        LoadingHelper.Hide();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Tạo cuộc gọi thành công", "OK");
-                       await this.loadDataForm(created); // load data according to new id
                     }
                     else
                     {
-                        await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Tạo cuộc gọi thất bại", "OK");
+                        LoadingHelper.Hide();
+                        await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Tạo cuộc gọi thất bại", "OK");                       
                     }
                 }
                 else // update
                 {
                     var update = await updatePhoneCell(viewModel, "update");
                     if (update)
-                    {
+                    {                      
+                       await this.loadDataForm(viewModel.PhoneCellModel.activityid);
+                        LoadingHelper.Hide();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thành công!", "OK");
-                       await this.loadDataForm(viewModel.PhoneCellModel.activityid); // loading data after update
                     }
                     else
                     {
-                        await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thất bại!", "OK");
+                        LoadingHelper.Hide();
+                        await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thất bại!", "OK");                       
                     }
                 }
             }           
@@ -1064,32 +1069,31 @@ namespace ConasiCRM.Portable.Views
         }
 
         private void UpdatePhone_Clicked(object sender, EventArgs e)
-        {
-            this.savePhone();
+        {        
+            this.savePhone();         
         }
 
         private void CompletedPhone_Clicked(object sender, EventArgs e)
         {
             //viewModel.PhoneCellModel.statecode = 1;
-            //viewModel.PhoneCellModel.statecode = 1;
-            viewModel.ShowStatus = true;
+            //viewModel.PhoneCellModel.statecode = 1;          
+            viewModel.ShowStatus = true;          
         }
 
         private async void CanceledPhone_Clicked(object sender, EventArgs e)
         {
-            bool check = await DisplayAlert("Thông báo", "Bạn có muốn hủy cuộc gọi này không ?", "Đồng Ý", "Không Đồng Ý");
-            int a = 0;
+            bool check = await DisplayAlert("Thông báo", "Bạn có muốn hủy cuộc gọi này không ?", "Đồng Ý", "Không Đồng Ý");            
             if (check == true)
             {
                 viewModel.PhoneCellModel.statecode = 2; // update statecode canceled
                 viewModel.PhoneCellModel.statuscode = 3;
                 this.savePhone();
-            }
+            }         
         }
 
         private void CreateNew_Clicked(object sender, EventArgs e)
-        {
-            this.savePhone();
+        {        
+            this.savePhone();         
         }
 
         private void State_SelectedIndexChanged(object sender, EventArgs e)
@@ -1130,9 +1134,9 @@ namespace ConasiCRM.Portable.Views
         }
 
         private void btnAccept(object sender, EventArgs e)
-        {
+        {         
             viewModel.ShowStatus = false;
-            this.savePhone();            
+            this.savePhone();          
         }
     }
 }

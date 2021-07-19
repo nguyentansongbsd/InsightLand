@@ -1271,7 +1271,12 @@ namespace ConasiCRM.Portable.Views
             {
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", check, "OK");
             }
-
+            viewModel.PageDanhSachDatCho = 1;
+            viewModel.PageChamSocKhachHang = 1;
+            viewModel.PageDanhSachDatCoc = 1;
+            viewModel.PageDanhSachHopDong = 1;
+            viewModel.PageDuAnQuanTam = 1;
+            viewModel.PageNhuCauDiaDiem = 1;
             viewModel.IsBusy = false;
         }
 

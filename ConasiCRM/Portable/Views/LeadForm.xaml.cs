@@ -932,7 +932,7 @@ namespace ConasiCRM.Portable.Views
 
         private async void show_popup_listview_country(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             title_popuplistview.Text = "Quốc gia";
             if (viewModel.list_country_lookup.Count == 0)
             {
@@ -965,7 +965,7 @@ namespace ConasiCRM.Portable.Views
             }
             source_listviewpopup.Children.Add(listViewCountry);
             popup_list_view.IsVisible = true;
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void popupCountry_ItemTapped(object sender, ItemTappedEventArgs e)

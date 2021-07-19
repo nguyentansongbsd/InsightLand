@@ -102,17 +102,19 @@ namespace ConasiCRM.Portable.Views
             await loadDataForm(this._idActivity);
             if (viewModel.MeetingModel != null)
             {
-                CheckMeeting(true);
+                CheckMeeting?.Invoke(true);
                 isInit = false;
             }
             else
-                CheckMeeting(false);
+                CheckMeeting?.Invoke(false);
         }
 
         public async Task loadDataForm(Guid id)
         {
             dataRequired = new List<StackLayout>();
             dataOption = new List<StackLayout>();
+            viewModel.listOptional = new ObservableCollection<PartyModel>();
+            viewModel.listRequired = new ObservableCollection<PartyModel>();
             grid_createMeeting.IsVisible = false;
             grid_updateMeeting.IsVisible = true;
 
@@ -345,11 +347,11 @@ namespace ConasiCRM.Portable.Views
                                 Type = 4
                             };
                         }
-                        viewModel.listOptional.Add(item);
+                         viewModel.listOptional.Add(item);
                         dataOption.Add(this.renderStack(item.Customer.Name, "Optional"));
                     }
-                    required.Data = dataRequired;
-                    optional.Data = dataOption;
+                    required.renderStackLayout(dataRequired);
+                    optional.renderStackLayout(dataOption);
                 }
             }
 
@@ -443,15 +445,18 @@ namespace ConasiCRM.Portable.Views
         {
             if (check == "Required")
             {
+                StackLayout item = dataRequired[index];
+              //  viewModel.listRequired.FirstOrDefault()
                 viewModel.listRequired.Remove(viewModel.listRequired[index]);
-                dataRequired.Remove(dataRequired[index]);
-                required.Data = dataRequired;
+                dataRequired.Remove(item);               
+                required.renderStackLayout(dataRequired);
             }
             else if (check == "Optional")
             {
                 viewModel.listOptional.Remove(viewModel.listOptional[index]);
                 dataOption.Remove(dataOption[index]);
-                optional.Data = dataOption;
+                optional.renderStackLayout(dataOption);
+
             }
         }
         // Open list (contact, account, lead), update checkEvent = "Regarding"
@@ -575,18 +580,18 @@ namespace ConasiCRM.Portable.Views
                 var scheduledstart = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, _timeStart.Hours, _timeStart.Minutes, _timeStart.Seconds);
                 //viewModel.FocusTimePickerStart = true;
                 // check thời gian gian kết thúc
-                if (this.compareDateTime(viewModel.MeetingModel.scheduledend, scheduledstart) != 1)
+                if (this.compareDateTime(viewModel.MeetingModel.scheduledend.Value, viewModel.MeetingModel.scheduledstart.Value) != -1)
                 {
-                    DisplayAlert("Thông Báo", "Vui lòng chọn thời gian bắt đầu nhỏ hơn thời gian kết thúc!", "Đồng ý");                 
+                    viewModel.MeetingModel.scheduledstart = scheduledstart;
+                    this.totalDuration();                    
+                }
+                else
+                {
+                    DisplayAlert("Thông Báo", "Vui lòng chọn thời gian bắt đầu nhỏ hơn thời gian kết thúc!", "Đồng ý");
                     int valueDate = int.Parse(viewModel.MeetingModel.durationValue.Val);
                     var time = viewModel.MeetingModel.scheduledend.Value.AddMinutes(-valueDate);
                     viewModel.MeetingModel.scheduledstart = new DateTime(time.Year, time.Month, time.Day, _timeStart.Hours, _timeStart.Minutes, _timeStart.Seconds);
                     viewModel.MeetingModel.timeStart = new TimeSpan(viewModel.MeetingModel.scheduledstart.Value.Hour, viewModel.MeetingModel.scheduledstart.Value.Minute, 0);
-                }
-                else
-                {
-                    viewModel.MeetingModel.scheduledstart = scheduledstart;
-                    this.totalDuration();
                 }    
             }
         }
@@ -601,7 +606,7 @@ namespace ConasiCRM.Portable.Views
                     DateTime timeNew = viewModel.MeetingModel.scheduledstart.Value;
                     timeNew = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, time.Hours, time.Minutes, time.Seconds);
                     // 
-                    if (this.compareDateTime(timeNew, viewModel.MeetingModel.scheduledend.Value) == -1)
+                    if (this.compareDateTime(viewModel.MeetingModel.scheduledend.Value, viewModel.MeetingModel.scheduledstart.Value) != -1)
                     {
                         viewModel.MeetingModel.timeStart = time;
                         viewModel.MeetingModel.scheduledstart = timeNew;
@@ -642,7 +647,7 @@ namespace ConasiCRM.Portable.Views
                     TimeSpan time = viewModel.MeetingModel.timeEnd;
                     DateTime _scheduledend = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, time.Hours, time.Minutes, time.Seconds);
 
-                    if (this.compareDateTime(_scheduledend, viewModel.MeetingModel.scheduledstart) == 1)
+                    if (this.compareDateTime(viewModel.MeetingModel.scheduledend.Value, viewModel.MeetingModel.scheduledstart.Value) != -1)
                     {
                         viewModel.MeetingModel.scheduledend = _scheduledend;
                         //viewModel.FocusTimePickerEnd = true;
@@ -678,7 +683,7 @@ namespace ConasiCRM.Portable.Views
                 {
                     DateTime timeNew = viewModel.MeetingModel.scheduledend.Value;
                     timeNew = new DateTime(timeNew.Year, timeNew.Month, timeNew.Day, time.Hours, time.Minutes, time.Seconds);
-                    if (this.compareDateTime(timeNew, viewModel.MeetingModel.scheduledstart) == 1)
+                    if (this.compareDateTime(viewModel.MeetingModel.scheduledend.Value, viewModel.MeetingModel.scheduledstart.Value) != -1)
                     {
                         viewModel.MeetingModel.timeEnd = time;
                         viewModel.MeetingModel.scheduledend = timeNew;
@@ -800,7 +805,7 @@ namespace ConasiCRM.Portable.Views
                 {
                     viewModel.listRequired.Add(new PartyModel() { typemask = 5, Customer = customer });
                     dataRequired.Add(this.renderStack(item.Name, viewModel.check_open));
-                    required.Data = dataRequired;
+                    required.renderStackLayout(dataRequired);
                 }
                 viewModel.ShowLookUpModal = false;
             }
@@ -825,7 +830,7 @@ namespace ConasiCRM.Portable.Views
                 {
                     viewModel.listOptional.Add(new PartyModel() { typemask = 6, Customer = customer });
                     dataOption.Add(this.renderStack(item.Name, viewModel.check_open));
-                    optional.Data = dataOption;
+                    optional.renderStackLayout(dataOption);
                 }
 
                 viewModel.ShowLookUpModal = false;
@@ -838,11 +843,14 @@ namespace ConasiCRM.Portable.Views
         private bool check_Data(ObservableCollection<PartyModel> listParty, Guid id)
         {
             var check = false;
-            foreach (var item in listParty)
+            if (listParty != null && listParty.Count > 0)
             {
-                if (id == item.Customer.Id)
+                foreach (var item in listParty)
                 {
-                    return check = true;
+                    if (id == item.Customer.Id)
+                    {
+                        return check = true;
+                    }
                 }
             }
             return check;
@@ -879,6 +887,7 @@ namespace ConasiCRM.Portable.Views
 
         private async void saveMeeting()
         {
+            LoadingHelper.Show();
             var check = await checkData(); // kiểm tra dư liệu
             // check create or update
             if (check)
@@ -888,11 +897,13 @@ namespace ConasiCRM.Portable.Views
                     var created = await createMeeting(viewModel, "create");
                     if (created != new Guid())
                     {
+                        await this.loadDataForm(created);
+                        LoadingHelper.Hide();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Tạo cuộc họp thành công", "OK");
-                        this.loadDataForm(created); // load data according to new id
                     }
                     else
                     {
+                        LoadingHelper.Hide();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Tạo cuộc họp thất bại", "OK");
                     }
                 }
@@ -901,17 +912,20 @@ namespace ConasiCRM.Portable.Views
                     var update = await updateMeeting(viewModel, "update");
                     if (update)
                     {
+                        await this.loadDataForm(viewModel.MeetingModel.activityid);
+                        LoadingHelper.Hide();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thành công!", "OK");
-                        this.loadDataForm(viewModel.MeetingModel.activityid); // loading data after update
                     }
                     else
                     {
+                        LoadingHelper.Hide();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thất bại!", "OK");
                     }
                 }
             }
             else
             {
+                LoadingHelper.Hide();
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Vui lòng nhập các thông tin bắt buộc!", "OK");
             }
         }
