@@ -77,17 +77,17 @@ namespace ConasiCRM.Portable.Views
 
         private void BsdLookUp_OpenClicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             viewModel.InitCustomerLookUpHeader();
             viewModel.BtnContact.Clicked += ContactOpen;
             viewModel.BtnAccount.Clicked += AccountOpen;
             ContactOpen(viewModel.BtnContact, EventArgs.Empty);
-
+            LoadingHelper.Hide();
         }
 
         public void ContactOpen(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             viewModel.gridCustomer.IsVisible = true;
             if (viewModel.AccountLookUpConfig.ListView != null) viewModel.AccountLookUpConfig.ListView.IsVisible = false;
             OnSwitch();
@@ -95,12 +95,12 @@ namespace ConasiCRM.Portable.Views
             viewModel.BtnAccount.BackgroundColor = Color.Transparent;
             viewModel.CurrentLookUpConfig = viewModel.ContactLookUpConfig;
             viewModel.ProcessLookup(nameof(viewModel.ContactLookUpConfig));
+            LoadingHelper.Hide();
         }
 
         public void AccountOpen(object sender, EventArgs e)
         {
-
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             viewModel.gridCustomer.IsVisible = true;
             viewModel.ContactLookUpConfig.ListView.IsVisible = false;
             OnSwitch();
@@ -108,6 +108,7 @@ namespace ConasiCRM.Portable.Views
             viewModel.BtnAccount.BackgroundColor = Color.FromHex("#999999");
             viewModel.CurrentLookUpConfig = viewModel.AccountLookUpConfig;
             viewModel.ProcessLookup(nameof(viewModel.AccountLookUpConfig));
+            LoadingHelper.Hide();
         }
 
         public void OnSwitch()

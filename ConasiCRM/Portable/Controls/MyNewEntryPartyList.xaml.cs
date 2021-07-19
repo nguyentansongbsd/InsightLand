@@ -20,10 +20,10 @@ namespace ConasiCRM.Portable.Controls
         }
         public static readonly BindableProperty DataProperty = BindableProperty.Create(nameof(Data), typeof(List<StackLayout>), typeof(MyNewEntryPartyList), null, BindingMode.TwoWay);
 
-        private void renderStackLayout(List<StackLayout> newValue)
+        public void renderStackLayout(List<StackLayout> newValue)
         {
             this.stackLayout_Content.Children.Clear();
-            foreach (var item in newValue as List<StackLayout>)
+            foreach (var item in newValue)
             {
                 this.stackLayout_Content.Children.Add(item);
             }

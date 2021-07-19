@@ -37,7 +37,7 @@
                             <Grid Padding="10" RowSpacing="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,3*,3*">
 
                                 <controls:FormLabelRequired Text="Chủ đề" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
-                                <Entry Text="{Binding PhoneCellModel.subject}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" IsEnabled="{Binding PhoneCellModel.editable}" FontSize="16" TextColor="Black"/>
+                                <controls:MainEntry Text="{Binding PhoneCellModel.subject}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" IsEnabled="{Binding PhoneCellModel.editable}" FontSize="16" TextColor="Black"/>
 
                                 <controls:FormLabelRequired Text="Gọi từ" VerticalOptions="Center" Grid.Column="0"  Grid.Row="1"/>
                                 <!--<controls:MyNewEntry x:Name="fromCell" IsEnabled="{Binding PhoneCellModel.editable}" OnClicked="FromCell_OnClicked" PlaceHolder="Chọn gọi từ" Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="2"/>-->
@@ -48,7 +48,7 @@
 
                                 <!--<Entry Text="{Binding PhoneCellModel.subject}" Grid.Row="2" Grid.Column="1" IsEnabled="{Binding PhoneCellModel.editable}"/>-->
                                 <controls:FormLabel Text="Số điện thoại" VerticalOptions="Center" Grid.Column="0"  Grid.Row="3"/>
-                                <Entry Text="{Binding PhoneCellModel.phonenumber}" FontSize="16" Grid.Row="3" Grid.Column="1" IsEnabled="{Binding PhoneCellModel.editable}" VerticalOptions="Center"  Grid.ColumnSpan="2" TextColor="Black"/>
+                                <controls:MainEntry Text="{Binding PhoneCellModel.phonenumber}" FontSize="16" Grid.Row="3" Grid.Column="1" IsEnabled="{Binding PhoneCellModel.editable}" VerticalOptions="Center"  Grid.ColumnSpan="2" TextColor="Black"/>
 
                                 <controls:FormLabelRequired Text="Thời gian bắt đầu" VerticalOptions="Center" Grid.Column="0" Grid.Row="4"/>
                                 <controls:MyNewDatePicker IsEnabled="{Binding PhoneCellModel.editable}" Grid.Column="1" Grid.Row="4" Focused="DatePicker_Focused" FontSize="16" NullableDate="{Binding PhoneCellModel.scheduledstart}" x:Name="datePicker" DateSelected="DatePickerStart_DateSelected" TextColor="Black"/>

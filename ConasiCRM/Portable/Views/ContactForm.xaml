@@ -43,7 +43,7 @@
                                 <local:MyNewEntry IsEnabled="{Binding optionEntryHasOnlyTerminatedStatus}" Text="{Binding singleContact.bsd_fullname}" OnClicked="show_popup_fullname" HasClearButton="False" Grid.Column="1" Grid.Row="0"/>
 
                                 <local:FormLabelRequired Text="Điện Thoại" Grid.Column="0" Grid.Row="1" />
-                                <Entry Text="{Binding singleContact.mobilephone}" Keyboard="Telephone" FontSize="16"  Grid.Column="1" Grid.Row="1"/>
+                                <local:MainEntry Text="{Binding singleContact.mobilephone}" Keyboard="Telephone" FontSize="16"  Grid.Column="1" Grid.Row="1"/>
 
                                 <local:FormLabelRequired Text="Type" Grid.Column="0" Grid.Row="2" VerticalOptions="Start" />
                                 <local:MultipleSelect x:Name="multipleSelectView" 
@@ -106,7 +106,7 @@
                                 <Grid IsVisible="{Binding singleContact.bsd_loingysinh}" Grid.Column="0" Grid.Row="8" VerticalOptions="Center">
                                     <local:FormLabelRequired VerticalOptions="Center" Text="Năm Sinh"/>
                                 </Grid>
-                                <Entry x:Name="Namsinh_txt" Text="{Binding singleContact.bsd_nmsinh}" FontSize="16" 
+                                <local:MainEntry x:Name="Namsinh_txt" Text="{Binding singleContact.bsd_nmsinh}" FontSize="16" 
                                            IsVisible="{Binding singleContact.bsd_loingysinh}" Unfocused="text_yearfocus"
                                            TextChanged="check_year"
                                            Keyboard="Numeric"
@@ -125,7 +125,7 @@
                                 <Grid BackgroundColor="#ffffff" Padding="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,6*">
 
                                     <local:FormLabelRequired Text="Số CMND" Grid.Column="0" Grid.Row="0" />
-                                    <Entry Text="{Binding singleContact.bsd_identitycardnumber}" Keyboard="Numeric" IsEnabled="{Binding optionEntryHasOnlyTerminatedStatus}" FontSize="16"  Grid.Column="1" Grid.Row="0"/>
+                                    <local:MainEntry Text="{Binding singleContact.bsd_identitycardnumber}" Keyboard="Numeric" IsEnabled="{Binding optionEntryHasOnlyTerminatedStatus}" FontSize="16"  Grid.Column="1" Grid.Row="0"/>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Ngày Cấp" FontSize="16" Grid.Column="0" Grid.Row="1"/>
                                     <Grid Grid.Column="1" Grid.Row="1" ColumnDefinitions="*,17">
@@ -139,10 +139,10 @@
                                     </Grid>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Nơi Cấp" FontSize="16" Grid.Column="0" Grid.Row="2"/>
-                                    <Entry Text="{Binding singleContact.bsd_placeofissue}" FontSize="16"  Grid.Column="1" Grid.Row="2"/>
+                                    <local:MainEntry Text="{Binding singleContact.bsd_placeofissue}" FontSize="16"  Grid.Column="1" Grid.Row="2"/>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Số Hộ Chiếu" FontSize="16" Grid.Column="0" Grid.Row="3"/>
-                                    <Entry Text="{Binding singleContact.bsd_passport}" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
+                                    <local:MainEntry Text="{Binding singleContact.bsd_passport}" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Ngày Cấp hộ Chiếu" FontSize="16" Grid.Column="0" Grid.Row="4"/>
                                     <Grid Grid.Column="1" Grid.Row="4" ColumnDefinitions="*,17">
@@ -156,10 +156,10 @@
                                     </Grid>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Nơi Cấp Hộ Chiếu" FontSize="16" Grid.Column="0" Grid.Row="5"/>
-                                    <Entry Text="{Binding singleContact.bsd_placeofissuepassport}" FontSize="16"  Grid.Column="1" Grid.Row="5"/>
+                                    <local:MainEntry Text="{Binding singleContact.bsd_placeofissuepassport}" FontSize="16"  Grid.Column="1" Grid.Row="5"/>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Số thẻ căn cước" FontSize="16" Grid.Column="0" Grid.Row="6"/>
-                                    <Entry Text="{Binding singleContact.bsd_idcard}" Keyboard="Numeric" FontSize="16"  Grid.Column="1" Grid.Row="6"/>
+                                    <local:MainEntry Text="{Binding singleContact.bsd_idcard}" Keyboard="Numeric" FontSize="16"  Grid.Column="1" Grid.Row="6"/>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Ngày Cấp" FontSize="16" Grid.Column="0" Grid.Row="7"/>
                                     <Grid Grid.Column="1" Grid.Row="7" ColumnDefinitions="*,17">
@@ -173,7 +173,7 @@
                                     </Grid>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Nơi Cấp" FontSize="16" Grid.Column="0" Grid.Row="8"/>
-                                    <Entry Text="{Binding singleContact._bsd_placeofissueidcar}" FontSize="16"  Grid.Column="1" Grid.Row="8"/>
+                                    <local:MainEntry Text="{Binding singleContact._bsd_placeofissueidcar}" FontSize="16"  Grid.Column="1" Grid.Row="8"/>
 
                                 </Grid>
                             </telerikPrimitives:RadExpander.Content>
@@ -241,10 +241,10 @@
                                 <Grid BackgroundColor="#ffffff" Padding="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,6*">
 
                                     <local:FormLabelRequired VerticalOptions="Center" Text="Email"  Grid.Column="0" Grid.Row="0"/>
-                                    <Entry Text="{Binding singleContact.emailaddress1}" Keyboard="Email" FontSize="16"  Grid.Column="1" Grid.Row="0"/>
+                                    <local:MainEntry Text="{Binding singleContact.emailaddress1}" Keyboard="Email" FontSize="16"  Grid.Column="1" Grid.Row="0"/>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Chức Vụ" FontSize="16" Grid.Column="0" Grid.Row="1"/>
-                                    <Entry Text="{Binding singleContact.bsd_jobtitlevn}" FontSize="16"  Grid.Column="1" Grid.Row="1"/>
+                                    <local:MainEntry Text="{Binding singleContact.bsd_jobtitlevn}" FontSize="16"  Grid.Column="1" Grid.Row="1"/>
 
                                     <Label VerticalOptions="Center" Text="Công Ty" FontSize="16" Grid.Column="0" Grid.Row="2"/>
                                     <local:MyNewEntry PlaceHolder="Chọn công ty"
@@ -256,7 +256,7 @@
                                                     Grid.Row="2"/>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Số ĐT Kinh Doanh" FontSize="16" Grid.Column="0" Grid.Row="3"/>
-                                    <Entry Text="{Binding singleContact.telephone1}" Keyboard="Telephone" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
+                                    <local:MainEntry Text="{Binding singleContact.telephone1}" Keyboard="Telephone" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
 
                                     <local:FormLabelRequired VerticalOptions="Center" Text="Địa Chỉ Liên Lạc"  Grid.Column="0" Grid.Row="4"/>
                                     <local:MyNewEntry Text="{Binding singleContact.bsd_contactaddress}" HasClearButton="false" OnClicked="show_popup_contactaddress" Grid.Column="1" Grid.Row="4"/>

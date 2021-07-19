@@ -22,10 +22,10 @@
                 <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,6*" Padding="10">
 
                     <controls:FormLabelRequired Text="Tiêu đề" Grid.Row="0" Grid.Column="0" VerticalOptions="Center"/>
-                    <Entry Text="{Binding singlePhanHoi.title}" FontSize="16" TextColor="Black" Grid.Column="1" Grid.Row="0"/>
+                    <controls:MainEntry Text="{Binding singlePhanHoi.title}" FontSize="16" TextColor="Black" Grid.Column="1" Grid.Row="0"/>
 
                     <controls:FormLabel Text="Nội dung" Grid.Row="1" Grid.Column="0" VerticalOptions="Center"/>
-                    <Entry Text="{Binding singlePhanHoi.description}" FontSize="16"  Grid.Column="1" Grid.Row="1"/>
+                    <controls:MainEntry Text="{Binding singlePhanHoi.description}" FontSize="16"  Grid.Column="1" Grid.Row="1"/>
 
                     <controls:FormLabel Text="Chủ đề" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"/>
                     <controls:MyNewEntry Text="{Binding singlePhanHoi.subjecttitle}" FontSize="16"  Grid.Row="2" Grid.Column="1" VerticalOptions="Center" PlaceHolder="Chọn chủ đề" OnClicked="show_popup_subject" ClearClicked="Clearvalue_subject" HasClearButton="{Binding  singlePhanHoi.subjecttitle,Converter={StaticResource NullToBool}}"/>

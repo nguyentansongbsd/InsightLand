@@ -26,7 +26,7 @@
                             <Label Text="Thông Tin Chi Tiết" TextColor="Black" Padding="15,10" FontSize="16" FontAttributes="Bold" BackgroundColor="#F3F3F3"/>
                             <StackLayout Padding="10" >
                                 <controls:FormLabelRequired Text="Chủ đề" />
-                                <Entry FontSize="16" Text="{Binding TaskFormModel.subject}" IsEnabled="{Binding TaskFormModel.editable}"/>
+                                <controls:MainEntry FontSize="16" Text="{Binding TaskFormModel.subject}" IsEnabled="{Binding TaskFormModel.editable}"/>
 
                                 <controls:FormLabelRequired Text="Liên quan đến"/>
                                 <controls:MyNewEntry IsEnabled="{Binding TaskFormModel.editable}"  Text="{Binding TaskFormModel.Customer.Name}" OnClicked="OpenModel_Clicked" HasClearButton="{Binding TaskFormModel.Customer,Converter={StaticResource ObjToBool}}" ClearClicked="ClearLookup_Clicked"/>
@@ -59,7 +59,7 @@
                                 </StackLayout>
 
                                 <controls:FormLabel Text="Mô tả nội dung" />
-                                <Entry FontSize="16" Text="{Binding TaskFormModel.description}"  IsEnabled="{Binding TaskFormModel.editable}"/>
+                                <controls:MainEntry FontSize="16" Text="{Binding TaskFormModel.description}"  IsEnabled="{Binding TaskFormModel.editable}"/>
 
                             </StackLayout>
                         </StackLayout>

@@ -6,7 +6,6 @@
              xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
              xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
-             xmlns:control="clr-namespace:ConasiCRM.Controls"
              BackgroundColor="White"
              x:Class="ConasiCRM.Portable.Views.LeadForm">
     <ContentPage.Resources>
@@ -49,19 +48,19 @@
                                 <local:MyNewEntry Text="{Binding singleLead.fullname}" FontSize="16" HasClearButton="false" OnClicked="show_popup_fullname" Grid.Column="1" Grid.Row="1"/>
 
                                 <local:FormLabelRequired Text="Số điện thoại" Grid.Column="0" Grid.Row="2" />
-                                <Entry x:Name="mobilephone_text" Keyboard="Telephone" Text="{Binding singleLead.mobilephone}" FontSize="16"  Grid.Column="1" Grid.Row="2"/>
+                                <controls:MainEntry x:Name="mobilephone_text" Keyboard="Telephone" Text="{Binding singleLead.mobilephone}" FontSize="16"  Grid.Column="1" Grid.Row="2"/>
 
                                 <local:FormLabel VerticalOptions="Center" Text="Số CMND (ID)" FontSize="16" Grid.Column="0" Grid.Row="3"/>
-                                <Entry x:Name="cardnumber_text" Keyboard="Telephone" Text="{Binding singleLead.bsd_identitycardnumber}" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
+                                <controls:MainEntry x:Name="cardnumber_text" Keyboard="Telephone" Text="{Binding singleLead.bsd_identitycardnumber}" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
 
                                 <local:FormLabel VerticalOptions="Center" Text="Số điện thoại công ty" FontSize="16" Grid.Column="0" Grid.Row="4"/>
-                                <Entry x:Name="telephone1_text" Keyboard="Telephone" Text="{Binding singleLead.telephone1}" FontSize="16"  Grid.Column="1" Grid.Row="4"/>
+                                <controls:MainEntry x:Name="telephone1_text" Keyboard="Telephone" Text="{Binding singleLead.telephone1}" FontSize="16"  Grid.Column="1" Grid.Row="4"/>
 
                                 <local:FormLabel VerticalOptions="Center" Text="Chức vụ" FontSize="16" Grid.Column="0" Grid.Row="5"/>
-                                <Entry x:Name="jobtitle_text" Text="{Binding singleLead.jobtitle}" FontSize="16"  Grid.Column="1" Grid.Row="5"/>
+                                <controls:MainEntry x:Name="jobtitle_text" Text="{Binding singleLead.jobtitle}" FontSize="16"  Grid.Column="1" Grid.Row="5"/>
 
                                 <local:FormLabel VerticalOptions="Center" Text="Email" FontSize="16" Grid.Column="0" Grid.Row="6"/>
-                                <Entry x:Name="emailaddress1_text" Keyboard="Email" Text="{Binding singleLead.emailaddress1}" FontSize="16"  Grid.Column="1" Grid.Row="6" TextColor="#444444"/>
+                                <controls:MainEntry x:Name="emailaddress1_text" Keyboard="Email" Text="{Binding singleLead.emailaddress1}" FontSize="16"  Grid.Column="1" Grid.Row="6" TextColor="#444444"/>
 
                                 <local:FormLabel VerticalOptions="Center" Text="Giới tính" FontSize="16" Grid.Column="0" Grid.Row="7"/>
                                 <Grid Grid.Column="1" Grid.Row="7" ColumnDefinitions="*,17">
@@ -114,10 +113,10 @@
                             <telerikPrimitives:RadExpander.Content>
                                 <Grid BackgroundColor="#ffffff" Padding="10" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="4*,6*">
                                     <local:FormLabel VerticalOptions="Center" Text="Tên công ty" FontSize="16" Grid.Column="0" Grid.Row="0"/>
-                                    <Entry x:Name="companyname_text" Text="{Binding singleLead.companyname}" FontSize="16"  Grid.Column="1" Grid.Row="0"/>
+                                    <controls:MainEntry x:Name="companyname_text" Text="{Binding singleLead.companyname}" FontSize="16"  Grid.Column="1" Grid.Row="0"/>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Website" FontSize="16" Grid.Column="0" Grid.Row="1"/>
-                                    <Entry x:Name="websiteurl_text" Text="{Binding singleLead.websiteurl}" FontSize="16"  Grid.Column="1" Grid.Row="1"/>
+                                    <controls:MainEntry x:Name="websiteurl_text" Text="{Binding singleLead.websiteurl}" FontSize="16"  Grid.Column="1" Grid.Row="1"/>
 
                                     <local:FormLabel VerticalOptions="Center" HorizontalOptions="Start" Text="Địa chỉ công ty" FontSize="16" Grid.Column="0" Grid.Row="2"/>
                                     <controls:MyNewEntry Text="{Binding singleLead.address1_composite}" HasClearButton="false"  Grid.Column="1" Grid.Row="2" OnClicked="show_popup_address1_composite"/>
@@ -153,13 +152,13 @@
                                     </Grid>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Doanh thu mỗi năm" FontSize="16" Grid.Column="0" Grid.Row="2"/>
-                                    <Entry x:Name="revenue_text" Keyboard="Numeric" Text="{Binding singleLead.revenue}" FontSize="16"  Grid.Column="1" Grid.Row="2"/>
+                                    <controls:MainEntry x:Name="revenue_text" Keyboard="Numeric" Text="{Binding singleLead.revenue}" FontSize="16"  Grid.Column="1" Grid.Row="2"/>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Số lượng nhân viên" FontSize="16" Grid.Column="0" Grid.Row="3"/>
-                                    <Entry x:Name="numberofemployees_text" Keyboard="Numeric" Text="{Binding singleLead.numberofemployees}" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
+                                    <controls:MainEntry x:Name="numberofemployees_text" Keyboard="Numeric" Text="{Binding singleLead.numberofemployees}" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Mã SIC" FontSize="16" Grid.Column="0" Grid.Row="4"/>
-                                    <Entry x:Name="sic_text" Text="{Binding singleLead.sic}" FontSize="16"  Grid.Column="1" Grid.Row="4"/>
+                                    <controls:MainEntry x:Name="sic_text" Text="{Binding singleLead.sic}" FontSize="16"  Grid.Column="1" Grid.Row="4"/>
 
                                     <local:FormLabel VerticalOptions="Center" Text="Đơn vị tiền tệ" FontSize="16" Grid.Column="0" Grid.Row="5"/>
                                     <local:MyNewEntry Text="{Binding singleLead.transactioncurrencyid_label}" PlaceHolder="Chọn đơn vị" FontSize="16" OnClicked="show_popup_transactioncurrencyid"
@@ -191,7 +190,7 @@
                                 <StackLayout >
                                     <Grid BackgroundColor="#ffffff" Padding="10" ColumnDefinitions="4*,6*">
                                         <local:FormLabel VerticalOptions="Center" Text="Điểm đánh giá" FontSize="16" Grid.Column="0" Grid.Row="0"/>
-                                        <Entry x:Name="bsd_diemdanhgia_text" IsEnabled="False" Text="{Binding singleLead.bsd_diemdanhgia_format}" FontSize="16"  Grid.Column="1" Grid.Row="0"/>
+                                        <controls:MainEntry x:Name="bsd_diemdanhgia_text" IsEnabled="False" Text="{Binding singleLead.bsd_diemdanhgia_format}" FontSize="16"  Grid.Column="1" Grid.Row="0"/>
                                     </Grid>
                                     <Label Text="Danh sách đánh giá" FontSize="16" FontAttributes="Bold" BackgroundColor="#F3F3F3" VerticalTextAlignment="Center" Padding="10"/>
                                     <Grid x:Name="grid_leadsrating" BackgroundColor="#ffffff" Padding="10">
