@@ -141,9 +141,6 @@
       <None Remove="IServices\" />
     </ItemGroup>
     <ItemGroup>
-      <Reference Include="Mono.Android">
-        <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v11.0\Mono.Android.dll</HintPath>
-      </Reference>
       <Reference Include="Telerik.Documents.Core">
         <HintPath>..\..\..\Binaries\Portable\Telerik.Documents.Core.dll</HintPath>
       </Reference>

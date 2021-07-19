@@ -19,7 +19,7 @@ using Xamarin.Forms.Xaml;
 
 namespace ConasiCRM.Portable
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    //[XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Login : ContentPage
     {
         public Login()

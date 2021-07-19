@@ -1,4 +1,5 @@
 ﻿using ConasiCRM.Portable.Settings;
+﻿using ConasiCRM.Portable.Helper;
 using ConasiCRM.Portable.ViewModels;
 using ConasiCRM.Portable.Views;
 using System;
@@ -18,6 +19,7 @@ namespace ConasiCRM.Portable
         private AppShellViewModel viewModel;     
         public AppShell()
         {
+            LoadingHelper.Show();
             InitializeComponent();
             this.BindingContext = viewModel = new AppShellViewModel();
             appShell.CurrentItem = BanHang;
@@ -28,5 +30,5 @@ namespace ConasiCRM.Portable
             appShell.CurrentItem = BanHang;
             Shell.Current.FlyoutIsPresented = false;
         }         
-    }           
+    }       
 }
