@@ -1,25 +1,16 @@
-﻿using ConasiCRM.Portable;
-using ConasiCRM.Portable.Config;
+﻿using ConasiCRM.Portable.Config;
 using ConasiCRM.Portable.Helper;
 using ConasiCRM.Portable.Models;
 using ConasiCRM.Portable.Settings;
-using ConasiCRM.Portable.Views;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Xamarin.Forms.Xaml;
 
 namespace ConasiCRM.Portable
 {
-    //[XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Login : ContentPage
     {
         public Login()
@@ -37,18 +28,6 @@ namespace ConasiCRM.Portable
                 checkboxRememberAcc.IsChecked = false;
             }
 
-        }
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-           // App.Current.On<Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
-            Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
-        }
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            // App.Current.On<Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Pan);
-            Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Pan);
         }
         private void IsRemember_Tapped(object sender, EventArgs e)
         {
@@ -98,7 +77,16 @@ namespace ConasiCRM.Portable
                         UserLogged.IsLogged = false;
                     }
                     App.Current.Properties["Token"] = tokenData.access_token;
-                    await Navigation.PopModalAsync(false);                   
+                    await Navigation.PopModalAsync(false);
+                    //await Task.Run(() =>
+                    //{
+                    //    Device.BeginInvokeOnMainThread(() =>
+                    //    {
+                    //        Xamarin.Forms.Application.Current.MainPage = new AppShell();
+                    //    });
+                    //});
+                    LoadingHelper.Hide();
+
                 }
                 else
                 {
@@ -110,14 +98,25 @@ namespace ConasiCRM.Portable
             {
                 LoadingHelper.Hide();
                 await DisplayAlert("Thông báo", "Lỗi kết nối đến Server. \n" + ex.Message, "Đóng");
-            }           
-            LoadingHelper.Hide();
+            }
         }
 
         protected override bool OnBackButtonPressed()
         {
-            System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();            
+            System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
             return true;
+        }
+
+        private async void Button_Clicked_1(System.Object sender, System.EventArgs e)
+        {
+            LoadingHelper.Show();
+            await Task.Run(() => {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Xamarin.Forms.Application.Current.MainPage = new AppShell();
+                });
+            });
+            LoadingHelper.Hide();
         }
     }
 }

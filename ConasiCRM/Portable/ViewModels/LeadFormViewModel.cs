@@ -299,7 +299,7 @@ namespace ConasiCRM.Portable.ViewModels
             data["bsd_danhgiadiem"] = lead.bsd_danhgiadiem;
             data["description"] = lead.description;
             data["industrycode"] = lead.industrycode;
-            data["revenue"] = lead.revenue;
+            data["revenue"] = decimal.Parse(lead.revenue);
             data["numberofemployees"] = lead.numberofemployees;
             data["sic"] = lead.sic;
             data["donotsendmm"] = lead.donotsendmm.ToString();

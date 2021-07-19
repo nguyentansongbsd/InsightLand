@@ -65,7 +65,6 @@ namespace ConasiCRM.Portable.Views
             lookUpCustomerReferral.PreOpenAsync = viewModel.LoadCustomerReferral;
         }
 
-
         public async void InitUpdate()
         {
             await Load();
@@ -82,7 +81,6 @@ namespace ConasiCRM.Portable.Views
             viewModel.BtnContact.Clicked += ContactOpen;
             viewModel.BtnAccount.Clicked += AccountOpen;
             ContactOpen(viewModel.BtnContact, EventArgs.Empty);
-
         }
 
         public void ContactOpen(object sender, EventArgs e)
@@ -448,14 +446,9 @@ namespace ConasiCRM.Portable.Views
 
             if (QueueId == Guid.Empty) // new
             {
-                string url_action = $"/products({viewModel.QueueFormModel.bsd_units_id})/Microsoft.Dynamics.CRM.bsd_Action_DirectSale_Mobile";
+                string url_action = "/opportunities";
+                var data = await getContent();
 
-                var data = new
-                {
-                    Command = "Book",
-                    CustomerId = viewModel.Customer.Id,
-                    CustomerType = viewModel.Customer.Type == 1 ? "contact" : "account"
-                };
                 CrmApiResponse res = await CrmHelper.PostData(url_action, data);
                 if (res.IsSuccess)
                 {
@@ -467,8 +460,6 @@ namespace ConasiCRM.Portable.Views
                 {
                     await DisplayAlert("Thông báo", "Đặt chỗ thất bại." + res.GetErrorMessage(), "Đóng");
                 }
-                //    data["customerid_contact@odata.bind"] = $"/contacts({model.Customer.Id})";
-                //    data["customerid_account@odata.bind"] = $"/accounts({model.Customer.Id})";
             }
             else
             {
@@ -534,6 +525,56 @@ namespace ConasiCRM.Portable.Views
                 }
             }
             viewModel.IsBusy = false;
+        }
+
+        private async Task<object> getContent()
+        {
+            IDictionary<string, object> data = new Dictionary<string, object>();
+            CrmApiResponse clearLookupResponse = new CrmApiResponse();
+            data["opportunityid"] = Guid.NewGuid();
+            data["name"] = viewModel.QueueFormModel.name;
+
+            data["bsd_Project@odata.bind"] = $"/bsd_projects({viewModel.QueueFormModel.bsd_project_id})";
+
+            if (viewModel.Customer.Type == 1)
+            {
+                data["customerid_contact@odata.bind"] = $"/contacts({viewModel.Customer.Id})";
+                clearLookupResponse = await CrmHelper.SetNullLookupField("opportunities", this.QueueId, "customerid_account");
+            }
+            else
+            {
+                data["customerid_account@odata.bind"] = $"/accounts({viewModel.Customer.Id})";
+                clearLookupResponse = await CrmHelper.SetNullLookupField("opportunities", this.QueueId, "customerid_contact");
+            }
+
+            if (viewModel.DailyOption == null || viewModel.DailyOption.accountid == Guid.Empty)
+            {
+                clearLookupResponse = await CrmHelper.SetNullLookupField("opportunities", this.QueueId, "bsd_salesagentcompany");
+            }
+            else
+            {
+                data["bsd_salesagentcompany@odata.bind"] = $"/accounts({viewModel.DailyOption.accountid})";
+            }
+
+            if (viewModel.CollaboratorOption == null || viewModel.CollaboratorOption.contactid == Guid.Empty)
+            {
+                clearLookupResponse = await CrmHelper.SetNullLookupField("opportunities", this.QueueId, "bsd_collaborator");
+            }
+            else
+            {
+                data["bsd_collaborator@odata.bind"] = $"/contacts({viewModel.CollaboratorOption.contactid})";
+            }
+
+            if (viewModel.CustomerReferralOption == null || viewModel.CustomerReferralOption.accountid == Guid.Empty)
+            {
+                clearLookupResponse = await CrmHelper.SetNullLookupField("opportunities", this.QueueId, "bsd_customerreferral_account");
+            }
+            else
+            {
+                data["bsd_customerreferral_account@odata.bind"] = $"/accounts({viewModel.CustomerReferralOption.accountid})";
+            }
+
+            return data;
         }
 
         private async void CancleQueue_Clicked(object sender, EventArgs e)

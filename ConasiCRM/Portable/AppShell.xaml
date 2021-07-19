@@ -38,7 +38,7 @@
             </StackLayout>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
-    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem x:Name="test" Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="Khách hàng tiềm năng" ContentTemplate="{DataTemplate views:LeadList}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeRegular" Color="#666666" Glyph="&#xf2c1;" Size="Title"/>
