@@ -152,6 +152,7 @@ namespace ConasiCRM.Portable.ViewModels
 
             list_leadrating.Clear();
             list_nhucauvediadiem.Clear();
+            list_Duanquantam.Clear();
             list_gender_optionset.Clear();
             list_industrycode_optionset.Clear();
 

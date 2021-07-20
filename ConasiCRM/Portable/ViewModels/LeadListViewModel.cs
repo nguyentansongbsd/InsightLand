@@ -30,6 +30,7 @@ namespace ConasiCRM.Portable.ViewModels
                             <attribute name='emailaddress1' />
                             <attribute name='bsd_contactaddress' />
                             <attribute name='leadid' />
+                            <attribute name='leadqualitycode' />
                             <order attribute='createdon' descending='true' />
                             <filter type='and'>
                                 <condition attribute='fullname' operator='like' value='%{Keyword}%' />

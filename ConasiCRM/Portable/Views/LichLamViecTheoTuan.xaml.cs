@@ -16,13 +16,17 @@ namespace ConasiCRM.Portable.Views
             InitializeComponent();
 
             this.BindingContext = viewModel = new LichLamViecViewModel();
-            this.loadData();
+            loadData();
         }
 
         public async void loadData()
         {
-            this.Handle_DateSelected(null, new DateChangedEventArgs(DateTime.Today, DateTime.Today));
+            //viewModel.selectedDate = DateTime.Now.Date;
+            //viewModel.UpdateSelectedEventsForWeekView(viewModel.selectedDate.Value);
+
+            //listView.ItemsSource = viewModel.selectedDateEventsGrouped;
             await viewModel.loadAllActivities();
+            Handle_DateSelected(null, new Xamarin.Forms.DateChangedEventArgs(DateTime.Now, DateTime.Now));         
             if (viewModel.lstEvents != null && viewModel.lstEvents.Count > 0)
                 OnComplete?.Invoke(true);
             else

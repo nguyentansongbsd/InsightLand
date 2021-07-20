@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls" xmlns:converters="clr-namespace:ConasiCRM.Portable.Converters" xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             x:Class="ConasiCRM.Portable.Views.LeadContentView">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:LeadQualityCodeConverter x:Key="LeadQualityCodeConverter"/>
+            <converters:LeadQualityCodeColorConverter x:Key="LeadQualityCodeColorConverter"/>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <AbsoluteLayout>
+            <Grid RowDefinitions="Auto,*" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <controls:SearchBarFrame x:Name="searchBar" Grid.Row="0" Margin="10,5,10,0">
+                    <controls:SearchBar  Text="{Binding Keyword}" SearchButtonPressed="Search_Pressed" TextChanged="Search_TextChanged"/>
+                </controls:SearchBarFrame>
+                <controls:BsdListView x:Name="listView" Grid.Row="1" ItemsSource="{Binding Data}" HasUnevenRows="True" ItemTapped="listView_ItemTapped" BackgroundColor="#F3f3f3">
+                    <controls:BsdListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid RowDefinitions="Auto,Auto,Auto,Auto" BackgroundColor ="White" Padding="20" Margin="0,1" RowSpacing="11">
+                                    <Grid Grid.Row="0" ColumnDefinitions="Auto,*">
+                                        <Label Text="{Binding leadqualitycode,Converter={StaticResource LeadQualityCodeConverter}}" BackgroundColor="{Binding leadqualitycode,Converter={StaticResource LeadQualityCodeColorConverter}}" Margin="0,2,0,2" FontSize="13" TextColor="White" Grid.Column="0" VerticalTextAlignment="Center" Padding="3,0,3,0"/>
+                                        <Label Text="{Binding fullname}" FontAttributes="Bold" FontSize="16" TextColor="#026294" Grid.Column="1" Margin="10,0,0,0"/>
+                                    </Grid>
+                                    <Label Text="{Binding subject}" TextColor="#444444" Grid.Row="1" FontSize="15"/>
+                                    <Grid ColumnDefinitions="Auto,*" Grid.Row="2">
+                                        <Label Text="Số điện thoại: " TextColor="#444444" FontSize="15" Grid.Column="0"/>
+                                        <Label Text="{Binding mobilephone}" TextColor="#444444" FontSize="15" Grid.Column="1"/>
+                                    </Grid>
+                                    <Grid ColumnDefinitions="Auto,*" Grid.Row="3">
+                                        <Label Text="Địa chỉ: " TextColor="#444444" FontSize="15" Grid.Column="0"/>
+                                        <Label Text="{Binding bsd_contactaddress}" TextColor="#444444" FontSize="15" Grid.Column="1" LineBreakMode="TailTruncation" />
+                                    </Grid>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </controls:BsdListView.ItemTemplate>
+                </controls:BsdListView>
+            </Grid>
+            <Frame Padding="0" CornerRadius="22" HeightRequest="44" WidthRequest="44" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" BackgroundColor="#2196F3" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Margin="15">
+                <Button BackgroundColor="Transparent" Clicked="NewMenu_Clicked" Text="&#xf067;" TextColor="White" FontFamily="FontAwesomeSolid" FontSize="Large"/>
+            </Frame>
+            <!--<telerikPrimitives:RadBorder BorderThickness="1" CornerRadius="40" HeightRequest="55" WidthRequest="55" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" BackgroundColor="#2196F3" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Margin="35">
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="&#xf067;" FontSize="22" TextColor="White" FontFamily="FontAwesomeSolid">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="NewMenu_Clicked"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </telerikPrimitives:RadBorder>-->
+        </AbsoluteLayout>
+    </ContentView.Content>
+</ContentView>

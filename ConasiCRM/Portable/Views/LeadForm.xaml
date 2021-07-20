@@ -290,7 +290,7 @@
                                 <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
                                     <Grid BackgroundColor="#F3F3F3" ColumnDefinitions="*,Auto">
                                         <Label Text="Danh sách dự án quan tâm" Style="{StaticResource ExpanderHeadingText}" Grid.Column="0"/>
-                                        <ImageButton Clicked="BtnAddDuanquantam_Clicked" Grid.Column="1" WidthRequest="17" HeightRequest="17" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="Transparent" Margin="0,0,5,0">
+                                        <ImageButton Clicked="BtnAddDuanquantam_Clicked" Grid.Column="1" IsVisible="{Binding Path=IsExpanded,Source={x:Reference label_du_an_quan_tam}}" WidthRequest="17" HeightRequest="17" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="Transparent" Margin="0,0,5,0">
                                             <ImageButton.Source>
                                                 <FontImageSource FontFamily="FontAwesomeSolid" Color="Black" Glyph="&#xf067;" Size="Large"/>
                                             </ImageButton.Source>
