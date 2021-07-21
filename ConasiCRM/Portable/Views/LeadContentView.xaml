@@ -38,9 +38,9 @@
                     </controls:BsdListView.ItemTemplate>
                 </controls:BsdListView>
             </Grid>
-            <Frame Padding="0" CornerRadius="22" HeightRequest="44" WidthRequest="44" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" BackgroundColor="#2196F3" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Margin="15">
+            <!--<Frame Padding="0" CornerRadius="22" HeightRequest="44" WidthRequest="44" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" BackgroundColor="#2196F3" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Margin="15">
                 <Button BackgroundColor="Transparent" Clicked="NewMenu_Clicked" Text="&#xf067;" TextColor="White" FontFamily="FontAwesomeSolid" FontSize="Large"/>
-            </Frame>
+            </Frame>-->
             <!--<telerikPrimitives:RadBorder BorderThickness="1" CornerRadius="40" HeightRequest="55" WidthRequest="55" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" BackgroundColor="#2196F3" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Margin="35">
                 <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="&#xf067;" FontSize="22" TextColor="White" FontFamily="FontAwesomeSolid">
                     <Label.GestureRecognizers>
