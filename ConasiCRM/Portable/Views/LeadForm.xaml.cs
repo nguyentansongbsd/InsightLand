@@ -710,7 +710,8 @@ namespace ConasiCRM.Portable.Views
                 {
                     Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Đã cập nhật thành công", "OK");
                     Xamarin.Forms.Application.Current.Properties["update"] = "1";
-
+                    viewModel.PageDuAnQuanTam = 1;
+                    viewModel.PageNhuCauDiaDiem = 1;
                     this.reload(viewModel.singleLead.leadid);
 
                     //Xamarin.Forms.Application.Current.MainPage.Navigation.InsertPageBefore(new LeadForm(viewModel.singleLead.leadid), Xamarin.Forms.Application.Current.MainPage);

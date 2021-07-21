@@ -13,8 +13,8 @@ namespace ConasiCRM.Portable.ViewModels
     public class LichLamViecViewModel : BaseViewModel
     {
         public ObservableCollection<CalendarEvent> lstEvents { get; set; }
-        public  ObservableCollection<CalendarEvent> selectedDateEvents { get; set; }
-        public  ObservableCollection<Grouping<DateTime, CalendarEvent>> selectedDateEventsGrouped { get; set; }
+        public ObservableCollection<CalendarEvent> selectedDateEvents { get; set; }
+        public ObservableCollection<Grouping<DateTime, CalendarEvent>> selectedDateEventsGrouped { get; set; }
 
 
         private DateTime? _selectedDate;

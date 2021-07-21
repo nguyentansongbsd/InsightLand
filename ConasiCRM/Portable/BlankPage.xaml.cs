@@ -5,13 +5,11 @@ using Xamarin.Forms;
 
 namespace ConasiCRM.Portable
 {
-    public partial class BlankPage : Shell
-    {
-        public Action<bool> OnCompleted;
+    public partial class BlankPage : ContentView
+    {      
         public BlankPage()
         {
-            InitializeComponent();
-            OnCompleted?.Invoke(true);
+            InitializeComponent();         
         }
     }
 }
