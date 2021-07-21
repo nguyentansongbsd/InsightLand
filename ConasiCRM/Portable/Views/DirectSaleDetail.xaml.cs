@@ -18,9 +18,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DirectSaleDetail : ContentPage
     {
-        public event EventHandler checkBlock = delegate { };
-        public Action<bool> Action { get; set; }
-        private readonly DirectSaleSearchModel directSaleSearchModel;
+        public Action<bool> OnComplete;
         private DirectSaleDetailViewModel viewModel;
         public Unit CurrentUnit;
 
@@ -28,66 +26,48 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
         }
-            public DirectSaleDetail(DirectSaleSearchModel model)
+
+        public DirectSaleDetail(DirectSaleSearchModel model)
         {
             InitializeComponent();
             BindingContext = viewModel = new DirectSaleDetailViewModel(model);
-            QueueListGrid.Commands.Add(new GridCellTapCommand<QueueListModel_DirectSale, QueueForm>("opportunityid"));
-            directSaleSearchModel = model;           
-            if (model.IsCollapse)
-            {
-                this.CollapseAll_Clicked(null, EventArgs.Empty);
-            }
             Init();
-            viewModel.IsBusy = false;
         }
 
         public async void Init()
         {
-            await viewModel.LoadBlocks();
-            if (viewModel.Blocks != null && viewModel.Blocks.Count > 0)
-                MessagingCenter.Send<DirectSaleDetail, bool>(this, "check", true);
+            await viewModel.LoadData();
+            fillterStatus.PreOpenAsync = viewModel.LoadStatusReason;
+            fillterBlock.PreOpenAsync = LoadBlockAsync;
+            fillterFloor.PreOpenAsync = LoadFloorAsync;
+            fillterFloor.PreOpenOneTime = false;
+            if (viewModel.Data != null && viewModel.Data.Count > 0)
+            {
+                OnComplete?.Invoke(true);
+            }
             else
-                MessagingCenter.Send<DirectSaleDetail, bool>(this, "check", false);
+            {
+                OnComplete?.Invoke(false);
+            }
         }
 
-        private void ExpandAll_Clicked(object sender, EventArgs e)
+        private async Task LoadBlockAsync()
         {
-            treeView.ExpandAll();
+            LoadingHelper.Show();
+            await viewModel.LoadBlocks();
+            LoadingHelper.Hide();
         }
 
-        private void CollapseAll_Clicked(object sender, EventArgs e)
+        private async Task LoadFloorAsync()
         {
-            treeView.CollapseAll();
-        }
-
-        private void ShowPopup(object sender, EventArgs e)
-        {
-            var btn = (Button)sender;
-            var unit = (Unit)btn.CommandParameter;
-
-        }
-
-        private async void ViewUnitInfo_Clicked(object sender, EventArgs e)
-        {
-            viewModel.IsBusy = true;
-            var productId = (Guid)((Button)sender).CommandParameter;
-            await Navigation.PushAsync(new UnitInfo(productId));
-            viewModel.IsBusy = false;
-        }
-
-        public async void CreateQueue_Clicked(object sender, EventArgs e)
-        {
-            viewModel.IsBusy = true;
-            var productId = (Guid)((Button)sender).CommandParameter;
-            await Navigation.PushAsync(new QueueForm(productId, true));
-            viewModel.IsBusy = false;
+            LoadingHelper.Show();
+            await viewModel.LoadFloors();
+            LoadingHelper.Hide();
         }
 
         private async void OpenUnitPopUp_Tapped(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
-            CurrentUnit = (sender as Button).CommandParameter as Unit;
+            CurrentUnit = ((sender as Label).GestureRecognizers[0] as TapGestureRecognizer).CommandParameter as Unit;
             string action = string.Empty;
             if (CurrentUnit.statuscode == 1 || CurrentUnit.statuscode == 100000006) // preparing (vàng) + reserve(lá cây đậm)
             {
@@ -103,7 +83,6 @@ namespace ConasiCRM.Portable.Views
                 {
                     action = await DisplayActionSheet("", "Đóng", null, "Xem thông tin căn hộ", "Tạo giữ chỗ");
                 }
-
             }
             else if (CurrentUnit.statuscode == 100000005)
             {
@@ -128,14 +107,48 @@ namespace ConasiCRM.Portable.Views
 
             if (action == "Xem thông tin căn hộ")
             {
-                await Navigation.PushAsync(new UnitInfo(CurrentUnit.productid));
+                LoadingHelper.Show();
+                UnitInfo unitInfo = new UnitInfo(CurrentUnit.productid);
+                await Task.Run(()=> {
+                    unitInfo.OnCompleted = async (IsSuccess) =>
+                    {
+                        if (IsSuccess)
+                        {
+                            await Navigation.PushAsync(unitInfo);
+                            LoadingHelper.Hide();
+                        }
+                        else
+                        {
+                            LoadingHelper.Hide();
+                            await Application.Current.MainPage.DisplayAlert("", "Không tìm thấy thông tin", "Đóng");
+                        }
+                    };
+                });
             }
             else if (action == "Tạo giữ chỗ")
             {
-                await Navigation.PushAsync(new QueueForm(CurrentUnit.productid, true));
+                LoadingHelper.Show();
+                QueueForm queueForm = new QueueForm(CurrentUnit.productid, true);
+                await Task.Run(()=> {
+                    queueForm.CheckQueueInfo = async (IsSuccess) =>
+                    {
+                        if (IsSuccess)
+                        {
+                            await Navigation.PushAsync(queueForm);
+                            LoadingHelper.Hide();
+                        }
+                        else
+                        {
+                            LoadingHelper.Hide();
+                            await Application.Current.MainPage.DisplayAlert("", "Lỗi. Vui lòng thử lại", "Đóng");
+                        }
+                    };
+                });
+                
             }
             else if (action == "Xem danh sách giữ chỗ")
             {
+                LoadingHelper.Show();
                 var QueueList_Result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<QueueListModel_DirectSale>>("opportunities", @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                   <entity name='opportunity'>
                     <attribute name='statuscode' />
@@ -166,21 +179,25 @@ namespace ConasiCRM.Portable.Views
                       </link-entity>
                   </entity>
                 </fetch>");
+                viewModel.QueueList.Clear();
                 if (QueueList_Result != null && QueueList_Result.value.Any())
-                {
-                    QueueListGrid.ItemsSource = QueueList_Result.value;
+                {                  
+                    foreach (var x in QueueList_Result.value)
+                    {
+                        viewModel.QueueList.Add(x);
+                        LoadingHelper.Hide();
+                    }
                 }
                 else
                 {
-                    QueueListGrid.ItemsSource = new List<QueueListModel_DirectSale>()
-                    {
-                        new QueueListModel_DirectSale(),new QueueListModel_DirectSale(),new QueueListModel_DirectSale()
-                    };
+                    LoadingHelper.Hide();
+                    await Application.Current.MainPage.DisplayAlert("", "Lỗi. Vui lòng thử lại", "Đóng");
                 }
                 modalQueueList.IsVisible = true;
             }
             else if (action == "Tạo đặt cọc")
             {
+                LoadingHelper.Show();
                 bool confirm = await DisplayAlert("Xác nhận", "Bạn có muốn tạo báo giá không ?", "Đồng ý", "Hủy");
                 if (confirm)
                 {
@@ -195,16 +212,23 @@ namespace ConasiCRM.Portable.Views
                         if (subResponse.type == "Success")
                         {
                             await Navigation.PushAsync(new ReservationForm(Guid.Parse(subResponse.content)));
+                            LoadingHelper.Hide();
                         }
-                        else await DisplayAlert("Thông báo", "Tạo báo giá thất bạn. " + subResponse.content, "Đóng");
+                        else
+                        {
+                            LoadingHelper.Hide();
+                            await DisplayAlert("Thông báo", "Tạo báo giá thất bạn. " + subResponse.content, "Đóng");
+                        }
                     }
                     else
                     {
+                        LoadingHelper.Hide();
                         await DisplayAlert("Thông báo", res.GetErrorMessage(), "Đóng");
                     }
                 }
+                LoadingHelper.Hide();
             }
-            viewModel.IsBusy = false;
+            
         }
 
         private void CloseQueseList_Modal(object sender, EventArgs e)
@@ -212,23 +236,128 @@ namespace ConasiCRM.Portable.Views
             this.modalQueueList.IsVisible = false;
         }
 
-        private async void ViewQueue_Clicked(object sender, EventArgs e)
+        private void ViewQueue_Clicked(object sender, EventArgs e)
         {
-            var model = QueueListGrid.SelectedItem as QueueListModel_DirectSale;
-            if (model == null || model.opportunityid == Guid.Empty)
-            {
-                await DisplayAlert("Thông báo", "Chọn Đặt chỗ muốn xem", "Đóng");
-                return;
-            }
-            //await Navigation.PushAsync(new QueueForm(model.opportunityid));
+            LoadingHelper.Show();
+            var item = ((TapGestureRecognizer)((Grid)sender).GestureRecognizers[0]).CommandParameter as QueueListModel_DirectSale;
+            QueueForm queueForm = new QueueForm(item.opportunityid);
+            queueForm.CheckQueueInfo = async(IsSuccess) => {
+                if (IsSuccess)
+                {
+                    await Navigation.PushAsync(queueForm);
+                    LoadingHelper.Hide();
+                }
+                else
+                {
+                    LoadingHelper.Hide();
+                    await DisplayAlert("", "Không tìm thấy thông tin", "Đóng");
+                }
+            };
         }
 
-        private async void Unitinfo_Tapped(object sender, EventArgs e)
+        private void listView_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
-            viewModel.IsBusy = true;
-            var item = (Unit)((sender as StackLayout).GestureRecognizers[0] as TapGestureRecognizer).CommandParameter;
-            await Navigation.PushAsync(new UnitInfo(item.productid));
-            viewModel.IsBusy = false;
+            LoadingHelper.Show();
+            var item = (Unit)e.Item;
+            UnitInfo unitInfo = new UnitInfo(item.productid);
+            unitInfo.OnCompleted = async (IsSuccess) =>
+            {
+                if (IsSuccess)
+                {
+                    await Navigation.PushAsync(unitInfo);
+                    LoadingHelper.Hide();
+                }
+                else
+                {
+                    LoadingHelper.Hide();
+                    await DisplayAlert("", "Không tìm thấy thông tin", "Đóng");
+                }
+            };
+        }
+
+        private async void MainSearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
+        {
+            LoadingHelper.Show();
+            viewModel.ResetXml();
+            await viewModel.LoadOnRefreshCommandAsync();
+            LoadingHelper.Hide();
+        }
+
+        private void MainSearchBar_TextChanged(System.Object sender, Xamarin.Forms.TextChangedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(viewModel.Keyword))
+            {
+                MainSearchBar_SearchButtonPressed(null, EventArgs.Empty);
+            }
+        }
+
+        private async void fillterStatus_SelectedItemChange(System.Object sender, ConasiCRM.Portable.Models.LookUpChangeEvent e)
+        {
+            LoadingHelper.Show();
+            if (viewModel.StatusReason.Val == "-1")
+            {
+                viewModel.StatusReason = null;
+                if(viewModel.Block == null && viewModel.Floor == null 
+                    || viewModel.Block != null && viewModel.Floor != null && viewModel.Block.Val == "-1" && viewModel.Floor.Val == "-1")
+                    BtnClear.IsVisible = false;
+            }
+            else
+            {
+                BtnClear.IsVisible = true;
+            }              
+            viewModel.ResetXml();
+            await viewModel.LoadOnRefreshCommandAsync();
+            LoadingHelper.Hide();
+        }
+
+        private async void fillterBlock_SelectedItemChange(System.Object sender, ConasiCRM.Portable.Models.LookUpChangeEvent e)
+        {
+            LoadingHelper.Show();
+            if (viewModel.Block.Val == "-1")
+            {
+                viewModel.Block = null;
+                if(viewModel.StatusReason == null && viewModel.Floor == null 
+                    || viewModel.StatusReason != null && viewModel.Floor != null && viewModel.StatusReason.Val == "-1" && viewModel.Floor.Val == "-1")
+                    BtnClear.IsVisible = false;
+            }
+            else
+            {
+                BtnClear.IsVisible = true;
+            }             
+            viewModel.ResetXml();
+            await viewModel.LoadOnRefreshCommandAsync();
+            LoadingHelper.Hide();
+        }
+
+        private async void fillterFloor_SelectedItemChange(System.Object sender, ConasiCRM.Portable.Models.LookUpChangeEvent e)
+        {
+            LoadingHelper.Show();
+            if (viewModel.Floor.Val =="-1")
+            {
+                viewModel.Floor = null;
+                if (viewModel.StatusReason == null && viewModel.Block == null 
+                    || viewModel.StatusReason != null && viewModel.Block != null && viewModel.StatusReason.Val== "-1" && viewModel.Block.Val == "-1")                 
+                    BtnClear.IsVisible = false;
+            }
+            else
+            {
+                BtnClear.IsVisible = true;
+            }
+            viewModel.ResetXml();
+            await viewModel.LoadOnRefreshCommandAsync();
+            LoadingHelper.Hide();
+        }
+
+        private async void Clear_Clicked(object sender, EventArgs e)
+        {
+            LoadingHelper.Show();
+            viewModel.Block = null;
+            viewModel.StatusReason = null;
+            viewModel.Floor = null;
+            viewModel.ResetXml();
+            await viewModel.LoadOnRefreshCommandAsync();
+            BtnClear.IsVisible = false;
+            LoadingHelper.Hide();
         }
     }
 }

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Phí Mô Giới Giao Dịch"
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
-             xmlns:controls="clr-namespace:ConasiCRM.Controls"   
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"   
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
              x:Class="ConasiCRM.Portable.Views.PhiMoGioiGiaoDichList">
     <ContentPage.Resources>
@@ -88,19 +88,6 @@
                     </controls:BsdListView.ItemTemplate>
                 </controls:BsdListView>
             </StackLayout>
-            <ContentView x:Name="popup_loading"
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All"
-                IsVisible="{Binding IsBusy}"
-                BackgroundColor="#C0808080">
-
-                <ActivityIndicator
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    IsRunning="{Binding IsBusy}"
-                    IsVisible="{Binding IsBusy}" Color="#000000">
-                </ActivityIndicator>
-            </ContentView>
         </AbsoluteLayout>
         <!--<Grid Padding="5">
             <Grid.RowDefinitions>

@@ -138,6 +138,8 @@ namespace ConasiCRM.Portable.ViewModels
         // end
         // danh sacsh discount cua thong ctin chiet khau
         public ObservableCollection<ReservationDiscountOptionSet> Discounts { get; set; }
+        public ObservableCollection<ReservationDiscountOptionSet> InternelDiscounts { get; set; }
+        public ObservableCollection<ReservationDiscountOptionSet> WholesaleDiscounts { get; set; }
 
         public ObservableCollection<ReservationInstallmentModel> InstallmentList { get; set; }
         public ObservableCollection<ReservationCoowner> CoownerList { get; set; }
@@ -179,6 +181,8 @@ namespace ConasiCRM.Portable.ViewModels
             SpecialDiscountList = new ObservableCollection<ReservationSpecialDiscountListModel>();
 
             Discounts = new ObservableCollection<ReservationDiscountOptionSet>();
+            InternelDiscounts = new ObservableCollection<ReservationDiscountOptionSet>();
+            WholesaleDiscounts = new ObservableCollection<ReservationDiscountOptionSet>();
 
             #region contact va account lookup cònig
             ContactLookUpConfig = new LookUpConfig()
@@ -515,7 +519,7 @@ namespace ConasiCRM.Portable.ViewModels
             if (result != null)
             {
                 var data = result.value.OrderBy(x => x.bsd_ordernumber).ToList();
-                if (data.Count <= 3)
+                if (data.Count < 3)
                 {
                     ShowMoreLichThanhToan = false;
                 }

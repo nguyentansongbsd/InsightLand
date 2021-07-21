@@ -16,45 +16,61 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ListPhanHoi : ContentPage
     {
+        public static bool? NeedToRefresh = null;
         private readonly ListPhanHoiViewModel viewModel;
         public ListPhanHoi()
         {
             InitializeComponent();
             BindingContext = viewModel = new ListPhanHoiViewModel();
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
+            NeedToRefresh = false;
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
+        }
+
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (NeedToRefresh == true)
+            {
+                LoadingHelper.Show();
+                await viewModel.LoadOnRefreshCommandAsync();
+                NeedToRefresh = false;
+                LoadingHelper.Hide();
+            }
         }
 
         private async void NewMenu_Clicked(object sender, EventArgs e)
         {
+            LoadingHelper.Show();
             await Navigation.PushAsync(new PhanHoiForm());
+            LoadingHelper.Hide();
         }
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             ListPhanHoiModel val = e.Item as ListPhanHoiModel;
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             PhanHoiForm newPage = new PhanHoiForm(val.incidentid);
             newPage.CheckPhanHoi = async (CheckPhanHoi) =>
             {
                 if (CheckPhanHoi == true)
                 {
-                    await Navigation.PushAsync(newPage);
+                    await Navigation.PushAsync(newPage);                  
                 }
-                viewModel.IsBusy = false;
+                LoadingHelper.Hide();
             };
         }
 
         private async void SearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             await viewModel.LoadOnRefreshCommandAsync();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void SearchBar_TextChanged(System.Object sender, Xamarin.Forms.TextChangedEventArgs e)

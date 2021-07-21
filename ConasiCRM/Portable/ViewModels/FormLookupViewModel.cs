@@ -58,13 +58,14 @@ namespace ConasiCRM.Portable.ViewModels
         public StackLayout ModalContent { get; set; }
         public StackLayout stackLayoutModalLookUp { get; set; }
         public Label ModalTitle { get; set; }
-        public SearchBar searchBar { get; set; }
+        public Xamarin.Forms.SearchBar searchBar { get; set; }
 
         public StackLayout CustomerLookUpHeader { get; set; }
 
         public async Task FetchData()
         {
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>(CurrentLookUpConfig.EntityName, string.Format(CurrentLookUpConfig.FetchXml, CurrentLookUpConfig.LookUpPage, CurrentLookUpConfig.Keyword));
+            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Models.LookUp>>(CurrentLookUpConfig.EntityName, string.Format(CurrentLookUpConfig.FetchXml, CurrentLookUpConfig.LookUpPage, CurrentLookUpConfig.Keyword));
+            if (result == null || result.value.Count == 0) return;
             var data = result.value;
             var count = data.Count;
             for (int i = 0; i < count; i++)
@@ -111,12 +112,12 @@ namespace ConasiCRM.Portable.ViewModels
             #endregion
 
             #region Search bar
-            searchBar = new SearchBar()
+            searchBar = new Xamarin.Forms.SearchBar()
             {
                 FontSize = 16,
                 Placeholder = "Nhập từ khóa tìm kiếm..."
             };
-            searchBar.SetBinding(SearchBar.IsEnabledProperty, new Binding("LookUpLoading")
+            searchBar.SetBinding(Xamarin.Forms.SearchBar.IsEnabledProperty, new Binding("LookUpLoading")
             {
                 Converter = new Converters.BoolToBoolConverter()
             });
@@ -185,7 +186,7 @@ namespace ConasiCRM.Portable.ViewModels
             };
             listView.ItemTapped += (sender, e) =>
             {
-                var item = e.Item as LookUp;
+                var item = e.Item as Models.LookUp;
                 string itemid = item.Id.ToString();
                 var model = this;
                 PropertyInfo prop = model.GetType().GetProperty(CurrentLookUpConfig.PropertyName);
@@ -197,13 +198,20 @@ namespace ConasiCRM.Portable.ViewModels
             listView.ItemAppearing += async (sender, e) =>
             {
                 LookUpLoading = true;
-                var itemAppearing = e.Item as Portable.Models.LookUp;
-                var lastItem = CurrentLookUpConfig.LookUpData.LastOrDefault();
-                if (lastItem != null && itemAppearing.Id.Equals(lastItem.Id))
+
+                if (e.Item == CurrentLookUpConfig.LookUpData[CurrentLookUpConfig.LookUpData.Count -1])
                 {
                     CurrentLookUpConfig.LookUpPage += 1;
                     await FetchData();
                 }
+
+                //var itemAppearing = e.Item as Portable.Models.LookUp;
+                //var lastItem = CurrentLookUpConfig.LookUpData.LastOrDefault();
+                //if (lastItem != null && itemAppearing.Id.Equals(lastItem.Id))
+                //{
+                //    CurrentLookUpConfig.LookUpPage += 1;
+                //    await FetchData();
+                //}
                 LookUpLoading = false;
             };
             listView.SetBinding(ListView.ItemsSourceProperty, new Binding(ConfigName + ".LookUpData"));
@@ -237,7 +245,7 @@ namespace ConasiCRM.Portable.ViewModels
             CurrentLookUpConfig.ListView.ScrollTo(CurrentLookUpConfig.LookUpData.FirstOrDefault(), ScrollToPosition.Start, false);
             ModalTitle.Text = CurrentLookUpConfig.LookUpTitle;
             ShowLookUpModal = true;
-            IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         public async void Search(object sender, EventArgs e)

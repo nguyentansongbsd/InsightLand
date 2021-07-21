@@ -93,8 +93,8 @@ namespace ConasiCRM.Portable.Views
         public CoOwnerForm(LookUp ReservationLookUp)  // tạo mới từ form báo giá.
         {
             InitializeComponent();
-            this.BindingContext = viewModel = new CoOwnerFormViewModel();
-
+            LoadingHelper.Show();
+            this.BindingContext = viewModel = new CoOwnerFormViewModel();          
             viewModel.CoOwner = new CoOwnerFormModel()
             {
                 reservation_id = ReservationLookUp.Id,
@@ -105,16 +105,17 @@ namespace ConasiCRM.Portable.Views
             viewModel.InitializeModal();
             viewModel.AfterLookUpClose += AfterLookUpClose;
 
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void BsdLookUp_OpenClicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             viewModel.InitCustomerLookUpHeader();
             viewModel.BtnContact.Clicked += ContactOpen;
             viewModel.BtnAccount.Clicked += AccountOpen;
             ContactOpen(viewModel.BtnContact, EventArgs.Empty);
+            LoadingHelper.Hide();
 
         }
 
@@ -128,12 +129,13 @@ namespace ConasiCRM.Portable.Views
         }
         public void AccountOpen(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             viewModel.ContactLookUpConfig.ListView.IsVisible = false;
             viewModel.BtnContact.BackgroundColor = Color.Transparent;
             viewModel.BtnAccount.BackgroundColor = Color.FromHex("#999999");
             viewModel.CurrentLookUpConfig = viewModel.AccountLookUpConfig;
             viewModel.ProcessLookup(nameof(viewModel.AccountLookUpConfig));
+            LoadingHelper.Hide();
         }
 
         public void OnSwitch()
@@ -183,7 +185,7 @@ namespace ConasiCRM.Portable.Views
             }
 
 
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
 
             IDictionary<string, object> data = new Dictionary<string, object>();
             data["bsd_name"] = viewModel.CoOwner.bsd_name;
@@ -236,7 +238,7 @@ namespace ConasiCRM.Portable.Views
                 }
             }
 
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private async void Cancle_Clicked(object sender, EventArgs e)

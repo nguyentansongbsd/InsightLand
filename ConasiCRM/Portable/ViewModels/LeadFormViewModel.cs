@@ -152,6 +152,7 @@ namespace ConasiCRM.Portable.ViewModels
 
             list_leadrating.Clear();
             list_nhucauvediadiem.Clear();
+            list_Duanquantam.Clear();
             list_gender_optionset.Clear();
             list_industrycode_optionset.Clear();
 
@@ -299,7 +300,7 @@ namespace ConasiCRM.Portable.ViewModels
             data["bsd_danhgiadiem"] = lead.bsd_danhgiadiem;
             data["description"] = lead.description;
             data["industrycode"] = lead.industrycode;
-            data["revenue"] = lead.revenue;
+            data["revenue"] = decimal.Parse(lead.revenue);
             data["numberofemployees"] = lead.numberofemployees;
             data["sic"] = lead.sic;
             data["donotsendmm"] = lead.donotsendmm.ToString();
@@ -354,7 +355,7 @@ namespace ConasiCRM.Portable.ViewModels
 
             if (lead._bsd_country_value == null)
             {
-                await DeletLookup("bsd_country", lead.leadid);
+                await DeletLookup("bsd_Country", lead.leadid);
             }
             else
             {
@@ -372,7 +373,7 @@ namespace ConasiCRM.Portable.ViewModels
 
             if (lead._bsd_district_value == null)
             {
-                await DeletLookup("bsd_district", lead.leadid);
+                await DeletLookup("bsd_District", lead.leadid);
             }
             else
             {
@@ -389,7 +390,13 @@ namespace ConasiCRM.Portable.ViewModels
         public async Task LoadTopicsForLookup()
         {
             string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                     </fetch>";
+                      <entity name='bsd_topic'>
+                        <attribute name='bsd_topicid' alias='Id'/>
+                        <attribute name='bsd_name' alias='Name'/>
+                        <attribute name='createdon' />
+                        <order attribute='bsd_name' descending='false' />
+                      </entity>
+                    </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("bsd_topics", fetch);
             if (result == null)
             {

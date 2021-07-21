@@ -5,7 +5,7 @@
              xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
              xmlns:reservationConverter="clr-namespace:ConasiCRM.Portable.Converters.Reservation"
-             xmlns:controls="clr-namespace:ConasiCRM.Controls"     
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"     
              x:Class="ConasiCRM.Portable.Views.ReservationList">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -72,9 +72,6 @@
                     </controls:BsdListView.ItemTemplate>
                 </controls:BsdListView>
             </Grid>
-            <ContentView x:Name="popup_loading" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080">
-                <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True" Color="#000000"/>
-            </ContentView>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

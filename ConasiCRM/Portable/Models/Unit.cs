@@ -71,6 +71,41 @@ namespace ConasiCRM.Portable.Models
                 };
             }
         }
+
+        public string statusCodeFormat
+        {
+            get
+            {
+                switch (statuscode)
+                {
+                    case 1:
+                        return "Preparing";
+                    case 100000000:
+                        return "Available";
+                    case 100000007:
+                        return "Booking";
+                    case 100000004:
+                        return "Queuing";
+                    case 100000006:
+                        return "Reserve";
+                    case 100000005:
+                        return "Collected";
+                    case 100000003:
+                        return "Deposited";
+                    case 100000001:
+                        return "1st Installment";
+                    case 100000009:
+                        return "Singed D.A";
+                    case 100000008:
+                        return "Qualified";
+                    case 100000002:
+                        return "Sold";
+                    default:
+                        return null;
+                }
+            }
+        }
+
         public DateTime createdon { get; set; }
     }
 }

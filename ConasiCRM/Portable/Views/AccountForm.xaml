@@ -26,16 +26,16 @@
                         <Label Text="Thông Tin Cơ Bản" TextColor="Black" Padding="15,10" FontSize="16" FontAttributes="Bold" BackgroundColor="#F3F3F3"/>
                         <Grid BackgroundColor="#ffffff" Padding="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,6*" >
                             <controls:FormLabelRequired VerticalOptions="Center" Text="Tên công ty"  Grid.Column="0" Grid.Row="0"/>
-                            <Entry x:Name="Entry_nameacc" Text="{Binding singleAccount.bsd_name}" 
+                            <controls:MainEntry x:Name="Entry_nameacc" Text="{Binding singleAccount.bsd_name}" 
                                                FontSize="15" TextColor="Black" 
                                                IsEnabled="{Binding optionEntryHasOnlyTerminatedStatus}"
                                                Grid.Column="1" Grid.Row="0"/>
 
                             <controls:FormLabel VerticalOptions="Center" Text="Tên công ty (khác)"  Grid.Column="0" Grid.Row="1"/>
-                            <Entry Text="{Binding singleAccount.bsd_accountnameother}" FontSize="15" Grid.Column="1" Grid.Row="1"/>
+                            <controls:MainEntry Text="{Binding singleAccount.bsd_accountnameother}" FontSize="15" Grid.Column="1" Grid.Row="1"/>
 
                             <controls:FormLabel VerticalOptions="Center" Text="Tên viết tắt"  Grid.Column="0" Grid.Row="2"/>
-                            <Entry Text="{Binding singleAccount.bsd_companycode}" FontSize="15" Grid.Column="1" Grid.Row="2"/>
+                            <controls:MainEntry Text="{Binding singleAccount.bsd_companycode}" FontSize="15" Grid.Column="1" Grid.Row="2"/>
 
                             <controls:FormLabelRequired VerticalOptions="Center" Text="Người đại diện pháp luật"  Grid.Column="0" Grid.Row="3"/>
                             <controls:BsdLookUp Placeholder="Chọn người đại diện" 
@@ -47,27 +47,13 @@
                             <controls:FormLabelRequired VerticalOptions="Center" Text="Loại hình kinh doanh"  Grid.Column="0" Grid.Row="4"/>
                             <controls:MultipleSelect x:Name="multipleSelectLoaiHinh" Grid.Column="1" Grid.Row="4"
                                                              VerticalOptions="Center"
-                                                             Placeholder="Chọn View"
+                                                             Placeholder="Chọn loại hình kinh doanh"
                                                              ItemsSource="{Binding BindingContext.LoaiHinhOptions,Source={x:Reference rootPage}}"
                                                              SelectedItems="{Binding BindingContext.SelectedLoaiHinh,Source={x:Reference rootPage}}"
                                                              Margin="10,0,10,5"/>
 
-                            <!--<StackLayout Orientation="Horizontal" Spacing="10" Grid.Column="0" Grid.Row="5">
-                                            <controls:MyNewCheckBox IsChecked="{Binding singleAccount.bsd_businesstype_customer}" Spacing="15" Title="Khách hàng"/>
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal" Spacing="10" Grid.Column="1" Grid.Row="5">
-                                            <controls:MyNewCheckBox IsChecked="{Binding singleAccount.bsd_businesstype_partner}" Spacing="15" Title="Đối tác"/>
-                                        </StackLayout>
-
-                                        <StackLayout Orientation="Horizontal" Spacing="10" Grid.Column="0" Grid.Row="6">
-                                            <controls:MyNewCheckBox IsChecked="{Binding singleAccount.bsd_businesstype_saleagents}" Spacing="15" Title="Đại lý"/>
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal" Spacing="10" Grid.Column="1" Grid.Row="6">
-                                            <controls:MyNewCheckBox IsChecked="{Binding singleAccount.bsd_businesstype_deverloper}" Spacing="15" Title="Chủ đầu tư"/>
-                                        </StackLayout>-->
-
                             <controls:FormLabelRequired VerticalOptions="Center" Text="Loại doanh nghiệp" Grid.Column="0" Grid.Row="5" />
-                            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="5">
+                            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="5" HeightRequest="40" >
                                 <Picker x:Name="localization_value" Title="Chọn loại doanh nghiệp"
                                         ItemsSource="{Binding list_picker_bsd_localization}"
                                         VerticalOptions="CenterAndExpand"
@@ -82,7 +68,7 @@
 
                             <controls:FormLabel Text="Người uỷ quyền" Grid.Column="0" Grid.Row="6" />
                             <Grid Grid.Column="1" Grid.Row="6">
-                                <Entry Text="Không"/>
+                                <controls:MainEntry Text="Không"/>
                                 <StackLayout/>
                             </Grid>
 
@@ -111,27 +97,25 @@
                                 <StackLayout BackgroundColor="#cecece" Padding=".8">
                                     <Grid BackgroundColor="#ffffff" Padding="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,6*">
                                         <controls:FormLabelRequired VerticalOptions="Center" Text="Điện thoại"  Grid.Column="0" Grid.Row="0"/>
-                                        <Entry Text="{Binding singleAccount.telephone1}" 
+                                        <controls:MainEntry Text="{Binding singleAccount.telephone1}" 
                                                FontSize="15" TextColor="Black" 
                                                Keyboard="Telephone"
                                                Grid.Column="1" Grid.Row="0"/>
 
                                         <controls:FormLabel VerticalOptions="Center" Text="Email" Grid.Column="0" Grid.Row="1" />
-                                        <Entry Text="{Binding singleAccount.emailaddress1}" 
+                                        <controls:MainEntry Text="{Binding singleAccount.emailaddress1}" 
                                                FontSize="15" TextColor="Black" 
                                                Keyboard="Email"
                                                Grid.Column="1" Grid.Row="1"/>
 
                                         <controls:FormLabel VerticalOptions="Center" Text="Email 2"  Grid.Column="0" Grid.Row="2"/>
-                                        <Entry Text="{Binding singleAccount.bsd_email2}" FontSize="15" TextColor="Black" Grid.Column="1" Grid.Row="2"/>
+                                        <controls:MainEntry Text="{Binding singleAccount.bsd_email2}" FontSize="15" TextColor="Black" Grid.Column="1" Grid.Row="2"/>
 
                                         <controls:FormLabel VerticalOptions="Center" Text="Fax"  Grid.Column="0" Grid.Row="3"/>
-                                        <Entry Text="{Binding singleAccount.fax}" FontSize="15" TextColor="Black" Grid.Column="1" Grid.Row="3"/>
+                                        <controls:MainEntry Text="{Binding singleAccount.fax}" FontSize="15" TextColor="Black" Grid.Column="1" Grid.Row="3"/>
 
                                         <controls:FormLabel VerticalOptions="Center" Text="Website" Grid.Column="0" Grid.Row="4"/>
-                                        <Entry x:Name="txt_url" Text="{Binding singleAccount.websiteurl}" FontSize="15" TextColor="Black" Keyboard="Url" Unfocused="url_unfocused" Grid.Column="1" Grid.Row="4"/>
-
-
+                                        <controls:MainEntry x:Name="txt_url" Text="{Binding singleAccount.websiteurl}" FontSize="15" TextColor="Black" Keyboard="Url" Unfocused="url_unfocused" Grid.Column="1" Grid.Row="4"/>
                                     </Grid>
                                 </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
@@ -147,7 +131,7 @@
                                 <StackLayout BackgroundColor="#cecece" Padding=".8">
                                     <Grid BackgroundColor="#ffffff" Padding="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="4*,6*">
                                         <controls:FormLabelRequired VerticalOptions="Center" Text="Số giấy phép kinh doanh"  Grid.Column="0" Grid.Row="0"/>
-                                        <Entry Text="{Binding singleAccount.bsd_registrationcode}" 
+                                        <controls:MainEntry Text="{Binding singleAccount.bsd_registrationcode}" 
                                                FontSize="15" TextColor="Black" 
                                                IsEnabled="{Binding optionEntryHasOnlyTerminatedStatus}"
                                                Grid.Column="1" Grid.Row="0"/>
@@ -160,13 +144,13 @@
                                         </StackLayout>
 
                                         <controls:FormLabel VerticalOptions="Center" Text="Nơi cấp"  Grid.Column="0" Grid.Row="2"/>
-                                        <Entry Text="{Binding singleAccount.bsd_placeofissue}" FontSize="15" TextColor="Black" Grid.Column="1" Grid.Row="2"/>
+                                        <controls:MainEntry Text="{Binding singleAccount.bsd_placeofissue}" FontSize="15" TextColor="Black" Grid.Column="1" Grid.Row="2"/>
 
                                         <controls:FormLabel VerticalOptions="Center" Text="Khách hàng đã giao dịch"  Grid.Column="0" Grid.Row="3"/>
                                         <controls:MyNewCheckBox IsEnabled="false" IsChecked="{Binding singleAccount.bsd_khachhangdagiaodich}" Grid.Column="1" Grid.Row="3"/>
 
                                         <controls:FormLabel VerticalOptions="Center" Text="Mã số thuế  VAT"  Grid.Column="0" Grid.Row="4"/>
-                                        <Entry Text="{Binding singleAccount.bsd_vatregistrationnumber}" 
+                                        <controls:MainEntry Text="{Binding singleAccount.bsd_vatregistrationnumber}" 
                                                FontSize="15" TextColor="Black" 
                                                IsEnabled="{Binding optionEntryHasOnlyTerminatedStatus}"
                                                Keyboard="Numeric"
@@ -650,49 +634,6 @@
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
-                        <!--DANH SACH DU AN QUAN TAM ==> CHƯA CÓ -->
-                        <!--<telerikPrimitives:RadExpander IsExpanded="True" AutomationId="masterCardExpander" x:Name="label_du_an_quan_tam">
-                            <telerikPrimitives:RadExpander.Header>
-                                <telerikPrimitives:ExpanderHeader Style="{StaticResource ExpanderHeaderStyle}">
-                                    <StackLayout Orientation="Horizontal">
-                                        -->
-                        <!---<RelativeLayout Style="{StaticResource ExpanderHeadingText}" Padding="25,3,10,3">-->
-                        <!--
-                                        <Label Text="Danh sách dự án quan tâm"
-                                                Style="{StaticResource ExpanderHeadingText}"/>
-
-                                        <ImageButton x:Name="btnRemoveDuanquantam" HeightRequest="25" 
-                                            WidthRequest="22"
-                                            Source="btnDelete.png" Margin="0,0,5,0"
-                                            BackgroundColor="Transparent"     
-                                            IsVisible="{Binding bsd_projectid,Converter={StaticResource NotNullToBool}}"
-                                            Clicked="BtnRemoveDuanquantam_Clicked" HorizontalOptions="End"/>
-                                        <ImageButton x:Name="btnAddDuanquantam" HeightRequest="25" 
-                                            WidthRequest="22" Margin="5,0,10,0"
-                                            Source="plus_black.png" 
-                                            BackgroundColor="Transparent"                                            
-                                            Clicked="BtnAddDuanquantam_Clicked" HorizontalOptions="End"/>
-                                    </StackLayout>
-                                </telerikPrimitives:ExpanderHeader>
-                            </telerikPrimitives:RadExpander.Header>
-
-                            <telerikPrimitives:RadExpander.Content>
-                                <StackLayout x:Name="stacklayout_duanquantam">
-                                    <bsdGrid:BsdRadDataGrid ItemsSource="{Binding list_Duanquantam}" x:Name="datagrid_duanquantam">
-                                        <telerikGrid:RadDataGrid.Columns>
-                                            <telerikGrid:DataGridTextColumn PropertyName="bsd_projectcode" HeaderText="Project Code"/>
-                                            <telerikGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Name"/>
-                                            <telerikGrid:DataGridDateColumn PropertyName="bsd_acttopdate" HeaderText="Actual TOP Date"/>
-                                            <telerikGrid:DataGridDateColumn PropertyName="bsd_esttopdate" HeaderText="Estimate TOP Date"/>
-                                            <telerikGrid:DataGridNumericalColumn PropertyName="bsd_landvalueofproject" 
-                                                                                 CellContentFormat="{}{0,0:C0}" 
-                                                                                 HeaderText="Land Value of Project"/>
-
-                                        </telerikGrid:RadDataGrid.Columns>
-                                    </bsdGrid:BsdRadDataGrid>
-                                </StackLayout>
-                            </telerikPrimitives:RadExpander.Content>
-                        </telerikPrimitives:RadExpander>-->
                     </StackLayout>
                 </ScrollView>
                 <Button x:Name="btnSave" Margin="10,5,10,10" Padding="10,5" HeightRequest="40" TextColor="Black" FontAttributes="Bold" CornerRadius="10" FontSize="16" BackgroundColor="LightGray" BorderWidth="1" BorderColor="LightGray" Clicked="SaveMenu_Clicked"/>
@@ -869,11 +810,7 @@
                     </StackLayout>
                 </StackLayout>
             </ContentView>
-            <!--End Popup-->
-
-            <controls:ModalContentView IsVisible="{Binding IsBusy}">
-                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-            </controls:ModalContentView>
+            <!--End Popup-->         
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

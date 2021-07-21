@@ -6,6 +6,7 @@ using ConasiCRM.Portable.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UnitImageGallery : ContentPage
     {
+        public Action<bool> OnCompleted;
         public UnitImageGalleryViewModel viewModel;
         public string Folder { get; set; }
         public string Category { get; set; }
@@ -28,15 +30,14 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             this.BindingContext = viewModel = new UnitImageGalleryViewModel();
+            LoadFromServer();
             this.Title = title;
 
             Category = category;
-            Folder = unitName.Replace('.','-') + "_" + unitId.Replace("-", string.Empty).ToUpper();
-            LoadFromServer();
+            Folder = unitName.Replace('.','-') + "_" + unitId.Replace("-", string.Empty).ToUpper();          
+          //  this.listView.LayoutDefinition.BindingContext = viewModel;
 
-            this.listView.LayoutDefinition.BindingContext = viewModel;
-
-            SlideView.SelectedIndex = -1;
+            //SlideView.SelectedIndex = -1;
         }
 
         public async Task LoadFromServer()
@@ -53,46 +54,50 @@ namespace ConasiCRM.Portable.Views
             {
                 var body = await response.Content.ReadAsStringAsync();
                 SharePointFieldResult sharePointFieldResult = JsonConvert.DeserializeObject<SharePointFieldResult>(body);
-                var list = sharePointFieldResult.value;
-                foreach (var item in list)
-                {
-                    if (item.Name.ToLower().Split('.')[1] == "jpg" || item.Name.ToLower().Split('.')[1] == "jpeg" || item.Name.ToLower().Split('.')[1] == "png")
+                if (sharePointFieldResult != null)
+                { 
+                    var list = sharePointFieldResult.value;
+                    foreach (var item in list)
                     {
-                        try
+                        if (item.Name.ToLower().Split('.')[1] == "jpg" || item.Name.ToLower().Split('.')[1] == "jpeg" || item.Name.ToLower().Split('.')[1] == "png")
                         {
-                            string category_value = "";
-                            switch (Category)
+                            try
                             {
-                                case "Units":category_value = "product";
-                                    break;
-                                case "Project":category_value = "bsd_project";
-                                    break;
+                                string category_value = "";
+                                switch (Category)
+                                {
+                                    case "Units": category_value = "product";
+                                        break;
+                                    case "Project": category_value = "bsd_project";
+                                        break;
 
+                                }
+
+                                var fileRequest = new HttpRequestMessage(HttpMethod.Get, OrgConfig.SharePointResource
+                                + "/sites/" + OrgConfig.SharePointSiteName + "/_api/web/GetFileByServerRelativeUrl('/sites/" + OrgConfig.SharePointSiteName + "/" + category_value + "/" + Folder + "/"
+                                    + HttpUtility.UrlEncode(item.Name) + "')/$value");
+                                var fileResponse = await client.SendAsync(fileRequest);
+
+                                var str = await fileResponse.Content.ReadAsByteArrayAsync();
+                                item.ImageSource = ImageSource.FromStream(() => new MemoryStream(str));
+                                viewModel.ImageList.Add(item);                                
                             }
-
-                            var fileRequest = new HttpRequestMessage(HttpMethod.Get, OrgConfig.SharePointResource
-                            + "/sites/" + OrgConfig.SharePointSiteName + "/_api/web/GetFileByServerRelativeUrl('/sites/" + OrgConfig.SharePointSiteName + "/" + category_value + "/" + Folder + "/"
-                                + HttpUtility.UrlEncode(item.Name) + "')/$value");
-                            var fileResponse = await client.SendAsync(fileRequest);
-
-                            var str = await fileResponse.Content.ReadAsByteArrayAsync();
-                            item.ImageSource = ImageSource.FromStream(() => new MemoryStream(str));
-
-
-                            //item.ImageSource = ImageSource.FromUri(new Uri("https://www.setaswall.com/wp-content/uploads/2017/03/A-Green-Bright-Day-Wallpaper-1920x1200-340x220.jpg"));
-                            viewModel.ImageList.Add(item);
-                        }
-                        catch (Exception ex)
-                        {
-                            string mess = ex.Message;
+                            catch (Exception ex)
+                            {
+                                string mess = ex.Message;
+                            }
                         }
                     }
+                    OnCompleted?.Invoke(true);
                 }
+            }
+            else
+            {
+                OnCompleted?.Invoke(false);
             }
             if(viewModel.ImageList.Count == 0) { EmptyText.IsVisible = true; }
             viewModel.IsBusy = false;
-        }
-
+        }      
         //public async Task<GetTokenResponse> getSharePointToken()
         //{
         //    var client = BsdHttpClient.Instance();
@@ -147,8 +152,7 @@ namespace ConasiCRM.Portable.Views
             //    {
             //        this.modalImage.IsVisible = true;
             //    }
-            //};
-            await Task.Delay(300);
+            //};         
             NavigationPage.SetHasNavigationBar(this, false);
             this.modalImage.IsVisible = true;
         }

@@ -24,13 +24,13 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             this.BindingContext = viewModel = new HoatDongListViewModel();
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
         protected override void OnAppearing()
         {
@@ -43,21 +43,27 @@ namespace ConasiCRM.Portable.Views
 
         private async void NewTaskMenu_Clicked(object sender, EventArgs e)
         {
+            LoadingHelper.Show();
             await Navigation.PushAsync(new TaskForm());
+            LoadingHelper.Hide();
         }
         private async void PhoneMenu_Clicked(object sender, EventArgs e)
         {
+            LoadingHelper.Show();
             await Navigation.PushAsync(new PhoneCallForm());
+            LoadingHelper.Hide();
         }
 
         private async void MeetingMenu_Clicked(object sender, EventArgs e)
         {
+            LoadingHelper.Show();
             await Navigation.PushAsync(new MeetingForm());
+            LoadingHelper.Hide();
         }
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             HoatDongListModel val = e.Item as HoatDongListModel;           
             if (val.activitytypecode == "task")
             {
@@ -66,9 +72,9 @@ namespace ConasiCRM.Portable.Views
                 {
                     if (CheckEventData == true)
                     {
-                        await Navigation.PushAsync(newPage);
+                        await Navigation.PushAsync(newPage);                      
                     }
-                    viewModel.IsBusy = false;
+                    LoadingHelper.Hide();
                 };
             }
             else if (val.activitytypecode == "phonecall")
@@ -80,7 +86,7 @@ namespace ConasiCRM.Portable.Views
                     {
                         await Navigation.PushAsync(newPage);
                     }
-                    viewModel.IsBusy = false;
+                    LoadingHelper.Hide();
                 };
             }
             else if (val.activitytypecode == "appointment")
@@ -92,16 +98,16 @@ namespace ConasiCRM.Portable.Views
                     {
                         await Navigation.PushAsync(newPage);
                     }
-                    viewModel.IsBusy = false;
+                    LoadingHelper.Hide();
                 };
             }          
         }
 
         private async void SearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             await viewModel.LoadOnRefreshCommandAsync();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void SearchBar_TextChanged(System.Object sender, Xamarin.Forms.TextChangedEventArgs e)

@@ -36,11 +36,11 @@ namespace ConasiCRM.Portable.Views
             await loadDataForm(this._idActivity);
             if (viewModel.TaskFormModel != null)
             {
-                CheckTaskForm(true);
+                CheckTaskForm?.Invoke(true);
                 isInit = false;
             }
             else
-                CheckTaskForm(false);
+                CheckTaskForm?.Invoke(false);
         }
 
         public TaskForm()
@@ -548,6 +548,7 @@ namespace ConasiCRM.Portable.Views
         }
         private async void saveTask()
         {
+            LoadingHelper.Show();
             DateTime dateTimeStart = new DateTime(viewModel.TaskFormModel.scheduledstart.Value.Year, viewModel.TaskFormModel.scheduledstart.Value.Month, viewModel.TaskFormModel.scheduledstart.Value.Day, viewModel.TaskFormModel.timeStart.Hours, viewModel.TaskFormModel.timeStart.Minutes, viewModel.TaskFormModel.timeStart.Seconds);
             DateTime dateTimeEnd = new DateTime(viewModel.TaskFormModel.scheduledend.Value.Year, viewModel.TaskFormModel.scheduledend.Value.Month, viewModel.TaskFormModel.scheduledend.Value.Day, viewModel.TaskFormModel.timeEnd.Hours, viewModel.TaskFormModel.timeEnd.Minutes, viewModel.TaskFormModel.timeEnd.Seconds);
             if (dateTimeStart > dateTimeEnd)
@@ -564,11 +565,13 @@ namespace ConasiCRM.Portable.Views
                     var created = await createTask(viewModel);
                     if (created != new Guid())
                     {
+                        await this.loadDataForm(created);
+                        LoadingHelper.Hide();// load data according to new id
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Tạo công việc thành công", "OK");
-                        this.loadDataForm(created); // load data according to new id
                     }
                     else
                     {
+                        LoadingHelper.Hide();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Tạo công việc thất bại", "OK");
                     }
                 }
@@ -577,17 +580,20 @@ namespace ConasiCRM.Portable.Views
                     var update = await updateTask(viewModel);
                     if (update)
                     {
+                        await this.loadDataForm(viewModel.TaskFormModel.activityid);
+                        LoadingHelper.Hide();// loading data after update
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thành công!", "OK");
-                        this.loadDataForm(viewModel.TaskFormModel.activityid); // loading data after update
                     }
                     else
                     {
+                        LoadingHelper.Hide();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thất bại!", "OK");
                     }
                 }
             }
             else
             {
+                LoadingHelper.Hide();
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Vui lòng nhập các thông tin bắt buộc!", "OK");
             }
         }
@@ -627,7 +633,7 @@ namespace ConasiCRM.Portable.Views
             }
             else
             {
-                data["regardingobjectid_leads_task@odata.bind"] = "/leads(" + dataTask.Customer.Id.ToString() + ")";
+                data["regardingobjectid_lead_task@odata.bind"] = "/leads(" + dataTask.Customer.Id.ToString() + ")";
             }
             return data;
         }

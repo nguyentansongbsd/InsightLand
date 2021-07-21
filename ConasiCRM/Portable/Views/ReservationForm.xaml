@@ -2,13 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
-             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
-            xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
-              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
-             xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
-             xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
-             xmlns:bsdGrid="clr-namespace:ConasiCRM.Portable.Controls.BsdGrid"
              xmlns:reservationConverter="clr-namespace:ConasiCRM.Portable.Converters.Reservation"
              xmlns:unitConverter="clr-namespace:ConasiCRM.Portable.Converters.Unit"
              Title="Báo giá"
@@ -80,7 +76,7 @@
                                         </BindableLayout.EmptyViewTemplate>
                                         <BindableLayout.ItemTemplate>
                                             <DataTemplate>
-                                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
+                                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="15,10" Margin="0,1">
                                                     <Label Text="{Binding bsd_name}" FontSize="16" FontAttributes="Bold" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
                                                     <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" FontSize="16">
                                                         <Label.FormattedText>
@@ -133,16 +129,6 @@
                                     </StackLayout>
                                     <Button Clicked="ShowMoreDieuKienBanGiao_Clicked" IsVisible="{Binding ShowMoreDieuKienBanGiao}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
                                 </StackLayout>
-                                <!--<bsdGrid:BsdRadDataGrid x:Name="gridHandoverCondition" Grid.Row="1" ItemsSource="{Binding HandoverConditionList}">
-                                    <telerikDataGrid:RadDataGrid.Columns>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Tên" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_method_format"  HeaderText="Phương thức" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_percent_format" HeaderText="Phần trăm(%)" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_priceperm2_format" HeaderText="Giá/m2" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amount_format" HeaderText="Số tiền" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo" />
-                                    </telerikDataGrid:RadDataGrid.Columns>
-                                </bsdGrid:BsdRadDataGrid>-->
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
@@ -226,17 +212,6 @@
                                     </StackLayout>
                                     <Button Clicked="ShowMoreKhuyenMai_Clicked" IsVisible="{Binding ShowMoreKhuyenMai}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
                                 </StackLayout>
-                                <!--<bsdGrid:BsdRadDataGrid x:Name="gridPromotions" ItemsSource="{Binding PromotionList}">
-                                    <telerikDataGrid:RadDataGrid.Columns>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="project_name" HeaderText="Dự án" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Tên"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="phaseslaunch_name" HeaderText="Đợt mở bán"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_values_format" HeaderText="Giá tiền" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_startdate_format" HeaderText="Ngày bắt đầu"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_enddate_format" HeaderText="Ngày kết thúc"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo" />
-                                    </telerikDataGrid:RadDataGrid.Columns>
-                                </bsdGrid:BsdRadDataGrid>-->
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
@@ -247,7 +222,9 @@
                                     <Grid ColumnDefinitions="*,Auto">
                                         <Label Style="{StaticResource ExpanderHeadingText}" Text="Chiết khấu đặc biệt"/>
                                         <!--<Button x:Name="btnViewSpecialDiscount" Text="Xem" HeightRequest="20" FontSize="Small"  Clicked="BtnViewSpecicalDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" />
-                                        --><!--<ImageButton x:Name="btnViewSpecicalDiscount" Clicked="BtnViewSpecicalDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>--><!--
+                                        -->
+                                        <!--<ImageButton x:Name="btnViewSpecicalDiscount" Clicked="BtnViewSpecicalDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>-->
+                                        <!--
                                         <ImageButton x:Name="btnDeleteSpecicalDiscount" Clicked="BtnDeleteSpecicalDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" BackgroundColor="Transparent" Source="btnDelete.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="End"/>-->
                                         <ImageButton x:Name="btnOpenNewSpecialDiscount" Clicked="BtnOpenNewSpecialDiscount_Clicked" IsVisible="{Binding Path=IsExpanded,Source={x:Reference ExpanderSpecialDiscount}}" Grid.Column="1" WidthRequest="17" HeightRequest="17" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="Transparent" Margin="0,0,5,0">
                                             <ImageButton.Source>
@@ -335,18 +312,6 @@
                                     </StackLayout>
                                     <Button Clicked="ShowMoreChietKhauDacBiet_Clicked" IsVisible="{Binding ShowMoreChietKhauDacBiet}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
                                 </StackLayout>
-                                <!--<bsdGrid:BsdRadDataGrid x:Name="gridSpecialDiscount" ItemsSource="{Binding SpecialDiscountList}">
-                                    <telerikDataGrid:RadDataGrid.Columns>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Tên" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_percentdiscount_format"  HeaderText="Phần trăm chiết khấu" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountdiscount_format"  HeaderText="Số tiền chiết khấu" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="reservation_name" HeaderText="Báo giá" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_reasons" HeaderText="Lý do" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="statuscode_format" HeaderText="Trạng thái" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdby_name" HeaderText="Người tạo" />
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo" />
-                                    </telerikDataGrid:RadDataGrid.Columns>
-                                </bsdGrid:BsdRadDataGrid>-->
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
@@ -358,31 +323,74 @@
                                 </telerikPrimitives:ExpanderHeader>
                             </telerikPrimitives:RadExpander.Header>
                             <telerikPrimitives:RadExpander.Content>
-                                <Grid Padding="10" RowDefinitions="Auto,Auto,Auto" >
-                                    <!--<Entry Text="{Binding Reservation.bsd_discounts}" />-->
-                                    <StackLayout Orientation="Horizontal" Grid.Row="0">
-                                        <controls:FormLabel Text="Tên chiết khấu : " />
-                                        <controls:FormLabelValue Text="{Binding Reservation.discountlist_name}" />
-                                    </StackLayout>
-
-                                    <telerikDataControls:RadListView x:Name="listView" SelectionMode="None" Grid.Row="1">
-                                        <telerikDataControls:RadListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <telerikListView:ListViewTemplateCell>
-                                                    <telerikListView:ListViewTemplateCell.View>
+                                <StackLayout Padding="10">
+                                    <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
+                                        <telerikPrimitives:RadExpander.Header>
+                                            <telerikPrimitives:ExpanderHeader BackgroundColor="White">
+                                                <Label Style="{StaticResource ExpanderHeadingText}" Text="Chung"/>
+                                            </telerikPrimitives:ExpanderHeader>
+                                        </telerikPrimitives:RadExpander.Header>
+                                        <telerikPrimitives:RadExpander.Content>
+                                            <StackLayout x:Name="listView" Grid.Row="0">
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate>
                                                         <StackLayout Orientation="Horizontal" Padding="5">
                                                             <StackLayout.GestureRecognizers>
                                                                 <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="DiscountsListView_ItemTapped" CommandParameter="{Binding}" />
                                                             </StackLayout.GestureRecognizers>
                                                             <controls:MyNewCheckBox CheckedColor="#666666" Spacing="5" Title="{Binding Label}" TitleColor="{Binding IsExpired,Converter={StaticResource DiscountsIsExpiredToColorConverter}}" IsEnabled="False" IsChecked="{Binding Selected,Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" />
                                                         </StackLayout>
-                                                    </telerikListView:ListViewTemplateCell.View>
-                                                </telerikListView:ListViewTemplateCell>
-                                            </DataTemplate>
-                                        </telerikDataControls:RadListView.ItemTemplate>
-                                    </telerikDataControls:RadListView>
-                                    <Button Grid.Row="2" Text="Cập nhật chiết khấu" FontSize="15" x:Name="btnUpdateDiscounts" Clicked="BtnUpdateDiscounts_Clicked" IsVisible="False" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
-                                </Grid>
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </StackLayout>
+                                        </telerikPrimitives:RadExpander.Content>
+                                    </telerikPrimitives:RadExpander>
+
+                                    <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
+                                        <telerikPrimitives:RadExpander.Header>
+                                            <telerikPrimitives:ExpanderHeader BackgroundColor="White">
+                                                <Label Style="{StaticResource ExpanderHeadingText}" Text="Nội bộ"/>
+                                            </telerikPrimitives:ExpanderHeader>
+                                        </telerikPrimitives:RadExpander.Header>
+                                        <telerikPrimitives:RadExpander.Content>
+                                            <StackLayout x:Name="listViewNoiBo" Grid.Row="0">
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackLayout Orientation="Horizontal" Padding="5">
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="InternalDiscountListView_ItemTapped" CommandParameter="{Binding}" />
+                                                            </StackLayout.GestureRecognizers>
+                                                            <controls:MyNewCheckBox CheckedColor="#666666" Spacing="5" Title="{Binding Label}" TitleColor="{Binding IsExpired,Converter={StaticResource DiscountsIsExpiredToColorConverter}}" IsEnabled="False" IsChecked="{Binding Selected,Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" />
+                                                        </StackLayout>
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </StackLayout>
+                                        </telerikPrimitives:RadExpander.Content>
+                                    </telerikPrimitives:RadExpander>
+
+                                    <telerikPrimitives:RadExpander IsExpanded="False" AutomationId="masterCardExpander">
+                                        <telerikPrimitives:RadExpander.Header>
+                                            <telerikPrimitives:ExpanderHeader BackgroundColor="White">
+                                                <Label Style="{StaticResource ExpanderHeadingText}" Text="Chiết khấu sỉ"/>
+                                            </telerikPrimitives:ExpanderHeader>
+                                        </telerikPrimitives:RadExpander.Header>
+                                        <telerikPrimitives:RadExpander.Content>
+                                            <StackLayout x:Name="listViewChietKhauSi" Grid.Row="0">
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackLayout Orientation="Horizontal" Padding="5">
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="WholeSaleDiscountsListView_ItemTapped" CommandParameter="{Binding}" />
+                                                            </StackLayout.GestureRecognizers>
+                                                            <controls:MyNewCheckBox CheckedColor="#666666" Spacing="5" Title="{Binding Label}" TitleColor="{Binding IsExpired,Converter={StaticResource DiscountsIsExpiredToColorConverter}}" IsEnabled="False" IsChecked="{Binding Selected,Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start" />
+                                                        </StackLayout>
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </StackLayout>
+                                        </telerikPrimitives:RadExpander.Content>
+                                    </telerikPrimitives:RadExpander>
+                                    <Button x:Name="btnUpdateDiscounts" Text="Cập nhật chiết khấu" FontSize="15"  Clicked="BtnUpdateDiscounts_Clicked" IsVisible="False" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
+                                </StackLayout>
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
@@ -456,15 +464,6 @@
                                     </StackLayout>
                                     <Button Clicked="ShowMoreNguoiDongSoHuu_Clicked" IsVisible="{Binding ShowMoreNguoiDongSoHuu}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
                                 </StackLayout>
-                                <!--<bsdGrid:BsdRadDataGrid Grid.Row="1" x:Name="gridCoOwner" ItemsSource="{Binding CoownerList}">
-                                    <telerikDataGrid:RadDataGrid.Columns>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Mô tả"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="customer"  HeaderText="Tên"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="ReservationName"  HeaderText="Báo giá"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_relationship_format" HeaderText="Mối quan hệ"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="createdon_format" HeaderText="Ngày tạo"/>
-                                    </telerikDataGrid:RadDataGrid.Columns>
-                                </bsdGrid:BsdRadDataGrid>-->
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
 
@@ -607,7 +606,7 @@
                                         <StackLayout>
                                             <Label Text="Thông tin phí quản lý" Style="{StaticResource TitleFormStyle}"/>
                                             <Grid Padding="10" RowSpacing="15" ColumnDefinitions="4*,6*" RowDefinitions="Auto,Auto">
-                                                
+
                                                 <controls:FormLabel Text="Số tháng trả phí quản lý" Grid.Row="0" Grid.Column="0" VerticalOptions="Start"/>
                                                 <controls:FormLabelValue Text="{Binding Reservation.bsd_numberofmonthspaidmf}" HorizontalTextAlignment="End" Grid.Row="0" Grid.Column="1" VerticalOptions="Start"/>
 
@@ -661,29 +660,12 @@
                                     </StackLayout>
                                     <Button Clicked="ShowMoreLichThanhToan_Clicked" IsVisible="{Binding ShowMoreLichThanhToan}" BorderColor="#1399D5" CornerRadius="5" BorderWidth="1" BackgroundColor="Transparent" Text="Xem Thêm" TextTransform="None" TextColor="#1399D5" HeightRequest="30" HorizontalOptions="Center" Margin="0,5,0,10" Padding="30,0,30,0"/>
                                 </StackLayout>
-                                <!--<bsdGrid:BsdRadDataGrid ItemsSource="{Binding InstallmentList}">
-                                    <telerikDataGrid:RadDataGrid.Columns>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_ordernumber" HeaderText="STT"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_name" HeaderText="Đợt thanh toán"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_duedate_format" HeaderText="Ngày đến hạn"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="statuscode_format" HeaderText="Tình trạng"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountofthisphase_format" HeaderText="Số tiền đợt thanh toán"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_amountwaspaid_format" HeaderText="Số tiền đã thanh toán"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_depositamount_format" HeaderText="Số tiền đặt cọc"/>
-                                        <telerikDataGrid:DataGridTextColumn PropertyName="bsd_waiveramount_format" HeaderText="Số tiền còn lại"/>
-                                    </telerikDataGrid:RadDataGrid.Columns>
-                                </bsdGrid:BsdRadDataGrid>-->
                             </telerikPrimitives:RadExpander.Content>
                         </telerikPrimitives:RadExpander>
                     </StackLayout>
                 </ScrollView>
 
                 <Grid x:Name="gridBtnGroup" VerticalOptions="EndAndExpand">
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
                     <telerikInput:RadButton BorderRadius="0" Grid.Row="0" VerticalOptions="FillAndExpand" x:Name="btnSaveForm" Clicked="BtnSaveForm_Clicked" BackgroundColor="#eeeeee" HorizontalOptions="FillAndExpand" Text="Lưu" TextColor="Black" />
                     <telerikInput:RadButton BorderRadius="0" Grid.Row="0" VerticalOptions="FillAndExpand" x:Name="btnPaymentSchemeGenerate" Clicked="PaymentSchemeGenerate_Clicked" BackgroundColor="#eeeeee" HorizontalOptions="FillAndExpand" Text="Tạo lịch thanh toán" TextColor="Black" />
                     <telerikInput:RadButton BorderRadius="0" Grid.Row="0" VerticalOptions="FillAndExpand" x:Name="btnSignQuotation" Clicked="SignQuotation_Clicked" BackgroundColor="#eeeeee" HorizontalOptions="FillAndExpand" Text="Xác nhận đặt cọc" TextColor="Black" />
@@ -691,9 +673,6 @@
                 </Grid>
             </StackLayout>
             <controls:ModalContentView x:Name="modalLookUp" />
-            <controls:ModalContentView IsVisible="{Binding IsBusy}">
-                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource IndicatorColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-            </controls:ModalContentView>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

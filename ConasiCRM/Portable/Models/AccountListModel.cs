@@ -9,7 +9,7 @@ namespace ConasiCRM.Portable.Models
     {
         public Guid accountid { get; set; }
 
-        public string name { get; set; }
+        public string bsd_name { get; set; }
         public string bsd_registrationcode { get; set; }
         public string bsd_vatregistrationnumber { get; set; }
         public string bsd_companycode { get; set; }

@@ -86,22 +86,7 @@ namespace ConasiCRM.Portable.Views
                 if (viewModel.singleLead.new_gender != null) { await viewModel.loadOneGender(viewModel.singleLead.new_gender); }
                 if (viewModel.singleLead.industrycode != null) { await viewModel.loadOneIndustrycode(viewModel.singleLead.industrycode); }
                 //if (leadid != null) { await viewModelProject.LoadProjectsForLeadForm(); }
-
-                //if (viewModel.list_nhucauvediadiem.Count < 3)
-                //{
-                //    for (int i = viewModel.list_nhucauvediadiem.Count; i < 3; i++)
-                //    {
-                //        viewModel.list_nhucauvediadiem.Add(new Provinces());
-                //    }
-                //}
-
-                //if (viewModel.list_Duanquantam.Count < 3)
-                //{
-                //    for (int i = viewModel.list_Duanquantam.Count; i < 3; i++)
-                //    {
-                //        viewModel.list_Duanquantam.Add(new ProjectList());
-                //    }
-                //}              
+            
             }        
             await viewModel.LoadLeadsRating();
             this.render(leadid);
@@ -524,8 +509,9 @@ namespace ConasiCRM.Portable.Views
             viewModel.IsBusy = true;
             source_listviewpopup.Children.Clear();
             title_popuplistview.Text = "Toipc - Tiêu đề";
+            title_popuplistview.TextColor = Color.FromHex("#333333");
 
-            ListView tmp = new ListView();
+            ListView tmp = new ListView() { HasUnevenRows =true,SelectionMode= ListViewSelectionMode.None};
 
             //// LoadData Topic if Empty
             if (viewModel.list_topic_lookup.Count == 0)
@@ -536,19 +522,22 @@ namespace ConasiCRM.Portable.Views
 
             ///// Render List Topic to Popup
             tmp.SetBinding(ListView.ItemsSourceProperty, new Binding("list_lookup", source: viewModel));
-            tmp.ItemTemplate = null;
+            
             tmp.ItemTemplate = new DataTemplate(() =>
             {
                 // Create views with bindings for displaying each property.
-                Label nameLabel = new Label();
+                Label nameLabel = new Label() {
+                    Padding= new Thickness(10,5),
+                    VerticalTextAlignment = TextAlignment.Center,
+                    VerticalOptions= LayoutOptions.CenterAndExpand,
+                    FontSize= 16,
+                    TextColor= Color.FromHex("#333333")
+                };
                 nameLabel.SetBinding(Label.TextProperty, "Name");
                 // Return an assembled ViewCell.
                 return new ViewCell
                 {
-                    View = new StackLayout
-                    {
-                        Children = { nameLabel }
-                    }
+                    View = nameLabel
                 };
             });
             tmp.ItemTapped += popuptopic_ItemTapped;
@@ -564,7 +553,7 @@ namespace ConasiCRM.Portable.Views
 
         private void popuptopic_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            LookUp tmp = e.Item as LookUp;
+            Models.LookUp tmp = e.Item as Models.LookUp;
             viewModel.singleLead._bsd_topic_value = tmp.Id.ToString();
             viewModel.singleLead.bsd_topic_label = tmp.Name;
 
@@ -617,7 +606,7 @@ namespace ConasiCRM.Portable.Views
 
         private void popuptransctioncurrency_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            LookUp tmp = e.Item as LookUp;
+            Models.LookUp tmp = e.Item as Models.LookUp;
             viewModel.singleLead._transactioncurrencyid_value = tmp.Id.ToString();
             viewModel.singleLead.transactioncurrencyid_label = tmp.Name;
 
@@ -671,7 +660,7 @@ namespace ConasiCRM.Portable.Views
 
         private void popupcampaignid_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            LookUp tmp = e.Item as LookUp;
+            Models.LookUp tmp = e.Item as Models.LookUp;
             viewModel.singleLead._campaignid_value = tmp.Id.ToString();
             viewModel.singleLead.campaignid_label = tmp.Name;
 
@@ -721,7 +710,8 @@ namespace ConasiCRM.Portable.Views
                 {
                     Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Đã cập nhật thành công", "OK");
                     Xamarin.Forms.Application.Current.Properties["update"] = "1";
-
+                    viewModel.PageDuAnQuanTam = 1;
+                    viewModel.PageNhuCauDiaDiem = 1;
                     this.reload(viewModel.singleLead.leadid);
 
                     //Xamarin.Forms.Application.Current.MainPage.Navigation.InsertPageBefore(new LeadForm(viewModel.singleLead.leadid), Xamarin.Forms.Application.Current.MainPage);
@@ -943,7 +933,7 @@ namespace ConasiCRM.Portable.Views
 
         private async void show_popup_listview_country(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             title_popuplistview.Text = "Quốc gia";
             if (viewModel.list_country_lookup.Count == 0)
             {
@@ -976,12 +966,12 @@ namespace ConasiCRM.Portable.Views
             }
             source_listviewpopup.Children.Add(listViewCountry);
             popup_list_view.IsVisible = true;
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void popupCountry_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var selected = e.Item as LookUp;
+            var selected = e.Item as Models.LookUp;
 
             this.clear_entry_province(null, null);
             this.clear_entry_district(null, null);
@@ -997,7 +987,7 @@ namespace ConasiCRM.Portable.Views
         private async void loadMoreCountryLookup(object sender, ItemVisibilityEventArgs e)
         {
             viewModel.IsBusy = true;
-            if ((LookUp)e.Item == viewModel.list_country_lookup[viewModel.list_country_lookup.Count - 1])
+            if ((Models.LookUp)e.Item == viewModel.list_country_lookup[viewModel.list_country_lookup.Count - 1])
             {
                 viewModel.pageLookup_country++;
                 await viewModel.LoadCountryForLookup();
@@ -1065,7 +1055,7 @@ namespace ConasiCRM.Portable.Views
 
         private void popupProvince_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var selected = e.Item as LookUp;
+            var selected = e.Item as Models.LookUp;
 
             this.clear_entry_district(null, null);
             viewModel.list_district_lookup.Clear();
@@ -1081,7 +1071,7 @@ namespace ConasiCRM.Portable.Views
         private async void loadMoreProvinceLookup(object sender, ItemVisibilityEventArgs e)
         {
             viewModel.IsBusy = true;
-            if ( (LookUp)e.Item == viewModel.list_province_lookup[viewModel.list_province_lookup.Count -1])
+            if ( (Models.LookUp)e.Item == viewModel.list_province_lookup[viewModel.list_province_lookup.Count -1])
             {
                 viewModel.pageLookup_province++;
                 await viewModel.loadProvincesForLookup(viewModel.CountryId);
@@ -1148,7 +1138,7 @@ namespace ConasiCRM.Portable.Views
 
         private void popupDistrict_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var selected = e.Item as LookUp;
+            var selected = e.Item as Models.LookUp;
 
             viewModel.District = selected.Name;
             viewModel.DistrictId = selected.Id.ToString();
@@ -1161,7 +1151,7 @@ namespace ConasiCRM.Portable.Views
         private async void loadMoreDistrictLookup(object sender, ItemVisibilityEventArgs e)
         {
             viewModel.IsBusy = true;
-            if ((LookUp)e.Item == viewModel.list_district_lookup[viewModel.list_district_lookup.Count - 1])
+            if ((Models.LookUp)e.Item == viewModel.list_district_lookup[viewModel.list_district_lookup.Count - 1])
             {
                 viewModel.pageLookup_district++;
                 await viewModel.loadDistrictForLookup(viewModel.ProvinceId);

@@ -15,6 +15,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UnitInfo : ContentPage
     {
+        public Action<bool> OnCompleted;
         private UnitInfoViewModel viewModel;
         private Guid Id;
         public UnitInfo(Guid id)
@@ -69,7 +70,15 @@ namespace ConasiCRM.Portable.Views
               </entity>
             </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<UnitInfoModel>>("products", fetchXml);
-            viewModel.UnitInfo = result.value.FirstOrDefault();
+            if (result.value.Count != 0)
+            {
+                viewModel.UnitInfo = result.value.FirstOrDefault();
+                OnCompleted?.Invoke(true);
+            }
+            else
+            {
+                OnCompleted?.Invoke(false);
+            }
         }
 
         private void Button_Clicked(object sender, EventArgs e)

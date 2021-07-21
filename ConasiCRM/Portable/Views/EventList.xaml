@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Sự kiện"
-             xmlns:controls="clr-namespace:ConasiCRM.Controls"           
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"           
              xmlns:converter ="clr-namespace:ConasiCRM.Portable.Converters"
              x:Class="ConasiCRM.Portable.Views.EventList">
     <ContentPage.Resources>
@@ -68,9 +68,6 @@
                     </controls:BsdListView.ItemTemplate>
                 </controls:BsdListView>
             </Grid>
-            <ContentView x:Name="popup_loading" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080">
-                <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True" Color="#000000"/>
-            </ContentView>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

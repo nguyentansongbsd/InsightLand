@@ -207,9 +207,9 @@ namespace ConasiCRM.Portable.ViewModels
             LoaiHinhOptions = new ObservableCollection<OptionSet>()
             {
                 new OptionSet("100000000","Khách hàng"),
-                new OptionSet("100000001","Đối tác"),
-                new OptionSet("100000002","Đại lý"),
-                new OptionSet("100000003","Chủ đầu tư")
+                new OptionSet("100000001","Cộng tác viên"),
+                new OptionSet("100000002","Người được uỷ quyền"),
+                new OptionSet("100000003","Người đại diện pháp lý")
             };
 
             BusinessTypeOptionList = new ObservableCollection<OptionSet>();

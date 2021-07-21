@@ -27,43 +27,43 @@ namespace ConasiCRM.Portable.Views
         public QueueList()
         {
             InitializeComponent();
+            LoadingHelper.Show();
             BindingContext = viewModel = new QueuListViewModel();
-            viewModel.IsBusy = true;
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private async void NewMenu_Clicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;           
+            LoadingHelper.Show();
             await Navigation.PushAsync(new AccountForm());
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             QueueListModel val = e.Item as QueueListModel;
-            viewModel.IsBusy = true;           
+            LoadingHelper.Show();
             QueueForm newPage = new QueueForm(val.opportunityid);
             newPage.CheckQueueInfo = async (CheckQueueInfo) =>
             {
                 if (CheckQueueInfo == true)
                 {
-                    await Navigation.PushAsync(newPage);
+                    await Navigation.PushAsync(newPage);                 
                 }
-                viewModel.IsBusy = false;
+                LoadingHelper.Hide();
             };
         }
 
         private async void SearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             await viewModel.LoadOnRefreshCommandAsync();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void SearchBar_TextChanged(System.Object sender, Xamarin.Forms.TextChangedEventArgs e)

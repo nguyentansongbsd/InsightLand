@@ -571,9 +571,11 @@ namespace ConasiCRM.Portable.Views
 
                     if (created != new Guid())
                     {
+                        if (ListPhanHoi.NeedToRefresh.HasValue) ListPhanHoi.NeedToRefresh = true;
+                        await Navigation.PopAsync();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Tạo phản hồi thành công!", "OK");
-                        Xamarin.Forms.Application.Current.Properties["update"] = "1";
-                        this.Start(viewModel.singlePhanHoi.incidentid);
+                        //Xamarin.Forms.Application.Current.Properties["update"] = "1";
+                        //this.Start(viewModel.singlePhanHoi.incidentid);
                     }
                     else
                     {
@@ -593,9 +595,11 @@ namespace ConasiCRM.Portable.Views
                     var updated = await updateCase(viewModel);
                     if (updated)
                     {
+                        if (ListPhanHoi.NeedToRefresh.HasValue) ListPhanHoi.NeedToRefresh = true;
+                        await Navigation.PopAsync();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thành công!", "OK");
-                        Xamarin.Forms.Application.Current.Properties["update"] = "1";
-                        this.Start(viewModel.singlePhanHoi.incidentid);
+                        //Xamarin.Forms.Application.Current.Properties["update"] = "1";
+                        //this.Start(viewModel.singlePhanHoi.incidentid);
                     }
                     else
                     {
@@ -670,10 +674,7 @@ namespace ConasiCRM.Portable.Views
                 data["description"] = cases.singlePhanHoi.description ?? "";
                 //data["new_solution"] = cases.singlePhanHoi.new_solution ?? "";
 
-                if (cases.singlePhanHoi.caseorigincode != 0)
-                {
-                    data["caseorigincode"] = cases.singlePhanHoi.caseorigincode;
-                }
+                data["caseorigincode"] = cases.singlePhanHoi.caseorigincode != 0 ? cases.singlePhanHoi.caseorigincode.ToString() : null;
 
                 if (checkcreate == false) {
                     data["statuscode"] = cases.singlePhanHoi.statuscode;
@@ -749,6 +750,7 @@ namespace ConasiCRM.Portable.Views
                 {
                     data["subjectid@odata.bind"] = "/subjects(" + cases.singlePhanHoi._subjectid_value + ")"; /////Lookup Field
                 }
+
                 if (cases.singlePhanHoi._productid_value == null)
                 {
                     await DeletLookup("productid", cases.singlePhanHoi.incidentid);
@@ -757,6 +759,7 @@ namespace ConasiCRM.Portable.Views
                 {
                     data["productid@odata.bind"] = "/products(" + cases.singlePhanHoi._productid_value + ")"; /////Lookup Field
                 }
+
                 if (cases.singlePhanHoi._primarycontactid_value == null)
                 {
                     await DeletLookup("primarycontactid", cases.singlePhanHoi.incidentid);
@@ -776,7 +779,7 @@ namespace ConasiCRM.Portable.Views
             popup_list_viewStatus.IsVisible = true;
         }
 
-        public int valueid { get; set; }
+        public int? valueid { get; set; }
         public string valuename { get; set; }
 
         void OnSelectItem_Status(object sender, Xamarin.Forms.ItemTappedEventArgs e)
@@ -787,9 +790,12 @@ namespace ConasiCRM.Portable.Views
 
         void Accept_Status(object sender, System.EventArgs e)
         {
-            viewModel.singlePhanHoi.statuscode = valueid;
-            bsd_status_text.Text = valuename;
-
+            if (valueid.HasValue && !string.IsNullOrWhiteSpace(valuename))
+            {
+                viewModel.singlePhanHoi.statuscode = valueid.Value;
+                bsd_status_text.Text = valuename;
+            }
+            
             popup_list_viewStatus.IsVisible = false;
         }
 

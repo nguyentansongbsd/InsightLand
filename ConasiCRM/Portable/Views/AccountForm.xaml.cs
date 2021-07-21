@@ -63,7 +63,6 @@ namespace ConasiCRM.Portable.Views
             viewModel.ModalLookUp = PrimaryContactLoopkup;
             viewModel.InitializeModal();
 
-            viewModel.IsBusy = true;
             if (AccountId != Guid.Empty)
             {
                 viewModel.Title = "Cập Nhật Khách Hàng Doanh Nghiệp";
@@ -90,14 +89,12 @@ namespace ConasiCRM.Portable.Views
                 datagridCase.IsVisible = false;
                 datagridActivities.IsVisible = false;
                 datagridMandatorySecondary.IsVisible = false;
-                viewModel.IsBusy = false;
             }
 
         }
 
         public async Task Start(Guid AccountId)
         {
-            viewModel.IsBusy = true;
             viewModel.Title = "Cập Nhật Khách Hàng Doanh Nghiệp";
 
             datagridQueuing.IsVisible = true;
@@ -164,8 +161,6 @@ namespace ConasiCRM.Portable.Views
                     }
                 }
             }
-
-            viewModel.IsBusy = false;
         }
 
         //async void show_popup_Mandatory(object sender, EventArgs e)
@@ -668,7 +663,7 @@ namespace ConasiCRM.Portable.Views
 
         private async void SaveMenu_Clicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             int Mode = 1;
             var check = await checkData();
             if (viewModel.singleAccount.accountid == Guid.Empty)
@@ -681,9 +676,11 @@ namespace ConasiCRM.Portable.Views
 
                     if (created != new Guid())
                     {
+                        if (AccountList.NeedToRefresh.HasValue) AccountList.NeedToRefresh = true;
+                        await Navigation.PopAsync();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Tạo khách hàng doanh nghiệp thành công!", "OK");
-                        Xamarin.Forms.Application.Current.Properties["update"] = "1";
-                        this.Start(viewModel.singleAccount.accountid);
+                        //Xamarin.Forms.Application.Current.Properties["update"] = "1";
+                        //this.Start(viewModel.singleAccount.accountid);
                     }
                     else
                     {
@@ -703,9 +700,11 @@ namespace ConasiCRM.Portable.Views
                     var updated = await updateAccount(viewModel);
                     if (updated)
                     {
+                        if (AccountList.NeedToRefresh.HasValue) AccountList.NeedToRefresh = true;
+                        await Navigation.PopAsync();
                         await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", "Cập nhật thành công!", "OK");
-                        Xamarin.Forms.Application.Current.Properties["update"] = "1";
-                        this.Start(viewModel.singleAccount.accountid);
+                        //Xamarin.Forms.Application.Current.Properties["update"] = "1";
+                        //this.Start(viewModel.singleAccount.accountid);
                     }
                     else
                     {
@@ -717,6 +716,7 @@ namespace ConasiCRM.Portable.Views
                     await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Thông báo", check, "OK");
                 }
             }
+            LoadingHelper.Hide();
             //viewModel.IsBusy = false;
         }
 
@@ -795,6 +795,11 @@ namespace ConasiCRM.Portable.Views
             {
                 data["bsd_customergroup"] = int.Parse(account.singleAccount.bsd_customergroup);
             }
+            else
+            {
+                data["bsd_customergroup"] = null;
+            }
+
             //data["bsd_diemdanhgia"] = account.singleAccount.bsd_diemdanhgia_format ?? null;
             data["emailaddress1"] = account.singleAccount.emailaddress1 ?? "";
             data["bsd_email2"] = account.singleAccount.bsd_email2 ?? "";

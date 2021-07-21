@@ -9,16 +9,11 @@
              Title="Hình ảnh căn hộ" 
              x:Class="ConasiCRM.Portable.Views.UnitImageGallery">
     <ContentPage.Content>
-        <AbsoluteLayout x:Name="absoluteLayout" LayoutChanged="Handle_LayoutChanged">
+        <AbsoluteLayout x:Name="absoluteLayout" LayoutChanged="Handle_LayoutChanged" Padding="2">
             <Label x:Name="EmptyText" Text="Không có hình ảnh để hiển thị" TextColor="Gray" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" IsVisible="false"/>
-            <telerikDataControls:RadListView x:Name="listView" SelectionMode="None" ItemsSource="{Binding ImageList}" WidthRequest="{Binding widthListView}" MinimumHeightRequest="{Binding heightListView}">
+            <!--<telerikDataControls:RadListView x:Name="listView" SelectionMode="None" ItemsSource="{Binding ImageList}" WidthRequest="{Binding widthListView}" MinimumHeightRequest="{Binding heightListView}">
                 <telerikDataControls:RadListView.LayoutDefinition>
-                    <telerikListView:ListViewGridLayout GroupHeaderLength="34"
-                                                        HorizontalItemSpacing="3"
-                                                        VerticalItemSpacing="3"
-                                                        SpanCount="{Binding noOfColumns}"
-                                                        ItemLength="120"
-                                                        Orientation="Vertical"/>
+                    <telerikListView:ListViewGridLayout GroupHeaderLength="34" HorizontalItemSpacing="3" VerticalItemSpacing="3" SpanCount="{Binding noOfColumns}" ItemLength="120" Orientation="Vertical"/>
                 </telerikDataControls:RadListView.LayoutDefinition>
                 <telerikDataControls:RadListView.ItemTemplate>
                     <DataTemplate>
@@ -35,8 +30,22 @@
                         </telerikListView:ListViewTemplateCell>
                     </DataTemplate>
                 </telerikDataControls:RadListView.ItemTemplate>
-            </telerikDataControls:RadListView>
-            
+            </telerikDataControls:RadListView>-->
+            <CollectionView x:Name="listView" SelectionMode="None" ItemsSource="{Binding ImageList}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="2">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="LstImage_ItemTapped" CommandParameter="{Binding}" />
+                            </Grid.GestureRecognizers>
+                            <Image x:Name="img" Source="{Binding ImageSource}" HeightRequest="{Binding Path=Width, Source={x:Reference img}}" Aspect="AspectFill"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
             <controls:ModalContentView IsVisible="{Binding IsBusy}">
                 <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding IsBusy}" Color="Black" VerticalOptions="Center" HorizontalOptions="Center" />
             </controls:ModalContentView>

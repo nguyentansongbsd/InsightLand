@@ -1,31 +1,22 @@
-﻿using ConasiCRM.Portable;
-using ConasiCRM.Portable.Config;
+﻿using ConasiCRM.Portable.Config;
 using ConasiCRM.Portable.Helper;
 using ConasiCRM.Portable.Models;
 using ConasiCRM.Portable.Settings;
-using ConasiCRM.Portable.Views;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Xamarin.Forms.Xaml;
 
 namespace ConasiCRM.Portable
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Login : ContentPage
     {
         public Login()
         {
             InitializeComponent();
-            
+
             if (UserLogged.IsLogged)
             {
                 checkboxRememberAcc.IsChecked = true;
@@ -36,24 +27,12 @@ namespace ConasiCRM.Portable
             {
                 checkboxRememberAcc.IsChecked = false;
             }
-            
-        }
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            App.Current.On<Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
-        }
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            App.Current.On<Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Pan);
-        }
 
-       private void IsRemember_Tapped(object sender, EventArgs e)
+        }
+        private void IsRemember_Tapped(object sender, EventArgs e)
         {
             checkboxRememberAcc.IsChecked = !checkboxRememberAcc.IsChecked;
         }
-
         private async void Button_Clicked(object sender, EventArgs e)
         {
             if (txtUsername.Text.Trim() == "")
@@ -68,7 +47,7 @@ namespace ConasiCRM.Portable
             }
             try
             {
-                this.Loading.IsVisible = true;
+                LoadingHelper.Show();
                 var client = BsdHttpClient.Instance();
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://login.microsoftonline.com/common/oauth2/token");
                 var formContent = new FormUrlEncodedContent(new[]
@@ -98,20 +77,46 @@ namespace ConasiCRM.Portable
                         UserLogged.IsLogged = false;
                     }
                     App.Current.Properties["Token"] = tokenData.access_token;
-                    await Navigation.PushAsync(new MasterDetailPage1());
-                    Navigation.RemovePage(this);
+                    await Navigation.PopModalAsync(false);
+                    //await Task.Run(() =>
+                    //{
+                    //    Device.BeginInvokeOnMainThread(() =>
+                    //    {
+                    //        Xamarin.Forms.Application.Current.MainPage = new AppShell();
+                    //    });
+                    //});
+                    LoadingHelper.Hide();
+
                 }
                 else
                 {
+                    LoadingHelper.Hide();
                     await DisplayAlert("", "Thông tin đăng nhập không đúng. Vui lòng thử lại", "Đóng");
                 }
             }
             catch (Exception ex)
             {
+                LoadingHelper.Hide();
                 await DisplayAlert("Thông báo", "Lỗi kết nối đến Server. \n" + ex.Message, "Đóng");
             }
-            this.Loading.IsVisible = false;
         }
 
+        protected override bool OnBackButtonPressed()
+        {
+            System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+            return true;
+        }
+
+        private async void Button_Clicked_1(System.Object sender, System.EventArgs e)
+        {
+            LoadingHelper.Show();
+            await Task.Run(() => {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Xamarin.Forms.Application.Current.MainPage = new AppShell();
+                });
+            });
+            LoadingHelper.Hide();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConasiCRM.Portable.Helper;
+using System;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
@@ -14,17 +15,60 @@ namespace ConasiCRM.Portable.Views
 
         void Handle_ItemTapped(object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
-            string item = e.Item as string;
+            LoadingHelper.Show();
+            string item = e.Item as string;         
             if (item.Contains("tháng"))
             {
-                Navigation.PushAsync(new LichLamViecTheoThang());
+                LoadingHelper.Show();
+                LichLamViecTheoThang lichLamViecTheoThang = new LichLamViecTheoThang();
+                lichLamViecTheoThang.OnComplete = async (OnComplete) =>
+                {
+                    if (OnComplete == true)
+                    {
+                        await Navigation.PushAsync(lichLamViecTheoThang);
+                        LoadingHelper.Hide();
+                    }
+                    else
+                    {
+                        LoadingHelper.Hide();
+                        await DisplayAlert("Thông Báo", "Không tìm thấy lịch làm việc", "Đóng");
+                    }
+                };
             } else if (item.Contains("tuần"))
             {
-                Navigation.PushAsync(new LichLamViecTheoTuan());
+                LoadingHelper.Show();
+                LichLamViecTheoTuan lichLamViecTheoTuan = new LichLamViecTheoTuan();
+                lichLamViecTheoTuan.OnComplete = async (OnComplete) =>
+                {
+                    if (OnComplete == true)
+                    {
+                        await Navigation.PushAsync(lichLamViecTheoTuan);
+                        LoadingHelper.Hide();
+                    }
+                    else
+                    {
+                        LoadingHelper.Hide();
+                        await DisplayAlert("Thông Báo", "Không tìm thấy lịch làm việc", "Đóng");
+                    }
+                };               
             }else if (item.Contains("ngày"))
             {
-                Navigation.PushAsync(new LichLamViecTheoNgay());
-            }
+                LoadingHelper.Show();
+                LichLamViecTheoNgay lichLamViecTheoNgay = new LichLamViecTheoNgay();
+                lichLamViecTheoNgay.OnComplete = async (OnComplete) =>
+                {
+                    if (OnComplete == true)
+                    {
+                        await Navigation.PushAsync(lichLamViecTheoNgay);
+                        LoadingHelper.Hide();
+                    }
+                    else
+                    {
+                        LoadingHelper.Hide();
+                        await DisplayAlert("Thông Báo", "Không tìm thấy lịch làm việc", "Đóng");
+                    }
+                };              
+            }         
         }
     }
 }

@@ -66,9 +66,8 @@ namespace ConasiCRM.Portable.Controls
             this.SelectedItem = null;
         }
 
-        private void Entry_Focused(object sender, FocusEventArgs e)
+        private void OnTapped(object sender, EventArgs e)
         {
-            entry.Unfocus();
             if (!IsEnable) return;
             OpenClicked.Invoke(this, EventArgs.Empty);
         }

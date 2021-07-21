@@ -21,34 +21,34 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new ListTaiLieuKinhDoanhViewModel();
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             ListTaiLieuKinhDoanhModel val = e.Item as ListTaiLieuKinhDoanhModel;
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             TaiLieuKinhDoanhForm newPage = new TaiLieuKinhDoanhForm(val.salesliteratureid);
             newPage.CheckTaiLieuKinhDoanh = async (CheckTaiLieuKinhDoanh) =>
             {
                 if (CheckTaiLieuKinhDoanh == true)
                 {
-                    await Navigation.PushAsync(newPage);
+                    await Navigation.PushAsync(newPage);                 
                 }
-                viewModel.IsBusy = false;
+                LoadingHelper.Hide();
             };
         }
 
         private async void SearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             await viewModel.LoadOnRefreshCommandAsync();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void SearchBar_TextChanged(System.Object sender, Xamarin.Forms.TextChangedEventArgs e)

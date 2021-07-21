@@ -69,7 +69,7 @@ namespace ConasiCRM.Portable.ViewModels
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Lỗi", "Số điện thoại khôn hợp lệ", "OK");
+                await Application.Current.MainPage.DisplayAlert("Lỗi", "Không có số điện thoại", "OK");
             }
         }
     }

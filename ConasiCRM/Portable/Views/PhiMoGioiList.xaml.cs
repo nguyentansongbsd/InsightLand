@@ -21,35 +21,35 @@ namespace ConasiCRM.Portable.Views
 		{
 			InitializeComponent ();
             BindingContext = viewModel = new PhiMoGioiListViewModel();
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             PhiMoGioiListModel val = e.Item as PhiMoGioiListModel;
-            viewModel.IsBusy = true;          
+            LoadingHelper.Show();
             PhiMoGioiForm newPage = new PhiMoGioiForm(val.bsd_brokeragefeesid);
             newPage.CheckPhiMoGioi = async (CheckPhiMoGioi) =>
             {
                 if (CheckPhiMoGioi == true)
                 {
-                    await Navigation.PushAsync(newPage);
+                    await Navigation.PushAsync(newPage);                    
                 }
-                viewModel.IsBusy = false;
+                LoadingHelper.Hide();
             };
         }
 
         private async void SearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             await viewModel.LoadOnRefreshCommandAsync();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void SearchBar_TextChanged(System.Object sender, Xamarin.Forms.TextChangedEventArgs e)

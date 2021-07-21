@@ -21,7 +21,7 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new PhiMoGioiGiaoDichListViewModel();
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             Init();
         }
         public async void Init()
@@ -29,7 +29,7 @@ namespace ConasiCRM.Portable.Views
             await viewModel.LoadData();
             await loadTotalAmount();
             await loadTotalAmountReceived();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }             
         public async Task loadTotalAmount()
         {
@@ -74,7 +74,7 @@ namespace ConasiCRM.Portable.Views
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             PhiMoGioiGiaoDichListModel val = e.Item as PhiMoGioiGiaoDichListModel;
             PhiMoGioiGiaoDichForm newPage = new PhiMoGioiGiaoDichForm(val.bsd_brokeragetransactionid);
             newPage.CheckData = async (CheckData) =>
@@ -83,7 +83,7 @@ namespace ConasiCRM.Portable.Views
                 {
                     await Navigation.PushAsync(newPage);
                 }
-                viewModel.IsBusy = false;
+                LoadingHelper.Hide();
             };
         }
     }

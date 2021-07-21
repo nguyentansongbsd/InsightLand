@@ -14,6 +14,7 @@ namespace ConasiCRM.Portable.Models
         public string telepphone1 { get; set; }
         public string emailaddress1 { get; set; }
         public string bsd_contactaddress { get; set; }
+        public int leadqualitycode { get; set; }
         public DateTime createdon { get; set; }
         public string createdon_format
         {

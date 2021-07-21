@@ -13,13 +13,9 @@ using Xamarin.Forms;
 
 namespace ConasiCRM.Portable.ViewModels
 {
-    public class DirectSaleDetailViewModel : BaseViewModel
+    public class DirectSaleDetailViewModel : ListViewBaseViewModel2<Unit>
     {
-        public ICommand LoadOnDemandCommand
-        {
-            get; set;
-        }
-
+        public string Keyword { get; set; }
         public Guid ProjectId { get; set; }
         public Guid PhasesLanchId { get; set; }
         public bool IsEvent { get; set; }
@@ -32,7 +28,26 @@ namespace ConasiCRM.Portable.ViewModels
         public decimal? minPrice { get; set; }
         public decimal? maxPrice { get; set; }
 
-        public ObservableCollection<Block> Blocks { get; set; }
+        private OptionSet _statusReason;
+        public OptionSet StatusReason { get => _statusReason; set { _statusReason = value; OnPropertyChanged(nameof(StatusReason)); } }
+
+        private List<OptionSet> _statusReasons;
+        public List<OptionSet> StatusReasons { get => _statusReasons; set { _statusReasons = value; OnPropertyChanged(nameof(StatusReasons)); } }
+
+        private OptionSet _block;
+        public OptionSet Block { get => _block; set { _block = value; OnPropertyChanged(nameof(Block)); } }
+
+        private List<OptionSet> _blocks;
+        public List<OptionSet> Blocks { get=> _blocks; set { _blocks = value;OnPropertyChanged(nameof(Blocks)); } }
+
+        private OptionSet _floor;
+        public OptionSet Floor { get => _floor; set { _floor = value; OnPropertyChanged(nameof(Floor)); } }
+
+        private List<OptionSet> _floors;
+        public List<OptionSet> Floors { get => _floors; set { _floors = value; OnPropertyChanged(nameof(Floors)); } }
+        public ObservableCollection<QueueListModel_DirectSale> QueueList { get; set; }
+
+        public string fetchXml { get; set; }
 
         public DirectSaleDetailViewModel(DirectSaleSearchModel model)
         {
@@ -48,118 +63,73 @@ namespace ConasiCRM.Portable.ViewModels
             this.maxNetArea = model.maxNetArea;
             this.minPrice = model.minPrice;
             this.maxPrice = model.maxPrice;
-            Blocks = new ObservableCollection<Block>();           
-          //  AsyncHelper.RunSync(() => this.LoadBlocks());
-            //this.LoadOnDemandCommand = new Command(async (p) => await this.LoadOnDemandExecute(p), (p) => this.IsLoadOnDemandEnabled(p));
-        }     
-        /// <summary>
-        ///  tesst
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="a"></param>
-        public DirectSaleDetailViewModel(DirectSaleSearchModel model, int a)
-        {
-            IsBusy = true;
-            this.ProjectId = model.ProjectId;
-            this.PhasesLanchId = model.PhasesLanchId;
-            this.IsEvent = model.IsEvent;
-            Blocks = new ObservableCollection<Block>();
+            QueueList = new ObservableCollection<QueueListModel_DirectSale>();
+            ResetXml();
+
+            PreLoadData = new Command(() =>
+            {
+                FetchXml = string.Format(fetchXml, Page);
+                EntityName = "products";
+            });
+
         }
 
-        public async Task LoadBlocks()
+        public void ResetXml()
         {
+            string Keyword_Conditon = string.IsNullOrWhiteSpace(Keyword) ? "" : "<condition attribute='name' operator='like' value='%" + Keyword + @"%' />";
+            string StatusReason_Condition = StatusReason == null ? "" : "<condition attribute='statuscode' operator='eq' value='" + StatusReason.Val + @"' />";
             string PhasesLaunch_Condition = (PhasesLanchId != Guid.Empty)
                 ? @"<condition attribute='bsd_phaseslaunchid' operator='eq' uitype='bsd_phaseslaunch' value='" + this.PhasesLanchId + @"' />"
                 : "";
-            //string IsEvent_Condition = (IsEvent)
-            //    ? @"<link-entity name='bsd_phaseslaunch' from='bsd_phaseslaunchid' to='bsd_phaseslaunchid' link-type='inner' alias='ae'>
-            //          <link-entity name='bsd_event' from='bsd_phaselaunch' to='bsd_phaseslaunchid' link-type='inner' alias='af' />
-            //        </link-entity>"
-            //    : "";
-
-            //string xml = xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-            //                  <entity name='product'>
-            //                    <attribute name='productid' />
-            //                    <attribute name='name' />
-            //                    <attribute name='statuscode' />
-            //                    <attribute name='bsd_totalprice' />
-            //                    <attribute name='bsd_netsaleablearea' />
-            //                    <order attribute='bsd_blocknumber' descending='false' />
-            //                    <filter type='and'>
-            //                        <condition attribute='bsd_projectcode' operator='eq' uitype='bsd_project' value='" + this.ProjectId + @"' />
-            //                        " + PhasesLaunch_Condition + @"
-            //                    </filter>
-            //                    " + IsEvent_Condition + @"
-            //                    <link-entity name='bsd_floor' from='bsd_floorid' to='bsd_floor' link-type='inner' alias='ad'>
-            //                      <attribute name='bsd_floorid' alias='floorid' />
-            //                      <attribute name='bsd_name' alias='floor_name' />
-            //                      <filter type='and'>
-            //                        <condition attribute='bsd_project' operator='eq' uitype='bsd_project' value='" + this.ProjectId + @"' />
-            //                      </filter>
-            //                    </link-entity>
-            //                    <link-entity name='bsd_block' from='bsd_blockid' to='bsd_blocknumber' link-type='inner' alias='ab'>
-            //                      <attribute name='bsd_blockid' alias='blockid' />
-            //                      <attribute name='bsd_name' alias='block_name' />
-            //                      <filter type='and'>
-            //                        <condition attribute='bsd_project' operator='eq' uitype='bsd_project' value='" + this.ProjectId + @"' />
-            //                      </filter>
-            //                    </link-entity>
-            //                  </entity>
-            //                </fetch>";
 
             string IsEvent_Condition = IsEvent ? @"<condition entityname='af' attribute='bsd_eventid' operator='not-null'/>" : "";
 
-
             string UnitCode_Condition = !string.IsNullOrEmpty(UnitCode) ? "<condition attribute='name' operator='like' value='%" + UnitCode + "%' />" : "";
 
-            string Direction_Condition = "";
-            if(Directions.Count != 0)
+            string Direction_Condition = string.Empty;
+            if (Directions.Count != 0)
             {
-                string tmp = "";
-                foreach(var i in Directions)
+                string tmp = string.Empty;
+                foreach (var i in Directions)
                 {
                     tmp += "<value>" + i + "</value>";
                 }
-                Direction_Condition = @"<condition attribute='bsd_direction' operator='in'>" +
-                                            tmp +
-                                          "</condition>";
+                Direction_Condition = @"<condition attribute='bsd_direction' operator='in'>" + tmp + "</condition>";
             }
 
-
-            string View_Condition = "";
+            string View_Condition = string.Empty;
             if (Views.Count != 0)
             {
-                string tmp = "";
+                string tmp = string.Empty;
                 foreach (var i in Views)
                 {
                     tmp += "<value>" + i + "</value>";
                 }
-                View_Condition = @"<condition attribute='bsd_view' operator='in'>" +
-                                            tmp +
-                                          "</condition>";
+                View_Condition = @"<condition attribute='bsd_view' operator='in'>" + tmp + "</condition>";
             }
 
 
-            string UnitStatus_Condition = "";
+            string UnitStatus_Condition = string.Empty;
             if (UnitStatuses.Count != 0)
             {
-                string tmp = "";
+                string tmp = string.Empty;
                 foreach (var i in UnitStatuses)
                 {
                     tmp += "<value>" + i + "</value>";
                 }
-                UnitStatus_Condition = @"<condition attribute='statuscode' operator='in'>" +
-                                            tmp +
-                                          "</condition>";
+                UnitStatus_Condition = @"<condition attribute='statuscode' operator='in'>" + tmp + "</condition>";
             }
 
-            string minNetArea_Condition = minNetArea.HasValue ? "<condition attribute='bsd_netsaleablearea' operator='ge' value='" + minNetArea + "' />" : "";
-            string maxNetArea_Condition = maxNetArea.HasValue ? "<condition attribute='bsd_netsaleablearea' operator='le' value='" + maxNetArea + "' />" : "";
+            string minNetArea_Condition = minNetArea.HasValue ? $"<condition attribute='bsd_netsaleablearea' operator='ge' value='{minNetArea.Value}' />" : null;
+            string maxNetArea_Condition = maxNetArea.HasValue ? $"<condition attribute='bsd_netsaleablearea' operator='le' value='{maxNetArea.Value}' />" : "";
 
-            string minPrice_Condition = minPrice.HasValue ? "<condition attribute='price' operator='ge' value='" + minPrice + "' />" : "";
-            string maxPrice_Condition = maxPrice.HasValue ? "<condition attribute='price' operator='le' value='" + maxPrice + "' />" : "";
+            string minPrice_Condition = minPrice.HasValue ? $"<condition attribute='price' operator='ge' value='{minPrice.Value}' />" : "";
+            string maxPrice_Condition = maxPrice.HasValue ? $"<condition attribute='price' operator='le' value='{maxPrice.Value}' />" : "";
 
-            string xml = xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+            string Block_Condition = Block != null ? $"<condition attribute='bsd_blockid' operator='eq' value='{Block.Val}'/>" : "";
+            string Floor_Condition = Floor != null ? $"<condition attribute='bsd_floorid' operator='eq' value='{Floor.Val}'/>" : "";
+
+            fetchXml = @"<fetch version='1.0' count='15' page='{0}' output-format='xml-platform' mapping='logical' distinct='false'>
                               <entity name='product'>
                                 <attribute name='productid' />
                                 <attribute name='name' />
@@ -169,7 +139,9 @@ namespace ConasiCRM.Portable.ViewModels
                                 <attribute name='bsd_netsaleablearea' />
                                 <order attribute='bsd_blocknumber' descending='false' />
                                 <filter type='and'>
-                                    <condition attribute='bsd_projectcode' operator='eq' uitype='bsd_project' value='" + this.ProjectId + @"' />
+                                    <condition attribute='bsd_projectcode' operator='eq' uitype='bsd_project' value='" + this.ProjectId + @"'/>
+                                    " + Keyword_Conditon + @"
+                                    " + StatusReason_Condition + @"
                                     " + PhasesLaunch_Condition + @"
                                     " + IsEvent_Condition + @"
                                     " + UnitCode_Condition + @"
@@ -191,6 +163,7 @@ namespace ConasiCRM.Portable.ViewModels
                                   <attribute name='bsd_name' alias='floor_name' />
                                   <filter type='and'>
                                     <condition attribute='bsd_project' operator='eq' uitype='bsd_project' value='" + this.ProjectId + @"' />
+                                    "+ Floor_Condition + @"
                                   </filter>
                                 </link-entity>
                                 <link-entity name='bsd_block' from='bsd_blockid' to='bsd_blocknumber' link-type='inner' alias='ab'>
@@ -198,417 +171,105 @@ namespace ConasiCRM.Portable.ViewModels
                                   <attribute name='bsd_name' alias='block_name' />
                                   <filter type='and'>
                                     <condition attribute='bsd_project' operator='eq' uitype='bsd_project' value='" + this.ProjectId + @"' />
+                                    "+ Block_Condition + @"
                                   </filter>
                                 </link-entity>
                               </entity>
                             </fetch>";
-            var unit_result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Unit>>("products", xml);
+        }
 
-            var unit_list = unit_result.value;
-            List<Unit> block_distinct = unit_list.GroupBy(i => new
+        public async Task LoadStatusReason()
+        {
+            IsBusy = true;
+            this.StatusReasons = new List<OptionSet>()
             {
-                blockid = i.blockid
-            }).Select(group => group.First()).ToList();
+                new OptionSet("-1","Tất cả"),
+                new OptionSet("1","Preparing"),
+                new OptionSet("100000000","Available"),
+                new OptionSet("100000007","Booking"),
+                new OptionSet("100000004","Queuing"),
+                new OptionSet("100000006","Reserve"),
+                new OptionSet("100000005","Collected"),
+                new OptionSet("100000003","Deposited"),
+                new OptionSet("100000001","1st Installment"),
+                new OptionSet("100000009","Singed D.A"),
+                new OptionSet("100000008","Qualified"),
+                new OptionSet("100000002","Sold"),
+            };
+            IsBusy = false;
+        }
 
-            var blockCount = block_distinct.Count;
-            for (int i = 0; i < blockCount; i++)
+        public async Task LoadBlocks()
+        {
+            string fetchXml = $@"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+                              <entity name='bsd_block'>
+                                <attribute name='bsd_name' />
+                                <attribute name='bsd_project' />
+                                <attribute name='bsd_blockid' />
+                                <order attribute='bsd_name' descending='false' />
+                                <link-entity name='bsd_project' from='bsd_projectid' to='bsd_project' link-type='inner' alias='aa'>
+                                  <filter type='and'>
+                                    <condition attribute='bsd_projectid' operator='like' value='{this.ProjectId}' />
+                                  </filter>
+                                </link-entity>
+                              </entity>
+                            </fetch>";
+
+
+            var block_result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Block>>("bsd_blocks", fetchXml);
+            if (block_result == null || block_result.value.Count == 0)
             {
-                Block b = new Block();
-                b.bsd_blockid = block_distinct[i].blockid;
-                b.bsd_name = block_distinct[i].block_name;
-                CountUnit blockCountUnit = new CountUnit();
-
-                // unit trong block nay
-                var unit_in_block = unit_list.Where(x => x.blockid == b.bsd_blockid);
-
-                // tim nhugn unit co cung` floor.
-                List<Unit> distinct_by_floor = unit_in_block.GroupBy(u => new
+                await Application.Current.MainPage.DisplayAlert("", "Lỗi. Vui lòng thử lại", "Đóng");
+                return;
+            }
+            else
+            {
+                this.Blocks = new List<OptionSet>();
+                this.Blocks.Add(new OptionSet() { Val = "-1", Label = "Tất cả" });
+                var data = block_result.value;
+                foreach (var item in data)
                 {
-                    Floor = u.floorid
-                }).Select(group => group.First()).ToList();
-
-
-                foreach (var item in distinct_by_floor.OrderBy(x => x.floor_name))
-                {
-                    Floor floor = new Floor()
-                    {
-                        bsd_floorid = item.floorid,
-                        bsd_name = item.floor_name
-                    };
-
-                    //var parentUnit = new Unit();
-                    //parentUnit.Items = new List<Unit>();
-                    CountUnit floorUnitCount = new CountUnit();
-                    var unit_in_floor = unit_in_block.Where(x => x.floorid == item.floorid);
-                    foreach (var unit in unit_in_floor)
-                    {
-                        if (unit.statuscode == 1) // vàng
-                        {
-                            blockCountUnit.Preparing += 1;
-                            floorUnitCount.Preparing += 1;
-                        }
-                        else if (unit.statuscode == 100000000) // xanh lá cây nhạt
-                        {
-                            blockCountUnit.Available += 1;
-                            floorUnitCount.Available += 1;
-                        }
-                        else if (unit.statuscode == 100000004)
-                        {
-                            blockCountUnit.Queueing += 1;
-                            floorUnitCount.Queueing += 1;
-                        }
-                        else if (unit.statuscode == 100000006)// xanh la cay đậm
-                        {
-                            blockCountUnit.Reserve += 1;
-                            floorUnitCount.Reserve += 1;
-                        }
-                        else if (unit.statuscode == 100000005)
-                        {
-                            blockCountUnit.Collected += 1;
-                            floorUnitCount.Collected += 1;
-                        }
-                        else if (unit.statuscode == 100000003)
-                        {
-                            blockCountUnit.Deposited += 1;
-                            floorUnitCount.Deposited += 1;
-                        }
-                        else if (unit.statuscode == 100000009) // Thỏa thuận đặt cọc
-                        {
-                            blockCountUnit.ThoaThuanDatCoc += 1;
-                            floorUnitCount.ThoaThuanDatCoc += 1;
-                        }
-                        else if (unit.statuscode == 100000001) // 1st Installment
-                        {
-                            blockCountUnit.StInstallment += 1;
-                            floorUnitCount.StInstallment += 1;
-                        }
-                        else if (unit.statuscode == 100000002)
-                        {
-                            blockCountUnit.Sold += 1;
-                            floorUnitCount.Sold += 1;
-                        }
-                        floor.Units.Add(unit);
-                        //parentUnit.Items.Add(unit);
-                    }
-
-                    //floor.Units.Add(parentUnit);
-                    floor.CountUnit = floorUnitCount;
-                    b.Floors.Add(floor);
+                    this.Blocks.Add(new OptionSet(item.bsd_blockid.ToString(), item.bsd_name));
                 }
-                b.CountUnit = blockCountUnit;
-                Blocks.Add(b);
             }
         }
-        public async Task LoadBlocks2()
+
+        public async Task LoadFloors()
         {
-            string FetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-              <entity name='bsd_block'>
-                <attribute name='bsd_name' />
-                <attribute name='bsd_blockid' />
-                <order attribute='createdon' descending='true' />
-                <filter type='and'>
-                  <condition attribute='bsd_project' operator='eq' uitype='bsd_project' value='" + this.ProjectId + @"' />
-                </filter>
-              </entity>
-            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Block>>("bsd_blocks", FetchXml);
-            var blocks = result.value;
-            foreach (Block block in blocks)
-            {
-                string xml = string.Empty;
-                if (PhasesLanchId == Guid.Empty)
-                {
-                    xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                      <entity name='product'>
-                        <attribute name='productid' />
-                        <attribute name='statuscode' />
-                        <order attribute='statuscode' descending='true' />
-                        <filter type='and'>
-                          <condition attribute='bsd_blocknumber' operator='eq' uitype='bsd_block' value='" + block.bsd_blockid + @"' />
-                        </filter>
-                        <link-entity name='bsd_floor' from='bsd_floorid' to='bsd_floor' visible='false' link-type='outer' alias='a_4d73a1e06ce2e811a94e000d3a1bc2d1'>
-                          <attribute name='bsd_floorid' alias='floorid' />
-                          <attribute name='bsd_name' alias='floor_name' />
+            string filter_byblock = Block != null ? $@"<link-entity name='bsd_block' from='bsd_blockid' to='bsd_block' link-type='inner' alias='a_69e6a386df72e911a83a000d3a80e651'>
+                                  <filter type='and'>
+                                    <condition attribute='bsd_blockid' operator='eq' value='{Block.Val}'/>
+                                  </filter>
+                                </link-entity>" : "";
+
+            string fetchXml = $@"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+                      <entity name='bsd_floor'>
+                        <attribute name='bsd_name' />
+                        <attribute name='bsd_floorid' />
+                        <order attribute='createdon' descending='false' />
+                        <link-entity name='bsd_project' from='bsd_projectid' to='bsd_project' link-type='inner' alias='ab'>
+                          <filter type='and'>
+                            <condition attribute='bsd_projectid' operator='eq' value='{this.ProjectId}'/>
+                          </filter>
                         </link-entity>
+                        {filter_byblock}
                       </entity>
                     </fetch>";
-                }
-                else
-                {
-                    xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                      <entity name='product'>
-                        <attribute name='productid' />
-                        <attribute name='statuscode' />
-                        <order attribute='statuscode' descending='true' />
-                        <filter type='and'>
-                          <condition attribute='bsd_blocknumber' operator='eq' uitype='bsd_block' value='" + block.bsd_blockid + @"' />
-                          <condition attribute='bsd_phaseslaunchid' operator='eq' uitype='bsd_phaseslaunch' value='" + PhasesLanchId + @"' />
-                        </filter>
-                        <link-entity name='bsd_floor' from='bsd_floorid' to='bsd_floor' visible='false' link-type='outer' alias='a_4d73a1e06ce2e811a94e000d3a1bc2d1'>
-                          <attribute name='bsd_floorid' alias='floorid' />
-                          <attribute name='bsd_name' alias='floor_name' />
-                        </link-entity>
-                      </entity>
-                    </fetch>";
-                }
-
-                var units_result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Unit>>("products", xml);
-                var units = units_result.value;
-                int unitCount = units.Count;
-                for (int i = 0; i < unitCount; i++)
-                {
-                    if (units[i].statuscode == 1)
-                    {
-                        block.CountUnit.Preparing += 1;
-                    }
-                    else if (units[i].statuscode == 100000000)
-                    {
-                        block.CountUnit.Available += 1;
-                    }
-                    else if (units[i].statuscode == 100000004)
-                    {
-                        block.CountUnit.Queueing += 1;
-                    }
-                    else if (units[i].statuscode == 100000006)
-                    {
-                        block.CountUnit.Reserve += 1;
-                    }
-                    else if (units[i].statuscode == 100000005)
-                    {
-                        block.CountUnit.Collected += 1;
-                    }
-                    else if (units[i].statuscode == 100000003)
-                    {
-                        block.CountUnit.Deposited += 1;
-                    }
-                    else if (units[i].statuscode == 100000009)
-                    {
-                        block.CountUnit.ThoaThuanDatCoc += 1;
-                    }
-                    else if (units[i].statuscode == 100000002)
-                    {
-                        block.CountUnit.Sold += 1;
-                    }
-                }
-
-                block.CountUnit.Preparing = units.Count(x => x.statuscode == 1);
-                block.CountUnit.Available = units.Count(x => x.statuscode == 100000000);
-                block.CountUnit.Queueing = units.Count(x => x.statuscode == 100000004);
-                block.CountUnit.Reserve = units.Count(x => x.statuscode == 100000006);
-                block.CountUnit.Collected = units.Count(x => x.statuscode == 100000005);
-                block.CountUnit.Deposited = units.Count(x => x.statuscode == 100000003);
-                block.CountUnit.ThoaThuanDatCoc = units.Count(x => x.statuscode == 100000009);
-                block.CountUnit.Sold = units.Count(x => x.statuscode == 100000002);
-
-                Blocks.Add(block);
-            }
-        }
-
-        private bool IsLoadOnDemandEnabled(object p)
-        {
-            var context = (TreeViewLoadOnDemandCommandContext)p;
-            return context.Item is Block || context.Item is Floor;
-        }
-        async private Task LoadOnDemandExecute(object p)
-        {
-            var context = (TreeViewLoadOnDemandCommandContext)p;
-
-            if (context.Item != null && context.Item is Block)
+            var floor_result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Floor>>("bsd_floors", fetchXml);
+            if (floor_result == null || floor_result.value.Count == 0)
             {
-                var block = context.Item as Block;
-
-                string fetchXml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                  <entity name='product'>
-                    <attribute name='name' />
-                    <attribute name='statuscode' />
-                    <attribute name='bsd_totalprice' />
-                    <attribute name='bsd_netsaleablearea' />
-                    <attribute name='bsd_floor' />
-                    <order attribute='statuscode' descending='true' />
-                    <link-entity name='bsd_floor' from='bsd_floorid' to='bsd_floor' link-type='inner' alias='ad'>
-                       <attribute name='bsd_name'  alias='floor_name'/>
-                      <filter type='and'>
-                        <condition attribute='bsd_block' operator='eq' uitype='bsd_block' value='" + block.bsd_blockid + @"' />
-                      </filter>
-                    </link-entity>
-                  </entity>
-                </fetch>";
-
-                var productlist_result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Unit>>("products", fetchXml);
-
-                var productlist = productlist_result.value;
-                List<Unit> floors_distinct = productlist.GroupBy(i => new
-                {
-                    floorid = i._bsd_floor_value
-                }).Select(group => group.First()).ToList();
-
-
-                foreach (var unit in floors_distinct)
-                {
-                    var floorid = unit._bsd_floor_value;
-
-                    Floor floor = new Floor();
-                    floor.bsd_floorid = floorid;
-                    floor.bsd_name = unit.floor_name;
-
-                    var units = productlist.Where(x => x._bsd_floor_value == floorid).ToList();
-                    int unitCount = units.Count;
-                    for (int i = 0; i < unitCount; i++)
-                    {
-                        //floor.Units.Add(units[i]);
-                        if (units[i].statuscode == 1)
-                        {
-                            floor.CountUnit.Preparing += 1;
-                        }
-                        else if (units[i].statuscode == 100000000)
-                        {
-                            floor.CountUnit.Available += 1;
-                        }
-                        else if (units[i].statuscode == 100000004)
-                        {
-                            floor.CountUnit.Queueing += 1;
-                        }
-                        else if (units[i].statuscode == 100000006)
-                        {
-                            floor.CountUnit.Reserve += 1;
-                        }
-                        else if (units[i].statuscode == 100000005)
-                        {
-                            floor.CountUnit.Collected += 1;
-                        }
-                        else if (units[i].statuscode == 100000003)
-                        {
-                            floor.CountUnit.Deposited += 1;
-                        }
-                        else if (units[i].statuscode == 100000002)
-                        {
-                            floor.CountUnit.Sold += 1;
-                        }
-                    }
-
-                    block.Floors.Add(floor);
-                }
-
-                //var floorService = new CRMService<Floor>();
-                //var floors = await floorService.RetrieveMultiple("bsd_floors", @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                //      <entity name='bsd_floor'>
-                //        <attribute name='bsd_name' />
-                //        <attribute name='createdon' />
-                //        <attribute name='statuscode' />
-                //        <attribute name='bsd_release' />
-                //        <attribute name='bsd_project' />
-                //        <attribute name='bsd_floor' />
-                //        <attribute name='bsd_block' />
-                //        <attribute name='bsd_floorid' />
-                //        <order attribute='createdon' descending='true' />
-                //        <filter type='and'>
-                //          <condition attribute='bsd_block' operator='eq' uitype='bsd_block' value='" + block.bsd_blockid + @"' />
-                //        </filter>
-                //      </entity>
-                //    </fetch>");
-                //var countFloor = floors.Count;
-                //for (int f = 0; f < countFloor; f++)
-                //{
-                //    var floor = floors[f];
-                //    string xml = string.Empty;
-                //    if (PhasesLanchId == Guid.Empty)
-                //    {
-                //        xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                //          <entity name='product'>
-                //            <attribute name='statuscode' />
-                //            <order attribute='statuscode' descending='true' />
-                //            <filter type='and'>
-                //              <condition attribute='bsd_floor' operator='eq' uitype='bsd_floor' value='" + floor.bsd_floorid + @"' />
-                //            </filter>
-                //          </entity>
-                //        </fetch>";
-                //    }
-                //    else
-                //    {
-                //        xml = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                //          <entity name='product'>
-                //            <attribute name='statuscode' />
-                //            <order attribute='statuscode' descending='true' />
-                //            <filter type='and'>
-                //              <condition attribute='bsd_floor' operator='eq' uitype='bsd_floor' value='" + floor.bsd_floorid + @"' />
-                //              <condition attribute='bsd_phaseslaunchid' operator='eq' uitype='bsd_phaseslaunch' value='" + PhasesLanchId + @"' />
-                //            </filter>
-                //          </entity>
-                //        </fetch>";
-                //    }
-
-                //    var units = await floorService.DynamicRetrieve<Unit>("products", xml);
-                //    int unitCount = units.Count;
-                //    for (int i = 0; i < unitCount; i++)
-                //    {
-                //        if (units[i].statuscode == 1)
-                //        {
-                //            floor.CountUnit.Preparing += 1;
-                //        }
-                //        else if (units[i].statuscode == 100000000)
-                //        {
-                //            floor.CountUnit.Available += 1;
-                //        }
-                //        else if (units[i].statuscode == 100000004)
-                //        {
-                //            floor.CountUnit.Queueing += 1;
-                //        }
-                //        else if (units[i].statuscode == 100000006)
-                //        {
-                //            floor.CountUnit.Reserve += 1;
-                //        }
-                //        else if (units[i].statuscode == 100000005)
-                //        {
-                //            floor.CountUnit.Collected += 1;
-                //        }
-                //        else if (units[i].statuscode == 100000003)
-                //        {
-                //            floor.CountUnit.Deposited += 1;
-                //        }
-                //        else if (units[i].statuscode == 100000002)
-                //        {
-                //            floor.CountUnit.Sold += 1;
-                //        }
-                //    }
-
-                //    //floor.CountUnit.Preparing = units.Count(x => x.statuscode == 1);
-                //    //floor.CountUnit.Available = units.Count(x => x.statuscode == 100000000);
-                //    //floor.CountUnit.Queueing = units.Count(x => x.statuscode == 100000004);
-                //    //floor.CountUnit.Reserve = units.Count(x => x.statuscode == 100000006);
-                //    //floor.CountUnit.Collected = units.Count(x => x.statuscode == 100000005);
-                //    //floor.CountUnit.Deposited = units.Count(x => x.statuscode == 100000003);
-                //    //floor.CountUnit.Sold = units.Count(x => x.statuscode == 100000002);
-
-
-                //    block.Floors.Add(floor);
-                //}
-                context.Finish();
+                await Application.Current.MainPage.DisplayAlert("", "Lỗi. Vui lòng thử lại", "Đóng");
+                return;
             }
-            else if (context.Item != null && context.Item is Floor)
+            else
             {
-                var floor = context.Item as Floor;
-                floor.Tests.Add(new Test());
-                var units_result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Unit>>("products", @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                      <entity name='product'>
-                        <attribute name='productid' />
-                        <attribute name='name' />
-                        <attribute name='statuscode' />
-                        <attribute name='bsd_totalprice' />
-                        <attribute name='bsd_netsaleablearea' />
-                        <attribute name='createdon' />                        
-                        <order attribute='createdon' descending='true' />
-                        <filter type='and'>
-                          <condition attribute='bsd_floor' operator='eq' uitype='bsd_floor' value='" + floor.bsd_floorid + @"' />
-                        </filter>
-                      </entity>
-                    </fetch>");
-                var units = units_result.value;
-                foreach (var item in units)
+                this.Floors = new List<OptionSet>();
+                this.Floors.Add(new OptionSet() { Val = "-1", Label = "Tất cả" });
+                var data = floor_result.value;
+                foreach (var item in data)
                 {
-                    floor.Units.Add(item);
-                    //floor.Tests.FirstOrDefault().Units.Add(item);
+                    this.Floors.Add(new OptionSet(item.bsd_floorid.ToString(), item.bsd_name));
                 }
-                context.Finish();
             }
         }
     }

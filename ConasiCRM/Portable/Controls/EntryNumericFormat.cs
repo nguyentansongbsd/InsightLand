@@ -10,7 +10,7 @@ namespace ConasiCRM.Portable.Controls
     ///         Control extend Entry control of Xamarin.Forms, so it can be used like a normal entry
     ///         This control was created by Anh Phong
     /// </summary>
-    public class EntryNumericFormat : Entry
+    public class EntryNumericFormat : MainEntry
     {
         public EntryNumericFormat()
         {
@@ -187,7 +187,6 @@ namespace ConasiCRM.Portable.Controls
             {
                 NumericText = null;
             }
-        }
-
+        }    
     }
 }

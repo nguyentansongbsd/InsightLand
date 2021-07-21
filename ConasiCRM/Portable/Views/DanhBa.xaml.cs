@@ -21,7 +21,7 @@ namespace ConasiCRM.Portable.Views
         {
             InitializeComponent();
             this.BindingContext = viewModel = new DanhBaViewModel();
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             viewModel.isCheckedAll = false;
             viewModel.total = 0;
             viewModel.numberChecked = 0;
@@ -32,7 +32,7 @@ namespace ConasiCRM.Portable.Views
             };
 
             LoadContacts().GetAwaiter();
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         public void reset()
@@ -51,7 +51,7 @@ namespace ConasiCRM.Portable.Views
                 return;
             }
 
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             var contacts = (await Plugin.ContactService.CrossContactService.Current.GetContactListAsync()).Where(x => x.Name != null);
             foreach (var tmp in contacts.OrderBy(x => x.Name))
             {
@@ -71,7 +71,7 @@ namespace ConasiCRM.Portable.Views
             viewModel.total = viewModel.Contacts.Count();
 
             viewModel.Contacts.Add(lastEmptyItem);
-            viewModel.IsBusy = false;
+            LoadingHelper.Hide();
         }
 
         private void checkAll_IsCheckedChanged(object sender, Telerik.XamarinForms.Primitives.CheckBox.IsCheckedChangedEventArgs e)
@@ -143,7 +143,7 @@ namespace ConasiCRM.Portable.Views
 
         private async void ConvertToLead(IEnumerable<DanhBaItemModel> SelectedContact)
         {
-            viewModel.IsBusy = true;
+            LoadingHelper.Show();
             LeadFormViewModel leadViewModel = new LeadFormViewModel();
             foreach (var i in SelectedContact)
             {
@@ -157,7 +157,7 @@ namespace ConasiCRM.Portable.Views
                 if (re == new Guid())
                 {
                     await DisplayAlert("", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                    viewModel.IsBusy = false;
+                    LoadingHelper.Hide();
                     return;
                 }
             }

@@ -3,7 +3,7 @@
              BackgroundColor="White"
              Title="Khách hàng doanh nghiệp"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:ConasiCRM.Controls"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              x:Class="ConasiCRM.Portable.Views.AccountList">
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="NewMenu" Order="Primary" Clicked="NewMenu_Clicked" Priority="1">
@@ -21,7 +21,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto"  BackgroundColor ="White" Padding="15,10" Margin="0,1">
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding name}" FontSize="18" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation"/>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding bsd_name}" FontSize="18" FontAttributes="Bold" TextColor="Black" LineBreakMode="TailTruncation"/>
                                     <Label Grid.Row="1" Grid.Column="0" FontSize="16" LineBreakMode="TailTruncation">
                                         <Label.FormattedText>
                                             <FormattedString>
@@ -60,9 +60,6 @@
                     </controls:BsdListView.ItemTemplate>
                 </controls:BsdListView>
             </Grid>
-            <ContentView x:Name="popup_loading" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080">
-                <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True" Color="#000000"/> 
-            </ContentView>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>
