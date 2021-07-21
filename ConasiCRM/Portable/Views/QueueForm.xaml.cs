@@ -183,43 +183,51 @@ namespace ConasiCRM.Portable.Views
               </entity>
             </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<UnitInfoModel>>("products", fetchXml);
-            UnitInfoModel unitInfo = result.value.FirstOrDefault();
+            if (result == null || result.value.Count == 0)
+            {
+                CheckQueueInfo?.Invoke(false);
+            }
+            else
+            {
+                viewModel.Title = "Tạo đặt chỗ";
+                UnitInfoModel unitInfo = result.value.FirstOrDefault();
 
-            QueueFormModel queueFormModel = new QueueFormModel();
-            queueFormModel.name = unitInfo.name;
+                QueueFormModel queueFormModel = new QueueFormModel();
+                queueFormModel.name = unitInfo.name;
 
-            queueFormModel.bsd_project_id = unitInfo.bsd_project_id;
-            queueFormModel.bsd_project_name = unitInfo.bsd_project_name;
+                queueFormModel.bsd_project_id = unitInfo.bsd_project_id;
+                queueFormModel.bsd_project_name = unitInfo.bsd_project_name;
 
-            queueFormModel.bsd_phaseslaunch_id = unitInfo.bsd_phaseslaunch_id;
-            queueFormModel.bsd_phaseslaunch_name = unitInfo.bsd_phaseslaunch_name;
+                queueFormModel.bsd_phaseslaunch_id = unitInfo.bsd_phaseslaunch_id;
+                queueFormModel.bsd_phaseslaunch_name = unitInfo.bsd_phaseslaunch_name;
 
 
-            queueFormModel.bsd_block_id = unitInfo.bsd_block_id;
-            queueFormModel.bsd_block_name = unitInfo.bsd_block_name;
+                queueFormModel.bsd_block_id = unitInfo.bsd_block_id;
+                queueFormModel.bsd_block_name = unitInfo.bsd_block_name;
 
-            queueFormModel.bsd_floor_id = unitInfo.bsd_floor_id;
-            queueFormModel.bsd_floor_name = unitInfo.bsd_floor_name;
+                queueFormModel.bsd_floor_id = unitInfo.bsd_floor_id;
+                queueFormModel.bsd_floor_name = unitInfo.bsd_floor_name;
 
-            queueFormModel.bsd_units_id = UnitId;
-            queueFormModel.bsd_units_name = unitInfo.name;
+                queueFormModel.bsd_units_id = UnitId;
+                queueFormModel.bsd_units_name = unitInfo.name;
 
-            queueFormModel.pricelist_id = unitInfo.pricelist_id;
-            queueFormModel.pricelist_name = unitInfo.pricelist_name;
+                queueFormModel.pricelist_id = unitInfo.pricelist_id;
+                queueFormModel.pricelist_name = unitInfo.pricelist_name;
 
-            queueFormModel.constructionarea = unitInfo.bsd_constructionarea;
-            queueFormModel.netsaleablearea = unitInfo.bsd_netsaleablearea;
+                queueFormModel.constructionarea = unitInfo.bsd_constructionarea;
+                queueFormModel.netsaleablearea = unitInfo.bsd_netsaleablearea;
 
-            queueFormModel.bsd_queuingfee = unitInfo.bsd_queuingfee;
+                queueFormModel.bsd_queuingfee = unitInfo.bsd_queuingfee;
 
-            queueFormModel.landvalue = unitInfo.bsd_landvalue;
+                queueFormModel.landvalue = unitInfo.bsd_landvalue;
 
-            queueFormModel.unit_price = unitInfo.price;
+                queueFormModel.unit_price = unitInfo.price;
 
-            viewModel.QueueFormModel = queueFormModel;
-            gridBtnGroup.IsVisible = btnDatCho.IsVisible = true;
-            viewModel.Title = "Tạo đặt chỗ";
-            viewModel.IsBusy = false;
+                viewModel.QueueFormModel = queueFormModel;
+                gridBtnGroup.IsVisible = btnDatCho.IsVisible = true;
+                CheckQueueInfo?.Invoke(true);
+            }
+            
         }
 
         public async Task Load()
@@ -535,8 +543,23 @@ namespace ConasiCRM.Portable.Views
             CrmApiResponse clearLookupResponse = new CrmApiResponse();
             data["opportunityid"] = Guid.NewGuid();
             data["name"] = viewModel.QueueFormModel.name;
+            data["bsd_queuingfee"] = viewModel.QueueFormModel.bsd_queuingfee;
+            data["estimatedvalue"] = viewModel.QueueFormModel.unit_price;
+
+            data["pricelevelid@odata.bind"] = $"/pricelevels({viewModel.QueueFormModel.pricelist_id})";
+
+            data["bsd_units@odata.bind"] = $"/products({viewModel.QueueFormModel.bsd_units_id})";
 
             data["bsd_Project@odata.bind"] = $"/bsd_projects({viewModel.QueueFormModel.bsd_project_id})";
+
+            if (viewModel.QueueFormModel.bsd_phaseslaunch_id != Guid.Empty)
+            {
+                data["bsd_phaselaunch@odata.bind"] =$"/bsd_phaseslaunchs({viewModel.QueueFormModel.bsd_phaseslaunch_id})";
+            }
+            else
+            {
+                await CrmHelper.SetNullLookupField("opportunities", this.QueueId, "bsd_phaseslaunch");
+            }
 
             if (viewModel.Customer.Type == 1)
             {

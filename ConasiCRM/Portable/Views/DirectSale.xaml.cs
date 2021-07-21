@@ -2,6 +2,7 @@
 using ConasiCRM.Portable.Models;
 using ConasiCRM.Portable.ViewModels;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,7 +26,6 @@ namespace ConasiCRM.Portable.Views
         private async void SearchClicked(object sender, EventArgs e)
         {
             LoadingHelper.Show();
-
             if (viewModel.Project == null || viewModel.Project.Id == Guid.Empty)
             {
                 await DisplayAlert("Thông báo", "Vui lòng chọn Dự án", "Đóng");
@@ -57,7 +57,6 @@ namespace ConasiCRM.Portable.Views
                     }
                 };
             }
-
         }
 
         private async void ShowInfo(object sender, EventArgs e)
