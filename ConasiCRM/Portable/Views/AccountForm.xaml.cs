@@ -63,7 +63,6 @@ namespace ConasiCRM.Portable.Views
             viewModel.ModalLookUp = PrimaryContactLoopkup;
             viewModel.InitializeModal();
 
-            LoadingHelper.Show();
             if (AccountId != Guid.Empty)
             {
                 viewModel.Title = "Cập Nhật Khách Hàng Doanh Nghiệp";
@@ -90,14 +89,12 @@ namespace ConasiCRM.Portable.Views
                 datagridCase.IsVisible = false;
                 datagridActivities.IsVisible = false;
                 datagridMandatorySecondary.IsVisible = false;
-                LoadingHelper.Hide();
             }
 
         }
 
         public async Task Start(Guid AccountId)
         {
-            LoadingHelper.Show();
             viewModel.Title = "Cập Nhật Khách Hàng Doanh Nghiệp";
 
             datagridQueuing.IsVisible = true;
@@ -164,8 +161,6 @@ namespace ConasiCRM.Portable.Views
                     }
                 }
             }
-
-            LoadingHelper.Hide();
         }
 
         //async void show_popup_Mandatory(object sender, EventArgs e)

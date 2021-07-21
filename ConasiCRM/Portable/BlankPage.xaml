@@ -4,15 +4,5 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:ConasiCRM.Portable"
     x:Class="ConasiCRM.Portable.BlankPage">
-    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Monkeys"
-                      Icon="monkey.png"
-                      ContentTemplate="{DataTemplate views:TestPage}" />
-        <ShellContent Title="Elephants"
-                      Icon="elephant.png"
-                      ContentTemplate="{DataTemplate views:TestPage}" />
-        <ShellContent Title="Bears"
-                      Icon="bear.png"
-                      ContentTemplate="{DataTemplate views:TestPage}" />
-    </FlyoutItem>
+    
 </Shell>
