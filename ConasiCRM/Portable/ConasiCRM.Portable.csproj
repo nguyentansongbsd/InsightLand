@@ -53,6 +53,9 @@
       <EmbeddedResource Update="MasterDetailPage1Master.xaml">
         <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       </EmbeddedResource>
+      <EmbeddedResource Update="Views\AccountContentView.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
       <EmbeddedResource Update="Views\AccountForm.xaml">
         <Generator>MSBuild:Compile</Generator>
       </EmbeddedResource>
@@ -78,6 +81,9 @@
         <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       </EmbeddedResource>
       <EmbeddedResource Update="Views\FollowDetailPage.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\LeadContentView.xaml">
         <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       </EmbeddedResource>
       <EmbeddedResource Update="Views\LeadForm.xaml">
@@ -108,6 +114,9 @@
         <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       </EmbeddedResource>
       <EmbeddedResource Update="Views\ReservationList.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Views\Test.xaml">
         <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       </EmbeddedResource>
       <EmbeddedResource Update="Views\UnitImageGallery.xaml">
