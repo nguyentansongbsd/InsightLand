@@ -133,7 +133,7 @@
                 <FontImageSource FontFamily="FontAwesomeSolid" Color="#666666" Glyph="&#xf4c0;" Size="Title"/>
             </ShellContent.Icon>
         </ShellContent>
-        <ShellContent Title="Khách Hàng Tiềm Năng" ContentTemplate="{DataTemplate views:Test}">
+        <ShellContent Title="Test" ContentTemplate="{DataTemplate views:LeadDetailPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Color="#666666" Glyph="&#xf4c0;" Size="Title"/>
             </ShellContent.Icon>
