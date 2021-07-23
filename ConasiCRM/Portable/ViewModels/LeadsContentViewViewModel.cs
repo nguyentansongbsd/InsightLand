@@ -6,11 +6,11 @@ using Xamarin.Forms;
 
 namespace ConasiCRM.Portable.ViewModels
 {   
-    public class LeadContentViewViewModel : ListViewBaseViewModel2<LeadListModel>
+    public class LeadsContentViewViewModel : ListViewBaseViewModel2<LeadListModel>
     {
         public string Keyword { get; set; }
 
-        public LeadContentViewViewModel()
+        public LeadsContentViewViewModel()
         {
             PreLoadData = new Command(() =>
             {

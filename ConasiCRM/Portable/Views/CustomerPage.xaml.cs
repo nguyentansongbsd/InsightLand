@@ -8,6 +8,7 @@ namespace ConasiCRM.Portable.Views
     public partial class CustomerPage : ContentPage
     {
         private ContactsContentview ContactsContentview;
+        private AccountsContentView AccountsContentView;
         private Label DataNull = new Label() { Text = "Không có dữ liệu", FontSize = 18, TextColor = Color.Gray, HorizontalTextAlignment = TextAlignment.Center, Margin = new Thickness(0, 30, 0, 0) };
         public CustomerPage()
         {
@@ -34,6 +35,15 @@ namespace ConasiCRM.Portable.Views
             VisualStateManager.GoToState(lblLead, "Active");
             VisualStateManager.GoToState(lblAccount, "InActive");
             VisualStateManager.GoToState(lblContact, "InActive");
+            leadsContentView.IsVisible = true;
+            if (AccountsContentView!= null)
+            {
+                AccountsContentView.IsVisible = false;
+            }
+            if (ContactsContentview != null)
+            {
+                ContactsContentview.IsVisible = false;
+            }
         }
 
         private void Account_Tapped(object sender, EventArgs e)
@@ -44,24 +54,30 @@ namespace ConasiCRM.Portable.Views
             VisualStateManager.GoToState(lblLead, "InActive");
             VisualStateManager.GoToState(lblAccount, "Active");
             VisualStateManager.GoToState(lblContact, "InActive");
-            if (ContactsContentview == null)
+            if (AccountsContentView == null)
             {
                 LoadingHelper.Show();
-                ContactsContentview = new ContactsContentview();
+                AccountsContentView = new AccountsContentView();
             }
-            ContactsContentview.OnCompleted = (IsSuccess) =>
+            AccountsContentView.OnCompleted = (IsSuccess) =>
             {
                 if (IsSuccess)
                 {
-                    CustomerContentView.Content = ContactsContentview;
+                    CustomerContentView.Children.Add(AccountsContentView);
                     LoadingHelper.Hide();
                 }
                 else
                 {
-                    CustomerContentView.Content = DataNull;
+                    CustomerContentView.Children.Add(DataNull);
                     LoadingHelper.Hide();
                 }
             };
+            leadsContentView.IsVisible = false;
+            AccountsContentView.IsVisible = true;
+            if (ContactsContentview != null)
+            {
+                ContactsContentview.IsVisible = false;
+            }
         }
 
         private void Contact_Tapped(object sender, EventArgs e)
@@ -72,9 +88,33 @@ namespace ConasiCRM.Portable.Views
             VisualStateManager.GoToState(lblLead, "InActive");
             VisualStateManager.GoToState(lblAccount, "InActive");
             VisualStateManager.GoToState(lblContact, "Active");
+            if (ContactsContentview == null)
+            {
+                LoadingHelper.Show();
+                ContactsContentview = new ContactsContentview();
+            }
+            ContactsContentview.OnCompleted = (IsSuccess) =>
+            {
+                if (IsSuccess)
+                {
+                    CustomerContentView.Children.Add(ContactsContentview);;
+                    LoadingHelper.Hide();
+                }
+                else
+                {
+                    CustomerContentView.Children.Add(DataNull);
+                    LoadingHelper.Hide();
+                }
+            };
+            leadsContentView.IsVisible = false;
+            ContactsContentview.IsVisible = true;
+            if (AccountsContentView != null)
+            {
+                AccountsContentView.IsVisible = false;
+            }
         }
 
-        private async void NewAccount_Clicked(object sender, EventArgs e)
+        private async void NewCustomer_Clicked(object sender, EventArgs e)
         {
             LoadingHelper.Show();
             string[] options = new string[] { "Khách hàng tiềm năng", "Khách hàng cá nhân", "Khách hàng doanh nghiệp" };

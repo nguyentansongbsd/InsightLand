@@ -38,7 +38,7 @@ namespace ConasiCRM.Droid.Renderers
             //gradientDrawable.SetColor(Android.Graphics.Color.LightGray);
             //Control.SetBackground(gradientDrawable);
             Control.Background = new ColorDrawable(Color.White.ToAndroid());
-            Control.SetPadding(20,15,20,15);
+            Control.SetPadding(10,10,10,10);
         }
     }
 }

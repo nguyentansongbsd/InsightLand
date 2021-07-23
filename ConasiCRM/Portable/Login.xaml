@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
+             xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
              BackgroundColor="#eeeeee"
              Shell.NavBarIsVisible="False"
              x:Class="ConasiCRM.Portable.Login">
@@ -10,18 +11,33 @@
             <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="0,0,0,20">
                 <StackLayout Margin="20,0" Spacing="10" VerticalOptions="Center">
                     <Image Source="insightland_logo" Margin="0,15" />
-                    <controls:BorderEntry BackgroundColor="#ffffff" Text="" x:Name="txtUsername" Placeholder="Tên đăng nhập"/>
-                    <controls:BorderEntry BackgroundColor="#ffffff" Text="" IsPassword="True" x:Name="txtPassword" Placeholder="Mật khẩu" />
+                    <telerikPrimitives:RadBorder CornerRadius="10" BackgroundColor="White" Padding="0">
+                        <Grid Margin="10,5" RowDefinitions="Auto,Auto" RowSpacing="0">
+                            <Label x:Name="lblUserName" Text="Tên đăng nhập" FontSize="14" TextColor="#4EABF5"/>
+                            <controls:BorderEntry x:Name="entryUserName" Grid.RowSpan="2" Text="{Binding UserName}" Focused="UserName_Focused" Unfocused="UserName_UnFocused" Placeholder="Tên đăng nhập" />
+                        </Grid>
+                    </telerikPrimitives:RadBorder>
+                    <telerikPrimitives:RadBorder CornerRadius="10" BackgroundColor="White" Padding="0">
+                        <Grid Margin="10,5" RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" RowSpacing="0">
+                            <Label x:Name="lblPassword" Grid.Row="1" Grid.Column="0" Text="Mật khẩu" FontSize="14" TextColor="#4EABF5"/>
+                            <controls:BorderEntry x:Name="entryPassword" Grid.Row="1" Grid.Column="0" Text="{Binding Password}" Focused="Password_Focused" Unfocused="Password_UnFocused" TextChanged="Password_TextChanged" IsPassword="{Binding IsShowPass}" Placeholder="Mật khẩu" />
+                            <Label x:Name="lblEyePass" Grid.RowSpan="2" Grid.Column="1" Text="&#xf06e;" FontFamily="FontAwesomeRegular" FontSize="20" VerticalOptions="Center" IsEnabled="{Binding EyePass}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="ShowHidePass_Tapped"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                    </telerikPrimitives:RadBorder>
+                    
                     <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" Margin="0,10">
-                        <CheckBox x:Name="checkboxRememberAcc" Color="#059688"/>
+                        <CheckBox x:Name="checkboxRememberAcc" Color="#2196F3"/>
                         <Label Text="Ghi nhớ đăng nhập" VerticalTextAlignment="Center" FontSize="16" TextColor="#444444">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="IsRemember_Tapped"/>
                             </Label.GestureRecognizers>
                         </Label>
                     </StackLayout>
-                    <Button Text="Đăng nhập" BackgroundColor="#1399D5" TextColor="White" FontAttributes="Bold" HeightRequest="40" Padding="10,5" FontSize="18" Clicked="Button_Clicked" x:Name="btnLogin" />
-                    <!--<Button Text="Click" Clicked="Button_Clicked_1"/>-->
+                    <Button Text="Đăng nhập" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" CornerRadius="10" HeightRequest="40" Padding="10,5" FontSize="18" Clicked="Button_Clicked" x:Name="btnLogin" />
                 </StackLayout>
             </ScrollView>
         </AbsoluteLayout>

@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:contentViews="clr-namespace:ConasiCRM.Portable.Views"
     Title="KHÁCH HÀNG" BackgroundColor="White"
     x:Class="ConasiCRM.Portable.Views.CustomerPage">
     <ContentPage.Resources>
@@ -61,23 +62,26 @@
                         </telerikPrimitives:RadBorder.GestureRecognizers>
                         <Label x:Name="lblLead" Text="Tiềm năng" Style="{StaticResource labelTap}"/>
                     </telerikPrimitives:RadBorder>
-                    <telerikPrimitives:RadBorder x:Name="radBorderAccount" Grid.Column="1" Style="{StaticResource radBorder}">
-                        <telerikPrimitives:RadBorder.GestureRecognizers>
-                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Account_Tapped"/>
-                        </telerikPrimitives:RadBorder.GestureRecognizers>
-                        <Label x:Name="lblAccount" Text="Cá nhân" Style="{StaticResource labelTap}"/>
-                    </telerikPrimitives:RadBorder>
-                    <telerikPrimitives:RadBorder x:Name="radBorderContact" Grid.Column="2" Style="{StaticResource radBorder}">
+                    <telerikPrimitives:RadBorder x:Name="radBorderContact" Grid.Column="1" Style="{StaticResource radBorder}">
                         <telerikPrimitives:RadBorder.GestureRecognizers>
                             <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Contact_Tapped"/>
                         </telerikPrimitives:RadBorder.GestureRecognizers>
-                        <Label x:Name="lblContact" Text="Doanh nghiệp" Style="{StaticResource labelTap}"/>
+                        <Label x:Name="lblContact" Text="Cá nhân" Style="{StaticResource labelTap}"/>
+                    </telerikPrimitives:RadBorder>
+                    <telerikPrimitives:RadBorder x:Name="radBorderAccount" Grid.Column="2" Style="{StaticResource radBorder}">
+                        <telerikPrimitives:RadBorder.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Account_Tapped"/>
+                        </telerikPrimitives:RadBorder.GestureRecognizers>
+                        <Label x:Name="lblAccount" Text="Doanh nghiệp" Style="{StaticResource labelTap}"/>
                     </telerikPrimitives:RadBorder>
                 </Grid>
-                <ContentView x:Name="CustomerContentView" Grid.Row="1"/>
+                
+                <Grid x:Name="CustomerContentView" Grid.Row="1">
+                    <contentViews:LeadsContentView x:Name="leadsContentView"/>
+                </Grid>
             </Grid>
             <Frame AbsoluteLayout.LayoutBounds="0,1,1,59" AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional" BackgroundColor="#1399D5" Padding="0" HorizontalOptions="End" Margin="0,0,15,15" HeightRequest="44" WidthRequest="44" CornerRadius="22">
-                <Button Text="&#xf067;" Clicked="NewAccount_Clicked"  TextColor="White" FontSize="18" FontFamily="FontAwesomeSolid" WidthRequest="44" HeightRequest="44" CornerRadius="22" BackgroundColor="#1399D5"/>
+                <Button Text="&#xf067;" Clicked="NewCustomer_Clicked"  TextColor="White" FontSize="18" FontFamily="FontAwesomeSolid" WidthRequest="44" HeightRequest="44" CornerRadius="22" BackgroundColor="#1399D5"/>
             </Frame>
         </AbsoluteLayout>
     </ContentPage.Content>
