@@ -7,6 +7,6 @@
     xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
     x:Class="ConasiCRM.Portable.BlankPage">
     <ContentView.Content>
-        <view:LeadContentView/>
+        <view:LeadsContentView/>
     </ContentView.Content>
 </ContentView>
