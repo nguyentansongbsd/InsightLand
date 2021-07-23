@@ -83,6 +83,9 @@
       <EmbeddedResource Update="Views\LeadContentView.xaml">
         <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       </EmbeddedResource>
+      <EmbeddedResource Update="Views\LeadDetailPage.xaml">
+        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      </EmbeddedResource>
       <EmbeddedResource Update="Views\LeadForm.xaml">
         <Generator>MSBuild:Compile</Generator>
       </EmbeddedResource>
