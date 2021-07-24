@@ -67,10 +67,10 @@ namespace ConasiCRM.Portable.Views
             {
                 if (checkSingleLead == true)
                 {
-                    await Navigation.PushAsync(newPage);                  
+                    await Navigation.PushAsync(newPage);
                 }
                 LoadingHelper.Hide();
-            };                        
+            };
         }
 
         private async void Search_Pressed(object sender, EventArgs e)

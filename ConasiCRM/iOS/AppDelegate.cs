@@ -25,6 +25,7 @@ namespace ConasiCRM.iOS
 
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new Portable.App());
+            Stormlion.PhotoBrowser.iOS.Platform.Init();
 
             return base.FinishedLaunching(app, options);
         }

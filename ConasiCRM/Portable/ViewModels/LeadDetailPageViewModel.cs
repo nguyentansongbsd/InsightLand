@@ -60,9 +60,7 @@ namespace ConasiCRM.Portable.ViewModels
         public ObservableCollection<LookUp> list_topic_lookup { get; set; }
         public ObservableCollection<LookUp> list_currency_lookup { get; set; }
         public ObservableCollection<LookUp> list_campaign_lookup { get; set; }
-        public ObservableCollection<Provinces> list_provinces_lookup { get; set; }
-        public Provinces provinces_selected { get; set; }
-
+        public ObservableCollection<Provinces> list_provinces_lookup { get; set; }    
         public ObservableCollection<LookUp> list_country_lookup { get; set; }
         public ObservableCollection<LookUp> list_province_lookup { get; set; }
         public ObservableCollection<LookUp> list_district_lookup { get; set; }
@@ -87,17 +85,26 @@ namespace ConasiCRM.Portable.ViewModels
 
         public ObservableCollection<ProjectList> list_project_lookup { set; get; }
 
-        public LeadCheckData single_Leadcheck;
+        private ObservableCollection<TieuChi> _list_TieuChiChonMua;
+        public ObservableCollection<TieuChi> list_TieuChiChonMua { get { return _list_TieuChiChonMua; } set { _list_TieuChiChonMua = value; OnPropertyChanged(nameof(list_TieuChiChonMua)); } }
 
-        private bool _showMoreNhuCauDiaDiem;
-        public bool ShowMoreNhuCauDiaDiem { get => _showMoreNhuCauDiaDiem; set { _showMoreNhuCauDiaDiem = value; OnPropertyChanged(nameof(ShowMoreNhuCauDiaDiem)); } }
+        public ObservableCollection<TieuChi> list_tieuchichonmua_lookup { set; get; }
 
-        public int PageNhuCauDiaDiem { get; set; } = 1;
+        private ObservableCollection<TieuChi> _list_NhuCauVeDienTichCanHo;
+        public ObservableCollection<TieuChi> list_NhuCauVeDienTichCanHo { get { return _list_NhuCauVeDienTichCanHo; } set { _list_NhuCauVeDienTichCanHo = value; OnPropertyChanged(nameof(list_NhuCauVeDienTichCanHo)); } }
 
-        private bool _showMoreDuAnQuanTam;
-        public bool ShowMoreDuAnQuanTam { get => _showMoreDuAnQuanTam; set { _showMoreDuAnQuanTam = value; OnPropertyChanged(nameof(ShowMoreDuAnQuanTam)); } }
+        public ObservableCollection<TieuChi> list_nhucauvedientichcanho_lookup { set; get; }
 
-        public int PageDuAnQuanTam { get; set; } = 1;
+        private ObservableCollection<TieuChi> _list_LoaiBatDongSanQuanTam;
+        public ObservableCollection<TieuChi> list_LoaiBatDongSanQuanTam { get { return _list_LoaiBatDongSanQuanTam; } set { _list_LoaiBatDongSanQuanTam = value; OnPropertyChanged(nameof(list_LoaiBatDongSanQuanTam)); } }
+
+        public ObservableCollection<TieuChi> list_loaibatdongsanquantam_lookup { set; get; }
+        
+        public ObservableCollection<HuongPhongThuy> list_HuongTot { set; get; }
+
+        public ObservableCollection<HuongPhongThuy> list_HuongXau { set; get; }
+
+        public LeadCheckData single_Leadcheck;              
 
         public LeadDetailPageViewModel()
         {
@@ -137,6 +144,15 @@ namespace ConasiCRM.Portable.ViewModels
             list_Duanquantam = new ObservableCollection<ProjectList>();
             list_project_lookup = new ObservableCollection<ProjectList>();
             single_Leadcheck = new LeadCheckData();
+
+            list_TieuChiChonMua = new ObservableCollection<TieuChi>();
+            list_tieuchichonmua_lookup = new ObservableCollection<TieuChi>();
+            list_LoaiBatDongSanQuanTam = new ObservableCollection<TieuChi>();
+            list_loaibatdongsanquantam_lookup = new ObservableCollection<TieuChi>();
+            list_NhuCauVeDienTichCanHo = new ObservableCollection<TieuChi>();
+            list_nhucauvedientichcanho_lookup = new ObservableCollection<TieuChi>();
+            list_HuongTot = new ObservableCollection<HuongPhongThuy>();
+            list_HuongXau = new ObservableCollection<HuongPhongThuy>();
 
             this.loadGender();
             this.loadIndustrycode();
@@ -563,7 +579,44 @@ namespace ConasiCRM.Portable.ViewModels
                 list_campaign_lookup.Add(x);
             }
         }
+        // tieu chi chon mua lookup
+        public void LoadAllTieuChiChonMua()
+        {
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 1 ,Name= "Tiêu chí - Vị trí" });
+            list_tieuchichonmua_lookup.Add(new TieuChi {Id = 2, Name = "Tiêu chí - Phương thức thanh toán"});
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 3, Name = "Tiêu chí - Giá căn hộ" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 4, Name = "Tiêu chí - Nhà đầu tư uy tính" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 5, Name = "Tiêu chí - Môi trường sống" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 6, Name = "Tiêu chí - Hệ thống an ninh" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 7, Name = "Tiêu chí - Bãi đậu xe" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 8, Name = "Tiêu chí - Hướng căn hộ" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 9, Name = "Tiêu chí - hệ thống cứu hoả" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 10, Name = "Tiêu chí - Nhiều tiện ích" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 11, Name = "Tiêu chí - Gần chợ - Siêu thị" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 12, Name = "Tiêu chí - Gần trường học" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 13, Name = "Tiêu chí - Gần bệnh viện" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 14, Name = "Tiêu chí - Diện tích căn hộ" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 15, Name = "Tiêu chí - Thiết kế nội thất căn hộ" });
+            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 16, Name = "Tiêu chí - Tầng/Căn hộ đẹp" });
+        }
 
+        public void LoadAllNhuCauVeDienTichCanHo()
+        {
+            list_nhucauvedientichcanho_lookup.Add(new TieuChi { Id = 17, Name = "Diện tích 30 - 60 m2" });
+            list_nhucauvedientichcanho_lookup.Add(new TieuChi { Id = 18, Name = "Diện tích 60 - 80 m2" });
+            list_nhucauvedientichcanho_lookup.Add(new TieuChi { Id = 19, Name = "Diện tích 80 - 100 m2" });
+            list_nhucauvedientichcanho_lookup.Add(new TieuChi { Id = 20, Name = "Diện tích 100 - 120 m2" });
+            list_nhucauvedientichcanho_lookup.Add(new TieuChi { Id = 21, Name = "Diện tích > 120 m2" });           
+        }
+
+        public void LoadAllLoaiBatDongSanQuanTam()
+        {
+            list_loaibatdongsanquantam_lookup.Add(new TieuChi { Id = 22, Name = "Quan tâm - Đất nền" });
+            list_loaibatdongsanquantam_lookup.Add(new TieuChi { Id = 23, Name = "Quan tâm - Căn hộ" });
+            list_loaibatdongsanquantam_lookup.Add(new TieuChi { Id = 24, Name = "Quan tâm - Biệt thự" });
+            list_loaibatdongsanquantam_lookup.Add(new TieuChi { Id = 25, Name = "Quan tâm - Khu thương mại" });
+            list_loaibatdongsanquantam_lookup.Add(new TieuChi { Id = 26, Name = "Quan tâm - Nhà phố" });
+        }
 
         ////////////// PROVINCE LOOKUP AREA
         ////
@@ -606,7 +659,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task Load_NhuCauVeDiaDiem(string leadid)
         {
-            string fetch = $@"<fetch version='1.0' count='3' page='{PageNhuCauDiaDiem}' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                                 <entity name='new_province'>
                                     <attribute name='new_name' />
                                     <attribute name='createdon' />
@@ -629,17 +682,6 @@ namespace ConasiCRM.Portable.ViewModels
             {
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
                 return;
-            }
-
-            var data = result.value;
-
-            if (data.Count < 3)
-            {
-                ShowMoreNhuCauDiaDiem = false;
-            }
-            else
-            {
-                ShowMoreNhuCauDiaDiem = true;
             }
 
             foreach (var x in result.value)
@@ -721,7 +763,7 @@ namespace ConasiCRM.Portable.ViewModels
 
         public async Task Load_DanhSachDuAn(string leadid)
         {
-            string fetch = $@"<fetch version='1.0' count='3' page='{PageDuAnQuanTam}' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = $@"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                               <entity name='bsd_project'>
                                 <attribute name='bsd_name' />
                                 <attribute name='bsd_projectcode' />
@@ -740,19 +782,8 @@ namespace ConasiCRM.Portable.ViewModels
             {
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
                 return;
-            }
-
-            var data = result.value;
-
-            if (data.Count < 3)
-            {
-                ShowMoreDuAnQuanTam = false;
-            }
-            else
-            {
-                ShowMoreDuAnQuanTam = true;
-            }
-
+            }           
+           
             foreach (var x in result.value)
             {
                 list_Duanquantam.Add(x);
@@ -971,6 +1002,154 @@ namespace ConasiCRM.Portable.ViewModels
                 list_district_lookup.Add(x);
             }
 
+        }
+
+        public async void UpdateTieuChi(int id, bool val)
+        {
+            if (id == 1)
+                singleLead.bsd_tieuchi_vitri = val;
+            if (id == 2)
+                singleLead.bsd_tieuchi_phuongthucthanhtoan = val;
+            if (id == 3)
+                singleLead.bsd_tieuchi_giacanho = val;
+            if (id == 4)
+                singleLead.bsd_tieuchi_nhadautuuytin = val;
+            if (id == 5)
+                singleLead.bsd_tieuchi_moitruongsong = val;
+            if (id == 6)
+                singleLead.bsd_tieuchi_hethonganninh = val;
+            if (id == 7)
+                singleLead.bsd_tieuchi_baidauxe = val;
+            if (id == 8)
+                singleLead.bsd_tieuchi_huongcanho = val;
+            if (id == 9)
+                singleLead.bsd_tieuchi_hethongcuuhoa = val;
+            if (id == 10)
+                singleLead.bsd_tieuchi_nhieutienich = val;
+            if (id == 11)
+                singleLead.bsd_tieuchi_ganchosieuthi = val;
+            if (id == 12)
+                singleLead.bsd_tieuchi_gantruonghoc = val;
+            if (id == 13)
+                singleLead.bsd_tieuchi_ganbenhvien = val;
+            if (id == 14)
+                singleLead.bsd_tieuchi_dientichcanho = val;
+            if (id == 15)
+                singleLead.bsd_tieuchi_thietkenoithatcanho = val;
+            if (id == 16)
+                singleLead.bsd_tieuchi_tangcanhodep = val;
+            if (id == 17)
+                singleLead.bsd_dientich_3060m2 = val;
+            if (id == 18)
+                singleLead.bsd_dientich_6080m2 = val;
+            if (id == 19)
+                singleLead.bsd_dientich_80100m2 = val;
+            if (id == 20)
+                singleLead.bsd_dientich_100120m2 = val;
+            if (id == 21)
+                singleLead.bsd_dientich_lonhon120m2 = val;
+            if (id == 22)
+                singleLead.bsd_quantam_datnen = val;
+            if (id == 23)
+                singleLead.bsd_quantam_canho = val;
+            if (id == 24)
+                singleLead.bsd_quantam_bietthu = val;
+            if (id == 25)
+                singleLead.bsd_quantam_khuthuongmai = val;
+            if (id == 26)
+                singleLead.bsd_quantam_nhapho = val;
+            await updateLead(singleLead);
+        }
+        public void LoadTieuChi()
+        { 
+            if (singleLead.bsd_tieuchi_vitri == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 1, Name = "Tiêu chí - Vị trí" });
+            if (singleLead.bsd_tieuchi_phuongthucthanhtoan == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 2, Name = "Tiêu chí - Phương thức thanh toán" });
+            if (singleLead.bsd_tieuchi_giacanho == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 3, Name = "Tiêu chí - Giá căn hộ" });
+            if (singleLead.bsd_tieuchi_nhadautuuytin == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 4, Name = "Tiêu chí - Nhà đầu tư uy tính" });
+            if (singleLead.bsd_tieuchi_moitruongsong == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 5, Name = "Tiêu chí - Môi trường sống" });
+            if (singleLead.bsd_tieuchi_hethonganninh == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 6, Name = "Tiêu chí - Hệ thống an ninh" });
+            if (singleLead.bsd_tieuchi_baidauxe == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 7, Name = "Tiêu chí - Bãi đậu xe" });
+            if (singleLead.bsd_tieuchi_huongcanho == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 8, Name = "Tiêu chí - Hướng căn hộ" });
+            if (singleLead.bsd_tieuchi_hethongcuuhoa == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 9, Name = "Tiêu chí - hệ thống cứu hoả" });
+            if (singleLead.bsd_tieuchi_nhieutienich == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 10, Name = "Tiêu chí - Nhiều tiện ích" });
+            if (singleLead.bsd_tieuchi_ganchosieuthi == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 11, Name = "Tiêu chí - Gần chợ - Siêu thị" });
+            if (singleLead.bsd_tieuchi_gantruonghoc == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 12, Name = "Tiêu chí - Gần trường học" });
+            if (singleLead.bsd_tieuchi_ganbenhvien == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 13, Name = "Tiêu chí - Gần bệnh viện" });
+            if (singleLead.bsd_tieuchi_dientichcanho == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 14, Name = "Tiêu chí - Diện tích căn hộ" });
+            if (singleLead.bsd_tieuchi_thietkenoithatcanho == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 15, Name = "Tiêu chí - Thiết kế nội thất căn hộ" });
+            if (singleLead.bsd_tieuchi_tangcanhodep == true)
+                list_TieuChiChonMua.Add(new TieuChi { Id = 16, Name = "Tiêu chí - Tầng/Căn hộ đẹp" });
+            if (singleLead.bsd_dientich_3060m2 == true)
+                list_NhuCauVeDienTichCanHo.Add(new TieuChi { Id = 17, Name = "Diện tích 30 - 60 m2" });
+            if (singleLead.bsd_dientich_6080m2 == true)
+                list_NhuCauVeDienTichCanHo.Add(new TieuChi { Id = 18, Name = "Diện tích 60 - 80 m2" });
+            if (singleLead.bsd_dientich_80100m2 == true)
+                list_NhuCauVeDienTichCanHo.Add(new TieuChi { Id = 19, Name = "Diện tích 80 - 100 m2" });
+            if (singleLead.bsd_dientich_100120m2 == true)
+                list_NhuCauVeDienTichCanHo.Add(new TieuChi { Id = 20, Name = "Diện tích 100 - 120 m2" });
+            if (singleLead.bsd_dientich_lonhon120m2 == true)
+                list_NhuCauVeDienTichCanHo.Add(new TieuChi { Id = 21, Name = "Diện tích > 120 m2" });
+            if (singleLead.bsd_quantam_datnen == true)
+                list_LoaiBatDongSanQuanTam.Add(new TieuChi { Id = 22, Name = "Quan tâm - Đất nền" });
+            if (singleLead.bsd_quantam_canho == true)
+                list_LoaiBatDongSanQuanTam.Add(new TieuChi { Id = 23, Name = "Quan tâm - Căn hộ" });
+            if (singleLead.bsd_quantam_bietthu == true)
+                list_LoaiBatDongSanQuanTam.Add(new TieuChi { Id = 24, Name = "Quan tâm - Biệt thự" });
+            if (singleLead.bsd_quantam_khuthuongmai == true)
+                list_LoaiBatDongSanQuanTam.Add(new TieuChi { Id = 25, Name = "Quan tâm - Khu thương mại" });
+            if (singleLead.bsd_quantam_nhapho == true)
+                list_LoaiBatDongSanQuanTam.Add(new TieuChi { Id = 26, Name = "Quan tâm - Nhà phố" });           
+        }
+        public void LoadPhongThuy()
+        {
+            if (singleLead != null && singleLead.new_gender != null && singleGender != null && singleGender.Val != null)
+            {
+                PhongThuy.gioi_tinh = Int32.Parse(singleLead.new_gender);
+                PhongThuy.nam_sinh = singleLead.new_birthday.HasValue ? singleLead.new_birthday.Value.Year : 0;
+                if (PhongThuy.huong_tot != null && PhongThuy.huong_tot != null)
+                {
+                    string[] huongtot = PhongThuy.huong_tot.Split('\n');
+                    string[] huongxau = PhongThuy.huong_xau.Split('\n');
+                    int i = 1;
+                    foreach (var x in huongtot)
+                    {                        
+                        string[] huong = x.Split(':');
+                        string name_huong = i+ ". " + huong[0];
+                        string detail_huong = huong[1].Remove(0, 1);
+                        list_HuongTot.Add(new HuongPhongThuy { Name = name_huong, Detail = detail_huong });
+                        i++;
+                    }
+                    int j = 1;
+                    foreach (var x in huongxau)
+                    {                        
+                        string[] huong = x.Split(':');
+                        string name_huong = j + ". " + huong[0];
+                        string detail_huong = huong[1].Remove(0, 1);
+                        list_HuongXau.Add(new HuongPhongThuy { Name = name_huong, Detail = detail_huong });
+                        j++;
+                    }
+                } 
+            }
+            else
+            {
+                PhongThuy.gioi_tinh = 0;
+                PhongThuy.nam_sinh = 0;
+            }           
         }
     }
 }
