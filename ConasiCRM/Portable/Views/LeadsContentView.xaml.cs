@@ -32,10 +32,10 @@ namespace ConasiCRM.Portable.Views
         {
             LoadingHelper.Show();
             var item = e.Item as LeadListModel;
-            LeadForm newPage = new LeadForm(item.leadid);
-            newPage.CheckSingleLead = async (checkSingleLead) =>
+            LeadDetailPage newPage = new LeadDetailPage(item.leadid);
+            newPage.OnCompleted = async (OnCompleted) =>
             {
-                if (checkSingleLead == true)
+                if (OnCompleted == true)
                 {
                     await Navigation.PushAsync(newPage);
                 }

@@ -469,18 +469,18 @@
                 </StackLayout>
             </ScrollView>
             <controls:BottomModal x:Name="LookUpModal"/>
-            <controls:PinchToZoomContainer x:Name="LookUpImagePhongThuy" IsVisible="false" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="White">
-                <controls:PinchToZoomContainer.Content>
-                    <Grid>
+            <Grid x:Name="LookUpImagePhongThuy" IsVisible="false" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="White">
+                <controls:PinchToZoomContainer>
+                    <controls:PinchToZoomContainer.Content>
                         <Image Source="{Binding PhongThuy.image}"/>
-                        <ImageButton Clicked="Close_LookUpImagePhongThuy_Clicked" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="End" BackgroundColor="Transparent" Margin="0,10,10,0">
-                            <ImageButton.Source>
-                                <FontImageSource FontFamily="FontAwesomeSolid" Color="#444444" Glyph="&#xf00d;" Size="Large"/>
-                            </ImageButton.Source>
-                        </ImageButton>
-                    </Grid>
-                </controls:PinchToZoomContainer.Content>
-            </controls:PinchToZoomContainer>
+                    </controls:PinchToZoomContainer.Content>
+                </controls:PinchToZoomContainer>
+                <ImageButton Clicked="Close_LookUpImagePhongThuy_Clicked" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="End" BackgroundColor="Transparent" Margin="0,10,10,0">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FontAwesomeSolid" Color="#444444" Glyph="&#xf00d;" Size="Large"/>
+                    </ImageButton.Source>
+                </ImageButton>
+            </Grid>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

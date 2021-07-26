@@ -24,61 +24,11 @@ namespace ConasiCRM.Portable.ViewModels
         public OptionSet singleIndustrycode { get => _singleIndustrycode; set { _singleIndustrycode = value; OnPropertyChanged(nameof(singleIndustrycode)); } }
 
         private PhongThuyModel _PhongThuy;
-        public PhongThuyModel PhongThuy { get => _PhongThuy; set { _PhongThuy = value; OnPropertyChanged(nameof(PhongThuy)); } }
-
-        private bool _looking_up;
-        public bool looking_up { get => _looking_up; set { _looking_up = value; OnPropertyChanged(nameof(looking_up)); } }
-
-        private string _country;
-        public string Country { get => _country; set { _country = value; OnPropertyChanged(nameof(Country)); } }
-        public string CountryId { get; set; }
-        public string CountryEn { get; set; }
-
-        private string _province;
-        public string Province { get => _province; set { _province = value; OnPropertyChanged(nameof(Province)); } }
-        public string ProvinceId { get; set; }
-        public string ProvinceEn { get; set; }
-
-        private string _district;
-        public string District { get => _district; set { _district = value; OnPropertyChanged(nameof(District)); } }
-        public string DistrictId { get; set; }
-        public string DistrictEn { get; set; }
-
-        private string _addressVn;
-        public string AddressVn { get => _addressVn; set { _addressVn = value; OnPropertyChanged(nameof(AddressVn)); } }
-
-        private string _addressEn;
-        public string AddressEn { get => _addressEn; set { _addressEn = value; OnPropertyChanged(nameof(AddressEn)); } }
-
-        private string _streetVn;
-        public string StreetVn { get => _streetVn; set { _streetVn = value; OnPropertyChanged(nameof(StreetVn)); } }
-
-        private string _streetEn;
-        public string StreetEn { get => _streetEn; set { _streetEn = value; OnPropertyChanged(nameof(StreetEn)); } }
-
-        public ObservableCollection<LookUp> list_lookup { get; set; }
-        public ObservableCollection<LookUp> list_topic_lookup { get; set; }
-        public ObservableCollection<LookUp> list_currency_lookup { get; set; }
-        public ObservableCollection<LookUp> list_campaign_lookup { get; set; }
-        public ObservableCollection<Provinces> list_provinces_lookup { get; set; }    
-        public ObservableCollection<LookUp> list_country_lookup { get; set; }
-        public ObservableCollection<LookUp> list_province_lookup { get; set; }
-        public ObservableCollection<LookUp> list_district_lookup { get; set; }
-
+        public PhongThuyModel PhongThuy { get => _PhongThuy; set { _PhongThuy = value; OnPropertyChanged(nameof(PhongThuy)); } }       
+        public ObservableCollection<Provinces> list_provinces_lookup { get; set; }           
         public ObservableCollection<OptionSet> list_gender_optionset { get; set; }
         public ObservableCollection<OptionSet> list_industrycode_optionset { get; set; }
         public ObservableCollection<Provinces> list_nhucauvediadiem { get; set; }
-
-        public ObservableCollection<LeadsRating> list_leadrating { get; set; }
-
-        public bool morelookup_country;
-        public int pageLookup_country;
-        public int pageLookup_province;
-        public bool morelookup_province;
-        public int pageLookup_district;
-        public bool morelookup_district;
-
-        public Diemdanhgia Dudiemdanhgia { get; set; }
 
         private ObservableCollection<ProjectList> _list_Duanquantam;
         public ObservableCollection<ProjectList> list_Duanquantam { get { return _list_Duanquantam; } set { _list_Duanquantam = value; OnPropertyChanged(nameof(_list_Duanquantam)); } }
@@ -112,35 +62,14 @@ namespace ConasiCRM.Portable.ViewModels
             singleGender = new OptionSet();
             singleIndustrycode = new OptionSet();
 
-            PhongThuy = new PhongThuyModel();
+            PhongThuy = new PhongThuyModel();          
 
-            looking_up = false;
-            pageLookup_country = 1;
-            morelookup_country = true;
-            pageLookup_province = 1;
-            morelookup_province = true;
-            pageLookup_district = 1;
-            morelookup_district = true;
-
-            list_lookup = new ObservableCollection<LookUp>();
-            list_topic_lookup = new ObservableCollection<LookUp>();
-            list_currency_lookup = new ObservableCollection<LookUp>();
-            list_campaign_lookup = new ObservableCollection<LookUp>();
-
-            list_provinces_lookup = new ObservableCollection<Provinces>();
-
-            list_country_lookup = new ObservableCollection<LookUp>();
-            list_province_lookup = new ObservableCollection<LookUp>();
-            list_district_lookup = new ObservableCollection<LookUp>();
+            list_provinces_lookup = new ObservableCollection<Provinces>();            
 
             list_gender_optionset = new ObservableCollection<OptionSet>();
-            list_industrycode_optionset = new ObservableCollection<OptionSet>();
+            list_industrycode_optionset = new ObservableCollection<OptionSet>();           
 
-            list_leadrating = new ObservableCollection<LeadsRating>();
-
-            list_nhucauvediadiem = new ObservableCollection<Provinces>();
-
-            Dudiemdanhgia = new Diemdanhgia();
+            list_nhucauvediadiem = new ObservableCollection<Provinces>();          
             list_Duanquantam = new ObservableCollection<ProjectList>();
             list_project_lookup = new ObservableCollection<ProjectList>();
             single_Leadcheck = new LeadCheckData();
@@ -163,12 +92,16 @@ namespace ConasiCRM.Portable.ViewModels
             singleLead = new LeadFormModel();
             singleGender = new OptionSet();
             singleIndustrycode = new OptionSet();
-
-            list_leadrating.Clear();
+            
             list_nhucauvediadiem.Clear();
             list_Duanquantam.Clear();
             list_gender_optionset.Clear();
             list_industrycode_optionset.Clear();
+            list_TieuChiChonMua.Clear();
+            list_LoaiBatDongSanQuanTam.Clear();
+            list_NhuCauVeDienTichCanHo.Clear();
+            list_HuongTot.Clear();
+            list_HuongXau.Clear();
 
             this.loadGender();
             this.loadIndustrycode();
@@ -395,37 +328,7 @@ namespace ConasiCRM.Portable.ViewModels
             }
 
             return data;
-        }
-
-
-        //////// TOPIC LOOKUP AREA
-        /// //////////////
-
-        public async Task LoadTopicsForLookup()
-        {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                      <entity name='bsd_topic'>
-                        <attribute name='bsd_topicid' alias='Id'/>
-                        <attribute name='bsd_name' alias='Name'/>
-                        <attribute name='createdon' />
-                        <order attribute='bsd_name' descending='false' />
-                      </entity>
-                    </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("bsd_topics", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-
-            foreach (var x in result.value)
-            {
-                list_topic_lookup.Add(x);
-            }
-        }
-
-        //////// GENDER OPTIONSET AREA
-        /// ////
+        }       
 
         public void loadGender()
         {
@@ -440,77 +343,8 @@ namespace ConasiCRM.Portable.ViewModels
             return singleGender;
         }
 
-
-        ////////// LEADRATING AREA
-        /// /////////
-
-        public async Task LoadLeadsRating()
-        {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                                <entity name='bsd_leadsrating'>
-                                    <attribute name='bsd_leadsratingid' />
-                                    <attribute name='bsd_name' />
-                                    <attribute name='bsd_point' />
-                                    <attribute name='createdon' />
-                                    <attribute name='statecode' />
-                                    <attribute name='statuscode' />
-                                    <attribute name='bsd_startdate' />
-                                    <attribute name='bsd_enddate' />
-                                    <order attribute='bsd_name' descending='false' />
-                                    <filter type='and'>
-                                        <condition attribute='statecode' operator='eq' value='0' />
-                                        <condition attribute='statuscode' operator='ne' value='1' />
-                                    </filter>
-                                </entity>
-                            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LeadsRating>>("bsd_leadsratings", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-
-            foreach (var x in result.value)
-            {
-                list_leadrating.Add(x);
-            }
-        }
-
-        public LeadsRating getLeadsRating(String id)
-        {
-            if (id == null)
-                return null;
-            return list_leadrating.ToList().FirstOrDefault(x => x.bsd_leadsratingid == id);
-        }
-
-        ///////////// CURRENCY LOOKUP AREA
-        ////// ///////
-
-        public async Task LoadCurrenciesForLookup()
-        {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                                <entity name='transactioncurrency'>
-                                    <attribute name='transactioncurrencyid' alias='Id'/>
-                                    <attribute name='currencyname' alias='Name'/>
-                                    <order attribute='currencyname' descending='false' />
-                                </entity>
-                            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("transactioncurrencies", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-
-            foreach (var x in result.value)
-            {
-                list_currency_lookup.Add(x);
-            }
-        }
-
         //////// INDUSTRYCODE OPTIONSET AREA
         /// ////
-
         public void loadIndustrycode()
         {
             list_industrycode_optionset.Add(new OptionSet() { Val = ("1"), Label = "Kế toán", });
@@ -553,32 +387,7 @@ namespace ConasiCRM.Portable.ViewModels
             this.singleIndustrycode = list_industrycode_optionset.FirstOrDefault(x => x.Val == id); ;
             return singleIndustrycode;
         }
-
-
-        ////////// CAMPAIGN LOOKP AREA
-        ////
-
-        public async Task LoadCampainsForLookup()
-        {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                                <entity name='campaign'>
-                                    <attribute name='name' alias='Name'/>
-                                    <attribute name='campaignid' alias='Id'/>
-                                    <order attribute='name' descending='true' />
-                                </entity>
-                            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("campaigns", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-
-            foreach (var x in result.value)
-            {
-                list_campaign_lookup.Add(x);
-            }
-        }
+       
         // tieu chi chon mua lookup
         public void LoadAllTieuChiChonMua()
         {
@@ -736,30 +545,7 @@ namespace ConasiCRM.Portable.ViewModels
                     }
                 }
             }
-        }
-
-        public async Task dudiemdanhgia()
-        {
-            //dieu kien bsd_group la khach hang va chi 1 dong diem danh gia id = 922F71AA-311E-E911-A984-000D3AA04C17 (quy dinh chi co 1 dong theo group)
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                              <entity name='bsd_systemsetup'>                                
-                                <attribute name='bsd_totalleadsratingpoint' />
-                                <filter type='and'>
-                                  <condition attribute='statecode' operator='eq' value='0' />
-                                  <condition attribute='bsd_group' operator='eq' value='100000000' />
-                                </filter>
-                              </entity>
-                            </fetch>";
-
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Diemdanhgia>>("bsd_systemsetups", fetch);
-            var tmp = result.value.FirstOrDefault(); ;
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-            this.Dudiemdanhgia = tmp;
-        }
+        }      
 
         public async Task Load_DanhSachDuAn(string leadid)
         {
@@ -921,88 +707,7 @@ namespace ConasiCRM.Portable.ViewModels
                 }
             }
             return true;
-        }
-
-        public async Task LoadCountryForLookup()
-        {
-            string fetch = @"<fetch version='1.0' count='30' page='" + pageLookup_country + @"' output-format='xml-platform' mapping='logical' distinct='false'>
-                                  <entity name='bsd_country'>
-                                    <attribute name='bsd_countryname' alias='Name'/>
-                                    <attribute name='bsd_countryid' alias='Id'/>
-                                    <attribute name='bsd_nameen' alias='Detail'/>
-                                    <order attribute='bsd_countryname' descending='true' />
-                                  </entity>
-                                </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("bsd_countries", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-            if (result.value.Count == 0) return;
-
-            foreach (var x in result.value)
-            {
-                list_country_lookup.Add(x);
-            }
-
-        }
-
-        public async Task loadProvincesForLookup(string countryId)
-        {
-            string fetch = @"<fetch version='1.0' count='30' page='" + pageLookup_province + @"' output-format='xml-platform' mapping='logical' distinct='false'>
-                                  <entity name='new_province'>
-                                    <attribute name='bsd_provincename' alias='Name'/>
-                                    <attribute name='new_provinceid' alias='Id'/>
-                                    <attribute name='bsd_nameen' alias='Detail'/>
-                                    <order attribute='bsd_provincename' descending='false' />
-                                    <filter type='and'>
-                                      <condition attribute='bsd_country' operator='eq' value='" + countryId + @"' />
-                                    </filter>
-                                  </entity>
-                                </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("new_provinces", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-            if (result.value.Count == 0) return;
-
-            foreach (var x in result.value)
-            {
-                list_province_lookup.Add(x);
-            }
-
-        }
-
-        public async Task loadDistrictForLookup(string provinceId)
-        {
-            string fetch = @"<fetch version='1.0' count='30' page='" + pageLookup_district + @"' output-format='xml-platform' mapping='logical' distinct='false'>
-                              <entity name='new_district'>
-                                <attribute name='new_name' alias='Name'/>
-                                <attribute name='new_districtid' alias='Id'/>
-                                <attribute name='bsd_nameen' alias='Detail'/>
-                                <order attribute='new_name' descending='false' />
-                                <filter type='and'>
-                                  <condition attribute='new_province' operator='eq' value='" + provinceId + @"' />
-                                </filter>
-                              </entity>
-                            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("new_districts", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-            if (result.value.Count == 0) return;
-
-            foreach (var x in result.value)
-            {
-                list_district_lookup.Add(x);
-            }
-
-        }
+        }      
 
         public async void UpdateTieuChi(int id, bool val)
         {

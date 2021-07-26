@@ -2,7 +2,6 @@
 using ConasiCRM.Portable.Helper;
 using ConasiCRM.Portable.Models;
 using ConasiCRM.Portable.ViewModels;
-using Stormlion.PhotoBrowser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LeadDetailPage : ContentPage
     {
-        public Action<bool> CheckSingleLead;
+        public Action<bool> OnCompleted;
         private LeadDetailPageViewModel viewModel;
         private Guid Id;
         public LeadDetailPage(Guid id)
@@ -35,9 +34,9 @@ namespace ConasiCRM.Portable.Views
         {
             await LoadDataThongTin(Id.ToString());
             if (viewModel.singleLead != null)
-                CheckSingleLead?.Invoke(true);
+                OnCompleted?.Invoke(true);
             else
-                CheckSingleLead?.Invoke(false);
+                OnCompleted?.Invoke(false);
         }
 
         private async void ThongTin_Tapped(object sender, EventArgs e)
@@ -180,7 +179,7 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.list_provinces_lookup.Count != 0)
             {
                 LoadingHelper.Show();                
-                BsdListView LookUpNhuCauDiaDiem = CreateBsdListView(viewModel.list_provinces_lookup.Cast<object>().ToList(), "new_name");
+                ListView LookUpNhuCauDiaDiem = CreateBsdListView(viewModel.list_provinces_lookup.Cast<object>().ToList(), "new_name");
                 LookUpNhuCauDiaDiem.ItemTapped += LookUpNhuCauDiaDiem_ItemTapped;
                 LookUpModal.ModalContent = LookUpNhuCauDiaDiem;
                 LookUpModal.Title = "Thêm nhu cầu địa điểm";
@@ -240,7 +239,7 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.list_project_lookup.Count != 0)
             {
                 LoadingHelper.Show();
-                BsdListView LookUpDuAnQuanTam = CreateBsdListView(viewModel.list_project_lookup.Cast<object>().ToList(), "bsd_name");
+                ListView LookUpDuAnQuanTam = CreateBsdListView(viewModel.list_project_lookup.Cast<object>().ToList(), "bsd_name");
                 LookUpDuAnQuanTam.ItemTapped += LookUpDuAnQuanTam_ItemTapped;
                 LookUpModal.ModalContent = LookUpDuAnQuanTam;
                 LookUpModal.Title = "Thêm dự án quan tâm";
@@ -303,12 +302,13 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.list_tieuchichonmua_lookup.Count != 0)
             {
                 LoadingHelper.Show();
-                BsdListView LookUpTieuChiChonMua = CreateBsdListView(viewModel.list_tieuchichonmua_lookup.Cast<object>().ToList(), "Name");
+                ListView LookUpTieuChiChonMua = CreateBsdListView(viewModel.list_tieuchichonmua_lookup.Cast<object>().ToList(), "Name");
                 LookUpTieuChiChonMua.ItemTapped += LookUpTieuChiChonMua_ItemTapped;
                 LookUpModal.ModalContent = LookUpTieuChiChonMua;
                 LookUpModal.Title = "Thêm tiêu chí chọn mua";
                 LoadingHelper.Hide();
                 await LookUpModal.Show();
+               //await  LookUpMultipleOptions.Show();
             }
         }
 
@@ -359,7 +359,7 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.list_nhucauvedientichcanho_lookup.Count != 0)
             {
                 LoadingHelper.Show();
-                BsdListView LookUpNhuCauVeDienTichCanHo = CreateBsdListView(viewModel.list_nhucauvedientichcanho_lookup.Cast<object>().ToList(), "Name");
+                ListView LookUpNhuCauVeDienTichCanHo = CreateBsdListView(viewModel.list_nhucauvedientichcanho_lookup.Cast<object>().ToList(), "Name");
                 LookUpNhuCauVeDienTichCanHo.ItemTapped += LookUpNhuCauVeDienTichCanHo_ItemTapped;
                 LookUpModal.ModalContent = LookUpNhuCauVeDienTichCanHo;
                 LookUpModal.Title = "Thêm nhu cầu về diện tích căn hộ";
@@ -415,7 +415,7 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.list_loaibatdongsanquantam_lookup.Count != 0)
             {
                 LoadingHelper.Show();
-                BsdListView LookUpLoaiBatDongSanQuanTam = CreateBsdListView(viewModel.list_loaibatdongsanquantam_lookup.Cast<object>().ToList(), "Name");
+                ListView LookUpLoaiBatDongSanQuanTam = CreateBsdListView(viewModel.list_loaibatdongsanquantam_lookup.Cast<object>().ToList(), "Name");
                 LookUpLoaiBatDongSanQuanTam.ItemTapped += LookUpLoaiBatDongSanQuanTam_ItemTapped;
                 LookUpModal.ModalContent = LookUpLoaiBatDongSanQuanTam;
                 LookUpModal.Title = "Thêm loại bất động sản quan tâm";
@@ -470,9 +470,9 @@ namespace ConasiCRM.Portable.Views
         }
 
         #endregion
-        private BsdListView CreateBsdListView<T>(List<T> list, string Name) where T : class
+        private ListView CreateBsdListView<T>(List<T> list, string Name) where T : class
         {
-            BsdListView bsdListView = new BsdListView();
+            ListView bsdListView = new ListView();
             bsdListView.BackgroundColor = Color.White;
             bsdListView.HasUnevenRows = true;
             bsdListView.SelectionMode = ListViewSelectionMode.None;
