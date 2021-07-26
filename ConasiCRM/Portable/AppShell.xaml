@@ -3,6 +3,7 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:views="clr-namespace:ConasiCRM.Portable.Views"
        xmlns:control="clr-namespace:ConasiCRM.Portable.Controls"
+       Shell.TabBarIsVisible="False"
        x:Class="ConasiCRM.Portable.AppShell"
        FlyoutVerticalScrollMode="Enabled"
        FlyoutBackdrop="#C0808080"
@@ -38,20 +39,10 @@
             </StackLayout>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
-    <FlyoutItem x:Name="test" Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Khách hàng tiềm năng" ContentTemplate="{DataTemplate views:LeadList}">
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Khách hàng" ContentTemplate="{DataTemplate views:CustomerPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeRegular" Color="#666666" Glyph="&#xf2c1;" Size="Title"/>
-            </ShellContent.Icon>
-        </ShellContent>
-        <ShellContent Title="Khách hàng cá nhân" ContentTemplate="{DataTemplate views:ContactList}">
-            <ShellContent.Icon>
-                <FontImageSource FontFamily="FontAwesomeRegular" Color="#666666" Glyph="&#xf007;" Size="Title"/>
-            </ShellContent.Icon>
-        </ShellContent>
-        <ShellContent Title="Khách hàng doanh nghiệp" ContentTemplate="{DataTemplate views:AccountList}">
-            <ShellContent.Icon>
-                <FontImageSource FontFamily="FontAwesomeRegular" Color="#666666" Glyph="&#xf1ad;" Size="Title"/>
             </ShellContent.Icon>
         </ShellContent>
         <ShellContent Title="Danh bạ" ContentTemplate="{DataTemplate views:DanhBa}">
@@ -60,7 +51,7 @@
             </ShellContent.Icon>
         </ShellContent>
     </FlyoutItem>
-    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent x:Name="BanHang" Title="Bán hàng" ContentTemplate="{DataTemplate views:DirectSale}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeRegular" Color="#666666" Glyph="&#xf2b5;" Size="Title"/>
@@ -97,7 +88,7 @@
             </ShellContent.Icon>
         </ShellContent>
     </FlyoutItem>
-    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="Phản hồi" ContentTemplate="{DataTemplate views:ListPhanHoi}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeRegular" Color="#666666" Glyph="&#xf086;" Size="Title"/>
@@ -114,7 +105,7 @@
             <FontImageSource FontFamily="FontAwesomeRegular" Color="#666666" Glyph="&#xf0f3;" Size="Title"/>
         </MenuItem.IconImageSource>
     </MenuItem>
-    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="Hoạt động" ContentTemplate="{DataTemplate views:HoatDongList}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Color="#666666" Glyph="&#xf0ae;" Size="Title"/>
@@ -131,18 +122,7 @@
             <FontImageSource FontFamily="FontAwesomeRegular" Color="#666666" Glyph="&#xf080;" Size="Title"/>
         </MenuItem.IconImageSource>
     </MenuItem>
-    <!--<FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Dashboard">
-            <ShellContent.Icon>
-                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf11c;" Size="Title"/>
-            </ShellContent.Icon>
-        </ShellContent>
-        <ShellContent>
-            <ShellContent.Icon>
-                <FontImageSource FontFamily="FontAwesomeRegular" Color="Black" Glyph="&#xf080;" Size="Title"/>
-            </ShellContent.Icon>
-        </ShellContent>-->
-    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="Phí mô giới giao dịch" ContentTemplate="{DataTemplate views:PhiMoGioiGiaoDichList}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Color="#666666" Glyph="&#xf155;" Size="Title"/>

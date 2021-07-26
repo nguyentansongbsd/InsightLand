@@ -13,26 +13,27 @@ using Xamarin.Forms.Xaml;
 namespace ConasiCRM.Portable.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AccountContentView : ContentView
+    public partial class AccountsContentView : ContentView
     {
+        public Action<bool> OnCompleted;
         AccountContentViewViewModel viewModel;
-        public AccountContentView()
+        public AccountsContentView()
         {
             InitializeComponent();
-            LoadingHelper.Show();
-            BindingContext = viewModel = new AccountContentViewViewModel();      
+            BindingContext = viewModel = new AccountContentViewViewModel();
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();
-            LoadingHelper.Hide();
-        }
-        private async void NewMenu_Clicked(object sender, EventArgs e)
-        {
-            LoadingHelper.Show();
-            await Navigation.PushAsync(new AccountForm());
-            LoadingHelper.Hide();
+            if (viewModel.Data.Count > 0)
+            {
+                OnCompleted?.Invoke(true);
+            }
+            else
+            {
+                OnCompleted?.Invoke(false);
+            }
         }
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)

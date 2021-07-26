@@ -13,29 +13,21 @@ using Xamarin.Forms.Xaml;
 namespace ConasiCRM.Portable.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LeadContentView : ContentView
+    public partial class LeadsContentView : ContentView
     {
-        private readonly LeadContentViewViewModel viewModel;
-        public LeadContentView()
+        private readonly LeadsContentViewViewModel viewModel;
+        public LeadsContentView()
         {
             InitializeComponent();
-            this.BindingContext = viewModel = new LeadContentViewViewModel();
+            this.BindingContext = viewModel = new LeadsContentViewViewModel();
             LoadingHelper.Show();
             Init();
         }
         public async void Init()
         {
             await viewModel.LoadData();          
-            LoadingHelper.Hide();
         }
-        //protected override void OnAppearing()
-        //{
-        //    if (App.Current.Properties.ContainsKey("update") && App.Current.Properties["update"] as string == "1")
-        //    {
-        //        App.Current.Properties["update"] = "0";
-        //        viewModel.RefreshCommand.Execute(null);
-        //    }
-        //}
+
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             LoadingHelper.Show();
@@ -65,12 +57,6 @@ namespace ConasiCRM.Portable.Views
             {
                 await viewModel.LoadOnRefreshCommandAsync();
             }
-            LoadingHelper.Hide();
-        }
-        private async void NewMenu_Clicked(object sender, EventArgs e)
-        {
-            LoadingHelper.Show();
-            await Navigation.PushAsync(new LeadForm());
             LoadingHelper.Hide();
         }
     }

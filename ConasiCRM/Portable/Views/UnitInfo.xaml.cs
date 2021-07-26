@@ -79,7 +79,6 @@ namespace ConasiCRM.Portable.Views
             {
                 OnCompleted?.Invoke(false);
             }
-            
         }
 
         private void Button_Clicked(object sender, EventArgs e)

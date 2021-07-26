@@ -4,6 +4,6 @@
              xmlns:view="clr-namespace:ConasiCRM.Portable.Views"
              x:Class="ConasiCRM.Portable.Views.Test">
     <ContentPage.Content>
-        <view:AccountContentView/>
+        <view:AccountsContentView/>
     </ContentPage.Content>
 </ContentPage>
