@@ -28,8 +28,8 @@ namespace ConasiCRM.Portable.Controls
             
             if (lookUpListView == null)
             {
-               // lookUpListView = new ListView(ListViewCachingStrategy.RecycleElement);
-                lookUpListView = new ListView();
+                lookUpListView = new ListView(ListViewCachingStrategy.RecycleElement);
+               // lookUpListView = new ListView();
                 lookUpListView.BackgroundColor = Color.White;
                 lookUpListView.HasUnevenRows = true;
                 lookUpListView.SelectionMode = ListViewSelectionMode.None;
