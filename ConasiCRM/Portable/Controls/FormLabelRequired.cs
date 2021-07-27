@@ -17,7 +17,7 @@ namespace ConasiCRM.Portable.Controls
             VerticalOptions = LayoutOptions.Center;
             var titleLabel = new Label()
             {
-                FontSize = 16,
+                FontSize = 15,
                 TextColor = Color.FromHex("#444444")
             };
             titleLabel.SetBinding(Label.TextProperty, new Binding(nameof(Text)));

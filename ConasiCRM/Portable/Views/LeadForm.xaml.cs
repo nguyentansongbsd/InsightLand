@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using ConasiCRM.Models;
 using ConasiCRM.Portable.Controls;
 using ConasiCRM.Portable.Helper;
 using ConasiCRM.Portable.Models;
@@ -16,14 +17,12 @@ namespace ConasiCRM.Portable.Views
     public partial class LeadForm : ContentPage
     {
         public Action<bool> CheckSingleLead;
-        LeadFormViewModel viewModel;
-        //ProjectViewModel viewModelProject;
+        private bool IsMaQuocGiaCaNhan;
+        public LeadFormViewModel viewModel;
 
         List<MyNewCheckBox> checkBoxes;
         List<MyNewCheckBox> multiselectCheckBoxes;
         List<ImageButton> multiselectClearimageButton;
-
-        private bool isShowingPopup;
 
         public ListView listViewCountry { get; set; }
         public ListView listViewProvince { get; set; }
@@ -32,32 +31,51 @@ namespace ConasiCRM.Portable.Views
         public LeadForm()
         {
             InitializeComponent();
-            this.Title = "Tạo mới khách hàng tiềm năng";
-            this.BindingContext = viewModel = new LeadFormViewModel();
-            this.constructor();
-            this.loadData(null);
+            this.Title = "TẠO MỚI KHÁCH HÀNG";
+            Init();
+            //this.constructor();
         }
         public LeadForm(Guid Id)
         {
             InitializeComponent();
-            this.Title = "Cập nhật thông tin khách hàng tiềm năng";
+            this.Title = "CẬP NHẬT KHÁCH HÀNG";
             this.BindingContext = viewModel = new LeadFormViewModel();
             this.constructor();
-            Init(Id);
         }
 
-        public async void Init(Guid Id)
+        public async void Init()
         {
-            await loadData(Id.ToString());
-            if (viewModel.singleLead != null)
-                CheckSingleLead(true);
-            else
-                CheckSingleLead(false);
+            this.BindingContext = viewModel = new LeadFormViewModel();
+            centerModalAddress.Body.BindingContext = viewModel;
+            listMaQuocGia.ItemsSource = viewModel.MaQuocGiaList;
+            SetPreOpen();
+
+
+
+            //await loadData(Id.ToString());
+            //if (viewModel.singleLead != null)
+            //    CheckSingleLead?.Invoke(true);
+            //else
+            //    CheckSingleLead?.Invoke(false);
+        }
+
+        public void SetPreOpen()
+        {
+            lookUpCurrency.PreOpenAsync = async () => {
+                await viewModel.LoadCurrenciesForLookup();
+            };
+
+            lookUpLinhVuc.PreOpenAsync = async () => {
+                viewModel.loadIndustrycode();
+            };
+
+            lookUpChienDich.PreOpenAsync = async () => {
+                await viewModel.LoadCampainsForLookup();
+            };
         }
 
         public void constructor()
         {
-            isShowingPopup = false;
             viewModel.singleLead = new LeadFormModel();
             //viewModelProject = new ProjectViewModel();
             checkBoxes = new List<MyNewCheckBox>();
@@ -83,7 +101,7 @@ namespace ConasiCRM.Portable.Views
                 viewModel.Province = viewModel.singleLead.bsd_province_label;
                 viewModel.District = viewModel.singleLead.bsd_district_label;
 
-                if (viewModel.singleLead.new_gender != null) { await viewModel.loadOneGender(viewModel.singleLead.new_gender); }
+                
                 if (viewModel.singleLead.industrycode != null) { await viewModel.loadOneIndustrycode(viewModel.singleLead.industrycode); }
                 //if (leadid != null) { await viewModelProject.LoadProjectsForLeadForm(); }
             
@@ -98,12 +116,11 @@ namespace ConasiCRM.Portable.Views
             if (leadid == null)
             {
                 viewModel.singleLead.showQualifyButton = 0;
-                btn_save_lead.Text = "Tạo mới";
                 btn_save_lead.Clicked += AddLead_Clicked;
 
-                label_nhu_cau_ve_dia_diem.IsVisible = false;
+                //label_nhu_cau_ve_dia_diem.IsVisible = false;
                // stacklayout_nhucauvediadiem.IsVisible = false;
-                label_du_an_quan_tam.IsVisible = false;
+                //label_du_an_quan_tam.IsVisible = false;
                 //block_danh_sach_du_an_quan_tam.IsVisible = false;
             }
             else
@@ -111,13 +128,13 @@ namespace ConasiCRM.Portable.Views
                 viewModel.singleLead.showQualifyButton = viewModel.singleLead.bsd_diemdanhgia >= viewModel.Dudiemdanhgia.bsd_totalleadsratingpoint ? GridLength.Star : 0;
                 btn_save_lead.Text = "Cập nhật";
                 btn_save_lead.Clicked += UpdateLead_Clicked;
-                btn_qualify_lead.Text = "Qualify";
+                //btn_qualify_lead.Text = "Qualify";
 
 
 
-                label_nhu_cau_ve_dia_diem.IsVisible = true;
+                //label_nhu_cau_ve_dia_diem.IsVisible = true;
                 //stacklayout_nhucauvediadiem.IsVisible = true;
-                label_du_an_quan_tam.IsVisible = true;
+                //label_du_an_quan_tam.IsVisible = true;
                 //block_danh_sach_du_an_quan_tam.IsVisible = true;
 
                 //datagrid_danhsachduanquantam.SetBinding(RadDataGrid.ItemsSourceProperty, new Binding("Items", source: viewModelProject));
@@ -135,17 +152,9 @@ namespace ConasiCRM.Portable.Views
 
             this.constructor();
 
-            grid_leadsrating.Children.Clear();
+            //grid_leadsrating.Children.Clear();
             this.loadData(Id.ToString());
         }
-
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// <summary>
-        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</summary>
-
-        /////////////////////  LEADRATING                                         /////
-
 
         private void renderLeadRating()
         {
@@ -168,7 +177,7 @@ namespace ConasiCRM.Portable.Views
                 tmp.changeChecked += Tmp_IsCheckedChanged;
                 checkBoxes.Add(tmp);
 
-                grid_leadsrating.Children.Add(tmp, 0, i);
+                //grid_leadsrating.Children.Add(tmp, 0, i);
             }
             for (int i = viewModel.list_leadrating.Count / 2; i < viewModel.list_leadrating.Count; i++)
             {
@@ -188,7 +197,7 @@ namespace ConasiCRM.Portable.Views
                 tmp.changeChecked += Tmp_IsCheckedChanged;
                 checkBoxes.Add(tmp);
 
-                grid_leadsrating.Children.Add(tmp, 1, i - viewModel.list_leadrating.Count / 2);
+                //grid_leadsrating.Children.Add(tmp, 1, i - viewModel.list_leadrating.Count / 2);
             }
         }
 
@@ -220,7 +229,7 @@ namespace ConasiCRM.Portable.Views
                     tmp += decimal.Parse(Device.RuntimePlatform == Device.Android ? item.Replace('.', ',') : item);
                 }
                 viewModel.singleLead.bsd_diemdanhgia = tmp;
-                bsd_diemdanhgia_text.Text = viewModel.singleLead.bsd_diemdanhgia_format;
+                //bsd_diemdanhgia_text.Text = viewModel.singleLead.bsd_diemdanhgia_format;
             }
             else
             {
@@ -244,7 +253,7 @@ namespace ConasiCRM.Portable.Views
                     tmp += decimal.Parse(Device.RuntimePlatform == Device.Android ? item.Replace('.', ',') : item);
                 }
                 viewModel.singleLead.bsd_diemdanhgia = tmp;
-                bsd_diemdanhgia_text.Text = viewModel.singleLead.bsd_diemdanhgia_format;
+                //bsd_diemdanhgia_text.Text = viewModel.singleLead.bsd_diemdanhgia_format;
             }
         }
 
@@ -266,436 +275,35 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-        ////////////////// INDUSTRYID Picker
-        private void Industrycode_picker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            viewModel.singleLead.industrycode = viewModel.singleIndustrycode == null ? null : viewModel.singleIndustrycode.Val;
-        }
-
-        //////////////////// FULLNAME Popup
-        private async void save_fullname(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(popupfullname_firstname.Text))
-            {
-                if (!string.IsNullOrWhiteSpace(popupfullname_lastname.Text))
-                    viewModel.singleLead.lastname = popupfullname_lastname.Text.Trim();
-                else
-                    viewModel.singleLead.lastname = popupfullname_lastname.Text;
-
-                viewModel.singleLead.firstname = popupfullname_firstname.Text.Trim();
-                viewModel.singleLead.fullname = viewModel.singleLead.firstname + " " + viewModel.singleLead.lastname;
-                this.hide_popup_fullname(null, null);
-            }
-            else
-            {
-                await App.Current.MainPage.DisplayAlert("", "Vui lòng nhập các trường bắt buộc", "OK");
-            }
-        }
-
-        private void hide_popup_fullname(object sender, EventArgs e)
-        {
-            isShowingPopup = false;
-
-            popup_fullname.IsVisible = false;
-        }
-
-        private void show_popup_fullname(object sender, EventArgs e)
-        {
-            isShowingPopup = true;
-
-            popupfullname_firstname.Text = viewModel.singleLead.firstname;
-            popupfullname_lastname.Text = viewModel.singleLead.lastname;
-            popup_fullname.IsVisible = true;
-        }
-
-        /////////////////// ADRESSS1_COMPOSITE Popup
-        private void save_address1_composite(object sender, EventArgs e)
-        {
-            viewModel.singleLead.address1_line1 = popupaddress1composite_address1_line1.Text;
-            viewModel.singleLead.address1_line2 = popupaddress1composite_address1_line2.Text;
-            viewModel.singleLead.address1_line3 = popupaddress1composite_address1_line3.Text;
-            viewModel.singleLead.address1_city = popupaddress1composite_address1_city.Text;
-            viewModel.singleLead.address1_stateorprovince = popupaddress1composite_address1_stateorprovince.Text;
-            viewModel.singleLead.address1_country = popupaddress1composite_address1_country.Text;
-            viewModel.singleLead.address1_postalcode = popupaddress1composite_address1_postalcode.Text;
-
-            viewModel.singleLead.address1_composite = (string.IsNullOrWhiteSpace(viewModel.singleLead.address1_line1) ? "" : (viewModel.singleLead.address1_line1.Trim() + "\r\n"))
-                + (string.IsNullOrWhiteSpace(viewModel.singleLead.address1_line2) ? "" : (viewModel.singleLead.address1_line2.Trim() + "\r\n"))
-                + (string.IsNullOrWhiteSpace(viewModel.singleLead.address1_line3) ? "" : (viewModel.singleLead.address1_line3.Trim() + "\r\n"))
-                + (string.IsNullOrWhiteSpace(viewModel.singleLead.address1_city) ? "" : (viewModel.singleLead.address1_city.Trim() + ", "))
-                + (string.IsNullOrWhiteSpace(viewModel.singleLead.address1_stateorprovince) ? "" : (viewModel.singleLead.address1_stateorprovince.Trim() + " "))
-                + (string.IsNullOrWhiteSpace(viewModel.singleLead.address1_postalcode)
-                    ? ((string.IsNullOrWhiteSpace(viewModel.singleLead.address1_stateorprovince) && string.IsNullOrWhiteSpace(viewModel.singleLead.address1_city)) ? "" : "\r\n")
-                    : (viewModel.singleLead.address1_postalcode.Trim() + "\r\n"))
-                + (viewModel.singleLead.address1_country);
-
-            this.hide_popup_address1_composite(null, null);
-        }
-
-        private void hide_popup_address1_composite(object sender, EventArgs e)
-        {
-            isShowingPopup = false;
-            popup_address1_composite.IsVisible = false;
-        }
-
-        private void show_popup_address1_composite(object sender, EventArgs e)
-        {
-            isShowingPopup = true;
-
-            popupaddress1composite_address1_line1.Text = viewModel.singleLead.address1_line1;
-            popupaddress1composite_address1_line2.Text = viewModel.singleLead.address1_line2;
-            popupaddress1composite_address1_line3.Text = viewModel.singleLead.address1_line3;
-            popupaddress1composite_address1_country.Text = viewModel.singleLead.address1_country;
-            popupaddress1composite_address1_stateorprovince.Text = viewModel.singleLead.address1_stateorprovince;
-            popupaddress1composite_address1_postalcode.Text = viewModel.singleLead.address1_postalcode;
-            popupaddress1composite_address1_city.Text = viewModel.singleLead.address1_city;
-            popup_address1_composite.IsVisible = true;
-        }
-
-        /////////////////// ADDNhuCauDiaDiem ListView Popup
-        #region Nhu cau dia diem
-        private async void BtnAddNhuCauDiaDiem_Clicked(object sender, EventArgs e)
-        {
-            isShowingPopup = true;
-
-            viewModel.IsBusy = true;
-
-            if (viewModel.list_provinces_lookup.Count == 0)
-            {
-                await viewModel.LoadAllProvinces();
-            }
-
-            listviewProvinces.SetBinding(ListView.ItemsSourceProperty, new Binding("list_provinces_lookup", source: viewModel));
-            popup_province.IsVisible = true;
-
-            viewModel.IsBusy = false;
-        }
-
-        private async void popupprovinces_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            Provinces selected = e.Item as Provinces;
-            if (viewModel.list_nhucauvediadiem.ToList().FirstOrDefault(x => x.new_provinceid == selected.new_provinceid) == null)
-            {
-                this.hide_popup_province(null, null);
-                viewModel.IsBusy = true;
-                await viewModel.Add_NhuCauDiaDiem(selected.new_provinceid, viewModel.singleLead.leadid);
-                if (viewModel.list_nhucauvediadiem.FirstOrDefault(x => x.new_id == null) != null)
-                {
-                    var index = viewModel.list_nhucauvediadiem.IndexOf(viewModel.list_nhucauvediadiem.FirstOrDefault(x => x.new_id == null));
-                    viewModel.list_nhucauvediadiem[index] = selected;
-                }
-                else
-                {
-                    viewModel.list_nhucauvediadiem.Add(selected);
-                }
-                viewModel.IsBusy = false;
-            }
-            else
-            {
-                await App.Current.MainPage.DisplayAlert("", "Địa điểm đã tồn tại", "OK");
-            }
-        }
-
-        private async void DeleteNhuCauVeDiaDiem_Tapped(object sender, EventArgs e)
-        {
-            Label lblClicked = (Label)sender;
-            var item = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
-            Provinces provinces = item.CommandParameter as Provinces;
-            if (provinces != null && provinces.new_provinceid != null)
-            {
-                bool x = await App.Current.MainPage.DisplayAlert("", "Bạn có chắc chắn muốn xoá?", "Xoá", "Huỷ");
-                if (x)
-                {
-                    viewModel.IsBusy = true;
-                    await viewModel.Delete_NhuCauDiaDiem(provinces.new_provinceid, viewModel.singleLead.leadid);
-                    viewModel.list_nhucauvediadiem.Remove(provinces);
-                    //if (viewModel.list_nhucauvediadiem.Count < 3)
-                    //{
-                    //    // list_nhucauvediadiem.Add(new LisProvinces());
-                    //}
-                    viewModel.IsBusy = false;
-                }
-            }
-        }
-        private async void ShowMoreNhuCauDiaDiem_Clicked(object sender, EventArgs e)
-        {
-            viewModel.IsBusy = true;
-            viewModel.PageNhuCauDiaDiem++;
-            await viewModel.Load_NhuCauVeDiaDiem(viewModel.singleLead.leadid.ToString());
-            viewModel.IsBusy = false;
-        }        
-
-        private void hide_popup_province(object sender, EventArgs e)
-        {
-            isShowingPopup = false;
-
-            popup_province.IsVisible = false;
-        }
-
-        private void SearchBarProvince_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (e.NewTextValue == null)
-            {
-                listviewProvinces.ItemsSource = viewModel.list_provinces_lookup;
-                return;
-            }
-            listviewProvinces.ItemsSource = viewModel.list_provinces_lookup.Where(x => x.new_name.IndexOf(e.NewTextValue, StringComparison.OrdinalIgnoreCase) >= 0);
-        }
-        #endregion
-
-        ///////////////////// ADDDanhSachDuAnQuanTam Popup
-        //private void BtnAddDanhSachDuAnQuanTam_Clicked(object sender, EventArgs e)
-        //{
-        //    App.Current.MainPage.Navigation.PushAsync(new ContentPageScreenCreateProject());
-        //}
-
-        ///////////////////// Clear Picker and EntryPopup value (set to null)
-        private void Clear_new_gender_picker_Clicked(object sender, EventArgs e)
-        {
-            viewModel.singleGender = null;
-            viewModel.PhongThuy.gioi_tinh = 0;
-            viewModel.PhongThuy.nam_sinh = viewModel.singleLead.new_birthday.HasValue ? viewModel.singleLead.new_birthday.Value.Year : 0;
-        }
-
-        private void Clear_new_birthday_picker_Clicked(object sender, EventArgs e)
-        {
-            viewModel.singleLead.new_birthday = null;
-        }
-
-        private void Clear_industrycode_picker_Clicked(object sender, EventArgs e)
-        {
-            viewModel.singleIndustrycode = null;
-        }
-
-        private void Clear_transactioncurrencyid_picker_Clicked(object sender, EventArgs e)
-        {
-            viewModel.singleLead._transactioncurrencyid_value = null;
-            viewModel.singleLead.transactioncurrencyid_label = null;
-        }
-
-        private void Clear_campaign_picker_Clicked(object sender, EventArgs e)
-        {
-            viewModel.singleLead._campaignid_value = null;
-            viewModel.singleLead.campaignid_label = null;
-        }
-
-        //////////////////// Hide PopoupList
-        private void hide_listview_popup(object sender, EventArgs e)
-        {
-            isShowingPopup = false;
-
-            popup_list_view.IsVisible = false;
-        }
-        private void SearchBarListView_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            ///listviewProvinces.ItemsSource = viewModelProvinces.Items.Where(x => x.new_name.IndexOf(e.NewTextValue, StringComparison.OrdinalIgnoreCase) >= 0);
-            if (source_listviewpopup.Children.FirstOrDefault() != null)
-            {
-                if (e.NewTextValue == null)
-                {
-                    (source_listviewpopup.Children.FirstOrDefault() as ListView).ItemsSource = viewModel.list_lookup;
-                    return;
-                }
-                (source_listviewpopup.Children.FirstOrDefault() as ListView).ItemsSource = viewModel.list_lookup.Where(x => x.Name.IndexOf(e.NewTextValue, StringComparison.OrdinalIgnoreCase) >= 0);
-            }
-        }
-
-
-        /////////////////// TOPIC ListView Popup
-        private async void show_popup_topic(object sender, EventArgs e)
-        {
-            isShowingPopup = true;
-
-            viewModel.IsBusy = true;
-            source_listviewpopup.Children.Clear();
-            title_popuplistview.Text = "Toipc - Tiêu đề";
-            title_popuplistview.TextColor = Color.FromHex("#333333");
-
-            ListView tmp = new ListView() { HasUnevenRows =true,SelectionMode= ListViewSelectionMode.None};
-
-            //// LoadData Topic if Empty
-            if (viewModel.list_topic_lookup.Count == 0)
-            {
-                await viewModel.LoadTopicsForLookup();
-            }
-            viewModel.list_lookup = viewModel.list_topic_lookup;
-
-            ///// Render List Topic to Popup
-            tmp.SetBinding(ListView.ItemsSourceProperty, new Binding("list_lookup", source: viewModel));
-            
-            tmp.ItemTemplate = new DataTemplate(() =>
-            {
-                // Create views with bindings for displaying each property.
-                Label nameLabel = new Label() {
-                    Padding= new Thickness(10,5),
-                    VerticalTextAlignment = TextAlignment.Center,
-                    VerticalOptions= LayoutOptions.CenterAndExpand,
-                    FontSize= 16,
-                    TextColor= Color.FromHex("#333333")
-                };
-                nameLabel.SetBinding(Label.TextProperty, "Name");
-                // Return an assembled ViewCell.
-                return new ViewCell
-                {
-                    View = nameLabel
-                };
-            });
-            tmp.ItemTapped += popuptopic_ItemTapped;
-
-            source_listviewpopup.Children.Add(tmp);
-
-            ////show Popup
-            SearchBarListView.Text = "";
-            popup_list_view.IsVisible = true;
-
-            viewModel.IsBusy = false;
-        }
-
-        private void popuptopic_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            Models.LookUp tmp = e.Item as Models.LookUp;
-            viewModel.singleLead._bsd_topic_value = tmp.Id.ToString();
-            viewModel.singleLead.bsd_topic_label = tmp.Name;
-
-            this.hide_listview_popup(null, null);
-        }
-
-        ///////////////////////////TRANSACTIONCURRENCY ListView Popup
-        private async void show_popup_transactioncurrencyid(object sender, EventArgs e)
-        {
-            isShowingPopup = true;
-
-            viewModel.IsBusy = true;
-            source_listviewpopup.Children.Clear();
-            title_popuplistview.Text = "Transaction Currency";
-
-            ListView tmp = new ListView();
-
-            //// LoadData Topic if Empty
-            if (viewModel.list_currency_lookup.Count == 0)
-            {
-                await viewModel.LoadCurrenciesForLookup();
-            }
-            viewModel.list_lookup = viewModel.list_currency_lookup;
-
-            ///// Render List Topic to Popup
-            tmp.SetBinding(ListView.ItemsSourceProperty, new Binding("list_lookup", source: viewModel));
-            tmp.ItemTemplate = new DataTemplate(() =>
-            {
-                // Create views with bindings for displaying each property.
-                Label nameLabel = new Label();
-                nameLabel.SetBinding(Label.TextProperty, "Name");
-                // Return an assembled ViewCell.
-                return new ViewCell
-                {
-                    View = new StackLayout
-                    {
-                        Children = { nameLabel }
-                    }
-                };
-            });
-            tmp.ItemTapped += popuptransctioncurrency_ItemTapped;
-            source_listviewpopup.Children.Add(tmp);
-
-            ////show Popup
-            SearchBarListView.Text = "";
-            popup_list_view.IsVisible = true;
-
-            viewModel.IsBusy = false;
-        }
-
-        private void popuptransctioncurrency_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            Models.LookUp tmp = e.Item as Models.LookUp;
-            viewModel.singleLead._transactioncurrencyid_value = tmp.Id.ToString();
-            viewModel.singleLead.transactioncurrencyid_label = tmp.Name;
-
-            this.hide_listview_popup(null, null);
-        }
-
-
-        /////////////////////////////////// CAMPAIGNS ListView Popup
-        private async void show_popup_campaignid(object sender, EventArgs e)
-        {
-            isShowingPopup = true;
-
-            viewModel.IsBusy = true;
-            source_listviewpopup.Children.Clear();
-            title_popuplistview.Text = "Campaign";
-
-            ListView tmp = new ListView();
-
-            //// LoadData Topic if Empty
-            if (viewModel.list_campaign_lookup.Count == 0)
-            {
-                await viewModel.LoadCampainsForLookup();
-            }
-            viewModel.list_lookup = viewModel.list_campaign_lookup;
-
-            ///// Render List Topic to Popup
-            tmp.SetBinding(ListView.ItemsSourceProperty, new Binding("list_lookup", source: viewModel));
-            tmp.ItemTemplate = new DataTemplate(() =>
-            {
-                // Create views with bindings for displaying each property.
-                Label nameLabel = new Label();
-                nameLabel.SetBinding(Label.TextProperty, "Name");
-                // Return an assembled ViewCell.
-                return new ViewCell
-                {
-                    View = new StackLayout
-                    {
-                        Children = { nameLabel }
-                    }
-                };
-            });
-            tmp.ItemTapped += popupcampaignid_ItemTapped;
-            source_listviewpopup.Children.Add(tmp);
-
-            ////show Popup
-            SearchBarListView.Text = "";
-            popup_list_view.IsVisible = true;
-
-            viewModel.IsBusy = false;
-        }
-
-        private void popupcampaignid_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            Models.LookUp tmp = e.Item as Models.LookUp;
-            viewModel.singleLead._campaignid_value = tmp.Id.ToString();
-            viewModel.singleLead.campaignid_label = tmp.Name;
-
-            this.hide_listview_popup(null, null);
-        }
-
         ////////////////////////////// SEND FORM TO CRM
         private async void AddLead_Clicked(object sender, EventArgs e)
         {
-            viewModel.IsBusy = true;
-            var check = await checkData();
-            if (check == "Sucesses")
-            {
-                var created = await viewModel.createLead(viewModel.singleLead);
+            //viewModel.IsBusy = true;
+            //var check = await checkData();
+            //if (check == "Sucesses")
+            //{
+            //    var created = await viewModel.createLead(viewModel.singleLead);
 
-                if (created != new Guid())
-                {
-                    Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Đã tạo khách hàng tiềm năng thành công", "OK");
-                    Xamarin.Forms.Application.Current.Properties["update"] = "1";
+            //    if (created != new Guid())
+            //    {
+            //        Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Đã tạo khách hàng tiềm năng thành công", "OK");
+            //        Xamarin.Forms.Application.Current.Properties["update"] = "1";
 
-                    this.reload(created);
-                    //Xamarin.Forms.Application.Current.MainPage.Navigation.InsertPageBefore(new LeadForm(created), Xamarin.Forms.Application.Current.MainPage);
-                    //Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-                }
-                else
-                {
-                    await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Tạo khách hàng tiềm năng thất bại", "OK");
-                }
-            }
-            else
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", check, "OK");
-            }
+            //        this.reload(created);
+            //        //Xamarin.Forms.Application.Current.MainPage.Navigation.InsertPageBefore(new LeadForm(created), Xamarin.Forms.Application.Current.MainPage);
+            //        //Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
+            //    }
+            //    else
+            //    {
+            //        await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Tạo khách hàng tiềm năng thất bại", "OK");
+            //    }
+            //}
+            //else
+            //{
+            //    await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", check, "OK");
+            //}
 
-            viewModel.IsBusy = false;
+            //viewModel.IsBusy = false;
         }
 
         private async void UpdateLead_Clicked(object sender, EventArgs e)
@@ -763,29 +371,6 @@ namespace ConasiCRM.Portable.Views
             return "Sucesses";
         }
 
-        private async void Qualifylead_Clicked(object sender, System.EventArgs e)
-        {
-            viewModel.IsBusy = true;
-            //Buộc nhập CMND trước khi qualityLead
-            if (viewModel.singleLead.bsd_identitycardnumber != null && await viewModel.Check_Quatify(viewModel.singleLead.bsd_identitycardnumber))
-            {
-
-                await viewModel.Qualify(viewModel.singleLead.leadid);
-
-                Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Đã Qualify thành công", "OK");
-                Xamarin.Forms.Application.Current.Properties["update"] = "1";
-
-                this.reload(viewModel.singleLead.leadid);
-            }
-            else if (viewModel.singleLead.bsd_identitycardnumber == null)
-            {
-                Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "CMND bắt buộc nhập", "OK");
-
-            }
-
-            viewModel.IsBusy = false;
-        }
-
         private void MyNewDatePicker_DateChanged(object sender, EventArgs e)
         {
             if (viewModel.singleLead.new_birthday != null && (DateTime.Now.Year - DateTime.Parse(viewModel.singleLead.new_birthday.ToString()).Year < 18))
@@ -797,418 +382,158 @@ namespace ConasiCRM.Portable.Views
             viewModel.PhongThuy.nam_sinh = viewModel.singleLead.new_birthday.HasValue ? viewModel.singleLead.new_birthday.Value.Year : 0;
         }
 
-        protected override bool OnBackButtonPressed()
+        private async void MaQuocGiaCaNhan_Tapped(object sender, EventArgs e)
         {
-            if (this.isShowingPopup)
-            {
-                this.hide_popup_fullname(null, null);
-                this.hide_listview_popup(null, null);
-                this.hide_popup_province(null, null);
-                this.hide_popup_address1_composite(null, null);
-                this.hide_popup_project(null, null);
-                return true;
-            }
-            return base.OnBackButtonPressed();
+            IsMaQuocGiaCaNhan = true;
+            await LookUpModalMaQuocGia.Show();
         }
 
-        //private async void BtnRemoveDuanquantam_Clicked(object sender, EventArgs e)
-        //{
-        //    var tmp = datagrid_duanquantam.SelectedItem as ProjectList;
-
-        //    if (tmp != null)
-        //    {
-        //        if (tmp.bsd_projectid != null)
-        //        {
-        //            bool x = await App.Current.MainPage.DisplayAlert("", "Bạn có chắc chắn muốn xoá?", "Xoá", "Huỷ");
-        //            if (x)
-        //            {
-        //                viewModel.IsBusy = true;
-        //                await viewModel.Delete_DuAnQuanTam(tmp.bsd_projectid, viewModel.singleLead.leadid);
-        //                viewModel.list_Duanquantam.Remove(tmp);
-        //                if (viewModel.list_Duanquantam.Count < 3)
-        //                {
-        //                    viewModel.list_Duanquantam.Add(new ProjectList());
-        //                }
-        //                viewModel.IsBusy = false;
-        //            }
-        //        }
-        //    }
-        //}
-        private async void DeleteDuAnQuanTam_Tapped(object sender, EventArgs e)
+        private async void MaQuocGiaCty_Tapped(object sender, EventArgs e)
         {
-            Label lblClicked = (Label)sender;
-            var item = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
-            ProjectList tmp = item.CommandParameter as ProjectList;
-            if (tmp != null)
-            {
-                if (tmp.bsd_projectid != null)
-                {
-                    bool x = await App.Current.MainPage.DisplayAlert("", "Bạn có chắc chắn muốn xoá?", "Xoá", "Huỷ");
-                    if (x)
-                    {
-                        viewModel.IsBusy = true;
-                        await viewModel.Delete_DuAnQuanTam(tmp.bsd_projectid, viewModel.singleLead.leadid);
-                        viewModel.list_Duanquantam.Remove(tmp);
-                        //if (viewModel.list_Duanquantam.Count < 3)
-                        //{
-                        //    viewModel.list_Duanquantam.Add(new ProjectList());
-                        //}
-                        viewModel.IsBusy = false;
-                    }
-                }
-            }
+            IsMaQuocGiaCaNhan = false;
+            await LookUpModalMaQuocGia.Show();
         }
 
-        private async void ShowMoreDuAnQuanTam_Clicked(object sender, EventArgs e)
+        private async void listMaQuocGia_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
-            viewModel.IsBusy = true;
-            viewModel.PageDuAnQuanTam++;
-            await viewModel.Load_DanhSachDuAn(viewModel.singleLead.leadid.ToString());
-            viewModel.IsBusy = false;
-        }
-
-        private async void BtnAddDuanquantam_Clicked(object sender, EventArgs e)
-        {
-            isShowingPopup = true;
-
-            viewModel.IsBusy = true;
-
-            if (viewModel.list_project_lookup.Count == 0)
+            var item = e.Item as MaQuocGia;
+            if (IsMaQuocGiaCaNhan)
             {
-                await viewModel.LoadAllProject();
-            }
-
-            listviewProject.SetBinding(ListView.ItemsSourceProperty, new Binding("list_project_lookup", source: viewModel));
-            popup_project.IsVisible = true;
-
-            viewModel.IsBusy = false;
-        }
-
-        private async void project_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            ProjectList selected = e.Item as ProjectList;
-            if (viewModel.list_Duanquantam.ToList().FirstOrDefault(x => x.bsd_projectid == selected.bsd_projectid) == null)
-            {
-                this.hide_popup_project(null, null);
-                viewModel.IsBusy = true;
-                await viewModel.Add_DuAnQuanTam(selected.bsd_projectid, viewModel.singleLead.leadid);
-                if (viewModel.list_Duanquantam.FirstOrDefault(x => x.bsd_projectid == null) != null)
-                {
-                    var index = viewModel.list_Duanquantam.IndexOf(viewModel.list_Duanquantam.FirstOrDefault(x => x.bsd_projectid == null));
-                    viewModel.list_Duanquantam[index] = selected;
-                }
-                else
-                {
-                    viewModel.list_Duanquantam.Add(selected);
-                }
-                viewModel.IsBusy = false;
+                viewModel.MaQuocGiaCaNhan = item;
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert("", "Dự án đã tồn tại", "OK");
+                viewModel.MaQuocGiaCty = item;
             }
+            await LookUpModalMaQuocGia.Hide();
         }
 
-        private void hide_popup_project(object sender, EventArgs e)
+        private async void Address_Tapped(object sender, EventArgs e)
         {
-            isShowingPopup = false;
-
-            popup_project.IsVisible = false;
+            await centerModalAddress.Show();
         }
 
-        private void SearchBarProject_TextChanged(object sender, TextChangedEventArgs e)
+        private async void CloseAddress_Clicked(object sender, EventArgs e)
         {
-            if (e.NewTextValue == null)
+            await centerModalAddress.Hide();
+        }
+
+        private async void ConfirmAddress_Clicked(object sender, EventArgs e)
+        {
+            List<string> address = new List<string>();
+            if (!string.IsNullOrWhiteSpace(viewModel.AddressLine1))
             {
-                listviewProject.ItemsSource = viewModel.list_project_lookup;
+                viewModel.singleLead.address1_line1 = viewModel.AddressLine1;
+                address.Add(viewModel.AddressLine1);
+            }
+            else
+            {
+                viewModel.singleLead.address1_line1 = null;
+            }
+            if (!string.IsNullOrWhiteSpace(viewModel.AddressLine2))
+            {
+                viewModel.singleLead.address1_line2 = viewModel.AddressLine2;
+                address.Add(viewModel.AddressLine2);
+            }
+            else
+            {
+                viewModel.singleLead.address1_line2 = null;
+            }
+            if (!string.IsNullOrWhiteSpace(viewModel.AddressLine3))
+            {
+                viewModel.singleLead.address1_line3 = viewModel.AddressLine3;
+                address.Add(viewModel.AddressLine3);
+            }
+            else
+            {
+                viewModel.singleLead.address1_line3 = null;
+            }
+            if (!string.IsNullOrWhiteSpace(viewModel.AddressCity))
+            {
+                viewModel.singleLead.address1_city = viewModel.AddressCity;
+                address.Add(viewModel.AddressCity);
+            }
+            else
+            {
+                viewModel.singleLead.address1_city = null;
+            }
+            if (!string.IsNullOrWhiteSpace(viewModel.AddressStateProvince))
+            {
+                viewModel.singleLead.address1_stateorprovince = viewModel.AddressStateProvince;
+                address.Add(viewModel.AddressStateProvince);
+            }
+            else
+            {
+                viewModel.singleLead.address1_stateorprovince = null;
+            }
+            if (!string.IsNullOrWhiteSpace(viewModel.AddressPostalCode))
+            {
+                viewModel.singleLead.address1_postalcode = viewModel.AddressPostalCode;
+                address.Add(viewModel.AddressPostalCode);
+            }
+            else
+            {
+                viewModel.singleLead.address1_postalcode = null;
+            }
+            if (!string.IsNullOrWhiteSpace(viewModel.AddressCountry))
+            {
+                viewModel.singleLead.address1_country = viewModel.AddressCountry;
+                address.Add(viewModel.AddressCountry);
+            }
+            else
+            {
+                viewModel.singleLead.address1_country = null;
+            }
+            viewModel.singleLead.address1_composite = viewModel.AddressComposite = string.Join(", ", address);
+            await centerModalAddress.Hide();
+        }
+
+        private async void SaveLead_Clicked(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(viewModel.singleLead.bsd_topic_label))
+            {
+                await DisplayAlert("", "Vui lòng nhập tiêu đề", "Đóng");
                 return;
             }
-            listviewProject.ItemsSource = viewModel.list_project_lookup.Where(x => x.bsd_name.IndexOf(e.NewTextValue, StringComparison.OrdinalIgnoreCase) >= 0);
-        }
 
-        private void DiaChiVN_Clicked(object sender, EventArgs e)
-        {
-            popup_contact_address.IsVisible = true;
-        }
+            if (string.IsNullOrWhiteSpace(viewModel.singleLead.fullname))
+            {
+                await DisplayAlert("", "Vui lòng nhập họ tên", "Đóng");
+                return;
+            }
 
-        private async void show_popup_listview_country(object sender, EventArgs e)
-        {
+            if (string.IsNullOrWhiteSpace(mobilephone_text.Text))
+            {
+                await DisplayAlert("", "Vui lòng nhập số điện thoại", "Đóng");
+                return;
+            }
+
+            if (!PhoneNumberFormatVNHelper.CheckValidate(mobilephone_text.Text))
+            {
+                await DisplayAlert("", "Số điện thoại sai định dạng", "Đóng");
+                return ;
+            }
+
             LoadingHelper.Show();
-            title_popuplistview.Text = "Quốc gia";
-            if (viewModel.list_country_lookup.Count == 0)
+            viewModel.singleLead.industrycode = viewModel.IndustryCode != null ? viewModel.IndustryCode.Val : null;
+            viewModel.singleLead._transactioncurrencyid_value = viewModel.SelectedCurrency != null ? viewModel.SelectedCurrency.Val : null;
+            viewModel.singleLead._campaignid_value = viewModel.Campaign != null ? viewModel.Campaign.Val : null;
+
+            viewModel.singleLead.mobilephone = viewModel.MaQuocGiaCaNhan.Value + mobilephone_text.Text;
+            viewModel.singleLead.telephone1 = !string.IsNullOrWhiteSpace(telephone1_text.Text) ? viewModel.MaQuocGiaCty.Value + telephone1_text.Text : null;
+
+            var result = await viewModel.createLead();
+            if (result.IsSuccess)
             {
-                await viewModel.LoadCountryForLookup();
+                LoadingHelper.Hide();
+                await Navigation.PopAsync();
+                await DisplayAlert("", "Thành công", "Đóng");
             }
-            source_listviewpopup.Children.Clear();
-            if (listViewCountry == null)
+            else
             {
-                listViewCountry = new ListView() { HasUnevenRows = true, SelectionMode = ListViewSelectionMode.None };
-                listViewCountry.SetBinding(ListView.ItemsSourceProperty, new Binding("list_country_lookup", source: viewModel));
-
-                listViewCountry.ItemTemplate = new DataTemplate(() =>
-                {
-                    Label nameLabel = new Label() { FontSize = 15, TextColor = Color.FromHex("#444444") };
-                    nameLabel.SetBinding(Label.TextProperty, "Name");
-
-                    return new ViewCell
-                    {
-                        View = new StackLayout
-                        {
-                            Padding = new Thickness(10),
-                            VerticalOptions = LayoutOptions.Center,
-                            Children = { nameLabel }
-                        }
-                    };
-                });
-
-                listViewCountry.ItemTapped += popupCountry_ItemTapped;
-                listViewCountry.ItemAppearing += loadMoreCountryLookup;
+                LoadingHelper.Hide();
+                await DisplayAlert("Lỗi", "Vui lòng thử lại", "Đóng");
             }
-            source_listviewpopup.Children.Add(listViewCountry);
-            popup_list_view.IsVisible = true;
-            LoadingHelper.Hide();
         }
-
-        private void popupCountry_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            var selected = e.Item as Models.LookUp;
-
-            this.clear_entry_province(null, null);
-            this.clear_entry_district(null, null);
-
-            viewModel.Country = selected.Name;
-            viewModel.CountryId = selected.Id.ToString();
-            viewModel.CountryEn = selected.Detail;
-            popupcontactaddress_country.HasClearButton = true;
-
-            this.hide_listview_popup(null, null);
-        }
-
-        private async void loadMoreCountryLookup(object sender, ItemVisibilityEventArgs e)
-        {
-            viewModel.IsBusy = true;
-            if ((Models.LookUp)e.Item == viewModel.list_country_lookup[viewModel.list_country_lookup.Count - 1])
-            {
-                viewModel.pageLookup_country++;
-                await viewModel.LoadCountryForLookup();
-            }
-            viewModel.IsBusy = false;
-        }
-
-        private void clear_entry_country(object sender, EventArgs e)
-        {
-            viewModel.Country = null;
-            viewModel.CountryId = null;
-            viewModel.CountryEn = null;
-            popupcontactaddress_country.HasClearButton = false;
-            viewModel.list_province_lookup.Clear();
-            viewModel.list_district_lookup.Clear();
-            this.clear_entry_province(null, null);
-            this.clear_entry_district(null, null);
-        }
-
-        private async void show_popup_listview_province(object sender, EventArgs e)
-        {
-            viewModel.IsBusy = true;
-
-            if (viewModel.Country == null)
-            {
-                await DisplayAlert("", "Vui lòng chọn quốc gia", "Ok");
-                viewModel.IsBusy = false;
-                return;
-            }
-
-            title_popuplistview.Text = "Tỉnh/Thành";
-            if (viewModel.list_province_lookup.Count == 0)
-            {
-                await viewModel.loadProvincesForLookup(viewModel.CountryId);
-            }
-            source_listviewpopup.Children.Clear();
-            if (listViewProvince == null)
-            {
-                listViewProvince = new ListView() { HasUnevenRows = true, SelectionMode = ListViewSelectionMode.None };
-                listViewProvince.SetBinding(ListView.ItemsSourceProperty, new Binding("list_province_lookup", source: viewModel));
-
-                listViewProvince.ItemTemplate = new DataTemplate(() =>
-                {
-                    Label nameLabel = new Label() { FontSize = 15, TextColor = Color.FromHex("#444444") };
-                    nameLabel.SetBinding(Label.TextProperty, "Name");
-
-                    return new ViewCell
-                    {
-                        View = new StackLayout
-                        {
-                            Padding = new Thickness(10),
-                            VerticalOptions = LayoutOptions.Center,
-                            Children = { nameLabel }
-                        }
-                    };
-                });
-
-                listViewProvince.ItemTapped += popupProvince_ItemTapped;
-                listViewProvince.ItemAppearing += loadMoreProvinceLookup;
-            }
-            source_listviewpopup.Children.Add(listViewProvince);
-            popup_list_view.IsVisible = true;
-            viewModel.IsBusy = false;
-        }
-
-        private void popupProvince_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            var selected = e.Item as Models.LookUp;
-
-            this.clear_entry_district(null, null);
-            viewModel.list_district_lookup.Clear();
-
-            viewModel.Province = selected.Name;
-            viewModel.ProvinceId = selected.Id.ToString();
-            viewModel.ProvinceEn = selected.Detail;
-            popupcontactaddress_province.HasClearButton = true;
-
-            this.hide_listview_popup(null, null);
-        }
-
-        private async void loadMoreProvinceLookup(object sender, ItemVisibilityEventArgs e)
-        {
-            viewModel.IsBusy = true;
-            if ( (Models.LookUp)e.Item == viewModel.list_province_lookup[viewModel.list_province_lookup.Count -1])
-            {
-                viewModel.pageLookup_province++;
-                await viewModel.loadProvincesForLookup(viewModel.CountryId);
-            }
-            viewModel.IsBusy = false;
-        }
-
-        private void clear_entry_province(object sender, EventArgs e)
-        {
-            viewModel.Province = null;
-            viewModel.ProvinceId = null;
-            viewModel.ProvinceEn = null;
-            popupcontactaddress_province.HasClearButton = false;
-            viewModel.pageLookup_province = 1;
-            this.clear_entry_district(null, null);
-            viewModel.list_district_lookup.Clear();
-        }
-
-        private async void show_popup_listview_district(object sender, EventArgs e)
-        {
-            viewModel.IsBusy = true;
-            if (viewModel.Province == null)
-            {
-                await DisplayAlert("", "Vui lòng chọn Tỉnh/Thành", "Ok");
-                viewModel.IsBusy = false;
-                return;
-            }
-
-            title_popuplistview.Text = "Quận/Huyện";
-            if (viewModel.list_district_lookup.Count == 0)
-            {
-                await viewModel.loadDistrictForLookup(viewModel.ProvinceId);
-            }
-
-            source_listviewpopup.Children.Clear();
-            if (listViewDistrict == null)
-            {
-                listViewDistrict = new ListView() { HasUnevenRows = true, SelectionMode = ListViewSelectionMode.None };
-                listViewDistrict.SetBinding(ListView.ItemsSourceProperty, new Binding("list_district_lookup", source: viewModel));
-
-                listViewDistrict.ItemTemplate = new DataTemplate(() =>
-                {
-                    Label nameLabel = new Label() { FontSize = 15, TextColor = Color.FromHex("#444444") };
-                    nameLabel.SetBinding(Label.TextProperty, "Name");
-
-                    return new ViewCell
-                    {
-                        View = new StackLayout
-                        {
-                            Padding = new Thickness(10),
-                            VerticalOptions = LayoutOptions.Center,
-                            Children = { nameLabel }
-                        }
-                    };
-                });
-
-                listViewDistrict.ItemTapped += popupDistrict_ItemTapped;
-                listViewDistrict.ItemAppearing += loadMoreDistrictLookup;
-            }
-            source_listviewpopup.Children.Add(listViewDistrict);
-            popup_list_view.IsVisible = true;
-            viewModel.IsBusy = false;
-        }
-
-        private void popupDistrict_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            var selected = e.Item as Models.LookUp;
-
-            viewModel.District = selected.Name;
-            viewModel.DistrictId = selected.Id.ToString();
-            viewModel.DistrictEn = selected.Detail;
-            popupcontactaddress_district.HasClearButton = true;
-
-            this.hide_listview_popup(null, null);
-        }
-
-        private async void loadMoreDistrictLookup(object sender, ItemVisibilityEventArgs e)
-        {
-            viewModel.IsBusy = true;
-            if ((Models.LookUp)e.Item == viewModel.list_district_lookup[viewModel.list_district_lookup.Count - 1])
-            {
-                viewModel.pageLookup_district++;
-                await viewModel.loadDistrictForLookup(viewModel.ProvinceId);
-            }
-            viewModel.IsBusy = false;
-        }
-
-        private void clear_entry_district(object sender, EventArgs e)
-        {
-            viewModel.District = null;
-            viewModel.DistrictId = null;
-            viewModel.DistrictEn = null;
-            popupcontactaddress_district.HasClearButton = false;
-            viewModel.pageLookup_district = 1;
-        }
-
-        private void hide_popup_contactaddress(object sender, EventArgs e)
-        {
-            popup_contact_address.IsVisible = false;
-        }
-
-        private void btnConfirm_Clicked(object sender, EventArgs e)
-        {
-            viewModel.IsBusy = true;
-
-            List<string> listAddressVn = new List<string>();
-            if (viewModel.StreetVn != null) listAddressVn.Add(viewModel.StreetVn);
-            if (viewModel.District != null) listAddressVn.Add(viewModel.District);
-            if (viewModel.Province != null) listAddressVn.Add(viewModel.Province);
-            if (viewModel.Country != null) listAddressVn.Add(viewModel.Country);
-
-            List<string> listAddressEn = new List<string>();
-            if (viewModel.StreetEn != null) listAddressEn.Add(viewModel.StreetEn);
-            if (viewModel.DistrictEn != null) listAddressEn.Add(viewModel.DistrictEn);
-            if (viewModel.ProvinceEn != null) listAddressEn.Add(viewModel.ProvinceEn);
-            if (viewModel.CountryEn != null) listAddressEn.Add(viewModel.CountryEn);
-
-            viewModel.AddressVn = viewModel.singleLead.bsd_contactaddress = string.Join(", ", listAddressVn);
-            viewModel.AddressEn = viewModel.singleLead.bsd_diachi = string.Join(", ", listAddressEn);
-
-            viewModel.singleLead.bsd_housenumber = viewModel.StreetEn;
-            viewModel.singleLead.bsd_housenumberstreet = viewModel.StreetVn;
-
-            viewModel.singleLead._bsd_country_value = viewModel.CountryId;
-            viewModel.singleLead.bsd_country_label = viewModel.Country;
-            viewModel.singleLead.bsd_country_en = viewModel.CountryEn;
-
-            viewModel.singleLead._bsd_province_value = viewModel.ProvinceId;
-            viewModel.singleLead.bsd_province_label = viewModel.Province;
-            viewModel.singleLead.bsd_province_en = viewModel.ProvinceEn;
-
-            viewModel.singleLead._bsd_district_value = viewModel.DistrictId;
-            viewModel.singleLead.bsd_district_label = viewModel.District;
-            viewModel.singleLead.bsd_district_en = viewModel.DistrictEn;
-
-            popup_contact_address.IsVisible = false;
-            viewModel.IsBusy = false;
-        }       
     }
 }

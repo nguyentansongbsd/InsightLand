@@ -9,7 +9,7 @@ namespace ConasiCRM.Portable.Controls
     {
         public FormLabel()
         {
-            this.FontSize = 16;
+            this.FontSize = 15;
             this.VerticalTextAlignment = TextAlignment.Center;
             Grid.SetColumn(this, 0);
             TextColor = Color.FromHex("#444444");

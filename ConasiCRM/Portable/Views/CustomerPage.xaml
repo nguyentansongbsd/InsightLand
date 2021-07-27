@@ -9,6 +9,7 @@
     <ContentPage.Resources>
         <Style TargetType="telerikPrimitives:RadBorder" x:Key="radBorder">
             <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Padding" Value="0,5"/>
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
                     <VisualStateGroup>
@@ -29,9 +30,9 @@
             </Setter>
         </Style>
         <Style TargetType="Label" x:Key="labelTap">
-            <Setter Property="FontSize" Value="16"/>
             <Setter Property="Margin" Value="15,10"/>
             <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="LineBreakMode" Value="TailTruncation"/>
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
                     <VisualStateGroup>
@@ -39,12 +40,14 @@
                             <VisualState.Setters>
                                 <Setter Property="TextColor" Value="#026294"/>
                                 <Setter Property="FontAttributes" Value="Bold"/>
+                                <Setter Property="FontSize" Value="16"/>
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState x:Name="InActive">
                             <VisualState.Setters>
                                 <Setter Property="TextColor" Value="#808080"/>
                                 <Setter Property="FontAttributes" Value="None"/>
+                                <Setter Property="FontSize" Value="15"/>
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>

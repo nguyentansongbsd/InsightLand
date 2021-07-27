@@ -11,11 +11,13 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace ConasiCRM.Portable.ViewModels
 {
     public class LeadDetailPageViewModel : BaseViewModel
     {
+        public ObservableCollection<FloatButtonItem> ButtonCommandList { get; set; } = new ObservableCollection<FloatButtonItem>();
         private LeadFormModel _singleLead;
         public LeadFormModel singleLead { get => _singleLead; set { _singleLead = value; OnPropertyChanged(nameof(singleLead)); } }
         private OptionSet _singleGender;
@@ -162,42 +164,39 @@ namespace ConasiCRM.Portable.ViewModels
         {
             string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                                 <entity name='lead'>
-                                    <all-attributes />
+                                    <attribute name='fullname' />
+                                    <attribute name='subject' alias='bsd_topic_label'/>
+                                    <attribute name='statuscode' />
+                                    <attribute name='leadqualitycode' />
+                                    <attribute name='mobilephone' />
+                                    <attribute name='telephone1' />
+                                    <attribute name='emailaddress1' />
+                                    <attribute name='jobtitle' />  
+                                    <attribute name='companyname' />
+                                    <attribute name='websiteurl' />
+                                    <attribute name='address1_composite' />
+                                    <attribute name='description' />
+                                    <attribute name='industrycode' />
+                                    <attribute name='revenue' />
+                                    <attribute name='numberofemployees' />
+                                    <attribute name='sic' />
+                                    <attribute name='donotsendmm' />
+                                    <attribute name='lastusedincampaign' />
+                                    <attribute name='createdon' />
                                     <order attribute='createdon' descending='true' />
                                     <filter type='and'>
                                         <condition attribute='leadid' operator='eq' value='{" + leadid + @"}' />
                                     </filter>
-                                    <link-entity name='bsd_topic' from='bsd_topicid' to='bsd_topic' visible='false' link-type='outer'>
-                                        <attribute name='bsd_name'  alias='bsd_topic_label'/>
-                                    </link-entity>
                                     <link-entity name='transactioncurrency' from='transactioncurrencyid' to='transactioncurrencyid' visible='false' link-type='outer'>
                                         <attribute name='currencyname'  alias='transactioncurrencyid_label'/>
                                     </link-entity>
                                     <link-entity name='campaign' from='campaignid' to='campaignid' visible='false' link-type='outer'>
                                         <attribute name='name'  alias='campaignid_label'/>
                                     </link-entity>
-                                    <link-entity name='bsd_country' from='bsd_countryid' to='bsd_country' visible='false' link-type='outer'>
-                                        <attribute name='bsd_countryname'  alias='bsd_country_label'/>
-                                        <attribute name='bsd_nameen'  alias='bsd_country_en'/>
-                                    </link-entity>
-                                    <link-entity name='new_province' from='new_provinceid' to='bsd_province' visible='false' link-type='outer'>
-                                        <attribute name='bsd_provincename'  alias='bsd_province_label'/>
-                                        <attribute name='bsd_nameen'  alias='bsd_province_en'/>
-                                    </link-entity>
-                                    <link-entity name='new_district' from='new_districtid' to='bsd_district' visible='false' link-type='outer'>
-                                        <attribute name='new_name'  alias='bsd_district_label'/>
-                                        <attribute name='bsd_nameen'  alias='bsd_district_en'/>
-                                    </link-entity>
                                 </entity>
                             </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LeadFormModel>>("leads", fetch);
             var tmp = result.value.FirstOrDefault();
-            if (tmp == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
-            }
-
             this.singleLead = tmp;
         }
 
@@ -248,20 +247,20 @@ namespace ConasiCRM.Portable.ViewModels
             return result.IsSuccess;
         }
 
-        public async Task Qualify(Guid id)
+        public async Task<bool> Qualify(Guid id)
         {
             string path = "/leads(" + id + ")//Microsoft.Dynamics.CRM.bsd_Action_Lead_QualifyLead";
+            var content = new object();
 
-            CrmApiResponse result = await CrmHelper.PostData(path, null);
+            CrmApiResponse result = await CrmHelper.PostData(path, content);
 
             if (result.IsSuccess)
             {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Thành công", "OK");
+                return true;
             }
             else
             {
-                var mess = result.ErrorResponse?.error?.message ?? "Đã xảy ra lỗi. Vui lòng thử lại.";
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", mess, "OK");
+                return false;
             }
         }
 
@@ -865,6 +864,7 @@ namespace ConasiCRM.Portable.ViewModels
 
             this.single_Leadcheck = tmp;
         }
+
         public async Task<Boolean> Check_Quatify(string cardNumber)
         {
             string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>

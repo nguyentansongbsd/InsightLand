@@ -32,14 +32,19 @@ namespace ConasiCRM.Portable.Views
         {
             LoadingHelper.Show();
             var item = e.Item as LeadListModel;
-            LeadForm newPage = new LeadForm(item.leadid);
+            LeadDetailPage newPage = new LeadDetailPage(item.leadid);
             newPage.CheckSingleLead = async (checkSingleLead) =>
             {
                 if (checkSingleLead == true)
                 {
                     await Navigation.PushAsync(newPage);
+                    LoadingHelper.Hide();
                 }
-                LoadingHelper.Hide();
+                else
+                {
+                    LoadingHelper.Hide();
+                    await Shell.Current.DisplayAlert("Thông báo", "Không tìm thấy thông tin", "Đóng");
+                }
             };
         }
 

@@ -147,19 +147,19 @@ namespace ConasiCRM.Portable.Views
             LeadFormViewModel leadViewModel = new LeadFormViewModel();
             foreach (var i in SelectedContact)
             {
-                var re = await leadViewModel.createLead(new LeadFormModel()
-                {
-                    firstname = i.Name,
-                    mobilephone = i.numberFormated,
-                    emailaddress1 = i.Email
-                });
+                //var re = await leadViewModel.createLead(new LeadFormModel()
+                //{
+                //    firstname = i.Name,
+                //    mobilephone = i.numberFormated,
+                //    emailaddress1 = i.Email
+                //});
 
-                if (re == new Guid())
-                {
-                    await DisplayAlert("", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                    LoadingHelper.Hide();
-                    return;
-                }
+                //if (re == new Guid())
+                //{
+                //    await DisplayAlert("", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
+                //    LoadingHelper.Hide();
+                //    return;
+                //}
             }
             await DisplayAlert("", "Chuyển thành công", "OK");
             this.reset();
