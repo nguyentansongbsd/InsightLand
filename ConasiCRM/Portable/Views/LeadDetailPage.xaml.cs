@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telerik.XamarinForms.Primitives;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,7 +17,7 @@ namespace ConasiCRM.Portable.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LeadDetailPage : ContentPage
     {
-        public Action<bool> CheckSingleLead;
+        public Action<bool> OnCompleted;
         private LeadDetailPageViewModel viewModel;
         private Guid Id;
         public LeadDetailPage(Guid id)
@@ -33,9 +34,9 @@ namespace ConasiCRM.Portable.Views
         {
             await LoadDataThongTin(Id.ToString());
             if (viewModel.singleLead != null)
-                CheckSingleLead?.Invoke(true);
+                OnCompleted?.Invoke(true);
             else
-                CheckSingleLead?.Invoke(false);
+                OnCompleted?.Invoke(false);
         }
 
         private async void ThongTin_Tapped(object sender, EventArgs e)
@@ -53,7 +54,7 @@ namespace ConasiCRM.Portable.Views
         private async void PhongThuy_Tapped(object sender, EventArgs e)
         {
             Tab_Tapped(3);
-           // await LoadDataNhuCau(Id.ToString());
+            LoadDataPhongThuy();
         }
 
         private void Tab_Tapped(int tab)
@@ -86,11 +87,13 @@ namespace ConasiCRM.Portable.Views
             {
                 VisualStateManager.GoToState(radBorderPhongThuy, "Selected");
                 VisualStateManager.GoToState(lbPhongThuy, "Selected");
+                TabPhongThuy.IsVisible = true;
             }
             else
             {
                 VisualStateManager.GoToState(radBorderPhongThuy, "Normal");
                 VisualStateManager.GoToState(lbPhongThuy, "Normal");
+                TabPhongThuy.IsVisible = false;
             }
         }
 
@@ -147,18 +150,26 @@ namespace ConasiCRM.Portable.Views
             }
         }
 
-        #region Tab Nhu cau
-        //nhu cau dia diem
+        #region Tab Nhu cau      
         private async Task LoadDataNhuCau(string leadid)
         {
             if (leadid != null)
             {
-                viewModel.PageNhuCauDiaDiem = 1;
-                viewModel.list_nhucauvediadiem.Clear();
-                await viewModel.Load_NhuCauVeDiaDiem(leadid);               
+                if (viewModel.list_nhucauvediadiem.Count == 0)
+                {
+                    await viewModel.Load_NhuCauVeDiaDiem(leadid); 
+                }
+                if(viewModel.list_Duanquantam.Count == 0)
+                {
+                    await viewModel.Load_DanhSachDuAn(leadid);
+                }
+                if (viewModel.list_TieuChiChonMua.Count == 0 || viewModel.list_LoaiBatDongSanQuanTam.Count == 0 || viewModel.list_NhuCauVeDienTichCanHo.Count == 0)
+                {
+                    viewModel.LoadTieuChi();
+                }
             }
-        }        
-
+        }
+        //nhu cau dia diem
         private async void BtnAddNhuCauDiaDiem_Clicked(object sender, EventArgs e)
         {
             if (viewModel.list_provinces_lookup.Count == 0)
@@ -167,31 +178,16 @@ namespace ConasiCRM.Portable.Views
             }
             if (viewModel.list_provinces_lookup.Count != 0)
             {
-                LoadingHelper.Show();
-                //Controls.LookUp lookUpNhuCauDiaDiem = new Controls.LookUp();
-                //lookUpNhuCauDiaDiem.SetBinding(Controls.LookUp.ItemsSourceProperty, new Binding("list_provinces_lookup", source: viewModel));
-                //lookUpNhuCauDiaDiem.SetBinding(Controls.LookUp.SelectedItemProperty, new Binding("provinces_selected", source: viewModel));
-                //lookUpNhuCauDiaDiem.BottomModal = LookUpModal;
-                //lookUpNhuCauDiaDiem.NameDisplay = "new_name";
-                //lookUpNhuCauDiaDiem.SelectedItemChange += LookUpNhuCauDiaDiem_SelectedItemChange;
-                //LoadingHelper.Hide();             
-                //await lookUpNhuCauDiaDiem.OpenModal();
-                //LookUpView lookUpView = new LookUpView();
-                //lookUpView.SetList(viewModel.list_provinces_lookup.Cast<object>().ToList(), "new_name");
-                //lookUpView.lookUpListView.ItemTapped += LookUpListView_ItemTapped;
-                //LookUpModal.ModalContent = lookUpView;
-                //LoadingHelper.Hide();
-                //await LookUpModal.Show();
-                BsdListView bsdListView = new BsdListView();
-                bsdListView.ItemsSource = viewModel.list_provinces_lookup;
-                bsdListView.ItemTapped += LookUpListView_ItemTapped;
-                LookUpModal.ModalContent = bsdListView;
+                LoadingHelper.Show();                
+                ListView LookUpNhuCauDiaDiem = CreateBsdListView(viewModel.list_provinces_lookup.Cast<object>().ToList(), "new_name");
+                LookUpNhuCauDiaDiem.ItemTapped += LookUpNhuCauDiaDiem_ItemTapped;
+                LookUpModal.ModalContent = LookUpNhuCauDiaDiem;
+                LookUpModal.Title = "Thêm nhu cầu địa điểm";
                 LoadingHelper.Hide();
                 await LookUpModal.Show();
             }
         }
-
-        private async void LookUpListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void LookUpNhuCauDiaDiem_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             Provinces selected = e.Item as Provinces;
             if (viewModel.list_nhucauvediadiem.ToList().FirstOrDefault(x => x.new_provinceid == selected.new_provinceid) == null)
@@ -208,36 +204,13 @@ namespace ConasiCRM.Portable.Views
                     viewModel.list_nhucauvediadiem.Add(selected);
                 }
                 LoadingHelper.Hide();
+                await LookUpModal.Hide();
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert("", "Địa điểm đã tồn tại", "OK");
+                await App.Current.MainPage.DisplayAlert("Thông Báo", "Địa điểm đã tồn tại", "OK");
             }
-        }
-
-        private async void LookUpNhuCauDiaDiem_SelectedItemChange(object sender, LookUpChangeEvent e)
-        {
-            Provinces selected = viewModel.provinces_selected;
-            if (viewModel.list_nhucauvediadiem.ToList().FirstOrDefault(x => x.new_provinceid == selected.new_provinceid) == null)
-            {
-                LoadingHelper.Show();
-                await viewModel.Add_NhuCauDiaDiem(selected.new_provinceid, viewModel.singleLead.leadid);
-                if (viewModel.list_nhucauvediadiem.FirstOrDefault(x => x.new_id == null) != null)
-                {
-                    var index = viewModel.list_nhucauvediadiem.IndexOf(viewModel.list_nhucauvediadiem.FirstOrDefault(x => x.new_id == null));
-                    viewModel.list_nhucauvediadiem[index] = selected;
-                }
-                else
-                {
-                    viewModel.list_nhucauvediadiem.Add(selected);
-                }
-                LoadingHelper.Hide();
-            }
-            else
-            {
-                await App.Current.MainPage.DisplayAlert("", "Địa điểm đã tồn tại", "OK");
-            }
-        }
+        }      
         private async void DeleteNhuCauVeDiaDiem_Tapped(object sender, EventArgs e)
         {
             Label lblClicked = (Label)sender;
@@ -255,14 +228,292 @@ namespace ConasiCRM.Portable.Views
                 }
             }
         }
-        private async void ShowMoreNhuCauDiaDiem_Clicked(object sender, EventArgs e)
+
+        // du an quan tam
+        private async void BtnAddDuanquantam_Clicked(object sender, EventArgs e)
+        {           
+            if (viewModel.list_project_lookup.Count == 0)
+            {
+                await viewModel.LoadAllProject();
+            }
+            if (viewModel.list_project_lookup.Count != 0)
+            {
+                LoadingHelper.Show();
+                ListView LookUpDuAnQuanTam = CreateBsdListView(viewModel.list_project_lookup.Cast<object>().ToList(), "bsd_name");
+                LookUpDuAnQuanTam.ItemTapped += LookUpDuAnQuanTam_ItemTapped;
+                LookUpModal.ModalContent = LookUpDuAnQuanTam;
+                LookUpModal.Title = "Thêm dự án quan tâm";
+                LoadingHelper.Hide();
+                await LookUpModal.Show();
+            }
+        }
+        private async void LookUpDuAnQuanTam_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            LoadingHelper.Show();
-            viewModel.PageNhuCauDiaDiem++;
-            await viewModel.Load_NhuCauVeDiaDiem(viewModel.singleLead.leadid.ToString());
-            LoadingHelper.Hide();
+            ProjectList selected = e.Item as ProjectList;
+            if (viewModel.list_Duanquantam.ToList().FirstOrDefault(x => x.bsd_projectid == selected.bsd_projectid) == null)
+            {
+                LoadingHelper.Show();
+                await viewModel.Add_DuAnQuanTam(selected.bsd_projectid, viewModel.singleLead.leadid);
+                if (viewModel.list_Duanquantam.FirstOrDefault(x => x.bsd_projectid == null) != null)
+                {
+                    var index = viewModel.list_Duanquantam.IndexOf(viewModel.list_Duanquantam.FirstOrDefault(x => x.bsd_projectid == null));
+                    viewModel.list_Duanquantam[index] = selected;
+                }
+                else
+                {
+                    viewModel.list_Duanquantam.Add(selected);
+                }
+                LoadingHelper.Hide();
+                await LookUpModal.Hide();
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Thông Báo", "Dự án đã tồn tại", "OK");
+            }
+        }
+        private async void DeleteDuAnQuanTam_Tapped(object sender, EventArgs e)
+        {
+            Label lblClicked = (Label)sender;
+            var item = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
+            ProjectList tmp = item.CommandParameter as ProjectList;
+            if (tmp != null)
+            {
+                if (tmp.bsd_projectid != null)
+                {
+                    bool x = await App.Current.MainPage.DisplayAlert("Thông Báo", "Bạn có chắc chắn muốn xoá?", "Xoá", "Huỷ");
+                    if (x)
+                    {
+                        LoadingHelper.Show();
+                        await viewModel.Delete_DuAnQuanTam(tmp.bsd_projectid, viewModel.singleLead.leadid);
+                        viewModel.list_Duanquantam.Remove(tmp);
+                        LoadingHelper.Hide();
+                    }
+                }
+            }
+        }
+
+        // cac tieu chi
+        private async void BtnAddTieuChiChonMua_Clicked(object sender, EventArgs e)
+        {
+            if (viewModel.list_tieuchichonmua_lookup.Count == 0)
+            {
+                viewModel.LoadAllTieuChiChonMua();
+            }
+            if (viewModel.list_tieuchichonmua_lookup.Count != 0)
+            {
+                LoadingHelper.Show();
+                ListView LookUpTieuChiChonMua = CreateBsdListView(viewModel.list_tieuchichonmua_lookup.Cast<object>().ToList(), "Name");
+                LookUpTieuChiChonMua.ItemTapped += LookUpTieuChiChonMua_ItemTapped;
+                LookUpModal.ModalContent = LookUpTieuChiChonMua;
+                LookUpModal.Title = "Thêm tiêu chí chọn mua";
+                LoadingHelper.Hide();
+                await LookUpModal.Show();
+               //await  LookUpMultipleOptions.Show();
+            }
+        }
+
+        private async void LookUpTieuChiChonMua_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            TieuChi selected = e.Item as TieuChi;
+            if (viewModel.list_TieuChiChonMua.ToList().FirstOrDefault(x => x.Id == selected.Id) == null)
+            {
+                LoadingHelper.Show();
+                viewModel.UpdateTieuChi(selected.Id, true);    
+                viewModel.list_TieuChiChonMua.Add(selected);                
+                LoadingHelper.Hide();
+                await LookUpModal.Hide();
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Thông Báo", "Tiêu chí chọn mua đã tồn tại", "OK");
+            }
+        }
+
+        private async void DeleteTieuChiChonMua_Tapped(object sender, EventArgs e)
+        {
+            Label lblClicked = (Label)sender;
+            var item = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
+            TieuChi tmp = item.CommandParameter as TieuChi;
+            if (tmp != null)
+            {
+                if (tmp.Id != null)
+                {
+                    bool x = await App.Current.MainPage.DisplayAlert("Thông Báo", "Bạn có chắc chắn muốn xoá?", "Xoá", "Huỷ");
+                    if (x)
+                    {
+                        LoadingHelper.Show();
+                        viewModel.UpdateTieuChi(tmp.Id, true);
+                        viewModel.list_TieuChiChonMua.Remove(tmp);
+                        LoadingHelper.Hide();
+                    }
+                }
+            }
+        }
+
+        private async void BtnAddNhuCauVeDienTichCanHo_Clicked(object sender, EventArgs e)
+        {
+            if (viewModel.list_nhucauvedientichcanho_lookup.Count == 0)
+            {
+                viewModel.LoadAllNhuCauVeDienTichCanHo();
+            }
+            if (viewModel.list_nhucauvedientichcanho_lookup.Count != 0)
+            {
+                LoadingHelper.Show();
+                ListView LookUpNhuCauVeDienTichCanHo = CreateBsdListView(viewModel.list_nhucauvedientichcanho_lookup.Cast<object>().ToList(), "Name");
+                LookUpNhuCauVeDienTichCanHo.ItemTapped += LookUpNhuCauVeDienTichCanHo_ItemTapped;
+                LookUpModal.ModalContent = LookUpNhuCauVeDienTichCanHo;
+                LookUpModal.Title = "Thêm nhu cầu về diện tích căn hộ";
+                LoadingHelper.Hide();
+                await LookUpModal.Show();
+            }
+        }
+
+        private async void LookUpNhuCauVeDienTichCanHo_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            TieuChi selected = e.Item as TieuChi;
+            if (viewModel.list_NhuCauVeDienTichCanHo.ToList().FirstOrDefault(x => x.Id == selected.Id) == null)
+            {
+                LoadingHelper.Show();
+                viewModel.UpdateTieuChi(selected.Id, true);
+                viewModel.list_NhuCauVeDienTichCanHo.Add(selected);
+                LoadingHelper.Hide();
+                await LookUpModal.Hide();
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Thông Báo", "Nhu cầu về diện tích căn hộ đã tồn tại", "OK");
+            }
+        }
+
+        private async void DeleteNhuCauVeDienTichCanHo_Tapped(object sender, EventArgs e)
+        {
+            Label lblClicked = (Label)sender;
+            var item = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
+            TieuChi tmp = item.CommandParameter as TieuChi;
+            if (tmp != null)
+            {
+                if (tmp.Id != null)
+                {
+                    bool x = await App.Current.MainPage.DisplayAlert("Thông Báo", "Bạn có chắc chắn muốn xoá?", "Xoá", "Huỷ");
+                    if (x)
+                    {
+                        LoadingHelper.Show();
+                        viewModel.UpdateTieuChi(tmp.Id, true);
+                        viewModel.list_NhuCauVeDienTichCanHo.Remove(tmp);
+                        LoadingHelper.Hide();
+                    }
+                }
+            }
+        }
+
+        private async void BtnAddLoaiBatDongSanQuanTam_Clicked(object sender, EventArgs e)
+        {
+            if (viewModel.list_loaibatdongsanquantam_lookup.Count == 0)
+            {
+                viewModel.LoadAllLoaiBatDongSanQuanTam();
+            }
+            if (viewModel.list_loaibatdongsanquantam_lookup.Count != 0)
+            {
+                LoadingHelper.Show();
+                ListView LookUpLoaiBatDongSanQuanTam = CreateBsdListView(viewModel.list_loaibatdongsanquantam_lookup.Cast<object>().ToList(), "Name");
+                LookUpLoaiBatDongSanQuanTam.ItemTapped += LookUpLoaiBatDongSanQuanTam_ItemTapped;
+                LookUpModal.ModalContent = LookUpLoaiBatDongSanQuanTam;
+                LookUpModal.Title = "Thêm loại bất động sản quan tâm";
+                LoadingHelper.Hide();
+                await LookUpModal.Show();
+            }
+        }
+
+        private async void LookUpLoaiBatDongSanQuanTam_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            TieuChi selected = e.Item as TieuChi;
+            if (viewModel.list_LoaiBatDongSanQuanTam.ToList().FirstOrDefault(x => x.Id == selected.Id) == null)
+            {
+                LoadingHelper.Show();
+                viewModel.UpdateTieuChi(selected.Id, true);
+                viewModel.list_LoaiBatDongSanQuanTam.Add(selected);
+                LoadingHelper.Hide();
+                await LookUpModal.Hide();
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Thông Báo", "Loại bất động sản quan tâm đã tồn tại", "OK");
+            }
+        }
+
+        private async void DeleteLoaiBatDongSanQuanTam_Tapped(object sender, EventArgs e)
+        {
+            Label lblClicked = (Label)sender;
+            var item = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
+            TieuChi tmp = item.CommandParameter as TieuChi;
+            if (tmp != null)
+            {
+                if (tmp.Id != null)
+                {
+                    bool x = await App.Current.MainPage.DisplayAlert("Thông Báo", "Bạn có chắc chắn muốn xoá?", "Xoá", "Huỷ");
+                    if (x)
+                    {
+                        LoadingHelper.Show();
+                        viewModel.UpdateTieuChi(tmp.Id, true);
+                        viewModel.list_LoaiBatDongSanQuanTam.Remove(tmp);
+                        LoadingHelper.Hide();
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region TabPhongThuy
+        private void LoadDataPhongThuy()
+        {
+            viewModel.LoadPhongThuy();                 
         }
 
         #endregion
+        private ListView CreateBsdListView<T>(List<T> list, string Name) where T : class
+        {
+            ListView bsdListView = new ListView();
+            bsdListView.BackgroundColor = Color.White;
+            bsdListView.HasUnevenRows = true;
+            bsdListView.SelectionMode = ListViewSelectionMode.None;
+            bsdListView.SeparatorVisibility = SeparatorVisibility.None;
+            var dataTemplate = new DataTemplate(() =>
+            {
+                RadBorder st = new RadBorder();
+                st.BorderThickness = new Thickness(0, 0, 0, 1);
+                st.BorderColor = Color.FromHex("#f2f2f2");
+                st.Padding = new Thickness(15, 10);
+                Label lb = new Label();
+                lb.TextColor = Color.Black;
+                lb.FontSize = 15;
+                lb.SetBinding(Label.TextProperty, Name);
+                st.Content = lb;
+                return new ViewCell { View = st };
+            });
+
+            bsdListView.ItemTemplate = dataTemplate;
+            bsdListView.ItemsSource = list;
+            return bsdListView;
+        }
+
+        private void ShowImage_Tapped(object sender, EventArgs e)
+        {
+            LookUpImagePhongThuy.IsVisible = true;
+        }
+        
+        protected override bool OnBackButtonPressed()
+        {
+            if (LookUpImagePhongThuy.IsVisible)
+            {
+                LookUpImagePhongThuy.IsVisible = false;
+                return true;
+            }
+            return base.OnBackButtonPressed();
+        }
+
+        private void Close_LookUpImagePhongThuy_Clicked(object sender, EventArgs e)
+        {
+            LookUpImagePhongThuy.IsVisible = false;
+        }
     }
 }

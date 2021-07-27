@@ -63,14 +63,14 @@ namespace ConasiCRM.Portable.Views
             LoadingHelper.Show();
             var item = e.Item as LeadListModel;
             LeadDetailPage newPage = new LeadDetailPage(item.leadid);
-            newPage.CheckSingleLead = async (checkSingleLead) =>
+            newPage.OnCompleted = async (OnCompleted) =>
             {
-                if (checkSingleLead == true)
+                if (OnCompleted == true)
                 {
-                    await Navigation.PushAsync(newPage);                  
+                    await Navigation.PushAsync(newPage);
                 }
                 LoadingHelper.Hide();
-            };                        
+            };
         }
 
         private async void Search_Pressed(object sender, EventArgs e)
