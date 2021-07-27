@@ -25,7 +25,7 @@
             </StackLayout>
         </ScrollView>
         <Frame Padding="0" Margin="5,5,10,10" WidthRequest="44" CornerRadius="22" HorizontalOptions="End">
-            <Button x:Name="BtnShow" Clicked="BtnShow_CLicked" Text="&#xf129;" FontSize="20" WidthRequest="44" HeightRequest="44" CornerRadius="22" FontFamily="{StaticResource FontAwesomeSolid}" BackgroundColor="#4266B2" TextColor="White" />
+            <Button x:Name="BtnShow" Clicked="BtnShow_CLicked" Text="&#xf129;" FontSize="20" WidthRequest="44" HeightRequest="44" CornerRadius="22" FontFamily="FontAwesomeSolid" BackgroundColor="#2196F3" TextColor="White" />
         </Frame>
     </StackLayout>
 </ContentView>

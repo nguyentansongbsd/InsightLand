@@ -2,10 +2,7 @@
 <Grid xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ConasiCRM.Portable.Controls.LookUp">
-    <controls:LookUpEntry
-        x:Name="Entry"
-        Placeholder="{Binding Placeholder}"
-        HorizontalOptions="FillAndExpand"/>
+    <controls:LookUpEntry x:Name="Entry" Placeholder="{Binding Placeholder}" HorizontalOptions="FillAndExpand"/>
     <StackLayout VerticalOptions="Fill"
                          HorizontalOptions="Fill">
         <StackLayout.GestureRecognizers>
@@ -13,10 +10,5 @@
                                           Tapped="OpenLookUp_Tapped" />
         </StackLayout.GestureRecognizers>
     </StackLayout>
-    <Button
-        x:Name="BtnClear"
-        Style="{StaticResource ClearButtonStyle}"
-        FontFamily="FontAwesomeSolid"
-        Padding="0"
-        Clicked="Clear_Clicked" />
+    <Button x:Name="BtnClear" Style="{StaticResource ClearButtonStyle}" FontFamily="FontAwesomeSolid" Padding="0" Clicked="Clear_Clicked" />
 </Grid>
