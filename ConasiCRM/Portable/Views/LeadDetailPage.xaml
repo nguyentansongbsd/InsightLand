@@ -5,6 +5,7 @@
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives" 
              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls" 
              xmlns:converters="clr-namespace:ConasiCRM.Portable.Converters">
+             x:Name="this">
     <ContentPage.Resources>
         <!--header-->
         <Style x:Key="rabBorder_Tab" TargetType="telerikPrimitives:RadBorder">
@@ -116,7 +117,7 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <AbsoluteLayout>
-            <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="0,0,0,60">
                 <StackLayout>
                     <telerikPrimitives:RadBorder BorderThickness="1" CornerRadius="10" BorderColor="Gray" Margin="10,20,10,0">
                         <Grid RowDefinitions="Auto,1,Auto">
@@ -467,9 +468,11 @@
                                 </BindableLayout.ItemTemplate>
                             </StackLayout>
                         </StackLayout>
+                        <!-- Tab Phong Thuy-->
                     </StackLayout>
                 </StackLayout>
             </ScrollView>
+            <controls:FloatingButtonGroup x:Name="floatingButtonGroup" ItemsSource="{Binding BindingContext.ButtonCommandList,Source={x:Reference this}}" />
             <controls:BottomModal x:Name="LookUpModal"/>
             <Grid x:Name="LookUpImagePhongThuy" IsVisible="false" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="White">
                 <controls:PinchToZoomContainer>

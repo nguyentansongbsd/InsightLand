@@ -38,8 +38,13 @@ namespace ConasiCRM.Portable.Views
                 if (OnCompleted == true)
                 {
                     await Navigation.PushAsync(newPage);
+                    LoadingHelper.Hide();
                 }
-                LoadingHelper.Hide();
+                else
+                {
+                    LoadingHelper.Hide();
+                    await Shell.Current.DisplayAlert("Thông báo", "Không tìm thấy thông tin", "Đóng");
+                }
             };
         }
 

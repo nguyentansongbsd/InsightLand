@@ -34,11 +34,48 @@ namespace ConasiCRM.Portable.Views
         public async void Init()
         {
             await LoadDataThongTin(Id.ToString());
+
+            if (viewModel.singleLead.statuscode == "3") // qualified
+            {
+                floatingButtonGroup.IsVisible = true;
+                viewModel.ButtonCommandList.Add(new FloatButtonItem("Chỉnh sửa", "FontAwesomeRegular", "\uf044", null, Update));
+            }
+            else
+            {
+                viewModel.ButtonCommandList.Add(new FloatButtonItem("Lead Qualify", "FontAwesomeSolid", "\uf12e", null, LeadQualify));
+                viewModel.ButtonCommandList.Add(new FloatButtonItem("Chỉnh sửa", "FontAwesomeRegular", "\uf044", null, Update));
+            }
+
             if (viewModel.singleLead != null)
                 OnCompleted?.Invoke(true);
             else
                 OnCompleted?.Invoke(false);
             LoadingHelper.Hide();
+        }
+
+        private async void Update(object sender, EventArgs e)
+        {
+            LoadingHelper.Show();
+            await Navigation.PushAsync(new LeadForm(viewModel.singleLead.leadid));
+            LoadingHelper.Hide();
+        }
+
+        private async void LeadQualify(object sender, EventArgs e)
+        {
+            LoadingHelper.Show();
+            bool IsSuccess = await viewModel.Qualify(viewModel.singleLead.leadid);
+            if (IsSuccess)
+            {
+                await viewModel.LoadOneLead(Id.ToString());
+                LoadingHelper.Hide();
+                await Shell.Current.DisplayAlert("", "Thành công", "OK");
+            }
+            else
+            {
+                LoadingHelper.Hide();
+                await Shell.Current.DisplayAlert("", "Đã xảy ra lỗi. Vui lòng thử lại.", "OK");
+            }
+            
         }
 
         private async void ThongTin_Tapped(object sender, EventArgs e)

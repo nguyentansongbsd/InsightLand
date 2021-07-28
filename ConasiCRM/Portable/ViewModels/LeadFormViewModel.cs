@@ -14,11 +14,52 @@ using System.Net.Http.Headers;
 using System.Net;
 using System.Windows.Input;
 using Xamarin.Forms;
+using ConasiCRM.Models;
 
 namespace ConasiCRM.Portable.ViewModels
 {
     public class LeadFormViewModel : BaseViewModel
     {
+        public ObservableCollection<OptionSet> list_currency_lookup { get; set; }
+        
+        private OptionSet _selectedCurrency;
+        public OptionSet SelectedCurrency { get => _selectedCurrency; set { _selectedCurrency = value;OnPropertyChanged(nameof(SelectedCurrency)); } }
+
+        public ObservableCollection<OptionSet> list_industrycode_optionset { get; set; }
+
+        private OptionSet _industryCode;
+        public OptionSet IndustryCode { get => _industryCode; set { _industryCode = value;OnPropertyChanged(nameof(IndustryCode)); } }
+
+        public ObservableCollection<OptionSet> list_campaign_lookup { get; set; }
+
+        private OptionSet _campaign;
+        public OptionSet Campaign { get => _campaign; set { _campaign = value; OnPropertyChanged(nameof(Campaign)); } }
+
+        private string _addressComposite;
+        public string AddressComposite { get => _addressComposite; set { _addressComposite = value;OnPropertyChanged(nameof(AddressComposite)); } }
+
+        private string _addressCountry;
+        public string AddressCountry { get => _addressCountry; set { _addressCountry = value; OnPropertyChanged(nameof(AddressCountry)); } }
+
+        private string _addressPostalCode;
+        public string AddressPostalCode { get => _addressPostalCode; set { _addressPostalCode = value; OnPropertyChanged(nameof(AddressPostalCode)); } }
+
+        private string _addressStateProvince;
+        public string AddressStateProvince { get => _addressStateProvince; set { _addressStateProvince = value; OnPropertyChanged(nameof(AddressStateProvince)); } }
+
+        private string _addressCity;
+        public string AddressCity { get => _addressCity; set { _addressCity = value; OnPropertyChanged(nameof(AddressCity)); } }
+
+        private string _addressLine3;
+        public string AddressLine3 { get => _addressLine3; set { _addressLine3 = value; OnPropertyChanged(nameof(AddressLine3)); } }
+
+        private string _addressLine2;
+        public string AddressLine2 { get => _addressLine2; set { _addressLine2 = value; OnPropertyChanged(nameof(AddressLine2)); } }
+
+        private string _addressLine1;
+        public string AddressLine1 { get => _addressLine1; set { _addressLine1 = value; OnPropertyChanged(nameof(AddressLine1)); } }
+
+
         private LeadFormModel _singleLead;
         public LeadFormModel singleLead { get => _singleLead; set { _singleLead = value; OnPropertyChanged(nameof(singleLead)); } }
         private OptionSet _singleGender;
@@ -61,8 +102,8 @@ namespace ConasiCRM.Portable.ViewModels
 
         public ObservableCollection<LookUp> list_lookup { get; set; }
         public ObservableCollection<LookUp> list_topic_lookup { get; set; }
-        public ObservableCollection<LookUp> list_currency_lookup { get; set; }
-        public ObservableCollection<LookUp> list_campaign_lookup { get; set; }
+        
+        
         public ObservableCollection<Provinces> list_provinces_lookup { get; set; }
 
         public ObservableCollection<LookUp> list_country_lookup { get; set; }
@@ -70,7 +111,7 @@ namespace ConasiCRM.Portable.ViewModels
         public ObservableCollection<LookUp> list_district_lookup { get; set; }
 
         public ObservableCollection<OptionSet> list_gender_optionset { get; set; }
-        public ObservableCollection<OptionSet> list_industrycode_optionset { get; set; }       
+          
         public ObservableCollection<Provinces> list_nhucauvediadiem { get; set; }
 
         public ObservableCollection<LeadsRating> list_leadrating { get; set; }
@@ -101,8 +142,22 @@ namespace ConasiCRM.Portable.ViewModels
 
         public int PageDuAnQuanTam { get; set; } = 1;
 
+        private List<MaQuocGia> _maQuocGiaList;
+        public List<MaQuocGia> MaQuocGiaList { get=> _maQuocGiaList; set { _maQuocGiaList = value; OnPropertyChanged(nameof(MaQuocGiaList)); } }
+
+        private MaQuocGia _maQuocGiaCaNha;
+        public MaQuocGia MaQuocGiaCaNhan { get=>_maQuocGiaCaNha; set { _maQuocGiaCaNha = value;OnPropertyChanged(nameof(MaQuocGiaCaNhan)); } }
+        
+
+        private MaQuocGia _maQuocGiaCty;
+        public MaQuocGia MaQuocGiaCty { get => _maQuocGiaCty; set { _maQuocGiaCty = value; OnPropertyChanged(nameof(MaQuocGiaCty)); } }
+
         public LeadFormViewModel()
         {
+            MaQuocGiaList= MaQuocGiaData.GetList();
+            MaQuocGiaCaNhan = MaQuocGiaList[0];
+            MaQuocGiaCty = MaQuocGiaList[0];
+
             singleLead = new LeadFormModel();
             singleGender = new OptionSet();
             singleIndustrycode = new OptionSet();
@@ -119,8 +174,8 @@ namespace ConasiCRM.Portable.ViewModels
 
             list_lookup = new ObservableCollection<LookUp>();
             list_topic_lookup = new ObservableCollection<LookUp>();
-            list_currency_lookup = new ObservableCollection<LookUp>();
-            list_campaign_lookup = new ObservableCollection<LookUp>();
+            list_currency_lookup = new ObservableCollection<OptionSet>();
+            list_campaign_lookup = new ObservableCollection<OptionSet>();
 
             list_provinces_lookup = new ObservableCollection<Provinces>();
 
@@ -140,7 +195,6 @@ namespace ConasiCRM.Portable.ViewModels
             list_project_lookup = new ObservableCollection<ProjectList>();
             single_Leadcheck = new LeadCheckData();         
 
-            this.loadGender();
             this.loadIndustrycode();
         }
 
@@ -156,7 +210,6 @@ namespace ConasiCRM.Portable.ViewModels
             list_gender_optionset.Clear();
             list_industrycode_optionset.Clear();
 
-            this.loadGender();
             this.loadIndustrycode();
         }
 
@@ -206,7 +259,7 @@ namespace ConasiCRM.Portable.ViewModels
         public async Task<Boolean> updateLead(LeadFormModel lead)
         {
             string path = "/leads(" + lead.leadid + ")";
-            var content = await this.getContent(lead);
+            var content = await this.getContent();
 
             CrmApiResponse result = await CrmHelper.PatchData(path, content);
 
@@ -222,26 +275,13 @@ namespace ConasiCRM.Portable.ViewModels
             }
         }
 
-        public async Task<Guid> createLead(LeadFormModel lead)
+        public async Task<CrmApiResponse> createLead()
         {
             string path = "/leads";
-            lead.leadid = Guid.NewGuid();
-            var content = await this.getContent(lead);
-
+            singleLead.leadid = Guid.NewGuid();
+            var content = await this.getContent();
             CrmApiResponse result = await CrmHelper.PostData(path, content);
-
-            if (result.IsSuccess)
-            {
-                var api_Response = JsonConvert.DeserializeObject(result.Content);
-                return lead.leadid;
-            }
-            else
-            {
-                var mess = result.ErrorResponse?.error?.message ?? "Đã xảy ra lỗi. Vui lòng thử lại.";
-                return new Guid();
-            }
-
-
+            return result;
         }
 
         public async Task<Boolean> DeletLookup(string fieldName, Guid leadId)
@@ -250,136 +290,56 @@ namespace ConasiCRM.Portable.ViewModels
             return result.IsSuccess;
         }
 
-        public async Task Qualify(Guid id)
-        {
-            string path = "/leads(" + id + ")//Microsoft.Dynamics.CRM.bsd_Action_Lead_QualifyLead";
-
-            CrmApiResponse result = await CrmHelper.PostData(path, null);
-
-            if (result.IsSuccess)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", "Thành công", "OK");
-            }
-            else
-            {
-                var mess = result.ErrorResponse?.error?.message ?? "Đã xảy ra lỗi. Vui lòng thử lại.";
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("", mess, "OK");
-            }
-        }
-
-        private async Task<object> getContent(LeadFormModel lead)
+        private async Task<object> getContent()
         {
             IDictionary<string, object> data = new Dictionary<string, object>();
-
-            data["bsd_topic@odata.bind"] = "/bsd_topics(" + lead._bsd_topic_value + ")"; /////Lookup Field (use Schema Name)
-            data["subject"] = lead.bsd_topic_label;
-            data["fullname"] = lead.fullname;
-            data["leadid"] = lead.leadid;
-            data["firstname"] = lead.firstname;
-            data["lastname"] = lead.lastname;
-            data["mobilephone"] = lead.mobilephone;
-            data["telephone1"] = lead.telephone1;
-            data["jobtitle"] = lead.jobtitle;
-            data["emailaddress1"] = lead.emailaddress1;
-            data["new_gender"] = lead.new_gender;
-            data["bsd_identitycardnumber"] = lead.bsd_identitycardnumber;
-            //data["new_birthday"] = "1994-02-11";
-            data["new_birthday"] = lead.new_birthday.HasValue ? (DateTime.Parse(lead.new_birthday.ToString()).ToLocalTime()).ToString("yyyy-MM-dd\"T\"HH:mm:ss\"Z\"") : null;
-            data["companyname"] = lead.companyname;
-            data["websiteurl"] = lead.websiteurl;
-            data["address1_composite"] = lead.address1_composite;
-            data["address1_line1"] = lead.address1_line1;
-            data["address1_line2"] = lead.address1_line2;
-            data["address1_line3"] = lead.address1_line3;
-            data["address1_city"] = lead.address1_city;
-            data["address1_stateorprovince"] = lead.address1_stateorprovince;
-            data["address1_postalcode"] = lead.address1_postalcode;
-            data["address1_country"] = lead.address1_country;
-            data["bsd_diemdanhgia"] = lead.bsd_diemdanhgia;
-            data["bsd_danhgiaid"] = lead.bsd_danhgiaid;
-            data["bsd_danhgiadiem"] = lead.bsd_danhgiadiem;
-            data["description"] = lead.description;
-            data["industrycode"] = lead.industrycode;
-            data["revenue"] = decimal.Parse(lead.revenue);
-            data["numberofemployees"] = lead.numberofemployees;
-            data["sic"] = lead.sic;
-            data["donotsendmm"] = lead.donotsendmm.ToString();
-            data["lastusedincampaign"] = lead.lastusedincampaign.HasValue ? (DateTime.Parse(lead.lastusedincampaign.ToString()).ToLocalTime()).ToString("yyyy-MM-dd\"T\"HH:mm:ss\"Z\"") : null;
-            data["bsd_tieuchi_vitri"] = lead.bsd_tieuchi_vitri.ToString();
-            data["bsd_tieuchi_phuongthucthanhtoan"] = lead.bsd_tieuchi_phuongthucthanhtoan.ToString();
-            data["bsd_tieuchi_giacanho"] = lead.bsd_tieuchi_giacanho.ToString();
-            data["bsd_tieuchi_nhadautuuytin"] = lead.bsd_tieuchi_nhadautuuytin.ToString();
-            data["bsd_tieuchi_moitruongsong"] = lead.bsd_tieuchi_moitruongsong.ToString();
-            data["bsd_tieuchi_baidauxe"] = lead.bsd_tieuchi_baidauxe.ToString();
-            data["bsd_tieuchi_hethonganninh"] = lead.bsd_tieuchi_hethonganninh.ToString();
-            data["bsd_tieuchi_huongcanho"] = lead.bsd_tieuchi_huongcanho.ToString();
-            data["bsd_tieuchi_hethongcuuhoa"] = lead.bsd_tieuchi_hethongcuuhoa.ToString();
-            data["bsd_tieuchi_nhieutienich"] = lead.bsd_tieuchi_nhieutienich.ToString();
-            data["bsd_tieuchi_ganchosieuthi"] = lead.bsd_tieuchi_ganchosieuthi.ToString();
-            data["bsd_tieuchi_gantruonghoc"] = lead.bsd_tieuchi_gantruonghoc.ToString();
-            data["bsd_tieuchi_ganbenhvien"] = lead.bsd_tieuchi_ganbenhvien.ToString();
-            data["bsd_tieuchi_dientichcanho"] = lead.bsd_tieuchi_dientichcanho.ToString();
-            data["bsd_tieuchi_thietkenoithatcanho"] = lead.bsd_tieuchi_thietkenoithatcanho.ToString();
-            data["bsd_tieuchi_tangcanhodep"] = lead.bsd_tieuchi_tangcanhodep.ToString();
-            data["bsd_dientich_3060m2"] = lead.bsd_dientich_3060m2.ToString();
-            data["bsd_dientich_6080m2"] = lead.bsd_dientich_6080m2.ToString();
-            data["bsd_dientich_80100m2"] = lead.bsd_dientich_80100m2.ToString();
-            data["bsd_dientich_100120m2"] = lead.bsd_dientich_100120m2.ToString();
-            data["bsd_dientich_lonhon120m2"] = lead.bsd_dientich_lonhon120m2.ToString();
-            data["bsd_quantam_datnen"] = lead.bsd_quantam_datnen.ToString();
-            data["bsd_quantam_canho"] = lead.bsd_quantam_canho.ToString();
-            data["bsd_quantam_bietthu"] = lead.bsd_quantam_bietthu.ToString();
-            data["bsd_quantam_khuthuongmai"] = lead.bsd_quantam_khuthuongmai.ToString();
-            data["bsd_quantam_nhapho"] = lead.bsd_quantam_nhapho.ToString();
-            data["bsd_contactaddress"] = lead.bsd_contactaddress;
-            data["bsd_diachi"] = lead.bsd_diachi;
-            data["bsd_housenumberstreet"] = lead.bsd_housenumberstreet;
-            data["bsd_housenumber"] = lead.bsd_housenumber;
-
-            if (lead._transactioncurrencyid_value == null)
+            data["leadid"] = singleLead.leadid;
+            data["subject"] = singleLead.bsd_topic_label;
+            data["fullname"] = singleLead.fullname;
+            data["firstname"] = singleLead.fullname;
+            data["mobilephone"] = singleLead.mobilephone;
+            data["telephone1"] = singleLead.telephone1;
+            data["jobtitle"] = singleLead.jobtitle;
+            data["emailaddress1"] = singleLead.emailaddress1;
+            data["companyname"] = singleLead.companyname;
+            data["websiteurl"] = singleLead.websiteurl;
+            data["address1_composite"] = singleLead.address1_composite;
+            data["address1_line1"] = singleLead.address1_line1;
+            data["address1_line2"] = singleLead.address1_line2;
+            data["address1_line3"] = singleLead.address1_line3;
+            data["address1_city"] = singleLead.address1_city;
+            data["address1_stateorprovince"] = singleLead.address1_stateorprovince;
+            data["address1_postalcode"] = singleLead.address1_postalcode;
+            data["address1_country"] = singleLead.address1_country;
+            data["description"] = singleLead.description;
+            data["industrycode"] = singleLead.industrycode;
+            if (!string.IsNullOrWhiteSpace(singleLead.revenue))
             {
-                await DeletLookup("transactioncurrencyid", lead.leadid);
+                data["revenue"] = decimal.Parse(singleLead.revenue);
+            }
+            data["numberofemployees"] = singleLead.numberofemployees;
+            data["sic"] = singleLead.sic;
+            data["donotsendmm"] = singleLead.donotsendmm.ToString();
+            data["lastusedincampaign"] = singleLead.lastusedincampaign.HasValue ? (DateTime.Parse(singleLead.lastusedincampaign.ToString()).ToLocalTime()).ToString("yyyy-MM-dd\"T\"HH:mm:ss\"Z\"") : null;
+
+            if (singleLead._transactioncurrencyid_value == null)
+            {
+                await DeletLookup("transactioncurrencyid", singleLead.leadid);
             }
             else
             {
-                data["transactioncurrencyid@odata.bind"] = "/transactioncurrencies(" + lead._transactioncurrencyid_value + ")"; /////Lookup Field
+                data["transactioncurrencyid@odata.bind"] = "/transactioncurrencies(" + singleLead._transactioncurrencyid_value + ")"; /////Lookup Field
             }
-            if (lead._campaignid_value == null)
+
+
+            if (singleLead._campaignid_value == null)
             {
-                await DeletLookup("campaignid", lead.leadid);
+                await DeletLookup("CampaignId", singleLead.leadid);
             }
             else
             {
-                data["campaignid@odata.bind"] = "/campaigns(" + lead._campaignid_value + ")"; /////Lookup Field
+                data["campaignid@odata.bind"] = "/campaigns(" + singleLead._campaignid_value + ")"; /////Lookup Field
             }
-
-            if (lead._bsd_country_value == null)
-            {
-                await DeletLookup("bsd_Country", lead.leadid);
-            }
-            else
-            {
-                data["bsd_Country@odata.bind"] = "/bsd_countries(" + lead._bsd_country_value + ")"; /////Lookup Field
-            }
-
-            if (lead._bsd_province_value == null)
-            {
-                await DeletLookup("bsd_province", lead.leadid);
-            }
-            else
-            {
-                data["bsd_province@odata.bind"] = "/new_provinces(" + lead._bsd_province_value + ")"; /////Lookup Field
-            }
-
-            if (lead._bsd_district_value == null)
-            {
-                await DeletLookup("bsd_District", lead.leadid);
-            }
-            else
-            {
-                data["bsd_District@odata.bind"] = "/new_districts(" + lead._bsd_district_value + ")"; /////Lookup Field
-            }
-
             return data;
         }
 
@@ -408,22 +368,6 @@ namespace ConasiCRM.Portable.ViewModels
             {
                 list_topic_lookup.Add(x);
             }
-        }
-
-        //////// GENDER OPTIONSET AREA
-        /// ////
-
-        public void loadGender()
-        {
-            list_gender_optionset.Add(new OptionSet() { Val = ("1"), Label = "Nam", });
-            list_gender_optionset.Add(new OptionSet() { Val = ("2"), Label = "Nữ", });
-            list_gender_optionset.Add(new OptionSet() { Val = ("100000000"), Label = "Khác", });
-        }
-
-        public async Task<OptionSet> loadOneGender(string id)
-        {
-            this.singleGender = list_gender_optionset.FirstOrDefault(x => x.Val == id); ;
-            return singleGender;
         }
 
 
@@ -476,12 +420,12 @@ namespace ConasiCRM.Portable.ViewModels
         {
             string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                                 <entity name='transactioncurrency'>
-                                    <attribute name='transactioncurrencyid' alias='Id'/>
-                                    <attribute name='currencyname' alias='Name'/>
+                                    <attribute name='transactioncurrencyid' alias='Val'/>
+                                    <attribute name='currencyname' alias='Label'/>
                                     <order attribute='currencyname' descending='false' />
                                 </entity>
                             </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("transactioncurrencies", fetch);
+            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<OptionSet>>("transactioncurrencies", fetch);
             if (result == null)
             {
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
@@ -548,12 +492,12 @@ namespace ConasiCRM.Portable.ViewModels
         {
             string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                                 <entity name='campaign'>
-                                    <attribute name='name' alias='Name'/>
-                                    <attribute name='campaignid' alias='Id'/>
+                                    <attribute name='name' alias='Label'/>
+                                    <attribute name='campaignid' alias='Val'/>
                                     <order attribute='name' descending='true' />
                                 </entity>
                             </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("campaigns", fetch);
+            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<OptionSet>>("campaigns", fetch);
             if (result == null)
             {
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
