@@ -13,8 +13,8 @@
                     <VisualStateGroup>
                         <VisualState x:Name="Normal">
                             <VisualState.Setters>
-                                <Setter Property="BorderColor" Value="Transparent"/>
-                                <Setter Property="BorderThickness" Value="0,0,0,0"/>
+                                <Setter Property="BorderColor" Value="#737373"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,1"/>
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState x:Name="Selected">
@@ -74,7 +74,7 @@
         </Style>
         <Style  x:Key="Lb_Title_Content" TargetType="controls:FormLabelValue">
             <Setter Property="Padding" Value="25,10"/>
-            <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+            <Setter Property="HorizontalTextAlignment" Value="End"/>
         </Style>
         <!--tab nhu cau-->
         <Style x:Key="Lb_Title_NhuCau" TargetType="Label">
@@ -149,8 +149,7 @@
                             </Grid>
                         </Grid>
                     </telerikPrimitives:RadBorder>
-                    <Grid ColumnDefinitions="*,*,*" Margin="0,5,0,0">
-                        <BoxView HeightRequest="0.5" BackgroundColor="#939393" Grid.ColumnSpan="3" VerticalOptions="End" />
+                    <Grid ColumnDefinitions="*,*" Margin="0,5,0,0" ColumnSpacing="0">
                         <telerikPrimitives:RadBorder x:Name="radBorderThongTin" Grid.Column="0" Style="{StaticResource rabBorder_Tab}">
                             <telerikPrimitives:RadBorder.GestureRecognizers>
                                 <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="ThongTin_Tapped"/>
@@ -163,12 +162,12 @@
                             </telerikPrimitives:RadBorder.GestureRecognizers>
                             <Label x:Name="lbNhuCau" Text="Nhu Cầu" Style="{StaticResource Lb_Tab}"/>
                         </telerikPrimitives:RadBorder>
-                        <telerikPrimitives:RadBorder x:Name="radBorderPhongThuy" Grid.Column="2" Style="{StaticResource rabBorder_Tab}">
+                        <!--<telerikPrimitives:RadBorder x:Name="radBorderPhongThuy" Grid.Column="2" Style="{StaticResource rabBorder_Tab}">
                             <telerikPrimitives:RadBorder.GestureRecognizers>
                                 <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="PhongThuy_Tapped"/>
                             </telerikPrimitives:RadBorder.GestureRecognizers>
                             <Label x:Name="lbPhongThuy" Text="Phong Thủy" Style="{StaticResource Lb_Tab}"/>
-                        </telerikPrimitives:RadBorder>
+                        </telerikPrimitives:RadBorder>-->
                     </Grid>
                     <StackLayout>
                         <!-- Tab Thong Tin-->
@@ -180,11 +179,11 @@
                                     </telerikPrimitives:ExpanderHeader>
                                 </telerikPrimitives:RadExpander.Header>
                                 <telerikPrimitives:RadExpander.Content>
-                                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="1" BackgroundColor="#F1F1F1">
-                                        <Grid ColumnDefinitions="Auto,*" BackgroundColor="White" Grid.Row="0">
+                                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="1" BackgroundColor="#F1F1F1">
+                                        <!--<Grid ColumnDefinitions="Auto,*" BackgroundColor="White" Grid.Row="0">
                                             <controls:FormLabel Text="Số CMND (ID): " Grid.Column="0" FontSize="15" TextColor="#444444" Style="{StaticResource Lb_Title_ThongTin}"/>
                                             <controls:FormLabelValue Text="{Binding singleLead.bsd_identitycardnumber}" Grid.Column="1" FontSize="15" TextColor="#444444" Style="{StaticResource Lb_Title_Content}"/>
-                                        </Grid>
+                                        </Grid>-->
                                         <Grid ColumnDefinitions="Auto,*" BackgroundColor="White" Grid.Row="1">
                                             <controls:FormLabel Text="Số điện thoại công ty: " Grid.Column="0" FontSize="15" TextColor="#444444" Style="{StaticResource Lb_Title_ThongTin}"/>
                                             <controls:FormLabelValue Text="{Binding singleLead.telephone1}" Grid.Column="1" FontSize="15" TextColor="#444444" Style="{StaticResource Lb_Title_Content}"/>
@@ -197,7 +196,7 @@
                                             <controls:FormLabel Text="Chức vụ: " Grid.Column="0" FontSize="15" TextColor="#444444" Style="{StaticResource Lb_Title_ThongTin}"/>
                                             <controls:FormLabelValue Text="{Binding singleLead.jobtitle}" Grid.Column="1" FontSize="15" TextColor="#444444" Style="{StaticResource Lb_Title_Content}"/>
                                         </Grid>
-                                        <Grid ColumnDefinitions="Auto,*" BackgroundColor="White" Grid.Row="4">
+                                        <!--<Grid ColumnDefinitions="Auto,*" BackgroundColor="White" Grid.Row="4">
                                             <controls:FormLabel Text="Giới tính: " Grid.Column="0" FontSize="15" TextColor="#444444" Style="{StaticResource Lb_Title_ThongTin}"/>
                                             <controls:FormLabelValue Text="{Binding singleGender.Label}" Grid.Column="1" FontSize="15" TextColor="#444444" Style="{StaticResource Lb_Title_Content}"/>
                                         </Grid>
@@ -208,7 +207,7 @@
                                         <Grid ColumnDefinitions="Auto,*" BackgroundColor="White" Grid.Row="6">
                                             <controls:FormLabel Text="Địa chỉ (VN): " Grid.Column="0" FontSize="15" TextColor="#444444" Style="{StaticResource Lb_Title_ThongTin}"/>
                                             <controls:FormLabelValue Text="{Binding singleLead.bsd_contactaddress}" Grid.Column="1" FontSize="15" TextColor="#444444" Style="{StaticResource Lb_Title_Content}"/>
-                                        </Grid>
+                                        </Grid>-->
                                     </Grid>
                                 </telerikPrimitives:RadExpander.Content>
                             </telerikPrimitives:RadExpander>
@@ -301,6 +300,7 @@
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
                             </StackLayout>
+
                             <Grid ColumnDefinitions="*,Auto" BackgroundColor="#f1f1f1" Padding="25,9,22,9">
                                 <Label Text="Dự Án Quan Tâm" Style="{StaticResource Lb_Title_NhuCau}" Grid.Column="0"/>
                                 <ImageButton Clicked="BtnAddDuanquantam_Clicked" Grid.Column="1" WidthRequest="17" HeightRequest="17" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="Transparent">

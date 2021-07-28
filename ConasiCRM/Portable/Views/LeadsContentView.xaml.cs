@@ -2,11 +2,6 @@
 using ConasiCRM.Portable.Models;
 using ConasiCRM.Portable.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,6 +11,7 @@ namespace ConasiCRM.Portable.Views
     public partial class LeadsContentView : ContentView
     {
         private readonly LeadsContentViewViewModel viewModel;
+        public Action<bool> OnCompleted;
         public LeadsContentView()
         {
             InitializeComponent();
@@ -25,7 +21,15 @@ namespace ConasiCRM.Portable.Views
         }
         public async void Init()
         {
-            await viewModel.LoadData();          
+            await viewModel.LoadData();
+            if (viewModel.Data.Count > 0)
+            {
+                OnCompleted?.Invoke(true);
+            }
+            else
+            {
+                OnCompleted?.Invoke(false);
+            }
         }
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)

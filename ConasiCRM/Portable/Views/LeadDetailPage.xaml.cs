@@ -37,7 +37,6 @@ namespace ConasiCRM.Portable.Views
             if (viewModel.singleLead.statuscode == "3") // qualified
             {
                 floatingButtonGroup.IsVisible = true;
-                viewModel.ButtonCommandList.Add(new FloatButtonItem("Chỉnh sửa", "FontAwesomeRegular", "\uf044", null, Update));
             }
             else
             {
@@ -54,8 +53,21 @@ namespace ConasiCRM.Portable.Views
         private async void Update(object sender, EventArgs e)
         {
             LoadingHelper.Show();
-            await Navigation.PushAsync(new LeadForm(viewModel.singleLead.leadid));
-            LoadingHelper.Hide();
+            LeadForm leadForm = new LeadForm(viewModel.singleLead.leadid);
+            leadForm.CheckSingleLead = async (IsSuccess) =>
+            {
+                if (IsSuccess)
+                {
+                    await Navigation.PushAsync(leadForm);
+                    LoadingHelper.Hide();
+                }
+                else
+                {
+                    LoadingHelper.Hide();
+                    await Shell.Current.DisplayAlert("", "Đã xảy ra lỗi. Vui lòng thử lại.", "OK");
+                }
+            };
+            
         }
 
         private async void LeadQualify(object sender, EventArgs e)
@@ -120,18 +132,18 @@ namespace ConasiCRM.Portable.Views
                 VisualStateManager.GoToState(lbNhuCau, "Normal");
                 TabNhuCau.IsVisible = false;
             }
-            if (tab == 3)
-            {
-                VisualStateManager.GoToState(radBorderPhongThuy, "Selected");
-                VisualStateManager.GoToState(lbPhongThuy, "Selected");
-                TabPhongThuy.IsVisible = true;
-            }
-            else
-            {
-                VisualStateManager.GoToState(radBorderPhongThuy, "Normal");
-                VisualStateManager.GoToState(lbPhongThuy, "Normal");
-                TabPhongThuy.IsVisible = false;
-            }
+            //if (tab == 3)
+            //{
+            //    VisualStateManager.GoToState(radBorderPhongThuy, "Selected");
+            //    VisualStateManager.GoToState(lbPhongThuy, "Selected");
+            //    TabPhongThuy.IsVisible = true;
+            //}
+            //else
+            //{
+            //    VisualStateManager.GoToState(radBorderPhongThuy, "Normal");
+            //    VisualStateManager.GoToState(lbPhongThuy, "Normal");
+            //    TabPhongThuy.IsVisible = false;
+            //}
         }
 
         private async void NhanTin_Tapped(object sender, EventArgs e)

@@ -37,31 +37,10 @@
                                 <controls:MainEntry Text="{Binding singleLead.fullname}" FontSize="15"  Placeholder="Nhập họ tên"/>
 
                                 <controls:FormLabelRequired Text="Số điện thoại"/>
-                                <Grid ColumnDefinitions="60,*">
-                                    <Grid Grid.Column="0" >
-                                        <controls:MainEntry Text="{Binding MaQuocGiaCaNhan.Value}" FontSize="15"/>
-                                        <StackLayout>
-                                            <StackLayout.GestureRecognizers>
-                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="MaQuocGiaCaNhan_Tapped"/>
-                                            </StackLayout.GestureRecognizers>
-                                        </StackLayout>
-                                    </Grid>
-                                    <controls:MainEntry x:Name="mobilephone_text" Grid.Column="1"  Keyboard="Telephone" FontSize="15" Placeholder="Nhập số điện thoại"/>
-                                </Grid>
-
+                                <controls:MainEntry x:Name="mobilephone_text" Text="{Binding singleLead.mobilephone}" Keyboard="Telephone" FontSize="15" Placeholder="Nhập số điện thoại"/>
+                                
                                 <controls:FormLabel Text="Số điện thoại công ty"/>
-                                <Grid ColumnDefinitions="60,*">
-                                    <Grid Grid.Column="0">
-                                        <controls:MainEntry Text="{Binding MaQuocGiaCty.Value}" FontSize="15"/>
-                                        <StackLayout>
-                                            <StackLayout.GestureRecognizers>
-                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="MaQuocGiaCty_Tapped"/>
-                                            </StackLayout.GestureRecognizers>
-                                        </StackLayout>
-                                    </Grid>
-                                    <controls:MainEntry x:Name="telephone1_text" Grid.Column="1" Keyboard="Telephone" FontSize="15"  Placeholder="Nhập số điện thoại công ty"/>
-                                </Grid>
-
+                                <controls:MainEntry x:Name="telephone1_text" Text="{Binding singleLead.telephone1}" Keyboard="Telephone" FontSize="15"  Placeholder="Nhập số điện thoại công ty"/>
 
                                 <controls:FormLabel Text="Chức vụ"/>
                                 <controls:MainEntry x:Name="jobtitle_text" Text="{Binding singleLead.jobtitle}" FontSize="15"  Placeholder="Nhập chức vụ"/>
@@ -136,20 +115,6 @@
                 <Button x:Name="btn_save_lead" Text="Tạo khách hàng" Clicked="SaveLead_Clicked" Margin="10" Padding="10,5" HeightRequest="40" CornerRadius="10" BackgroundColor="#2196F3" TextColor="White"/>
             </StackLayout>
 
-            <controls:BottomModal x:Name="LookUpModalMaQuocGia" Title="Mã quốc gia">
-                <controls:BottomModal.ModalContent>
-                    <controls:BsdListView x:Name="listMaQuocGia" ItemTapped="listMaQuocGia_ItemTapped">
-                        <controls:BsdListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <Label Text="{Binding Display}" FontSize="15" TextColor="#333333" Padding="10,5" BackgroundColor="White" Margin="0,1"/>
-                                </ViewCell>
-                            </DataTemplate>
-                        </controls:BsdListView.ItemTemplate>
-                    </controls:BsdListView>
-                </controls:BottomModal.ModalContent>
-            </controls:BottomModal>
-
             <controls:CenterModal x:Name="centerModalAddress" Title="Thiết lập địa chỉ">
                 <controls:CenterModal.Body>
                     <ScrollView>
@@ -158,16 +123,12 @@
                             <controls:MainEntry Placeholder="Nhập quốc gia" Text="{Binding AddressCountry}"/>
                             <controls:FormLabel Text="ZIP code"/>
                             <controls:MainEntry Placeholder="Nhập ZIP code" Text="{Binding AddressPostalCode}"/>
-                            <controls:FormLabel Text="Tỉnh/Tiểu bang"/>
-                            <controls:MainEntry Placeholder="Nhập tỉnh/tiểu bang" Text="{Binding AddressStateProvince}"/>
-                            <controls:FormLabel Text="Thành phố"/>
-                            <controls:MainEntry Placeholder="Nhập thành phố" Text="{Binding AddressCity}"/>
-                            <controls:FormLabel Text="Địa chỉ 3"/>
-                            <controls:MainEntry Placeholder="Nhập địa chỉ 3" Text="{Binding AddressLine3}"/>
-                            <controls:FormLabel Text="Địa chỉ 2"/>
-                            <controls:MainEntry Placeholder="Nhập địa chỉ 2" Text="{Binding AddressLine2}"/>
-                            <controls:FormLabel Text="Địa chỉ chính"/>
-                            <controls:MainEntry Placeholder="Nhập địa chỉ chính" Text="{Binding AddressLine1}"/>
+                            <controls:FormLabel Text="Tỉnh thành"/>
+                            <controls:MainEntry Placeholder="Nhập ỉnh thành" Text="{Binding AddressStateProvince}"/>
+                            <controls:FormLabel Text="Quận/Huyện"/>
+                            <controls:MainEntry Placeholder="Nhập quận/huyện" Text="{Binding AddressCity}"/>
+                            <controls:FormLabel Text="Số nhà/Đường"/>
+                            <controls:MainEntry Placeholder="Nhập số nhà/đường" Text="{Binding AddressLine1}"/>
                         </StackLayout>
                     </ScrollView>
                 </controls:CenterModal.Body>

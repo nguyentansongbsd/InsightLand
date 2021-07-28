@@ -248,7 +248,7 @@ namespace ConasiCRM.Portable.ViewModels
                             </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ContactFormModel>>("contacts", fetch);
             var tmp = result.value.FirstOrDefault();
-            if (tmp == null)
+            if (result == null || tmp == null)
             {
                 await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
                 await Xamarin.Forms.Application.Current.MainPage.Navigation.PopAsync();
