@@ -4,7 +4,7 @@
              x:Class="ConasiCRM.Portable.Views.LeadDetailPage"
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives" 
              xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls" 
-             xmlns:converters="clr-namespace:ConasiCRM.Portable.Converters">
+             xmlns:converters="clr-namespace:ConasiCRM.Portable.Converters"
              x:Name="this">
     <ContentPage.Resources>
         <!--header-->
