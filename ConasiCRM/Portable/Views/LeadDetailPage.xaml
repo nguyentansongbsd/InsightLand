@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConasiCRM.Portable.Views.LeadDetailPage"
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives" 
-             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls" xmlns:converters="clr-namespace:ConasiCRM.Portable.Converters"
+             xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls" 
+             xmlns:converters="clr-namespace:ConasiCRM.Portable.Converters">
              x:Name="this">
     <ContentPage.Resources>
         <!--header-->
@@ -111,6 +112,7 @@
         <ResourceDictionary>
             <converters:LeadQualityCodeConverter x:Key="LeadQualityCodeConverter"/>
             <converters:StatusCodeConverter x:Key="StatusCodeConverter"/>
+            <converters:NullToHideConverter x:Key="NullToBool"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -122,7 +124,7 @@
                             <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="10" Padding="20,10,20,0" Grid.Row="0">
                                 <Grid ColumnDefinitions="Auto,1,Auto" Grid.Row="0" ColumnSpacing="5">
                                     <Label Text="{Binding singleLead.statuscode,Converter={StaticResource StatusCodeConverter}}" Grid.Column="0" TextColor="#939393" FontSize="15"/>
-                                    <BoxView WidthRequest="1" HeightRequest="15" BackgroundColor="#939393" Grid.Column="1" VerticalOptions="CenterAndExpand"/>
+                                    <BoxView  IsVisible="{Binding singleLead.statuscode,Converter={StaticResource NullToBool}}" WidthRequest="1" HeightRequest="15" BackgroundColor="#939393" Grid.Column="1" VerticalOptions="CenterAndExpand"/>
                                     <Label Text="{Binding singleLead.leadqualitycode,Converter={StaticResource LeadQualityCodeConverter}}" Grid.Column="2" TextColor="#939393" FontSize="15"/>
                                 </Grid>
                                 <Label Text="{Binding singleLead.fullname}" FontAttributes="Bold" Grid.Row="1" FontSize="16" TextColor="#026294"/>
@@ -428,7 +430,7 @@
                                 <controls:FormLabelValue Text="{Binding PhongThuy.menh_label}" Grid.Row="6" Grid.Column="1" FontSize="15" TextColor="#444444" Style="{StaticResource Lb_ChiTietHuong_PhongThuy}"/>
                             </Grid>
                             <Label Text="La Bàn Phong Thủy" Style="{StaticResource Lb_Title_PhongThuy}"/>
-                            <Image Source="{Binding PhongThuy.image}" Aspect="AspectFit">
+                            <Image Source="{Binding PhongThuy.image}" Aspect="AspectFit" Margin="60,15,60,15">
                                 <Image.GestureRecognizers>
                                     <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="ShowImage_Tapped"/>
                                 </Image.GestureRecognizers>

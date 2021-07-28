@@ -35,10 +35,10 @@ namespace ConasiCRM.Portable.Views
         {
             LoadingHelper.Show();
             var item = e.Item as ContactListModel;
-            ContactForm newPage = new ContactForm(item.contactid);
-            newPage.CheckSingleContact = async (CheckSingleAccount) =>
+            ContactDetailPage newPage = new ContactDetailPage(item.contactid);
+            newPage.OnCompleted = async (OnCompleted) =>
             {
-                if (CheckSingleAccount == true)
+                if (OnCompleted == true)
                 {
                     await Navigation.PushAsync(newPage);
                     LoadingHelper.Hide();
@@ -50,7 +50,6 @@ namespace ConasiCRM.Portable.Views
                 }
             };
         }
-
         private async void SearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
         {
             LoadingHelper.Show();
