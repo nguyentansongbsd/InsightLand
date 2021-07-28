@@ -58,11 +58,8 @@ namespace ConasiCRM.Portable.ViewModels
 
         public LeadDetailPageViewModel()
         {
-            singleLead = new LeadFormModel();
             singleGender = new OptionSet();
-            singleIndustrycode = new OptionSet();
-
-            PhongThuy = new PhongThuyModel();          
+            singleIndustrycode = new OptionSet();                      
 
             list_provinces_lookup = new ObservableCollection<Provinces>();            
 
@@ -85,30 +82,11 @@ namespace ConasiCRM.Portable.ViewModels
 
             this.loadGender();
             this.loadIndustrycode();
-        }
-
-        public void reset()
-        {
-            singleLead = new LeadFormModel();
-            singleGender = new OptionSet();
-            singleIndustrycode = new OptionSet();
-            
-            list_nhucauvediadiem.Clear();
-            list_Duanquantam.Clear();
-            list_gender_optionset.Clear();
-            list_industrycode_optionset.Clear();
-            list_TieuChiChonMua.Clear();
-            list_LoaiBatDongSanQuanTam.Clear();
-            list_NhuCauVeDienTichCanHo.Clear();
-            list_HuongTot.Clear();
-            list_HuongXau.Clear();
-
-            this.loadGender();
-            this.loadIndustrycode();
-        }
+        }      
 
         public async Task LoadOneLead(String leadid)
         {
+            singleLead = new LeadFormModel();
             string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                                 <entity name='lead'>
                                     <all-attributes />
@@ -247,7 +225,7 @@ namespace ConasiCRM.Portable.ViewModels
             data["bsd_danhgiadiem"] = lead.bsd_danhgiadiem;
             data["description"] = lead.description;
             data["industrycode"] = lead.industrycode;
-            data["revenue"] = decimal.Parse(lead.revenue);
+            data["revenue"] = decimal.Parse(lead.revenue); //bug
             data["numberofemployees"] = lead.numberofemployees;
             data["sic"] = lead.sic;
             data["donotsendmm"] = lead.donotsendmm.ToString();
@@ -784,7 +762,7 @@ namespace ConasiCRM.Portable.ViewModels
             if (singleLead.bsd_tieuchi_huongcanho == true)
                 list_TieuChiChonMua.Add(new TieuChi { Id = 8, Name = "Tiêu chí - Hướng căn hộ" });
             if (singleLead.bsd_tieuchi_hethongcuuhoa == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 9, Name = "Tiêu chí - hệ thống cứu hoả" });
+                list_TieuChiChonMua.Add(new TieuChi { Id = 9, Name = "Tiêu chí - Hệ thống cứu hoả" });
             if (singleLead.bsd_tieuchi_nhieutienich == true)
                 list_TieuChiChonMua.Add(new TieuChi { Id = 10, Name = "Tiêu chí - Nhiều tiện ích" });
             if (singleLead.bsd_tieuchi_ganchosieuthi == true)
@@ -822,39 +800,46 @@ namespace ConasiCRM.Portable.ViewModels
         }
         public void LoadPhongThuy()
         {
-            if (singleLead != null && singleLead.new_gender != null && singleGender != null && singleGender.Val != null)
+            PhongThuy = new PhongThuyModel();
+            _ = loadOneGender(singleLead.new_gender);
+            if (list_HuongTot != null || list_HuongXau != null)
             {
-                PhongThuy.gioi_tinh = Int32.Parse(singleLead.new_gender);
-                PhongThuy.nam_sinh = singleLead.new_birthday.HasValue ? singleLead.new_birthday.Value.Year : 0;
-                if (PhongThuy.huong_tot != null && PhongThuy.huong_tot != null)
+                list_HuongTot.Clear();
+                list_HuongXau.Clear();
+                if (singleLead != null && singleLead.new_gender != null && singleGender != null && singleGender.Val != null)
                 {
-                    string[] huongtot = PhongThuy.huong_tot.Split('\n');
-                    string[] huongxau = PhongThuy.huong_xau.Split('\n');
-                    int i = 1;
-                    foreach (var x in huongtot)
-                    {                        
-                        string[] huong = x.Split(':');
-                        string name_huong = i+ ". " + huong[0];
-                        string detail_huong = huong[1].Remove(0, 1);
-                        list_HuongTot.Add(new HuongPhongThuy { Name = name_huong, Detail = detail_huong });
-                        i++;
+                    PhongThuy.gioi_tinh = Int32.Parse(singleLead.new_gender);
+                    PhongThuy.nam_sinh = singleLead.new_birthday.HasValue ? singleLead.new_birthday.Value.Year : 0;
+                    if (PhongThuy.huong_tot != null && PhongThuy.huong_tot != null)
+                    {
+                        string[] huongtot = PhongThuy.huong_tot.Split('\n');
+                        string[] huongxau = PhongThuy.huong_xau.Split('\n');
+                        int i = 1;
+                        foreach (var x in huongtot)
+                        {
+                            string[] huong = x.Split(':');
+                            string name_huong = i + ". " + huong[0];
+                            string detail_huong = huong[1].Remove(0, 1);
+                            list_HuongTot.Add(new HuongPhongThuy { Name = name_huong, Detail = detail_huong });
+                            i++;
+                        }
+                        int j = 1;
+                        foreach (var x in huongxau)
+                        {
+                            string[] huong = x.Split(':');
+                            string name_huong = j + ". " + huong[0];
+                            string detail_huong = huong[1].Remove(0, 1);
+                            list_HuongXau.Add(new HuongPhongThuy { Name = name_huong, Detail = detail_huong });
+                            j++;
+                        }
                     }
-                    int j = 1;
-                    foreach (var x in huongxau)
-                    {                        
-                        string[] huong = x.Split(':');
-                        string name_huong = j + ". " + huong[0];
-                        string detail_huong = huong[1].Remove(0, 1);
-                        list_HuongXau.Add(new HuongPhongThuy { Name = name_huong, Detail = detail_huong });
-                        j++;
-                    }
-                } 
+                }
+                else
+                {
+                    PhongThuy.gioi_tinh = 0;
+                    PhongThuy.nam_sinh = 0;
+                }
             }
-            else
-            {
-                PhongThuy.gioi_tinh = 0;
-                PhongThuy.nam_sinh = 0;
-            }           
         }
     }
 }

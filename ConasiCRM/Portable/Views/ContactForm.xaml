@@ -144,7 +144,7 @@
                                     <local:FormLabel VerticalOptions="Center" Text="Số Hộ Chiếu" FontSize="16" Grid.Column="0" Grid.Row="3"/>
                                     <local:MainEntry Text="{Binding singleContact.bsd_passport}" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
 
-                                    <local:FormLabel VerticalOptions="Center" Text="Ngày Cấp hộ Chiếu" FontSize="16" Grid.Column="0" Grid.Row="4"/>
+                                    <local:FormLabel VerticalOptions="Center" Text="Ngày Cấp hộ chiếu" FontSize="16" Grid.Column="0" Grid.Row="4"/>
                                     <Grid Grid.Column="1" Grid.Row="4" ColumnDefinitions="*,17">
                                         <!--<local:MyDatePicker MinimumDate="01/01/0001" NullableDate="{Binding Lead.new_birthday}" FontSize="16" HorizontalOptions="FillAndExpand"/>-->
                                         <local:MyNewDatePicker x:Name="bsd_issuedonpassport_picker" NullableDate="{Binding singleContact.bsd_issuedonpassport}" Grid.Column="0" Grid.ColumnSpan="2"/>
