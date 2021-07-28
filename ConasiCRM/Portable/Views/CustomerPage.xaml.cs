@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ConasiCRM.Portable.Helper;
 using Xamarin.Forms;
 
@@ -7,6 +8,7 @@ namespace ConasiCRM.Portable.Views
 {
     public partial class CustomerPage : ContentPage
     {
+        private LeadsContentView LeadsContentView;
         private ContactsContentview ContactsContentview;
         private AccountsContentView AccountsContentView;
         private Label DataNull = new Label() { Text = "Không có dữ liệu", FontSize = 18, TextColor = Color.Gray, HorizontalTextAlignment = TextAlignment.Center, Margin = new Thickness(0, 30, 0, 0) };
@@ -15,7 +17,6 @@ namespace ConasiCRM.Portable.Views
             LoadingHelper.Show();
             InitializeComponent();
             Init();
-            LoadingHelper.Hide();
         }
         public async void Init()
         {
@@ -25,6 +26,23 @@ namespace ConasiCRM.Portable.Views
             VisualStateManager.GoToState(lblLead, "Active");
             VisualStateManager.GoToState(lblAccount, "InActive");
             VisualStateManager.GoToState(lblContact, "InActive");
+            if (LeadsContentView == null)
+            {
+                LeadsContentView = new LeadsContentView();
+            }
+            LeadsContentView.OnCompleted = async (IsSuccess) =>
+            {
+                if (IsSuccess)
+                {
+                    CustomerContentView.Children.Add(LeadsContentView);
+                    LoadingHelper.Hide();
+                }
+                else
+                {
+                    CustomerContentView.Children.Add(DataNull);
+                    LoadingHelper.Hide();
+                }
+            };
         }
 
         private void Lead_Tapped(object sender, EventArgs e)
@@ -35,8 +53,8 @@ namespace ConasiCRM.Portable.Views
             VisualStateManager.GoToState(lblLead, "Active");
             VisualStateManager.GoToState(lblAccount, "InActive");
             VisualStateManager.GoToState(lblContact, "InActive");
-            leadsContentView.IsVisible = true;
-            if (AccountsContentView!= null)
+            LeadsContentView.IsVisible = true;
+            if (AccountsContentView != null)
             {
                 AccountsContentView.IsVisible = false;
             }
@@ -72,7 +90,7 @@ namespace ConasiCRM.Portable.Views
                     LoadingHelper.Hide();
                 }
             };
-            leadsContentView.IsVisible = false;
+            LeadsContentView.IsVisible = false;
             AccountsContentView.IsVisible = true;
             if (ContactsContentview != null)
             {
@@ -97,7 +115,7 @@ namespace ConasiCRM.Portable.Views
             {
                 if (IsSuccess)
                 {
-                    CustomerContentView.Children.Add(ContactsContentview);;
+                    CustomerContentView.Children.Add(ContactsContentview); ;
                     LoadingHelper.Hide();
                 }
                 else
@@ -106,7 +124,7 @@ namespace ConasiCRM.Portable.Views
                     LoadingHelper.Hide();
                 }
             };
-            leadsContentView.IsVisible = false;
+            LeadsContentView.IsVisible = false;
             ContactsContentview.IsVisible = true;
             if (AccountsContentView != null)
             {
@@ -131,7 +149,7 @@ namespace ConasiCRM.Portable.Views
             {
                 await Navigation.PushAsync(new AccountForm());
             }
-            
+
             LoadingHelper.Hide();
         }
     }

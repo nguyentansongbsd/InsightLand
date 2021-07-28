@@ -48,7 +48,7 @@ namespace ConasiCRM.Portable.Controls
 
                 BtnShow.Text = "\uf129";
                 BtnShow.TextColor = Color.White;
-                BtnShow.BackgroundColor = Color.FromHex("#4266B2");
+                BtnShow.BackgroundColor = Color.FromHex("#2196F3");
                 IsShow = false;
 
 
