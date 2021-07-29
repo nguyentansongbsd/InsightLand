@@ -16,14 +16,14 @@ namespace ConasiCRM.Portable.ViewModels
         public LeadFormModel singleLead { get => _singleLead; set { _singleLead = value; OnPropertyChanged(nameof(singleLead)); } }
 
         public ObservableCollection<OptionSet> list_currency_lookup { get; set; } = new ObservableCollection<OptionSet>();
-        
+
         private OptionSet _selectedCurrency;
-        public OptionSet SelectedCurrency { get => _selectedCurrency; set { _selectedCurrency = value;OnPropertyChanged(nameof(SelectedCurrency)); } }
+        public OptionSet SelectedCurrency { get => _selectedCurrency; set { _selectedCurrency = value; OnPropertyChanged(nameof(SelectedCurrency)); } }
 
         public ObservableCollection<OptionSet> list_industrycode_optionset { get; set; } = new ObservableCollection<OptionSet>();
 
         private OptionSet _industryCode;
-        public OptionSet IndustryCode { get => _industryCode; set { _industryCode = value;OnPropertyChanged(nameof(IndustryCode)); } }
+        public OptionSet IndustryCode { get => _industryCode; set { _industryCode = value; OnPropertyChanged(nameof(IndustryCode)); } }
 
         public ObservableCollection<OptionSet> list_campaign_lookup { get; set; } = new ObservableCollection<OptionSet>();
 
@@ -31,19 +31,39 @@ namespace ConasiCRM.Portable.ViewModels
         public OptionSet Campaign { get => _campaign; set { _campaign = value; OnPropertyChanged(nameof(Campaign)); } }
 
         private string _addressComposite;
-        public string AddressComposite { get => _addressComposite; set { _addressComposite = value;OnPropertyChanged(nameof(AddressComposite)); } }
+        public string AddressComposite { get => _addressComposite; set { _addressComposite = value; OnPropertyChanged(nameof(AddressComposite)); } }
 
-        private string _addressCountry;
-        public string AddressCountry { get => _addressCountry; set { _addressCountry = value; OnPropertyChanged(nameof(AddressCountry)); } }
+        private LookUp _addressCountry;
+        public LookUp AddressCountry
+        {
+            get => _addressCountry;
+            set
+            {
+                _addressCountry = value;
+                OnPropertyChanged(nameof(AddressCountry));
+                AddressStateProvince = null;
+                list_province_lookup.Clear();
+            }
+        }
 
         private string _addressPostalCode;
         public string AddressPostalCode { get => _addressPostalCode; set { _addressPostalCode = value; OnPropertyChanged(nameof(AddressPostalCode)); } }
 
-        private string _addressStateProvince;
-        public string AddressStateProvince { get => _addressStateProvince; set { _addressStateProvince = value; OnPropertyChanged(nameof(AddressStateProvince)); } }
+        private LookUp _addressStateProvince;
+        public LookUp AddressStateProvince
+        {
+            get => _addressStateProvince;
+            set
+            {
+                _addressStateProvince = value;
+                OnPropertyChanged(nameof(AddressStateProvince));
+                AddressCity = null;
+                list_district_lookup.Clear();
+            }
+        }
 
-        private string _addressCity;
-        public string AddressCity { get => _addressCity; set { _addressCity = value; OnPropertyChanged(nameof(AddressCity)); } }
+        private LookUp _addressCity;
+        public LookUp AddressCity { get => _addressCity; set { _addressCity = value; OnPropertyChanged(nameof(AddressCity)); } }
 
         private string _addressLine3;
         public string AddressLine3 { get => _addressLine3; set { _addressLine3 = value; OnPropertyChanged(nameof(AddressLine3)); } }
@@ -59,9 +79,9 @@ namespace ConasiCRM.Portable.ViewModels
         public ObservableCollection<LookUp> list_province_lookup { get; set; } = new ObservableCollection<LookUp>();
         public ObservableCollection<LookUp> list_district_lookup { get; set; } = new ObservableCollection<LookUp>();
 
-        public int pageLookup_country =1;
-        public int pageLookup_province =1;
-        public int pageLookup_district =1;
+        public int pageLookup_country = 1;
+        public int pageLookup_province = 1;
+        public int pageLookup_district = 1;
 
         public LeadFormViewModel()
         {
@@ -286,14 +306,39 @@ namespace ConasiCRM.Portable.ViewModels
             }
         }
 
+        public async Task<LookUp> LoadCountryByName()
+        {
+            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+                                  <entity name='bsd_country'>
+                                    <attribute name='bsd_countryname' alias='Name'/>
+                                    <attribute name='bsd_countryid' alias='Id'/>
+                                    <order attribute='bsd_countryname' descending='false' />
+                                    <filter type='and'>
+                                      <condition attribute='bsd_countryname' operator='eq' value='" + singleLead.address1_country + @"' />
+                                    </filter>
+                                  </entity>
+                                </fetch>";
+            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("bsd_countries", fetch);
+            if (result != null && result.value.Count > 0)
+            {
+                LookUp country = new LookUp();
+                country = result.value.FirstOrDefault();
+                return country;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public async Task LoadCountryForLookup()
         {
-            string fetch = @"<fetch version='1.0' count='30' page='" + pageLookup_country + @"' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                                   <entity name='bsd_country'>
                                     <attribute name='bsd_countryname' alias='Name'/>
                                     <attribute name='bsd_countryid' alias='Id'/>
                                     <attribute name='bsd_nameen' alias='Detail'/>
-                                    <order attribute='bsd_countryname' descending='true' />
+                                    <order attribute='bsd_countryname' descending='false' />
                                   </entity>
                                 </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("bsd_countries", fetch);
@@ -308,29 +353,50 @@ namespace ConasiCRM.Portable.ViewModels
             {
                 list_country_lookup.Add(x);
             }
-
         }
 
-        public async Task loadProvincesForLookup(string countryId)
+        public async Task<LookUp> LoadProvinceByName()
         {
-            string fetch = @"<fetch version='1.0' count='30' page='" + pageLookup_province + @"' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+                                  <entity name='new_province'>
+                                    <attribute name='bsd_provincename' alias='Name'/>
+                                    <attribute name='new_provinceid' alias='Id'/>
+                                    <order attribute='bsd_provincename' descending='false' />
+                                    <filter type='and'>
+                                        <condition attribute='bsd_country' operator='eq' value='" + AddressCountry.Id + @"' />
+                                        <condition attribute='bsd_provincename' operator='eq' value='" + singleLead.address1_stateorprovince + @"' />
+                                    </filter>
+                                  </entity>
+                                </fetch>";
+            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("new_provinces", fetch);
+            if (result != null && result.value.Count > 0)
+            {
+                LookUp Province = new LookUp();
+                Province = result.value.FirstOrDefault();
+                return Province;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task loadProvincesForLookup()
+        {
+            if (AddressCountry == null) return;
+            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                                   <entity name='new_province'>
                                     <attribute name='bsd_provincename' alias='Name'/>
                                     <attribute name='new_provinceid' alias='Id'/>
                                     <attribute name='bsd_nameen' alias='Detail'/>
                                     <order attribute='bsd_provincename' descending='false' />
                                     <filter type='and'>
-                                      <condition attribute='bsd_country' operator='eq' value='" + countryId + @"' />
+                                      <condition attribute='bsd_country' operator='eq' value='" + AddressCountry.Id + @"' />
                                     </filter>
                                   </entity>
                                 </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("new_provinces", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-            if (result.value.Count == 0) return;
+            if (result == null || result.value.Count == 0) return;
 
             foreach (var x in result.value)
             {
@@ -339,16 +405,44 @@ namespace ConasiCRM.Portable.ViewModels
 
         }
 
-        public async Task loadDistrictForLookup(string provinceId)
+        public async Task<LookUp> LoadDistrictByName()
         {
-            string fetch = @"<fetch version='1.0' count='30' page='" + pageLookup_district + @"' output-format='xml-platform' mapping='logical' distinct='false'>
+            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
                               <entity name='new_district'>
                                 <attribute name='new_name' alias='Name'/>
                                 <attribute name='new_districtid' alias='Id'/>
                                 <attribute name='bsd_nameen' alias='Detail'/>
                                 <order attribute='new_name' descending='false' />
                                 <filter type='and'>
-                                  <condition attribute='new_province' operator='eq' value='" + provinceId + @"' />
+                                    <condition attribute='new_province' operator='eq' value='" + AddressStateProvince.Id + @"' />
+                                    <condition attribute='new_name' operator='eq' value='" + singleLead.address1_city + @"' />
+                                </filter>
+                              </entity>
+                            </fetch>";
+            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LookUp>>("new_districts", fetch);
+            if (result != null && result.value.Count > 0)
+            {
+                LookUp District = new LookUp();
+                District = result.value.FirstOrDefault();
+                return District;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task loadDistrictForLookup()
+        {
+            if (AddressStateProvince == null) return;
+            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
+                              <entity name='new_district'>
+                                <attribute name='new_name' alias='Name'/>
+                                <attribute name='new_districtid' alias='Id'/>
+                                <attribute name='bsd_nameen' alias='Detail'/>
+                                <order attribute='new_name' descending='false' />
+                                <filter type='and'>
+                                  <condition attribute='new_province' operator='eq' value='" + AddressStateProvince.Id + @"' />
                                 </filter>
                               </entity>
                             </fetch>";
@@ -365,6 +459,6 @@ namespace ConasiCRM.Portable.ViewModels
                 list_district_lookup.Add(x);
             }
 
-        }       
+        }
     }
 }
