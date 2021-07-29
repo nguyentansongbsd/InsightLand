@@ -77,14 +77,6 @@
             <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
         </Style>
         <converter:NullToHideConverter x:Key="NullToBool"/>
-        <!--tab nhu cau-->
-        <Style x:Key="Lb_Title_NhuCau" TargetType="Label">
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="FontAttributes" Value="Bold" />
-            <Setter Property="VerticalTextAlignment" Value="Center" />
-            <Setter Property="TextColor" Value="#444444"/>
-        </Style>
-        <converter:InformationLabelConverter x:Key="InformationLabelConverter"/>
         <!--tab phong thuy-->
         <Style x:Key="Lb_Title_PhongThuy" TargetType="Label">
             <Setter Property="FontSize" Value="16" />
@@ -149,19 +141,13 @@
                             </Grid>
                         </Grid>
                     </telerikPrimitives:RadBorder>
-                    <Grid ColumnDefinitions="*,*,*,*" Margin="0,5,0,0">
+                    <Grid ColumnDefinitions="*,*,*" Margin="0,5,0,0">
                         <BoxView HeightRequest="0.5" BackgroundColor="#939393" Grid.ColumnSpan="4" VerticalOptions="End" />
                         <telerikPrimitives:RadBorder x:Name="radBorderThongTin" Grid.Column="0" Style="{StaticResource rabBorder_Tab}">
                             <telerikPrimitives:RadBorder.GestureRecognizers>
                                 <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="ThongTin_Tapped"/>
                             </telerikPrimitives:RadBorder.GestureRecognizers>
                             <Label x:Name="lbThongTin" Text="Thông Tin" Style="{StaticResource Lb_Tab}"/>
-                        </telerikPrimitives:RadBorder>
-                        <telerikPrimitives:RadBorder x:Name="radBorderNhuCau" Grid.Column="1" Style="{StaticResource rabBorder_Tab}">
-                            <telerikPrimitives:RadBorder.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="NhuCau_Tapped"/>
-                            </telerikPrimitives:RadBorder.GestureRecognizers>
-                            <Label x:Name="lbNhuCau" Text="Nhu Cầu" Style="{StaticResource Lb_Tab}"/>
                         </telerikPrimitives:RadBorder>
                         <telerikPrimitives:RadBorder x:Name="radBorderGiaoDich" Grid.Column="2" Style="{StaticResource rabBorder_Tab}">
                             <telerikPrimitives:RadBorder.GestureRecognizers>
@@ -286,145 +272,6 @@
                                     </Grid>
                                 </telerikPrimitives:RadExpander.Content>
                             </telerikPrimitives:RadExpander>
-                        </StackLayout>
-                        <!--tab nhu cau-->
-                        <StackLayout x:Name="TabNhuCau" IsVisible="false" Margin="0,10,0,0">
-                            <Grid ColumnDefinitions="*,Auto" BackgroundColor="#f1f1f1" Padding="25,9,22,9">
-                                <Label Text="Nhu Cầu Địa Điểm" Style="{StaticResource Lb_Title_NhuCau}" Grid.Column="0"/>
-                                <ImageButton Clicked="BtnAddNhuCauDiaDiem_Clicked" Grid.Column="1" WidthRequest="17" HeightRequest="17" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="Transparent">
-                                    <ImageButton.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Color="#2196F3" Glyph="&#xf067;" Size="Large"/>
-                                    </ImageButton.Source>
-                                </ImageButton>
-                            </Grid>
-                            <StackLayout BindableLayout.ItemsSource="{Binding list_nhucauvediadiem}" BindableLayout.EmptyView="Không có dữ liệu" BackgroundColor="#eeeeee" Spacing="1">
-                                <BindableLayout.EmptyViewTemplate>
-                                    <DataTemplate>
-                                        <Label Text="Không có dữ liệu" TextColor="#444444" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
-                                    </DataTemplate>
-                                </BindableLayout.EmptyViewTemplate>
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="25,10">
-                                            <Label Grid.Column="0" Text="{Binding bsd_provincename}" FontSize="15" TextColor="#444444" LineBreakMode="TailTruncation"/>
-                                            <Label FontSize="14" Grid.Column="1" FontFamily="FontAwesomeSolid" TextColor="Gray" Text="&#xf068;">
-                                                <Label.GestureRecognizers>
-                                                    <TapGestureRecognizer Tapped="DeleteNhuCauVeDiaDiem_Tapped" CommandParameter="{Binding .}"/>
-                                                </Label.GestureRecognizers>
-                                            </Label>
-                                        </Grid>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </StackLayout>
-                            <Grid ColumnDefinitions="*,Auto" BackgroundColor="#f1f1f1" Padding="25,9,22,9">
-                                <Label Text="Dự Án Quan Tâm" Style="{StaticResource Lb_Title_NhuCau}" Grid.Column="0"/>
-                                <ImageButton Clicked="BtnAddDuanquantam_Clicked" Grid.Column="1" WidthRequest="17" HeightRequest="17" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="Transparent">
-                                    <ImageButton.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Color="#2196F3" Glyph="&#xf067;" Size="Large"/>
-                                    </ImageButton.Source>
-                                </ImageButton>
-                            </Grid>
-                            <StackLayout BindableLayout.ItemsSource="{Binding list_Duanquantam}" BindableLayout.EmptyView="Không có dữ liệu" BackgroundColor="#eeeeee" Spacing="1">
-                                <BindableLayout.EmptyViewTemplate>
-                                    <DataTemplate>
-                                        <Label Text="Không có dữ liệu" TextColor="#444444" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
-                                    </DataTemplate>
-                                </BindableLayout.EmptyViewTemplate>
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" BackgroundColor ="White" Padding="25,10">
-                                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding bsd_name}" FontSize="15" TextColor="#444444" LineBreakMode="TailTruncation"/>
-                                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding bsd_projectcode}" FontSize="14" TextColor="#666666" LineBreakMode="TailTruncation"/>
-                                            <Label FontSize="14" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" FontFamily="FontAwesomeSolid" TextColor="Gray" Text="&#xf068;" VerticalOptions="Center" VerticalTextAlignment="Center">
-                                                <Label.GestureRecognizers>
-                                                    <TapGestureRecognizer Tapped="DeleteDuAnQuanTam_Tapped" CommandParameter="{Binding .}"/>
-                                                </Label.GestureRecognizers>
-                                            </Label>
-                                        </Grid>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </StackLayout>
-                            <Grid ColumnDefinitions="*,Auto" BackgroundColor="#f1f1f1" Padding="25,9,22,9">
-                                <Label Text="Tiêu Chí Chọn Mua" Style="{StaticResource Lb_Title_NhuCau}" Grid.Column="0"/>
-                                <ImageButton Clicked="BtnAddTieuChiChonMua_Clicked" Grid.Column="1" WidthRequest="17" HeightRequest="17" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="Transparent">
-                                    <ImageButton.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Color="#2196F3" Glyph="&#xf067;" Size="Large"/>
-                                    </ImageButton.Source>
-                                </ImageButton>
-                            </Grid>
-                            <StackLayout BindableLayout.ItemsSource="{Binding list_TieuChiChonMua}" BindableLayout.EmptyView="Không có dữ liệu" BackgroundColor="#eeeeee" Spacing="1">
-                                <BindableLayout.EmptyViewTemplate>
-                                    <DataTemplate>
-                                        <Label Text="Không có dữ liệu" TextColor="#444444" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
-                                    </DataTemplate>
-                                </BindableLayout.EmptyViewTemplate>
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="25,10">
-                                            <Label Grid.Column="0" Text="{Binding Name}" FontSize="15" TextColor="#444444" LineBreakMode="TailTruncation"/>
-                                            <Label FontSize="14" Grid.Column="1" FontFamily="FontAwesomeSolid" TextColor="Gray" Text="&#xf068;">
-                                                <Label.GestureRecognizers>
-                                                    <TapGestureRecognizer Tapped="DeleteTieuChiChonMua_Tapped" CommandParameter="{Binding .}"/>
-                                                </Label.GestureRecognizers>
-                                            </Label>
-                                        </Grid>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </StackLayout>
-                            <Grid ColumnDefinitions="*,Auto" BackgroundColor="#f1f1f1" Padding="25,9,22,9">
-                                <Label Text="Nhu Cầu Về Diện Tích Căn Hộ" Style="{StaticResource Lb_Title_NhuCau}" Grid.Column="0"/>
-                                <ImageButton Clicked="BtnAddNhuCauVeDienTichCanHo_Clicked" Grid.Column="1" WidthRequest="17" HeightRequest="17" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="Transparent">
-                                    <ImageButton.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Color="#2196F3" Glyph="&#xf067;" Size="Large"/>
-                                    </ImageButton.Source>
-                                </ImageButton>
-                            </Grid>
-                            <StackLayout BindableLayout.ItemsSource="{Binding list_NhuCauVeDienTichCanHo}" BindableLayout.EmptyView="Không có dữ liệu" BackgroundColor="#eeeeee" Spacing="1">
-                                <BindableLayout.EmptyViewTemplate>
-                                    <DataTemplate>
-                                        <Label Text="Không có dữ liệu" TextColor="#444444" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
-                                    </DataTemplate>
-                                </BindableLayout.EmptyViewTemplate>
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="25,10">
-                                            <Label Grid.Column="0" Text="{Binding Name}" FontSize="15" TextColor="#444444" LineBreakMode="TailTruncation"/>
-                                            <Label FontSize="14" Grid.Column="1" FontFamily="FontAwesomeSolid" TextColor="Gray" Text="&#xf068;">
-                                                <Label.GestureRecognizers>
-                                                    <TapGestureRecognizer Tapped="DeleteNhuCauVeDienTichCanHo_Tapped" CommandParameter="{Binding .}"/>
-                                                </Label.GestureRecognizers>
-                                            </Label>
-                                        </Grid>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </StackLayout>
-                            <Grid ColumnDefinitions="*,Auto" BackgroundColor="#f1f1f1" Padding="25,9,22,9">
-                                <Label Text="Loại Bất Động Sản Quan Tâm" Style="{StaticResource Lb_Title_NhuCau}" Grid.Column="0"/>
-                                <ImageButton Clicked="BtnAddLoaiBatDongSanQuanTam_Clicked" Grid.Column="1" WidthRequest="17" HeightRequest="17" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="Transparent">
-                                    <ImageButton.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Color="#2196F3" Glyph="&#xf067;" Size="Large"/>
-                                    </ImageButton.Source>
-                                </ImageButton>
-                            </Grid>
-                            <StackLayout BindableLayout.ItemsSource="{Binding list_LoaiBatDongSanQuanTam}" BindableLayout.EmptyView="Không có dữ liệu" BackgroundColor="#eeeeee" Spacing="1">
-                                <BindableLayout.EmptyViewTemplate>
-                                    <DataTemplate>
-                                        <Label Text="Không có dữ liệu" TextColor="#444444" HorizontalTextAlignment="Center" BackgroundColor="White" Padding="0,15"/>
-                                    </DataTemplate>
-                                </BindableLayout.EmptyViewTemplate>
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid ColumnDefinitions="*,Auto" BackgroundColor ="White" Padding="25,10">
-                                            <Label Grid.Column="0" Text="{Binding Name}" FontSize="15" TextColor="#444444" LineBreakMode="TailTruncation"/>
-                                            <Label FontSize="14" Grid.Column="1" FontFamily="FontAwesomeSolid" TextColor="Gray" Text="&#xf068;">
-                                                <Label.GestureRecognizers>
-                                                    <TapGestureRecognizer Tapped="DeleteLoaiBatDongSanQuanTam_Tapped" CommandParameter="{Binding .}"/>
-                                                </Label.GestureRecognizers>
-                                            </Label>
-                                        </Grid>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </StackLayout>
                         </StackLayout>
                         <!--tab giao dich-->
                         <StackLayout x:Name="TabGiaoDich" IsVisible="false" Margin="0,10,0,0">
@@ -675,7 +522,6 @@
                     </Grid>
                 </StackLayout>
             </ScrollView>
-            <controls:BottomModal x:Name="LookUpModal"/>
             <Grid x:Name="LookUpImagePhongThuy" IsVisible="false" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="White">
                 <controls:PinchToZoomContainer>
                     <controls:PinchToZoomContainer.Content>
