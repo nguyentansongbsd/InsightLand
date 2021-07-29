@@ -247,13 +247,14 @@
                                     <local:MainEntry Text="{Binding singleContact.bsd_jobtitlevn}" FontSize="16"  Grid.Column="1" Grid.Row="1"/>
 
                                     <Label VerticalOptions="Center" Text="Công Ty" FontSize="16" Grid.Column="0" Grid.Row="2"/>
-                                    <local:MyNewEntry PlaceHolder="Chọn công ty"
+                                    <local:LookUp x:Name="lookUpContact" Grid.Column="1" Grid.Row="2" BottomModal="{Reference LookUpModal}" NameDisplay="Name" Placeholder="Chọn công ty" SelectedItem="{Binding Account}" ItemsSource="{Binding list_account_lookup}"/>
+                                    <!--<local:MyNewEntry PlaceHolder="Chọn công ty"
                                                     Text="{Binding singleContact.parentcustomerid_label}"
                                                     OnClicked="show_popup_listview_parentcustomerid"
                                                     HasClearButton="{Binding singleContact.parentcustomerid_label, Converter={StaticResource NotNullToBool}}"
                                                     ClearClicked="clear_entry_parentcustomerid"
                                                     Grid.Column="1"
-                                                    Grid.Row="2"/>
+                                                    Grid.Row="2"/>-->
 
                                     <local:FormLabel VerticalOptions="Center" Text="Số ĐT Kinh Doanh" FontSize="16" Grid.Column="0" Grid.Row="3"/>
                                     <local:MainEntry Text="{Binding singleContact.telephone1}" Keyboard="Telephone" FontSize="16"  Grid.Column="1" Grid.Row="3"/>
@@ -1077,6 +1078,8 @@
                 </ActivityIndicator>
             </local:ModalContentView>
             <!--End Popup-->
+
+            <local:BottomModal x:Name="LookUpModal"/>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

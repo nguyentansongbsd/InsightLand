@@ -109,39 +109,6 @@ namespace ConasiCRM.Portable.ViewModels
                                     <filter type='and'>
                                         <condition attribute='contactid' operator='eq' value='" + id + @"' />
                                     </filter>
-                                    <link-entity name='contact' from='contactid' to='bsd_protecter' visible='false' link-type='outer'>
-                                        <attribute name='fullname'  alias='bsd_protecter_label'/>
-                                    </link-entity>
-                                    <link-entity name='contact' from='contactid' to='parentcustomerid' visible='false' link-type='outer'>
-                                        <attribute name='fullname'  alias='parentcustomerid_label_contact'/>
-                                    </link-entity>
-                                    <link-entity name='account' from='accountid' to='parentcustomerid' visible='false' link-type='outer'>
-                                        <attribute name='name'  alias='parentcustomerid_label_account'/>
-                                    </link-entity>
-                                    <link-entity name='bsd_country' from='bsd_countryid' to='bsd_country' visible='false' link-type='outer'>
-                                        <attribute name='bsd_countryname'  alias='bsd_country_label'/>
-                                        <attribute name='bsd_nameen'  alias='bsd_country_en'/>
-                                    </link-entity>
-                                    <link-entity name='new_province' from='new_provinceid' to='bsd_province' visible='false' link-type='outer'>
-                                        <attribute name='bsd_provincename'  alias='bsd_province_label'/>
-                                        <attribute name='bsd_nameen'  alias='bsd_province_en'/>
-                                    </link-entity>
-                                    <link-entity name='new_district' from='new_districtid' to='bsd_district' visible='false' link-type='outer'>
-                                        <attribute name='new_name'  alias='bsd_district_label'/>
-                                        <attribute name='bsd_nameen'  alias='bsd_district_en'/>
-                                    </link-entity>
-                                    <link-entity name='bsd_country' from='bsd_countryid' to='bsd_permanentcountry' visible='false' link-type='outer'>
-                                        <attribute name='bsd_countryname'  alias='bsd_permanentcountry_label'/>
-                                        <attribute name='bsd_nameen'  alias='bsd_permanentcountry_en'/>
-                                    </link-entity>
-                                    <link-entity name='new_province' from='new_provinceid' to='bsd_permanentprovince' visible='false' link-type='outer'>
-                                        <attribute name='bsd_provincename'  alias='bsd_permanentprovince_label'/>
-                                        <attribute name='bsd_nameen'  alias='bsd_permanentprovince_en'/>
-                                    </link-entity>
-                                    <link-entity name='new_district' from='new_districtid' to='bsd_permanentdistrict' visible='false' link-type='outer'>
-                                        <attribute name='new_name'  alias='bsd_permanentdistrict_label'/>
-                                        <attribute name='bsd_nameen'  alias='bsd_permanentdistrict_en'/>
-                                    </link-entity>
                                 </entity>
                             </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ContactFormModel>>("contacts", fetch);

@@ -49,6 +49,9 @@ namespace ConasiCRM.Portable.Views
             viewModel_lead = new LeadFormViewModel();
             this.constructor();
             this.loadData(null);
+            lookUpContact.PreOpenAsync= async () => {
+                await viewModel.loadAccountsLookup();
+            };
         }
 
         public ContactForm(Guid contactId)

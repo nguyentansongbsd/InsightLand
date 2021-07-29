@@ -29,9 +29,14 @@ namespace ConasiCRM.Portable.ViewModels
         public OptionSet _singleContactgroup;
         public OptionSet singleContactgroup { get => _singleContactgroup; set { _singleContactgroup = value; OnPropertyChanged(nameof(singleContactgroup)); } }
 
-        public ObservableCollection<LookUp> list_lookup { get; set; }
         public ObservableCollection<LookUp> list_contact_lookup { get; set; }
+
         public ObservableCollection<LookUp> list_account_lookup { get; set; }
+        private LookUp _account;
+        public LookUp Account { get => _account; set { _account = value; OnPropertyChanged(nameof(Account)); } }
+
+        public ObservableCollection<LookUp> list_lookup { get; set; }
+        
         public ObservableCollection<LookUp> list_country_lookup { get; set; }
         public ObservableCollection<LookUp> list_province_lookup { get; set; }
         public ObservableCollection<LookUp> list_district_lookup { get; set; }

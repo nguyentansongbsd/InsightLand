@@ -120,15 +120,19 @@
                     <ScrollView>
                         <StackLayout Margin="10">
                             <controls:FormLabel Text="Quốc gia"/>
-                            <controls:MainEntry Placeholder="Nhập quốc gia" Text="{Binding AddressCountry}"/>
+                            <controls:LookUp x:Name="lookUpCountry" Placeholder="Chọn quốc gia" BottomModal="{Reference LookUpModal}" NameDisplay="Name" SelectedItem="{Binding AddressCountry}" ItemsSource="{Binding list_country_lookup}" SelectedItemChange="Country_Changed"/>
+                            
                             <controls:FormLabel Text="ZIP code"/>
                             <controls:MainEntry Placeholder="Nhập ZIP code" Text="{Binding AddressPostalCode}"/>
+
                             <controls:FormLabel Text="Tỉnh thành"/>
-                            <controls:MainEntry Placeholder="Nhập ỉnh thành" Text="{Binding AddressStateProvince}"/>
+                            <controls:LookUp x:Name="lookUpProvince" Placeholder="Chọn tỉnh thành" BottomModal="{Reference LookUpModal}" NameDisplay="Name" SelectedItem="{Binding AddressStateProvince}" ItemsSource="{Binding list_province_lookup}" SelectedItemChange="Province_Changed"/>
+
                             <controls:FormLabel Text="Quận/Huyện"/>
-                            <controls:MainEntry Placeholder="Nhập quận/huyện" Text="{Binding AddressCity}"/>
-                            <controls:FormLabel Text="Số nhà/Đường"/>
-                            <controls:MainEntry Placeholder="Nhập số nhà/đường" Text="{Binding AddressLine1}"/>
+                            <controls:LookUp x:Name="lookUpDistrict" Placeholder="Chọn quận/huyện" BottomModal="{Reference LookUpModal}" NameDisplay="Name" SelectedItem="{Binding AddressCity}" ItemsSource="{Binding list_district_lookup}" SelectedItemChange="District_Changed"/>
+
+                            <controls:FormLabelRequired Text="Số nhà/Đường/Phường"/>
+                            <controls:MainEntry Placeholder="Nhập số nhà/đường/phường" Text="{Binding AddressLine1}"/>
                         </StackLayout>
                     </ScrollView>
                 </controls:CenterModal.Body>
