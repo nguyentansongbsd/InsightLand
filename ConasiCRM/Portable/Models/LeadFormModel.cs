@@ -111,8 +111,8 @@ namespace ConasiCRM.Portable.Models
         private bool _industrycode_notnull;
         public bool industrycode_notnull { get { return _industrycode_notnull; } set { _industrycode_notnull = value; OnPropertyChanged(nameof(industrycode_notnull)); } }
 
-        private string _revenue;
-        public string revenue { get { return _revenue; } set { _revenue = value; OnPropertyChanged(nameof(revenue)); } }
+        private decimal _revenue;
+        public decimal revenue { get { return _revenue; } set { _revenue = value; OnPropertyChanged(nameof(revenue)); } }
 
         private string _numberofemployees;
         public string numberofemployees { get { return _numberofemployees; } set { _numberofemployees = value; OnPropertyChanged(nameof(numberofemployees)); } }

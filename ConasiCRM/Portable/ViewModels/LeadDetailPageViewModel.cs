@@ -26,59 +26,26 @@ namespace ConasiCRM.Portable.ViewModels
         public OptionSet singleIndustrycode { get => _singleIndustrycode; set { _singleIndustrycode = value; OnPropertyChanged(nameof(singleIndustrycode)); } }
 
         private PhongThuyModel _PhongThuy;
-        public PhongThuyModel PhongThuy { get => _PhongThuy; set { _PhongThuy = value; OnPropertyChanged(nameof(PhongThuy)); } }       
-        public ObservableCollection<Provinces> list_provinces_lookup { get; set; }           
+        public PhongThuyModel PhongThuy { get => _PhongThuy; set { _PhongThuy = value; OnPropertyChanged(nameof(PhongThuy)); } }                
         public ObservableCollection<OptionSet> list_gender_optionset { get; set; }
         public ObservableCollection<OptionSet> list_industrycode_optionset { get; set; }
-        public ObservableCollection<Provinces> list_nhucauvediadiem { get; set; }
-
-        private ObservableCollection<ProjectList> _list_Duanquantam;
-        public ObservableCollection<ProjectList> list_Duanquantam { get { return _list_Duanquantam; } set { _list_Duanquantam = value; OnPropertyChanged(nameof(_list_Duanquantam)); } }
-
-        public ObservableCollection<ProjectList> list_project_lookup { set; get; }
-
-        private ObservableCollection<TieuChi> _list_TieuChiChonMua;
-        public ObservableCollection<TieuChi> list_TieuChiChonMua { get { return _list_TieuChiChonMua; } set { _list_TieuChiChonMua = value; OnPropertyChanged(nameof(list_TieuChiChonMua)); } }
-
-        public ObservableCollection<TieuChi> list_tieuchichonmua_lookup { set; get; }
-
-        private ObservableCollection<TieuChi> _list_NhuCauVeDienTichCanHo;
-        public ObservableCollection<TieuChi> list_NhuCauVeDienTichCanHo { get { return _list_NhuCauVeDienTichCanHo; } set { _list_NhuCauVeDienTichCanHo = value; OnPropertyChanged(nameof(list_NhuCauVeDienTichCanHo)); } }
-
-        public ObservableCollection<TieuChi> list_nhucauvedientichcanho_lookup { set; get; }
-
-        private ObservableCollection<TieuChi> _list_LoaiBatDongSanQuanTam;
-        public ObservableCollection<TieuChi> list_LoaiBatDongSanQuanTam { get { return _list_LoaiBatDongSanQuanTam; } set { _list_LoaiBatDongSanQuanTam = value; OnPropertyChanged(nameof(list_LoaiBatDongSanQuanTam)); } }
-
-        public ObservableCollection<TieuChi> list_loaibatdongsanquantam_lookup { set; get; }
-        
         public ObservableCollection<HuongPhongThuy> list_HuongTot { set; get; }
 
         public ObservableCollection<HuongPhongThuy> list_HuongXau { set; get; }
 
-        public LeadCheckData single_Leadcheck;              
+        public LeadCheckData single_Leadcheck;
+
+        private string _address;
+        public string Address { get => _address; set { _address = value; OnPropertyChanged(nameof(Address)); } }
 
         public LeadDetailPageViewModel()
         {
             singleGender = new OptionSet();
             singleIndustrycode = new OptionSet();                      
 
-            list_provinces_lookup = new ObservableCollection<Provinces>();            
-
             list_gender_optionset = new ObservableCollection<OptionSet>();
             list_industrycode_optionset = new ObservableCollection<OptionSet>();           
 
-            list_nhucauvediadiem = new ObservableCollection<Provinces>();          
-            list_Duanquantam = new ObservableCollection<ProjectList>();
-            list_project_lookup = new ObservableCollection<ProjectList>();
-            single_Leadcheck = new LeadCheckData();
-
-            list_TieuChiChonMua = new ObservableCollection<TieuChi>();
-            list_tieuchichonmua_lookup = new ObservableCollection<TieuChi>();
-            list_LoaiBatDongSanQuanTam = new ObservableCollection<TieuChi>();
-            list_loaibatdongsanquantam_lookup = new ObservableCollection<TieuChi>();
-            list_NhuCauVeDienTichCanHo = new ObservableCollection<TieuChi>();
-            list_nhucauvedientichcanho_lookup = new ObservableCollection<TieuChi>();
             list_HuongTot = new ObservableCollection<HuongPhongThuy>();
             list_HuongXau = new ObservableCollection<HuongPhongThuy>();
 
@@ -110,6 +77,11 @@ namespace ConasiCRM.Portable.ViewModels
                                     <attribute name='donotsendmm' />
                                     <attribute name='lastusedincampaign' />
                                     <attribute name='createdon' />
+                                    <attribute name='address1_line1' />
+                                    <attribute name='address1_city' />
+                                    <attribute name='address1_stateorprovince' />
+                                    <attribute name='address1_postalcode' />
+                                    <attribute name='address1_country' />
                                     <order attribute='createdon' descending='true' />
                                     <filter type='and'>
                                         <condition attribute='leadid' operator='eq' value='{" + leadid + @"}' />
@@ -123,8 +95,13 @@ namespace ConasiCRM.Portable.ViewModels
                                 </entity>
                             </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LeadFormModel>>("leads", fetch);
+            if(result == null)
+            {
+                return;
+            }    
             var tmp = result.value.FirstOrDefault();
             this.singleLead = tmp;
+            LoadAddress();
         }
 
         public async Task<Boolean> updateLead(LeadFormModel lead)
@@ -140,8 +117,6 @@ namespace ConasiCRM.Portable.ViewModels
             }
             else
             {
-                var mess = result.ErrorResponse?.error?.message ?? "Đã xảy ra lỗi. Vui lòng thử lại.";
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", mess, "OK");
                 return false;
             }
         }
@@ -224,7 +199,7 @@ namespace ConasiCRM.Portable.ViewModels
             data["bsd_danhgiadiem"] = lead.bsd_danhgiadiem;
             data["description"] = lead.description;
             data["industrycode"] = lead.industrycode;
-            data["revenue"] = decimal.Parse(lead.revenue); //bug
+            data["revenue"] = (lead.revenue); //bug
             data["numberofemployees"] = lead.numberofemployees;
             data["sic"] = lead.sic;
             data["donotsendmm"] = lead.donotsendmm.ToString();
@@ -364,271 +339,7 @@ namespace ConasiCRM.Portable.ViewModels
             this.singleIndustrycode = list_industrycode_optionset.FirstOrDefault(x => x.Val == id); ;
             return singleIndustrycode;
         }
-       
-        // tieu chi chon mua lookup
-        public void LoadAllTieuChiChonMua()
-        {
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 1 ,Name= "Tiêu chí - Vị trí" });
-            list_tieuchichonmua_lookup.Add(new TieuChi {Id = 2, Name = "Tiêu chí - Phương thức thanh toán"});
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 3, Name = "Tiêu chí - Giá căn hộ" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 4, Name = "Tiêu chí - Nhà đầu tư uy tính" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 5, Name = "Tiêu chí - Môi trường sống" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 6, Name = "Tiêu chí - Hệ thống an ninh" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 7, Name = "Tiêu chí - Bãi đậu xe" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 8, Name = "Tiêu chí - Hướng căn hộ" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 9, Name = "Tiêu chí - hệ thống cứu hoả" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 10, Name = "Tiêu chí - Nhiều tiện ích" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 11, Name = "Tiêu chí - Gần chợ - Siêu thị" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 12, Name = "Tiêu chí - Gần trường học" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 13, Name = "Tiêu chí - Gần bệnh viện" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 14, Name = "Tiêu chí - Diện tích căn hộ" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 15, Name = "Tiêu chí - Thiết kế nội thất căn hộ" });
-            list_tieuchichonmua_lookup.Add(new TieuChi { Id = 16, Name = "Tiêu chí - Tầng/Căn hộ đẹp" });
-        }
-
-        public void LoadAllNhuCauVeDienTichCanHo()
-        {
-            list_nhucauvedientichcanho_lookup.Add(new TieuChi { Id = 17, Name = "Diện tích 30 - 60 m2" });
-            list_nhucauvedientichcanho_lookup.Add(new TieuChi { Id = 18, Name = "Diện tích 60 - 80 m2" });
-            list_nhucauvedientichcanho_lookup.Add(new TieuChi { Id = 19, Name = "Diện tích 80 - 100 m2" });
-            list_nhucauvedientichcanho_lookup.Add(new TieuChi { Id = 20, Name = "Diện tích 100 - 120 m2" });
-            list_nhucauvedientichcanho_lookup.Add(new TieuChi { Id = 21, Name = "Diện tích > 120 m2" });           
-        }
-
-        public void LoadAllLoaiBatDongSanQuanTam()
-        {
-            list_loaibatdongsanquantam_lookup.Add(new TieuChi { Id = 22, Name = "Quan tâm - Đất nền" });
-            list_loaibatdongsanquantam_lookup.Add(new TieuChi { Id = 23, Name = "Quan tâm - Căn hộ" });
-            list_loaibatdongsanquantam_lookup.Add(new TieuChi { Id = 24, Name = "Quan tâm - Biệt thự" });
-            list_loaibatdongsanquantam_lookup.Add(new TieuChi { Id = 25, Name = "Quan tâm - Khu thương mại" });
-            list_loaibatdongsanquantam_lookup.Add(new TieuChi { Id = 26, Name = "Quan tâm - Nhà phố" });
-        }
-
-        ////////////// PROVINCE LOOKUP AREA
-        ////
-
-        public async Task LoadAllProvinces()
-        {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                                <entity name='new_province'>
-                                    <attribute name='new_name' />
-                                    <attribute name='createdon' />
-                                    <attribute name='new_id' />
-                                    <attribute name='bsd_country' />
-                                    <attribute name='bsd_priority' />
-                                    <attribute name='bsd_provincename' />
-                                    <attribute name='new_provinceid' />
-                                    <order attribute='bsd_priority' descending='false' />
-                                    <filter type='and'>
-                                        <condition attribute='statecode' operator='eq' value='0' />
-                                    </filter>
-                                    <link-entity name='bsd_country' from='bsd_countryid' to='bsd_country' visible='false' link-type='outer' alias='bsd_countries'>
-                                        <attribute name='bsd_name' alias='bsd_countries' />
-                                    </link-entity>
-                                </entity>
-                            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Provinces>>("new_provinces", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-
-            foreach (var x in result.value)
-            {
-                list_provinces_lookup.Add(x);
-            }
-        }
-
-        //////////////////// NHUCAUVEDIADIEM AREA
-        //////
-
-        public async Task Load_NhuCauVeDiaDiem(string leadid)
-        {
-            string fetch = $@"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                                <entity name='new_province'>
-                                    <attribute name='new_name' />
-                                    <attribute name='createdon' />
-                                    <attribute name='new_id' />
-                                    <attribute name='bsd_country' />
-                                    <attribute name='bsd_priority' />
-                                    <attribute name='bsd_provincename' />
-                                    <attribute name='new_provinceid' />
-                                    <order attribute='bsd_priority' descending='false' />
-                                    <filter type='and'>
-                                        <condition attribute='statecode' operator='eq' value='0' />
-                                    </filter>
-                                    <link-entity name='bsd_country' from='bsd_countryid' to='bsd_country' visible='false' link-type='outer'>
-                                        <attribute name='bsd_name'  alias='bsd_countries'/>
-                                    </link-entity>
-                                </entity>
-                            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<Provinces>>("leads(" + leadid + @")/bsd_lead_new_province", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-
-            foreach (var x in result.value)
-            {
-                list_nhucauvediadiem.Add(x);
-            }
-        }
-
-        public async Task<Boolean> Add_NhuCauDiaDiem(string id, Guid leadid)
-        {
-            string path = $"/leads({leadid})/bsd_lead_new_province/$ref";
-
-            IDictionary<string, string> data = new Dictionary<string, string>();
-            data["@odata.id"] = $"{OrgConfig.ApiUrl}/new_provinces(" + id + ")";
-            CrmApiResponse result = await CrmHelper.PostData(path, data);
-
-            if (result.IsSuccess)
-            {
-                return true;
-            }
-            else
-            {
-                var mess = result.ErrorResponse?.error?.message ?? "Đã xảy ra lỗi. Vui lòng thử lại.";
-                return false;
-            }
-        }
-
-        public async Task<Boolean> Delete_NhuCauDiaDiem(string id, Guid leadid)
-        {
-            string Token = App.Current.Properties["Token"] as string;
-
-            var request = $"{OrgConfig.ApiUrl}/leads(" + leadid + ")/bsd_lead_new_province(" + id + ")/$ref";
-
-            using (HttpClientHandler ClientHandler = new HttpClientHandler())
-            using (HttpClient Client = new HttpClient(ClientHandler))
-            {
-                Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
-                using (HttpRequestMessage RequestMessage = new HttpRequestMessage(new HttpMethod("DELETE"), request))
-                {
-                    using (HttpResponseMessage ResponseMessage = await Client.SendAsync(RequestMessage))
-                    {
-                        string result = await ResponseMessage.Content.ReadAsStringAsync();
-
-                        if (ResponseMessage.StatusCode == HttpStatusCode.NoContent)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }      
-
-        public async Task Load_DanhSachDuAn(string leadid)
-        {
-            string fetch = $@"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                              <entity name='bsd_project'>
-                                <attribute name='bsd_name' />
-                                <attribute name='bsd_projectcode' />
-                                <attribute name='bsd_landvalueofproject' />
-                                <attribute name='bsd_esttopdate' />
-                                <attribute name='bsd_acttopdate' />
-                                <attribute name='bsd_projectid' />
-                                <order attribute='bsd_name' descending='false' />
-                                <filter type='and'>
-                                  <condition attribute='statecode' operator='eq' value='0' />
-                                </filter>
-                              </entity>
-                            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ProjectList>>("leads(" + leadid + @")/bsd_lead_bsd_project", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }           
-           
-            foreach (var x in result.value)
-            {
-                list_Duanquantam.Add(x);
-            }
-        }
-
-        public async Task LoadAllProject()
-        {
-            string fetch = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>
-                              <entity name='bsd_project'>
-                                <attribute name='bsd_name' />
-                                <attribute name='bsd_projectcode' />
-                                <attribute name='bsd_landvalueofproject' />
-                                <attribute name='bsd_esttopdate' />
-                                <attribute name='bsd_acttopdate' />
-                                <attribute name='bsd_projectid' />
-                                <order attribute='bsd_name' descending='false' />
-                                <filter type='and'>
-                                  <condition attribute='statecode' operator='eq' value='0' />
-                                </filter>
-                              </entity>
-                            </fetch>";
-            var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<ProjectList>>("bsd_projects", fetch);
-            if (result == null)
-            {
-                await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "Đã có lỗi xảy ra. Vui lòng thử lại sau.", "OK");
-                return;
-            }
-
-            foreach (var x in result.value)
-            {
-                list_project_lookup.Add(x);
-            }
-        }
-
-        public async Task<Boolean> Add_DuAnQuanTam(string id, Guid leadid)
-        {
-            string path = $"/leads({leadid})/bsd_lead_bsd_project/$ref";
-
-            IDictionary<string, string> data = new Dictionary<string, string>();
-            data["@odata.id"] = $"{OrgConfig.ApiUrl}/bsd_projects(" + id + ")";
-            CrmApiResponse result = await CrmHelper.PostData(path, data);
-
-            if (result.IsSuccess)
-            {
-                return true;
-            }
-            else
-            {
-                var mess = result.ErrorResponse?.error?.message ?? "Đã xảy ra lỗi. Vui lòng thử lại.";
-                return false;
-            }
-        }
-
-        public async Task<Boolean> Delete_DuAnQuanTam(string id, Guid leadid)
-        {
-            string Token = App.Current.Properties["Token"] as string;
-
-            var request = $"{OrgConfig.ApiUrl}/leads(" + leadid + ")/bsd_lead_bsd_project(" + id + ")/$ref";
-
-            using (HttpClientHandler ClientHandler = new HttpClientHandler())
-            using (HttpClient Client = new HttpClient(ClientHandler))
-            {
-                Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
-                using (HttpRequestMessage RequestMessage = new HttpRequestMessage(new HttpMethod("DELETE"), request))
-                {
-                    using (HttpResponseMessage ResponseMessage = await Client.SendAsync(RequestMessage))
-                    {
-                        string result = await ResponseMessage.Content.ReadAsStringAsync();
-
-                        if (ResponseMessage.StatusCode == HttpStatusCode.NoContent)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
+            
         //get fullName, mobiphone, email da ton tai
         public async Task Checkdata_identical_lock(string Name, string PhoneTel, string Email, Guid leadid)
         {
@@ -655,6 +366,10 @@ namespace ConasiCRM.Portable.ViewModels
                               </entity>
                             </fetch>";
             var result = await CrmHelper.RetrieveMultiple<RetrieveMultipleApiResponse<LeadCheckData>>("leads", fetch);
+            if(result == null)
+            {
+                return;
+            }    
             var tmp = result.value.FirstOrDefault();
 
             this.single_Leadcheck = tmp;
@@ -680,124 +395,11 @@ namespace ConasiCRM.Portable.ViewModels
             {
                 if (tmp.bsd_identitycardnumber == cardNumber)
                 {
-                    await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Error", "CMND đã tồn tại.", "OK");
                     return false;
                 }
             }
             return true;
-        }      
-
-        public async void UpdateTieuChi(int id, bool val)
-        {
-            if (id == 1)
-                singleLead.bsd_tieuchi_vitri = val;
-            if (id == 2)
-                singleLead.bsd_tieuchi_phuongthucthanhtoan = val;
-            if (id == 3)
-                singleLead.bsd_tieuchi_giacanho = val;
-            if (id == 4)
-                singleLead.bsd_tieuchi_nhadautuuytin = val;
-            if (id == 5)
-                singleLead.bsd_tieuchi_moitruongsong = val;
-            if (id == 6)
-                singleLead.bsd_tieuchi_hethonganninh = val;
-            if (id == 7)
-                singleLead.bsd_tieuchi_baidauxe = val;
-            if (id == 8)
-                singleLead.bsd_tieuchi_huongcanho = val;
-            if (id == 9)
-                singleLead.bsd_tieuchi_hethongcuuhoa = val;
-            if (id == 10)
-                singleLead.bsd_tieuchi_nhieutienich = val;
-            if (id == 11)
-                singleLead.bsd_tieuchi_ganchosieuthi = val;
-            if (id == 12)
-                singleLead.bsd_tieuchi_gantruonghoc = val;
-            if (id == 13)
-                singleLead.bsd_tieuchi_ganbenhvien = val;
-            if (id == 14)
-                singleLead.bsd_tieuchi_dientichcanho = val;
-            if (id == 15)
-                singleLead.bsd_tieuchi_thietkenoithatcanho = val;
-            if (id == 16)
-                singleLead.bsd_tieuchi_tangcanhodep = val;
-            if (id == 17)
-                singleLead.bsd_dientich_3060m2 = val;
-            if (id == 18)
-                singleLead.bsd_dientich_6080m2 = val;
-            if (id == 19)
-                singleLead.bsd_dientich_80100m2 = val;
-            if (id == 20)
-                singleLead.bsd_dientich_100120m2 = val;
-            if (id == 21)
-                singleLead.bsd_dientich_lonhon120m2 = val;
-            if (id == 22)
-                singleLead.bsd_quantam_datnen = val;
-            if (id == 23)
-                singleLead.bsd_quantam_canho = val;
-            if (id == 24)
-                singleLead.bsd_quantam_bietthu = val;
-            if (id == 25)
-                singleLead.bsd_quantam_khuthuongmai = val;
-            if (id == 26)
-                singleLead.bsd_quantam_nhapho = val;
-            await updateLead(singleLead);
-        }
-        public void LoadTieuChi()
-        { 
-            if (singleLead.bsd_tieuchi_vitri == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 1, Name = "Tiêu chí - Vị trí" });
-            if (singleLead.bsd_tieuchi_phuongthucthanhtoan == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 2, Name = "Tiêu chí - Phương thức thanh toán" });
-            if (singleLead.bsd_tieuchi_giacanho == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 3, Name = "Tiêu chí - Giá căn hộ" });
-            if (singleLead.bsd_tieuchi_nhadautuuytin == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 4, Name = "Tiêu chí - Nhà đầu tư uy tính" });
-            if (singleLead.bsd_tieuchi_moitruongsong == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 5, Name = "Tiêu chí - Môi trường sống" });
-            if (singleLead.bsd_tieuchi_hethonganninh == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 6, Name = "Tiêu chí - Hệ thống an ninh" });
-            if (singleLead.bsd_tieuchi_baidauxe == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 7, Name = "Tiêu chí - Bãi đậu xe" });
-            if (singleLead.bsd_tieuchi_huongcanho == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 8, Name = "Tiêu chí - Hướng căn hộ" });
-            if (singleLead.bsd_tieuchi_hethongcuuhoa == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 9, Name = "Tiêu chí - Hệ thống cứu hoả" });
-            if (singleLead.bsd_tieuchi_nhieutienich == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 10, Name = "Tiêu chí - Nhiều tiện ích" });
-            if (singleLead.bsd_tieuchi_ganchosieuthi == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 11, Name = "Tiêu chí - Gần chợ - Siêu thị" });
-            if (singleLead.bsd_tieuchi_gantruonghoc == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 12, Name = "Tiêu chí - Gần trường học" });
-            if (singleLead.bsd_tieuchi_ganbenhvien == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 13, Name = "Tiêu chí - Gần bệnh viện" });
-            if (singleLead.bsd_tieuchi_dientichcanho == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 14, Name = "Tiêu chí - Diện tích căn hộ" });
-            if (singleLead.bsd_tieuchi_thietkenoithatcanho == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 15, Name = "Tiêu chí - Thiết kế nội thất căn hộ" });
-            if (singleLead.bsd_tieuchi_tangcanhodep == true)
-                list_TieuChiChonMua.Add(new TieuChi { Id = 16, Name = "Tiêu chí - Tầng/Căn hộ đẹp" });
-            if (singleLead.bsd_dientich_3060m2 == true)
-                list_NhuCauVeDienTichCanHo.Add(new TieuChi { Id = 17, Name = "Diện tích 30 - 60 m2" });
-            if (singleLead.bsd_dientich_6080m2 == true)
-                list_NhuCauVeDienTichCanHo.Add(new TieuChi { Id = 18, Name = "Diện tích 60 - 80 m2" });
-            if (singleLead.bsd_dientich_80100m2 == true)
-                list_NhuCauVeDienTichCanHo.Add(new TieuChi { Id = 19, Name = "Diện tích 80 - 100 m2" });
-            if (singleLead.bsd_dientich_100120m2 == true)
-                list_NhuCauVeDienTichCanHo.Add(new TieuChi { Id = 20, Name = "Diện tích 100 - 120 m2" });
-            if (singleLead.bsd_dientich_lonhon120m2 == true)
-                list_NhuCauVeDienTichCanHo.Add(new TieuChi { Id = 21, Name = "Diện tích > 120 m2" });
-            if (singleLead.bsd_quantam_datnen == true)
-                list_LoaiBatDongSanQuanTam.Add(new TieuChi { Id = 22, Name = "Quan tâm - Đất nền" });
-            if (singleLead.bsd_quantam_canho == true)
-                list_LoaiBatDongSanQuanTam.Add(new TieuChi { Id = 23, Name = "Quan tâm - Căn hộ" });
-            if (singleLead.bsd_quantam_bietthu == true)
-                list_LoaiBatDongSanQuanTam.Add(new TieuChi { Id = 24, Name = "Quan tâm - Biệt thự" });
-            if (singleLead.bsd_quantam_khuthuongmai == true)
-                list_LoaiBatDongSanQuanTam.Add(new TieuChi { Id = 25, Name = "Quan tâm - Khu thương mại" });
-            if (singleLead.bsd_quantam_nhapho == true)
-                list_LoaiBatDongSanQuanTam.Add(new TieuChi { Id = 26, Name = "Quan tâm - Nhà phố" });           
-        }
+        }            
         public void LoadPhongThuy()
         {
             PhongThuy = new PhongThuyModel();
@@ -840,6 +442,14 @@ namespace ConasiCRM.Portable.ViewModels
                     PhongThuy.nam_sinh = 0;
                 }
             }
+        }
+        private void LoadAddress()
+        {
+            Address = singleLead.address1_line1 + ", " + singleLead.address1_city;
+            if (singleLead.address1_stateorprovince != null || singleLead.address1_country != null)
+            {
+                Address = Address + "\n" + singleLead.address1_stateorprovince + ", " + singleLead.address1_country;
+            }          
         }
     }
 }

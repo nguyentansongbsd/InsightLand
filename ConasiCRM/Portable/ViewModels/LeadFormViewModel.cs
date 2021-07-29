@@ -193,10 +193,10 @@ namespace ConasiCRM.Portable.ViewModels
             data["address1_country"] = singleLead.address1_country;
             data["description"] = singleLead.description;
             data["industrycode"] = singleLead.industrycode;
-            if (!string.IsNullOrWhiteSpace(singleLead.revenue))
-            {
-                data["revenue"] = decimal.Parse(singleLead.revenue);
-            }
+            //if (!string.IsNullOrWhiteSpace(singleLead.revenue))
+            //{
+            data["revenue"] = singleLead.revenue; //decimal.Parse(singleLead.revenue);
+            //}
             data["numberofemployees"] = singleLead.numberofemployees;
             data["sic"] = singleLead.sic;
             data["donotsendmm"] = singleLead.donotsendmm.ToString();
