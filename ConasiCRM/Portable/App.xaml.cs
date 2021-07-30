@@ -1,9 +1,3 @@
-using ConasiCRM.Portable.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,9 +11,7 @@ namespace ConasiCRM.Portable
         public App()
         {
             InitializeComponent();
-            //MainPage = new Login();
-            MainPage = new AppShell();
-            App.Current.MainPage.Navigation.PushModalAsync(new Login());
+            MainPage = new Login();
         }
 
         protected override void OnStart()

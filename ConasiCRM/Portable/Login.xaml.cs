@@ -160,6 +160,20 @@ namespace ConasiCRM.Portable
                     EmployeeModel employeeModel = await LoginUser();
                     if (employeeModel != null)
                     {
+                        if (employeeModel.bsd_name != UserName)
+                        {
+                            LoadingHelper.Hide();
+                            await DisplayAlert("", "Tên đăng nhập không đúng", "Đóng");
+                            return;
+                        }
+
+                        if (employeeModel.bsd_password != Password)
+                        {
+                            LoadingHelper.Hide();
+                            await DisplayAlert("", "Mật khẩu không đúng", "Đóng");
+                            return;
+                        }
+
                         if (string.IsNullOrWhiteSpace(employeeModel.bsd_imeinumber))
                         {
                             ImeiNum = await DependencyService.Get<INumImeiService>().GetImei();
@@ -179,13 +193,14 @@ namespace ConasiCRM.Portable
                             UserLogged.IsLogged = false;
                         }
 
-                        await Shell.Current.Navigation.PopAsync(false);
+                        App.Current.MainPage = new AppShell();
+                        await Task.Delay(1);
                         LoadingHelper.Hide();
                     }
                     else
                     {
                         LoadingHelper.Hide();
-                        await DisplayAlert("", "Thông tin đăng nhập không đúng. Vui lòng thử lại", "Đóng");
+                        await DisplayAlert("", "Không tìm thấy user", "Đóng");
                     }
                 }
             }
@@ -208,7 +223,6 @@ namespace ConasiCRM.Portable
                     <order attribute='bsd_name' descending='false' />
                     <filter type='and'>
                       <condition attribute='bsd_name' operator='eq' value='{UserName}' />
-                      <condition attribute='bsd_password' operator='eq' value='{Password}' />
                     </filter>
                   </entity>
                 </fetch>";

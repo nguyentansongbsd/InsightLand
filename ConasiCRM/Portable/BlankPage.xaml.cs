@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace ConasiCRM.Portable
 {
-    public partial class BlankPage : ContentView
+    public partial class BlankPage : ContentPage
     {      
         public BlankPage()
         {

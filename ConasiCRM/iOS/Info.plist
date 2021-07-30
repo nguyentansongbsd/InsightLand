@@ -23,7 +23,7 @@
 	<key>MinimumOSVersion</key>
 	<string>12.1</string>
 	<key>CFBundleDisplayName</key>
-	<string>ConasiCRM.iOS</string>
+	<string>Insight Land</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.xamarin.recipe.CreateBundle</string>
 	<key>CFBundleVersion</key>

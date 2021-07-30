@@ -14,7 +14,7 @@
         <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.188" />
         <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
         <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
         <PackageReference Include="SkiaSharp" Version="1.59.3" />
         <PackageReference Include="SkiaSharp.Views.Forms" Version="1.59.3" />
         <PackageReference Include="Xamarin.Forms.Contacts" Version="1.0.5" />
@@ -46,9 +46,6 @@
       </EmbeddedResource>
       <EmbeddedResource Update="Login.xaml">
         <Generator>MSBuild:Compile</Generator>
-      </EmbeddedResource>
-      <EmbeddedResource Update="MasterDetailPage1.xaml">
-        <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       </EmbeddedResource>
       <EmbeddedResource Update="MasterDetailPage1Master.xaml">
         <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -157,6 +154,9 @@
       <None Remove="Telerik.XamarinForms.SkiaSharp" />
       <None Remove="Telerik.Zip" />
       <None Remove="IServices\" />
+      <None Remove="Telerik.Documents.Core" />
+      <None Remove="Telerik.Documents.Fixed" />
+      <None Remove="Telerik.Documents.SpreadsheetStreaming" />
     </ItemGroup>
     <ItemGroup>
       <Reference Include="Telerik.Documents.Core">
@@ -239,6 +239,15 @@
       </Reference>
       <Reference Include="Telerik.Zip">
         <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Zip.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.Documents.Core">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Documents.Core.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.Documents.Fixed">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Documents.Fixed.dll</HintPath>
+      </Reference>
+      <Reference Include="Telerik.Documents.SpreadsheetStreaming">
+        <HintPath>..\..\..\Binaries\Binaries\Portable\Telerik.Documents.SpreadsheetStreaming.dll</HintPath>
       </Reference>
     </ItemGroup>
 </Project>

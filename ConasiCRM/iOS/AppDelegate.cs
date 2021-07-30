@@ -21,7 +21,7 @@ namespace ConasiCRM.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Rg.Plugins.Popup.Popup.Init();
+            //Rg.Plugins.Popup.Popup.Init();
 
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new Portable.App());            

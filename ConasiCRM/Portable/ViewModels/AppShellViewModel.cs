@@ -17,14 +17,14 @@ namespace ConasiCRM.Portable.ViewModels
             Develop = new Command(Developing);
         }
 
-        private void Logout()
-        {            
-            App.Current.MainPage.Navigation.PushModalAsync(new Login(),false);          
+        private async void Logout()
+        {
+            await Shell.Current.Navigation.PushModalAsync(new Login(),false);          
         }
 
         private async void Developing()
         {
-            await Application.Current.MainPage.DisplayAlert("Thông báo", "Chức năng đang được phát triển", "Đóng");
+            await Shell.Current.DisplayAlert("Thông báo", "Chức năng đang được phát triển", "Đóng");
         }
     }
 }

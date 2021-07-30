@@ -19,16 +19,9 @@ namespace ConasiCRM.Portable
         private AppShellViewModel viewModel;     
         public AppShell()
         {
-            LoadingHelper.Show();
             InitializeComponent();
             this.BindingContext = viewModel = new AppShellViewModel();
             appShell.CurrentItem = BanHang;
-        }
-        //protected override void OnDisappearing()
-        //{
-        //    base.OnDisappearing();
-        //    appShell.CurrentItem = BanHang;
-        //    Shell.Current.FlyoutIsPresented = false;
-        //}         
+        }        
     }       
 }
