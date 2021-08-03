@@ -6,30 +6,29 @@ using System.Text;
 
 namespace ConasiCRM.Portable.Models
 {
-    public class ContactGroup
+    public class ContactGender
     {
-        public static List<OptionSet> GroupOptions;
+        public static List<OptionSet> GenderOptions;
 
-        public static void GetContactGroups()
+        public static void GetGenders()
         {
-            GroupOptions = new List<OptionSet>()
+            GenderOptions = new List<OptionSet>()
             {
-                new OptionSet("100000000","Ưu tiên (VIP)"),
-                new OptionSet("100000001","An cư"),
-                new OptionSet("100000002","Đầu tư"),
-                new OptionSet("100000003","Đền bù")
+                new OptionSet("1","Nam"),
+                new OptionSet("2","Nữ"),
+                new OptionSet("100000000","Khác")
             };
         }
-        public static string GetContactGroupById(string listId)
+        public static string GetGenderById(string listId)
         {
-            GetContactGroups();          
+            GetGenders();
             if (listId != string.Empty)
             {
                 List<string> listType = new List<string>();
                 var ids = listId.Split(',');
                 foreach (var item in ids)
                 {
-                    OptionSet optionSet = GroupOptions.Single(x => x.Val == item);
+                    OptionSet optionSet = GenderOptions.Single(x => x.Val == item);
                     listType.Add(optionSet.Label);
                 }
                 return string.Join(", ", listType);

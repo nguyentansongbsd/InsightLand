@@ -158,6 +158,9 @@ namespace ConasiCRM.Portable.Models
         private string _bsd_country_label;
         public string bsd_country_label { get { return _bsd_country_label; } set { _bsd_country_label = value; OnPropertyChanged(nameof(bsd_country_label)); } }
 
+        private string _bsd_postalcode;
+        public string bsd_postalcode { get { return _bsd_postalcode; } set { _bsd_postalcode = value; OnPropertyChanged(nameof(bsd_postalcode)); } }
+
         private string _bsd_country_en;
         public string bsd_country_en { get => _bsd_country_en; set { _bsd_country_en = value; OnPropertyChanged(nameof(bsd_country_en)); } }
 

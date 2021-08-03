@@ -9,9 +9,9 @@ namespace ConasiCRM.Portable.Models
 {
     public class ContactType
     {
-        private static List<OptionSet> TypeOptions;
+        public static List<OptionSet> TypeOptions;
 
-        private static void GetTypes()
+        public static void GetTypes()
         {
             TypeOptions = new List<OptionSet>()
             {

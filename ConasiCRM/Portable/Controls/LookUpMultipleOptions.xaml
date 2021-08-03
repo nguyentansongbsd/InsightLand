@@ -3,7 +3,8 @@
       xmlns:controls="clr-namespace:ConasiCRM.Portable.Controls"
       RowDefinitions="Auto"
       xmlns:telerick="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
-      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ConasiCRM.Portable.Controls.LookUpMultipleOptions">
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+      x:Class="ConasiCRM.Portable.Controls.LookUpMultipleOptions">
 
     <controls:MainEntry x:Name="Entry"/>
     <StackLayout VerticalOptions="Fill"
